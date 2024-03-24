@@ -1,7 +1,7 @@
 {
-  "type": "minecraft:smithing_trim",
+  "type": "minecraft:smithing_transform",
   "template": {
-    "item": "experienceobelisk:astute_artifact"
+    "item": "experienceobelisk:astute_assembly"
   },
   "base": {
     "item": "minecraft:grindstone"

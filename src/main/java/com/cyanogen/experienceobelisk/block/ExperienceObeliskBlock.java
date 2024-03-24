@@ -47,6 +47,7 @@ public class ExperienceObeliskBlock extends Block implements EntityBlock {
                 .noOcclusion()
                 .lightLevel(value -> 7)
                 .sound(SoundType.METAL)
+                .requiresCorrectToolForDrops()
         );
     }
 
