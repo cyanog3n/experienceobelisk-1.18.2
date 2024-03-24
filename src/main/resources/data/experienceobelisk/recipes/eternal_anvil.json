@@ -4,12 +4,12 @@
     "item": "experienceobelisk:astute_artifact"
   },
   "base": {
-    "item": "minecraft:grindstone"
+    "item": "minecraft:anvil"
   },
   "addition": {
-    "item": "experienceobelisk:cognitive_crystal_block"
+    "item": "experienceobelisk:cognitive_alloy_block"
   },
   "result": {
-    "item": "experienceobelisk:precision_dispeller"
+    "item": "experienceobelisk:eternal_anvil"
   }
 }

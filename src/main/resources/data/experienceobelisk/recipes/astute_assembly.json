@@ -1,19 +1,19 @@
 {
   "type": "minecraft:crafting_shaped",
   "pattern": [
-    " #E",
-    "EFE",
-    "E# "
+    "ABA",
+    "ACA",
+    "ABA"
   ],
   "key": {
-    "#": {
-      "item": "minecraft:gold_ingot"
-    },
-    "E": {
+    "A": {
       "item": "experienceobelisk:cognitive_amalgam"
     },
-    "F": {
-      "item": "minecraft:emerald"
+    "B": {
+      "item": "minecraft:comparator"
+    },
+    "C": {
+      "item": "experienceobelisk:cognitive_crystal"
     }
   },
   "result": {

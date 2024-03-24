@@ -38,6 +38,7 @@ public class RegisterCreativeTab {
                         output.accept(RegisterItems.EXPERIENCE_OBELISK_ITEM.get());
                         output.accept(RegisterItems.EXPERIENCE_FOUNTAIN_ITEM.get());
                         output.accept(RegisterItems.PRECISION_DISPELLER_ITEM.get());
+                        output.accept(RegisterItems.ETERNAL_ANVIL_ITEM.get());
 
                         output.accept(RegisterItems.COGNITIVE_ALLOY_BLOCK_ITEM.get());
                         output.accept(RegisterItems.COGNITIVE_CRYSTAL_BLOCK_ITEM.get());

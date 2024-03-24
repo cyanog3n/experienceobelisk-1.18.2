@@ -33,7 +33,7 @@ public class RegisterItems {
 
         @Override
         public float getAttackDamageBonus() {
-            return 2.4F;
+            return 2.0F;
         }
 
         @Override
@@ -148,6 +148,9 @@ public class RegisterItems {
 
     public static final RegistryObject<Item> COGNITIVE_CRYSTAL_BLOCK_ITEM = ITEMS.register("cognitive_crystal_block",
             () -> new BlockItem(RegisterBlocks.COGNITIVE_CRYSTAL_BLOCK.get(), new Item.Properties()));
+
+    public static final RegistryObject<Item> ETERNAL_ANVIL_ITEM = ITEMS.register("eternal_anvil",
+            () -> new BlockItem(RegisterBlocks.ETERNAL_ANVIL.get(), new Item.Properties()));
 
     public static void register(IEventBus eventBus){
         ITEMS.register(eventBus);

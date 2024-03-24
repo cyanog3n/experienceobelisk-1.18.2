@@ -2,17 +2,17 @@
   "type": "minecraft:crafting_shaped",
   "pattern": [
     "   ",
-    "RCR",
-    "RIR"
+    "ABA",
+    "ACA"
   ],
   "key": {
-    "R": {
+    "A": {
       "item": "experienceobelisk:cognitive_alloy"
     },
-    "C": {
-      "item": "experienceobelisk:cognitive_crystal"
+    "B": {
+      "item": "minecraft:dispenser"
     },
-    "I": {
+    "C": {
       "item": "experienceobelisk:astute_assembly"
     }
   },
