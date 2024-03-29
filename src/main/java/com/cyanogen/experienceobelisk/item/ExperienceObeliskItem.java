@@ -1,6 +1,5 @@
 package com.cyanogen.experienceobelisk.item;
 
-import com.cyanogen.experienceobelisk.gui.ExperienceObeliskScreen;
 import com.cyanogen.experienceobelisk.renderer.ExperienceObeliskItemRenderer;
 import net.minecraft.ChatFormatting;
 import net.minecraft.client.renderer.BlockEntityWithoutLevelRenderer;
@@ -24,6 +23,8 @@ import software.bernie.geckolib.util.GeckoLibUtil;
 
 import java.util.List;
 import java.util.function.Consumer;
+
+import static com.cyanogen.experienceobelisk.utils.ExperienceUtils.xpToLevels;
 
 
 public class ExperienceObeliskItem extends BlockItem implements GeoItem{
@@ -76,7 +77,7 @@ public class ExperienceObeliskItem extends BlockItem implements GeoItem{
     public void appendHoverText(ItemStack stack, @Nullable Level level, List<Component> tooltip, TooltipFlag flag) {
 
         int amount = stack.getOrCreateTag().getCompound("BlockEntityTag").getInt("Amount");
-        int levels = ExperienceObeliskScreen.xpToLevels(amount / 20);
+        int levels = xpToLevels(amount / 20);
 
         tooltip.add(Component.translatable("tooltip.experienceobelisk.experience_obelisk.item_fluid_amount",
                 Component.literal(amount + " mB").withStyle(ChatFormatting.GOLD)));

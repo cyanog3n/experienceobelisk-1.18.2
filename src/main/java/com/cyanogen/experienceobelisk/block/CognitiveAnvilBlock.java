@@ -1,6 +1,6 @@
 package com.cyanogen.experienceobelisk.block;
 
-import com.cyanogen.experienceobelisk.gui.EternalAnvilMenu;
+import com.cyanogen.experienceobelisk.gui.CognitiveAnvilMenu;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.network.chat.Component;
@@ -22,11 +22,11 @@ import net.minecraft.world.phys.BlockHitResult;
 import net.minecraftforge.network.NetworkHooks;
 import org.jetbrains.annotations.Nullable;
 
-public class EternalAnvilBlock extends AnvilBlock {
+public class CognitiveAnvilBlock extends AnvilBlock {
 
     public static final DirectionProperty FACING = HorizontalDirectionalBlock.FACING;
 
-    public EternalAnvilBlock() {
+    public CognitiveAnvilBlock() {
         super(Properties.copy(Blocks.ANVIL));
         this.registerDefaultState(this.stateDefinition.any().setValue(FACING, Direction.NORTH));
     }
@@ -61,7 +61,7 @@ public class EternalAnvilBlock extends AnvilBlock {
 
             @Override
             public AbstractContainerMenu createMenu(int containerId, Inventory inventory, Player player) {
-                return new EternalAnvilMenu(containerId, inventory, player);
+                return new CognitiveAnvilMenu(containerId, inventory);
             }
         };
     }

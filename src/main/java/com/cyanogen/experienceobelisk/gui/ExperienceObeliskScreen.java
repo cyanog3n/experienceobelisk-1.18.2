@@ -22,6 +22,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 import static com.cyanogen.experienceobelisk.network.experience_obelisk.UpdateContents.Request.*;
+import static com.cyanogen.experienceobelisk.utils.ExperienceUtils.levelsToXP;
+import static com.cyanogen.experienceobelisk.utils.ExperienceUtils.xpToLevels;
 
 public class ExperienceObeliskScreen extends AbstractContainerScreen<ExperienceObeliskMenu> {
 
@@ -61,26 +63,6 @@ public class ExperienceObeliskScreen extends AbstractContainerScreen<ExperienceO
     @Override
     public Minecraft getMinecraft() {
         return this.minecraft;
-    }
-
-    public static int levelsToXP(int levels){
-        if (levels <= 16) {
-            return (int) (Math.pow(levels, 2) + 6 * levels);
-        } else if (levels <= 31) {
-            return (int) (2.5 * Math.pow(levels, 2) - 40.5 * levels + 360);
-        } else {
-            return (int) (4.5 * Math.pow(levels, 2) - 162.5 * levels + 2220);
-        }
-    }
-
-    public static int xpToLevels(long xp){
-        if (xp < 394) {
-            return (int) (Math.sqrt(xp + 9) - 3);
-        } else if (xp < 1628) {
-            return (int) ((Math.sqrt(40 * xp - 7839) + 81) * 0.1);
-        } else {
-            return (int) ((Math.sqrt(72 * xp - 54215) + 325) / 18); //when xp >~2980k, breaks int value limit
-        }
     }
 
     @Override

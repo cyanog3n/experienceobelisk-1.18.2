@@ -13,7 +13,7 @@ import net.minecraft.world.inventory.AbstractContainerMenu;
 import net.minecraft.world.inventory.Slot;
 import net.minecraft.world.item.ItemStack;
 
-public class EternalAnvilScreen extends ItemCombinerScreen<EternalAnvilMenu> {
+public class CognitiveAnvilScreen extends ItemCombinerScreen<CognitiveAnvilMenu> {
 
     //currently this is just a copy of the vanilla anvil screen class
     //however, changes will be made here once the new GUI is made
@@ -23,7 +23,7 @@ public class EternalAnvilScreen extends ItemCombinerScreen<EternalAnvilMenu> {
     private EditBox name;
     private final Player player;
 
-    public EternalAnvilScreen(EternalAnvilMenu menu, Inventory inventory, Component component) {
+    public CognitiveAnvilScreen(CognitiveAnvilMenu menu, Inventory inventory, Component component) {
         super(menu, inventory, component, ANVIL_LOCATION);
         this.player = inventory.player;
         this.titleLabelX = 60;
@@ -61,7 +61,7 @@ public class EternalAnvilScreen extends ItemCombinerScreen<EternalAnvilMenu> {
             this.minecraft.player.closeContainer();
         }
 
-        return !this.name.keyPressed(p_97878_, p_97879_, p_97880_) && !this.name.canConsumeInput() ? super.keyPressed(p_97878_, p_97879_, p_97880_) : true;
+        return this.name.keyPressed(p_97878_, p_97879_, p_97880_) || this.name.canConsumeInput() || super.keyPressed(p_97878_, p_97879_, p_97880_);
     }
 
     private void onNameChanged(String p_97899_) {

@@ -21,8 +21,9 @@ public class RegisterBlocks {
     public static final RegistryObject<Block> EXPERIENCE_OBELISK = BLOCKS.register("experience_obelisk", ExperienceObeliskBlock::new);
     public static final RegistryObject<Block> EXPERIENCE_FOUNTAIN = BLOCKS.register("experience_fountain", ExperienceFountainBlock::new);
     public static final RegistryObject<Block> PRECISION_DISPELLER = BLOCKS.register("precision_dispeller", PrecisionDispellerBlock::new);
-    public static final RegistryObject<Block> ETERNAL_ANVIL = BLOCKS.register("eternal_anvil", EternalAnvilBlock::new);
+    public static final RegistryObject<Block> COGNITIVE_ANVIL = BLOCKS.register("cognitive_anvil", CognitiveAnvilBlock::new);
     public static final RegistryObject<Block> SCINTILLATING_DEATH_BLOCK = BLOCKS.register("scintillating_death_block", ScintillatingDeathBlock::new);
+    public static final RegistryObject<Block> ATTRACTION_OBELISK = BLOCKS.register("attraction_obelisk", AttractionObeliskBlock::new);
 
     //-----DECORATIVE / CRAFTING-----//
 
