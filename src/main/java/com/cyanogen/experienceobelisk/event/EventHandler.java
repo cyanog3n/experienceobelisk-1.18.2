@@ -8,8 +8,9 @@ public class EventHandler {
     @SubscribeEvent
     public void onAnvilUpdate(AnvilUpdateEvent event){
 
-        CustomAnvilRecipes.handleCustomRecipes(event);
-        //todo: add config options - enable recipes for all anvils, enable only for cognitium anvils, disable recipes
+        CustomAnvilRecipes.nameFormattingRecipes(event);
+        CustomAnvilRecipes.repairRecipes(event);
+        //todo: add config options
 
     }
 

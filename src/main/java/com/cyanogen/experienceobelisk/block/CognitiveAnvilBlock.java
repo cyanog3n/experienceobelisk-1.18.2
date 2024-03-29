@@ -56,7 +56,7 @@ public class CognitiveAnvilBlock extends AnvilBlock {
         return new MenuProvider() {
             @Override
             public Component getDisplayName() {
-                return Component.literal("Eternal Anvil");
+                return Component.literal("Cognitive Anvil");
             }
 
             @Override
