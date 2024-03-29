@@ -1,6 +1,7 @@
 package com.cyanogen.experienceobelisk;
 
 import com.cyanogen.experienceobelisk.config.Config;
+import com.cyanogen.experienceobelisk.event.EventHandler;
 import com.cyanogen.experienceobelisk.gui.CognitiveAnvilScreen;
 import com.cyanogen.experienceobelisk.gui.ExperienceObeliskScreen;
 import com.cyanogen.experienceobelisk.gui.PrecisionDispellerScreen;
@@ -46,7 +47,7 @@ public class ExperienceObelisk
     }
 
     private void setup(final FMLCommonSetupEvent event) {
-
+        MinecraftForge.EVENT_BUS.register(new EventHandler());
     }
 
     private void clientSetup(final FMLClientSetupEvent event){
