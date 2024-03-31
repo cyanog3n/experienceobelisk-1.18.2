@@ -23,7 +23,7 @@ public class RegisterItems {
     public static Tier COGNITIVE = new Tier() {
         @Override
         public int getUses() {
-            return 750;
+            return 835;
         }
 
         @Override
@@ -33,7 +33,7 @@ public class RegisterItems {
 
         @Override
         public float getAttackDamageBonus() {
-            return 2.0F;
+            return 3.0F;
         }
 
         @Override

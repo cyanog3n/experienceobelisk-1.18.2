@@ -1,7 +1,10 @@
 package com.cyanogen.experienceobelisk.registries;
 
 import com.cyanogen.experienceobelisk.ExperienceObelisk;
-import com.cyanogen.experienceobelisk.block_entities.*;
+import com.cyanogen.experienceobelisk.block_entities.ExperienceFountainEntity;
+import com.cyanogen.experienceobelisk.block_entities.ExperienceObeliskEntity;
+import com.cyanogen.experienceobelisk.block_entities.ExperienceRelayEntity;
+import com.cyanogen.experienceobelisk.block_entities.PrecisionDispellerEntity;
 import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraftforge.eventbus.api.IEventBus;
 import net.minecraftforge.registries.DeferredRegister;
@@ -23,11 +26,8 @@ public class RegisterBlockEntities {
     public static final RegistryObject<BlockEntityType<PrecisionDispellerEntity>> PRECISIONDISPELLER_BE = BLOCK_ENTITIES.register("precisiondispeller_be",
             ()-> BlockEntityType.Builder.of(PrecisionDispellerEntity::new, RegisterBlocks.PRECISION_DISPELLER.get()).build(Type));
 
-    public static final RegistryObject<BlockEntityType<ScintillatingDeathEntity>> SCINTILLATINGDEATH_BE = BLOCK_ENTITIES.register("scintillatingdeath_be",
-            ()-> BlockEntityType.Builder.of(ScintillatingDeathEntity::new, RegisterBlocks.SCINTILLATING_DEATH_BLOCK.get()).build(Type));
-
-    public static final RegistryObject<BlockEntityType<AttractionObeliskEntity>> ATTRACTIONOBELISK_BE = BLOCK_ENTITIES.register("attractionobelisk_be",
-            ()-> BlockEntityType.Builder.of(AttractionObeliskEntity::new, RegisterBlocks.SCINTILLATING_DEATH_BLOCK.get()).build(Type));
+    public static final RegistryObject<BlockEntityType<ExperienceRelayEntity>> EXPERIENCERELAY_BE = BLOCK_ENTITIES.register("experiencerelay_be",
+            ()-> BlockEntityType.Builder.of(ExperienceRelayEntity::new, RegisterBlocks.EXPERIENCE_RELAY.get()).build(Type));
 
     public static void register(IEventBus eventBus){
         BLOCK_ENTITIES.register(eventBus);
