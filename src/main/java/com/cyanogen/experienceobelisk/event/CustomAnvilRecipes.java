@@ -24,8 +24,8 @@ public class CustomAnvilRecipes {
         List<Item> validFormattingItems = new ArrayList<>();
         validFormattingItems.add(Items.END_CRYSTAL);
         validFormattingItems.add(Items.ECHO_SHARD);
-        validFormattingItems.add(Items.TRIDENT);
-        validFormattingItems.add(Items.NETHER_STAR);
+        validFormattingItems.add(Items.CRYING_OBSIDIAN);
+        validFormattingItems.add(Items.NAUTILUS_SHELL);
         validFormattingItems.add(Items.TNT);
 
         if(event.getName() != null && event.getName().length() >= 1){ //if renaming field isn't empty
