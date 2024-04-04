@@ -1,7 +1,7 @@
   {
   "type": "minecraft:crafting_shaped",
   "pattern": [
-    "   ",
+    " D ",
     "ABA",
     "ACA"
   ],
@@ -10,10 +10,13 @@
       "item": "experienceobelisk:cognitive_alloy"
     },
     "B": {
-      "item": "minecraft:dispenser"
+      "item": "minecraft:dropper"
     },
     "C": {
       "item": "experienceobelisk:astute_assembly"
+    },
+    "D": {
+      "item": "minecraft:repeater"
     }
   },
   "result": {
