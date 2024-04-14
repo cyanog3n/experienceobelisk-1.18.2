@@ -1,26 +1,15 @@
 {
-  "type": "minecraft:crafting_shaped",
-  "pattern": [
-    "AXA",
-    "RGR",
-    "ARA"
-  ],
-  "key": {
-    "R": {
-      "item": "experienceobelisk:cognitive_alloy"
-    },
-    "G": {
-      "item": "minecraft:grindstone"
-    },
-    "X": {
-      "item": "experienceobelisk:astute_assembly"
-    },
-    "A": {
-      "item": "experienceobelisk:cognitive_amalgam"
-    }
+  "type": "minecraft:smithing_transform",
+  "template": {
+    "item": "experienceobelisk:astute_assembly"
+  },
+  "base": {
+    "item": "minecraft:grindstone"
+  },
+  "addition": {
+    "item": "experienceobelisk:cognitive_crystal_block"
   },
   "result": {
-    "item": "experienceobelisk:precision_dispeller",
-    "count": 1
+    "item": "experienceobelisk:precision_dispeller"
   }
 }

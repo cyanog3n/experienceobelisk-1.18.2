@@ -1,19 +1,22 @@
   {
   "type": "minecraft:crafting_shaped",
   "pattern": [
-    "   ",
-    "RCR",
-    "RIR"
+    " D ",
+    "ABA",
+    "ACA"
   ],
   "key": {
-    "R": {
+    "A": {
       "item": "experienceobelisk:cognitive_alloy"
     },
-    "C": {
-      "item": "experienceobelisk:cognitive_crystal"
+    "B": {
+      "item": "minecraft:dropper"
     },
-    "I": {
+    "C": {
       "item": "experienceobelisk:astute_assembly"
+    },
+    "D": {
+      "item": "minecraft:repeater"
     }
   },
   "result": {

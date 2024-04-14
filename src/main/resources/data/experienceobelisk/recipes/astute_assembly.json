@@ -1,23 +1,23 @@
 {
   "type": "minecraft:crafting_shaped",
   "pattern": [
-    " #E",
-    "EFE",
-    "E# "
+    "ABA",
+    "ACA",
+    "ABA"
   ],
   "key": {
-    "#": {
-      "item": "minecraft:gold_ingot"
+    "A": {
+      "item": "experienceobelisk:cognitive_alloy"
     },
-    "E": {
-      "item": "experienceobelisk:cognitive_amalgam"
+    "B": {
+      "item": "minecraft:repeater"
     },
-    "F": {
-      "item": "minecraft:emerald"
+    "C": {
+      "item": "experienceobelisk:cognitive_crystal"
     }
   },
   "result": {
     "item": "experienceobelisk:astute_assembly",
-    "count": 1
+    "count": 2
   }
 }
