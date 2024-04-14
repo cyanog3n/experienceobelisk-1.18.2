@@ -13,10 +13,14 @@ public class Config {
         public final ForgeConfigSpec.ConfigValue<List<? extends String>> allowedFluids;
         public final ForgeConfigSpec.ConfigValue<Integer> capacity;
         public final ForgeConfigSpec.ConfigValue<Double> range;
+        public final ForgeConfigSpec.ConfigValue<Boolean> formatting;
+        public final ForgeConfigSpec.ConfigValue<Boolean> anvilRepair;
 
         public List<String> defaultValues = new ArrayList<>();
         public int defaultCapacity = 100000000;
         public double defaultRange = 8.0;
+        public boolean defaultFormatting = true;
+        public boolean defaultAnvilRepair = true;
 
         public Common(ForgeConfigSpec.Builder builder){
 
@@ -39,6 +43,16 @@ public class Config {
             builder.push("Enlightened Amulet Range");
             this.range = builder.comment("The range of the enlightened amulet. Accepts decimals. Default = 8.0.")
                     .defineInRange("Range", defaultRange, 1, 32.0);
+            builder.pop();
+
+            builder.push("Enable Name Formatting Anvil Recipes");
+            this.formatting = builder.comment("Whether custom recipes that allow for the changing of item name color & formatting are enabled")
+                    .define("Formatting", defaultFormatting);
+            builder.pop();
+
+            builder.push("Enable Anvil Repair Recipes");
+            this.anvilRepair = builder.comment("Whether custom recipes that allow for the repairing of anvils with iron ingots are allowed")
+                    .define("AnvilRepair", defaultAnvilRepair);
             builder.pop();
 
         }
