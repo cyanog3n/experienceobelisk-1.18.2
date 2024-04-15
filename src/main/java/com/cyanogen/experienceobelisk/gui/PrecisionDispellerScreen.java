@@ -29,8 +29,8 @@ import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 
-import static com.cyanogen.experienceobelisk.gui.ExperienceObeliskScreen.levelsToXP;
-import static com.cyanogen.experienceobelisk.gui.ExperienceObeliskScreen.xpToLevels;
+import static com.cyanogen.experienceobelisk.utils.ExperienceUtils.levelsToXP;
+import static com.cyanogen.experienceobelisk.utils.ExperienceUtils.xpToLevels;
 
 public class PrecisionDispellerScreen extends AbstractContainerScreen<PrecisionDispellerMenu> {
 
