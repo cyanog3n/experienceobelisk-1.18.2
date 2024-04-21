@@ -147,7 +147,7 @@ public class ExperienceFountainBlock extends ExperienceReceivingBlock implements
         ItemStack experienceBottle = new ItemStack(Items.EXPERIENCE_BOTTLE, 1);
         ItemStack glassBottle = new ItemStack(Items.GLASS_BOTTLE, 1);
 
-        if(heldItem.is(Items.GLASS_BOTTLE) && obelisk.getFluidAmount() >= 140){
+        if(heldItem.is(Items.GLASS_BOTTLE) && obelisk.getFluidAmount() >= 250){
 
             if(!player.isCreative()){
                 heldItem.shrink(1);
@@ -161,10 +161,10 @@ public class ExperienceFountainBlock extends ExperienceReceivingBlock implements
 
             }
 
-            obelisk.drain(140);
+            obelisk.drain(250);
             player.playSound(SoundEvents.BOTTLE_FILL, 1f, 1f);
         }
-        else if(heldItem.is(Items.EXPERIENCE_BOTTLE) && obelisk.getSpace() >= 140){
+        else if(heldItem.is(Items.EXPERIENCE_BOTTLE) && obelisk.getSpace() >= 250){
 
             if(!player.isCreative()){
                 heldItem.shrink(1);
@@ -177,7 +177,7 @@ public class ExperienceFountainBlock extends ExperienceReceivingBlock implements
                 }
             }
 
-            obelisk.fill(140);
+            obelisk.fill(250);
             player.playSound(SoundEvents.BOTTLE_EMPTY, 1f, 1f);
         }
     }
