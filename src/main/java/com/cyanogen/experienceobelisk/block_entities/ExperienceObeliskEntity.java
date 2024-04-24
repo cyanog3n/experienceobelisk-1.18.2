@@ -5,6 +5,7 @@ import com.cyanogen.experienceobelisk.network.experience_obelisk.UpdateContents;
 import com.cyanogen.experienceobelisk.registries.RegisterBlockEntities;
 import com.cyanogen.experienceobelisk.registries.RegisterFluids;
 import com.cyanogen.experienceobelisk.registries.RegisterTags;
+import net.minecraft.commands.Commands;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.nbt.CompoundTag;
@@ -41,6 +42,7 @@ import javax.annotation.Nullable;
 import java.util.List;
 
 import static com.cyanogen.experienceobelisk.utils.ExperienceUtils.levelsToXP;
+import static com.cyanogen.experienceobelisk.utils.ExperienceUtils.xpToLevels;
 
 public class ExperienceObeliskEntity extends BlockEntity implements GeoBlockEntity{
 
@@ -317,7 +319,7 @@ public class ExperienceObeliskEntity extends BlockEntity implements GeoBlockEnti
     //-----------LOGIC-----------//
 
     public static long getTotalXP(Player player){
-        return levelsToXP(player.experienceLevel) + Math.round(player.experienceProgress * player.getXpNeededForNextLevel());
+        return levelsToXP(player.experienceLevel) + (long) Math.floor(player.experienceProgress * player.getXpNeededForNextLevel());
     }
 
     public void handleRequest(UpdateContents.Request request, int XP, ServerPlayer sender){
@@ -391,17 +393,28 @@ public class ExperienceObeliskEntity extends BlockEntity implements GeoBlockEnti
                 sender.setExperiencePoints(0);
                 sender.setExperienceLevels(0);
             }
-            else{
+            else if (this.getFluidAmount() <= 10000000){
                 sender.giveExperiencePoints(-this.getSpace() / 20);
                 this.setFluid(capacity);
             }
 
-
         }
         else if(request == UpdateContents.Request.DRAIN_ALL){
 
-            sender.giveExperiencePoints(this.getFluidAmount() / 20);
-            this.setFluid(0);
+            if(this.getFluidAmount() <= 10000000){
+                sender.giveExperiencePoints(this.getFluidAmount() / 20);
+                this.setFluid(0);
+            }
+            else{ //to circumvent rounding issues occurring at high levels
+                long points = this.getFluidAmount() / 20 + getTotalXP(sender);
+                int levels = xpToLevels(points);
+                int remainder = (int) (points - levelsToXP(levels));
+
+                sender.setExperienceLevels(levels);
+                sender.setExperiencePoints(remainder);
+                this.setFluid(0);
+            }
+
         }
     }
 
