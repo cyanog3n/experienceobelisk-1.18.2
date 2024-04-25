@@ -37,6 +37,7 @@ public class Config {
 
             builder.push("Experience Obelisk Capacity");
             this.capacity = builder.comment("The fluid capacity of the obelisk in mB. Default = 100000000. This is ~1072 levels' worth.")
+                    .comment("Warning: setting this value above the default may lead to unintended loss or gain of XP")
                     .defineInRange("Capacity", defaultCapacity, 20, 2147483640);
             builder.pop();
 

@@ -393,7 +393,7 @@ public class ExperienceObeliskEntity extends BlockEntity implements GeoBlockEnti
                 sender.setExperiencePoints(0);
                 sender.setExperienceLevels(0);
             }
-            else if (this.getFluidAmount() <= 10000000){
+            else{
                 sender.giveExperiencePoints(-this.getSpace() / 20);
                 this.setFluid(capacity);
             }
@@ -405,7 +405,7 @@ public class ExperienceObeliskEntity extends BlockEntity implements GeoBlockEnti
                 sender.giveExperiencePoints(this.getFluidAmount() / 20);
                 this.setFluid(0);
             }
-            else{ //to circumvent rounding issues occurring at high levels
+            else{ //to circumvent the silly issue occurring at high levels
                 long points = this.getFluidAmount() / 20 + getTotalXP(sender);
                 int levels = xpToLevels(points);
                 int remainder = (int) (points - levelsToXP(levels));
