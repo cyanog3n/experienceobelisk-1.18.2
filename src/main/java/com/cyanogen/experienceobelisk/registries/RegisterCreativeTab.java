@@ -43,6 +43,7 @@ public class RegisterCreativeTab {
                         output.accept(RegisterItems.COGNITIVE_CRYSTAL_BLOCK_ITEM.get());
 
                         output.accept(RegisterItems.COGNITIUM_BUCKET.get());
+                        output.accept(RegisterItems.EXPERIENCE_RELAY_ITEM.get());
 
                     })
                     .build());

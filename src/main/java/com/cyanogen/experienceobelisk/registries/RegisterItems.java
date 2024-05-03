@@ -141,6 +141,9 @@ public class RegisterItems {
     public static final RegistryObject<Item> PRECISION_DISPELLER_ITEM = ITEMS.register("precision_dispeller",
             () -> new PrecisionDispellerItem(RegisterBlocks.PRECISION_DISPELLER.get(), new Item.Properties()));
 
+    public static final RegistryObject<Item> EXPERIENCE_RELAY_ITEM = ITEMS.register("experience_relay",
+            () -> new ExperienceRelayItem(RegisterBlocks.EXPERIENCE_RELAY.get(), new Item.Properties()));
+
     //-----BLOCK ITEMS-----//
 
     public static final RegistryObject<Item> COGNITIVE_ALLOY_BLOCK_ITEM = ITEMS.register("cognitive_alloy_block",

@@ -5,7 +5,6 @@ import com.cyanogen.experienceobelisk.network.experience_obelisk.UpdateContents;
 import com.cyanogen.experienceobelisk.registries.RegisterBlockEntities;
 import com.cyanogen.experienceobelisk.registries.RegisterFluids;
 import com.cyanogen.experienceobelisk.registries.RegisterTags;
-import net.minecraft.commands.Commands;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.nbt.CompoundTag;
@@ -42,9 +41,8 @@ import javax.annotation.Nullable;
 import java.util.List;
 
 import static com.cyanogen.experienceobelisk.utils.ExperienceUtils.levelsToXP;
-import static com.cyanogen.experienceobelisk.utils.ExperienceUtils.xpToLevels;
 
-public class ExperienceObeliskEntity extends BlockEntity implements GeoBlockEntity{
+public class ExperienceObeliskEntity extends ExperienceReceivingEntity implements GeoBlockEntity{
 
     public ExperienceObeliskEntity(BlockPos pos, BlockState state) {
         super(RegisterBlockEntities.EXPERIENCEOBELISK_BE.get(), pos, state);
@@ -101,11 +99,11 @@ public class ExperienceObeliskEntity extends BlockEntity implements GeoBlockEnti
 
         boolean isRedstonePowered = level.hasNeighborSignal(pos);
 
-        if(blockEntity instanceof ExperienceObeliskEntity xpobelisk){
+        if(blockEntity instanceof ExperienceObeliskEntity obelisk){
 
-            boolean absorb = !xpobelisk.isRedstoneEnabled() || isRedstonePowered;
-            double radius = xpobelisk.getRadius();
-            int space = xpobelisk.getSpace();
+            boolean absorb = !obelisk.isRedstoneEnabled() || isRedstonePowered;
+            double radius = obelisk.getRadius();
+            int space = obelisk.getSpace();
 
             if(absorb && level.getGameTime() % 10 == 0){
                 AABB area = new AABB(
@@ -129,12 +127,20 @@ public class ExperienceObeliskEntity extends BlockEntity implements GeoBlockEnti
 
                     int amount = value * 20 * count;
                     if(space >= amount){
-                        xpobelisk.fill(amount);
+                        obelisk.fill(amount);
                         space = space - amount;
                         orb.discard();
                     }
                 }
+            }
 
+            if(obelisk.isBound && level.getBlockEntity(obelisk.getBoundPos()) instanceof ExperienceRelayEntity relay
+                    && obelisk.getSpace() != 0 && relay.getFluidAmount() != 0){
+
+                int sendAmount = Math.min(relay.getFluidAmount(), obelisk.getSpace());
+
+                obelisk.fill(sendAmount);
+                relay.drain(sendAmount);
             }
         }
     }
@@ -167,7 +173,7 @@ public class ExperienceObeliskEntity extends BlockEntity implements GeoBlockEnti
 
     //-----------FLUID HANDLER-----------//
 
-    protected FluidTank tank = xpObeliskTank();
+    protected FluidTank tank = experienceObeliskTank();
 
     private final LazyOptional<IFluidHandler> handler = LazyOptional.of(() -> tank);
 
@@ -175,7 +181,7 @@ public class ExperienceObeliskEntity extends BlockEntity implements GeoBlockEnti
 
     public static final int capacity = Config.COMMON.capacity.get() % 20 == 0 ? Config.COMMON.capacity.get() : Config.COMMON.defaultCapacity;
 
-    private FluidTank xpObeliskTank() {
+    private FluidTank experienceObeliskTank() {
         return new FluidTank(capacity){
 
             @Override
