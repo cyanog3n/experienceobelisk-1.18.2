@@ -36,9 +36,9 @@ public class Config {
             builder.pop();
 
             builder.push("Experience Obelisk Capacity");
-            this.capacity = builder.comment("The fluid capacity of the obelisk in mB. Default = 100000000. This is ~1072 levels' worth.")
-                    .comment("Warning: setting this value above the default may lead to unintended loss or gain of XP")
-                    .defineInRange("Capacity", defaultCapacity, 20, 2147483640);
+            this.capacity = builder.comment("The fluid capacity of the obelisk in mB. Default = 100000000, which is ~1072 levels' worth. Ensure that the new value is divisible by 20.")
+                    .comment("Warning: setting this value above the default may lead to unintended loss or gain of XP.")
+                    .defineInRange("Capacity", defaultCapacity, 1000, 2147483640);
             builder.pop();
 
             builder.push("Enlightened Amulet Range");

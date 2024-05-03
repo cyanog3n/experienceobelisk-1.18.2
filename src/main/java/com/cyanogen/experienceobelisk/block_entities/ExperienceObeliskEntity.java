@@ -173,7 +173,7 @@ public class ExperienceObeliskEntity extends BlockEntity implements GeoBlockEnti
 
     private static final Fluid cognitium = RegisterFluids.COGNITIUM.get().getSource();
 
-    public static final int capacity = Config.COMMON.capacity.get();
+    public static final int capacity = Config.COMMON.capacity.get() % 20 == 0 ? Config.COMMON.capacity.get() : Config.COMMON.defaultCapacity;
 
     private FluidTank xpObeliskTank() {
         return new FluidTank(capacity){
@@ -401,19 +401,8 @@ public class ExperienceObeliskEntity extends BlockEntity implements GeoBlockEnti
         }
         else if(request == UpdateContents.Request.DRAIN_ALL){
 
-            if(this.getFluidAmount() <= 10000000){
-                sender.giveExperiencePoints(this.getFluidAmount() / 20);
-                this.setFluid(0);
-            }
-            else{ //to circumvent the silly issue occurring at high levels
-                long points = this.getFluidAmount() / 20 + getTotalXP(sender);
-                int levels = xpToLevels(points);
-                int remainder = (int) (points - levelsToXP(levels));
-
-                sender.setExperienceLevels(levels);
-                sender.setExperiencePoints(remainder);
-                this.setFluid(0);
-            }
+            sender.giveExperiencePoints(this.getFluidAmount() / 20);
+            this.setFluid(0);
 
         }
     }
