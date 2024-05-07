@@ -3,6 +3,7 @@ package com.cyanogen.experienceobelisk.block_entities;
 import com.cyanogen.experienceobelisk.registries.RegisterBlockEntities;
 import com.cyanogen.experienceobelisk.registries.RegisterFluids;
 import net.minecraft.core.BlockPos;
+import net.minecraft.core.Direction;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.Connection;
 import net.minecraft.network.protocol.Packet;
@@ -12,6 +13,8 @@ import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.material.Fluid;
+import net.minecraftforge.common.capabilities.Capability;
+import net.minecraftforge.common.capabilities.ForgeCapabilities;
 import net.minecraftforge.common.util.LazyOptional;
 import net.minecraftforge.fluids.FluidStack;
 import net.minecraftforge.fluids.capability.IFluidHandler;
@@ -19,6 +22,7 @@ import net.minecraftforge.fluids.capability.templates.FluidTank;
 import org.jetbrains.annotations.NotNull;
 
 import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
 
 public class ExperienceRelayEntity extends ExperienceReceivingEntity{
 
@@ -134,5 +138,47 @@ public class ExperienceRelayEntity extends ExperienceReceivingEntity{
     }
 
     public int getSpace(){ return tank.getSpace(); }
+
+    //-----------NBT-----------//
+
+    @Override
+    public void load(CompoundTag tag)
+    {
+        super.load(tag);
+        tank.readFromNBT(tag);
+    }
+
+    @Override
+    protected void saveAdditional(CompoundTag tag)
+    {
+        super.saveAdditional(tag);
+        tank.writeToNBT(tag);
+    }
+
+    //sends CompoundTag out with nbt data
+    @Override
+    public CompoundTag getUpdateTag()
+    {
+        CompoundTag tag = super.getUpdateTag();
+        tank.writeToNBT(tag);
+
+        return tag;
+    }
+
+    //gets packet to send to client
+    @Override
+    public Packet<ClientGamePacketListener> getUpdatePacket()
+    {
+        return ClientboundBlockEntityDataPacket.create(this);
+    }
+
+    @Override
+    @Nonnull
+    public <T> LazyOptional<T> getCapability(@Nonnull Capability<T> capability, @Nullable Direction facing)
+    {
+        if (capability == ForgeCapabilities.FLUID_HANDLER)
+            return handler.cast();
+        return super.getCapability(capability, facing);
+    }
 
 }

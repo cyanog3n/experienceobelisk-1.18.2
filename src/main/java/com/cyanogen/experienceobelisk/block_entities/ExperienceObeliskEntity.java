@@ -325,7 +325,7 @@ public class ExperienceObeliskEntity extends ExperienceReceivingEntity implement
     //-----------LOGIC-----------//
 
     public static long getTotalXP(Player player){
-        return levelsToXP(player.experienceLevel) + (long) Math.floor(player.experienceProgress * player.getXpNeededForNextLevel());
+        return levelsToXP(player.experienceLevel) + Math.round(player.experienceProgress * player.getXpNeededForNextLevel());
     }
 
     public void handleRequest(UpdateContents.Request request, int XP, ServerPlayer sender){
@@ -409,7 +409,6 @@ public class ExperienceObeliskEntity extends ExperienceReceivingEntity implement
 
             sender.giveExperiencePoints(this.getFluidAmount() / 20);
             this.setFluid(0);
-
         }
     }
 
