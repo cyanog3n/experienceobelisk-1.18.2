@@ -93,11 +93,11 @@ public class ExperienceObeliskScreen extends AbstractContainerScreen<ExperienceO
         int p = n * 138 / m;
 
         //render gui texture
-        gui.blit(texture, x, y, 0, 0, 176, 166, textureWidth, textureHeight);
+        gui.blit(texture, x, y, 0, 0, 176, 166);
 
         //render xp bar
-        gui.blit(texture, this.width / 2 - 138 / 2, this.height / 2 + 50, 0, 169, 138, 5, textureWidth, textureHeight);
-        gui.blit(texture, this.width / 2 - 138 / 2, this.height / 2 + 50, 0, 173, p, 5, textureWidth, textureHeight);
+        gui.blit(texture, this.width / 2 - 138 / 2, this.height / 2 + 50, 0, 169, 138, 5);
+        gui.blit(texture, this.width / 2 - 138 / 2, this.height / 2 + 50, 0, 173, p, 5);
 
         //descriptors & info
         gui.drawCenteredString(this.font, Component.translatable("title.experienceobelisk.experience_obelisk"),
@@ -112,7 +112,7 @@ public class ExperienceObeliskScreen extends AbstractContainerScreen<ExperienceO
                 this.width / 2,this.height / 2 + 60, 0x4DFF12);
 
         clearWidgets();
-        loadWidgetElements();
+        setupWidgetElements();
 
         for(Renderable widget : this.renderables){
             widget.render(gui, mouseX, mouseY, partialTick);
@@ -124,22 +124,9 @@ public class ExperienceObeliskScreen extends AbstractContainerScreen<ExperienceO
 
     }
 
-    private void loadWidgetElements(){
-        if(!this.buttons.isEmpty()){
-            for(Button b : this.buttons){
-                b.setFocused(false);
-                addRenderableWidget(b);
-            }
-        }
-    }
-
     //buttons and whatnot go here
-    private final List<Button> buttons = new ArrayList<>();
     private void setupWidgetElements() {
 
-        Style style = Style.EMPTY;
-        Style green = style.withColor(0x45FF5B);
-        Style red = style.withColor(0xFF454B);
         int w = 50; //width (divisible by 2)
         int h = 20; //height
         int s = 2; //spacing
@@ -201,13 +188,21 @@ public class ExperienceObeliskScreen extends AbstractContainerScreen<ExperienceO
                 .tooltip(Tooltip.create(Component.translatable("tooltip.experienceobelisk.experience_obelisk.drainAll")))
                 .build();
 
-        buttons.add(settings);
-        buttons.add(deposit1);
-        buttons.add(deposit10);
-        buttons.add(depositAll);
-        buttons.add(withdraw1);
-        buttons.add(withdraw10);
-        buttons.add(withdrawAll);
+        settings.setFocused(false);
+        deposit1.setFocused(false);
+        deposit10.setFocused(false);
+        depositAll.setFocused(false);
+        withdraw1.setFocused(false);
+        withdraw10.setFocused(false);
+        withdrawAll.setFocused(false);
+
+        addRenderableWidget(settings);
+        addRenderableWidget(deposit1);
+        addRenderableWidget(deposit10);
+        addRenderableWidget(depositAll);
+        addRenderableWidget(withdraw1);
+        addRenderableWidget(withdraw10);
+        addRenderableWidget(withdrawAll);
     }
 
 }
