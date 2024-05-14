@@ -22,6 +22,9 @@ public class RegisterBlocks {
     public static final RegistryObject<Block> EXPERIENCE_FOUNTAIN = BLOCKS.register("experience_fountain", ExperienceFountainBlock::new);
     public static final RegistryObject<Block> PRECISION_DISPELLER = BLOCKS.register("precision_dispeller", PrecisionDispellerBlock::new);
     public static final RegistryObject<Block> EXPERIENCE_RELAY = BLOCKS.register("experience_relay", ExperienceRelayBlock::new);
+    public static final RegistryObject<Block> EXPERIENCE_ACCELERATOR = BLOCKS.register("experience_accelerator", ExperienceAcceleratorBlock::new);
+
+    public static final RegistryObject<Block> TEMPLATE = BLOCKS.register("template", TemplateBlock::new);
 
     //-----DECORATIVE / CRAFTING-----//
 

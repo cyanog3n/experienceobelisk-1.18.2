@@ -1,7 +1,7 @@
 {
   "variants": {
     "": {
-      "model": "minecraft:block/redstone_lamp_on"
+      "model": "experienceobelisk:block/experience_relay"
     }
   }
 }

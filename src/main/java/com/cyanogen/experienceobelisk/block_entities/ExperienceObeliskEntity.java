@@ -78,6 +78,7 @@ public class ExperienceObeliskEntity extends ExperienceReceivingEntity implement
         }
 
         if(animation == null || !animation.equals(animationToPlay)){
+            controller.stop();
             controller.setAnimation(animationToPlay);
         }
 

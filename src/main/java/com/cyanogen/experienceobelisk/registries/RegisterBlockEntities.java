@@ -1,10 +1,8 @@
 package com.cyanogen.experienceobelisk.registries;
 
 import com.cyanogen.experienceobelisk.ExperienceObelisk;
-import com.cyanogen.experienceobelisk.block_entities.ExperienceFountainEntity;
-import com.cyanogen.experienceobelisk.block_entities.ExperienceObeliskEntity;
-import com.cyanogen.experienceobelisk.block_entities.ExperienceRelayEntity;
-import com.cyanogen.experienceobelisk.block_entities.PrecisionDispellerEntity;
+import com.cyanogen.experienceobelisk.block.ExperienceAcceleratorBlock;
+import com.cyanogen.experienceobelisk.block_entities.*;
 import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraftforge.eventbus.api.IEventBus;
 import net.minecraftforge.registries.DeferredRegister;
@@ -28,6 +26,12 @@ public class RegisterBlockEntities {
 
     public static final RegistryObject<BlockEntityType<ExperienceRelayEntity>> EXPERIENCERELAY_BE = BLOCK_ENTITIES.register("experiencerelay_be",
             ()-> BlockEntityType.Builder.of(ExperienceRelayEntity::new, RegisterBlocks.EXPERIENCE_RELAY.get()).build(Type));
+
+    public static final RegistryObject<BlockEntityType<ExperienceAcceleratorEntity>> EXPERIENCEACCELERATOR_BE = BLOCK_ENTITIES.register("experienceaccelerator_be",
+            ()-> BlockEntityType.Builder.of(ExperienceAcceleratorEntity::new, RegisterBlocks.EXPERIENCE_ACCELERATOR.get()).build(Type));
+
+    public static final RegistryObject<BlockEntityType<TemplateBlockEntity>> TEMPLATE = BLOCK_ENTITIES.register("template",
+            ()-> BlockEntityType.Builder.of(TemplateBlockEntity::new, RegisterBlocks.TEMPLATE.get()).build(Type));
 
     public static void register(IEventBus eventBus){
         BLOCK_ENTITIES.register(eventBus);

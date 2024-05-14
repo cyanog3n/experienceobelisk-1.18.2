@@ -1,0 +1,26 @@
+{
+	"format_version": "1.8.0",
+	"animations": {
+		"display.green": {
+			"loop": "hold_on_last_frame",
+			"bones": {
+				"bone": {
+					"position": {
+						"vector": [0, 0.51, 0]
+					}
+				}
+			}
+		},
+		"display.red": {
+			"loop": "hold_on_last_frame",
+			"bones": {
+				"bone2": {
+					"position": {
+						"vector": [0, 0.51, 0]
+					}
+				}
+			}
+		}
+	},
+	"geckolib_format_version": 2
+}

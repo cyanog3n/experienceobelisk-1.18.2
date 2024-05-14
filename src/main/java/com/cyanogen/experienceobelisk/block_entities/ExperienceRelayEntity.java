@@ -1,5 +1,6 @@
 package com.cyanogen.experienceobelisk.block_entities;
 
+import com.cyanogen.experienceobelisk.ExperienceObelisk;
 import com.cyanogen.experienceobelisk.registries.RegisterBlockEntities;
 import com.cyanogen.experienceobelisk.registries.RegisterFluids;
 import net.minecraft.core.BlockPos;
@@ -20,15 +21,67 @@ import net.minecraftforge.fluids.FluidStack;
 import net.minecraftforge.fluids.capability.IFluidHandler;
 import net.minecraftforge.fluids.capability.templates.FluidTank;
 import org.jetbrains.annotations.NotNull;
+import software.bernie.geckolib.animatable.GeoBlockEntity;
+import software.bernie.geckolib.core.animatable.instance.AnimatableInstanceCache;
+import software.bernie.geckolib.core.animation.AnimatableManager;
+import software.bernie.geckolib.core.animation.AnimationController;
+import software.bernie.geckolib.core.animation.AnimationState;
+import software.bernie.geckolib.core.animation.RawAnimation;
+import software.bernie.geckolib.core.object.PlayState;
+import software.bernie.geckolib.util.GeckoLibUtil;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 
-public class ExperienceRelayEntity extends ExperienceReceivingEntity{
+public class ExperienceRelayEntity extends ExperienceReceivingEntity implements GeoBlockEntity{
 
     public ExperienceRelayEntity(BlockPos pos, BlockState state) {
         super(RegisterBlockEntities.EXPERIENCERELAY_BE.get(), pos, state);
     }
+
+    //-----------ANIMATIONS-----------//
+
+    private final AnimatableInstanceCache cache = GeckoLibUtil.createInstanceCache(this);
+
+    protected static final RawAnimation GREEN = RawAnimation.begin().thenPlay("display.green");
+    protected static final RawAnimation RED = RawAnimation.begin().thenPlay("display.red");
+
+    @Override
+    public void registerControllers(AnimatableManager.ControllerRegistrar controllerRegistrar) {
+        controllerRegistrar.add(new AnimationController<>(this, this::controller));
+    }
+
+    protected <E extends ExperienceRelayEntity> PlayState controller(final AnimationState<E> state) {
+
+        BlockEntity entity = state.getAnimatable();
+        AnimationController<E> controller = state.getController();
+
+        if(level != null && entity instanceof ExperienceRelayEntity relay){
+
+            if(relay.isBound){
+                BlockEntity boundEntity = level.getBlockEntity(relay.getBoundPos());
+
+                if(boundEntity instanceof ExperienceRelayEntity || boundEntity instanceof ExperienceObeliskEntity){
+                    controller.setAnimation(GREEN);
+                }
+                else{
+                    controller.setAnimation(RED);
+                }
+            }
+            else{
+                controller.stop();
+            }
+        }
+
+        return PlayState.CONTINUE;
+    }
+
+    @Override
+    public AnimatableInstanceCache getAnimatableInstanceCache() {
+        return cache;
+    }
+
+    //-----------BEHAVIOR-----------//
 
     public static <T> void tick(Level level, BlockPos pos, BlockState state, T blockEntity) {
 
