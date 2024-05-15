@@ -42,7 +42,7 @@ import java.util.List;
 
 import static com.cyanogen.experienceobelisk.utils.ExperienceUtils.levelsToXP;
 
-public class ExperienceObeliskEntity extends ExperienceReceivingEntity implements GeoBlockEntity{
+public class ExperienceObeliskEntity extends BlockEntity implements GeoBlockEntity{
 
     public ExperienceObeliskEntity(BlockPos pos, BlockState state) {
         super(RegisterBlockEntities.EXPERIENCEOBELISK_BE.get(), pos, state);
@@ -133,15 +133,6 @@ public class ExperienceObeliskEntity extends ExperienceReceivingEntity implement
                         orb.discard();
                     }
                 }
-            }
-
-            if(obelisk.isBound && level.getBlockEntity(obelisk.getBoundPos()) instanceof ExperienceRelayEntity relay
-                    && obelisk.getSpace() != 0 && relay.getFluidAmount() != 0){
-
-                int sendAmount = Math.min(relay.getFluidAmount(), obelisk.getSpace());
-
-                obelisk.fill(sendAmount);
-                relay.drain(sendAmount);
             }
         }
     }

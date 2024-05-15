@@ -1,7 +1,6 @@
 package com.cyanogen.experienceobelisk.renderer;
 
 import com.cyanogen.experienceobelisk.ExperienceObelisk;
-import com.cyanogen.experienceobelisk.block_entities.ExperienceFountainEntity;
 import com.cyanogen.experienceobelisk.block_entities.ExperienceRelayEntity;
 import net.minecraft.client.renderer.RenderType;
 import net.minecraft.client.renderer.blockentity.BlockEntityRendererProvider;

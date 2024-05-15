@@ -14,12 +14,8 @@ import net.minecraft.client.gui.components.Tooltip;
 import net.minecraft.client.gui.screens.inventory.AbstractContainerScreen;
 import net.minecraft.core.BlockPos;
 import net.minecraft.network.chat.Component;
-import net.minecraft.network.chat.Style;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.player.Inventory;
-
-import java.util.ArrayList;
-import java.util.List;
 
 import static com.cyanogen.experienceobelisk.network.experience_obelisk.UpdateContents.Request.*;
 import static com.cyanogen.experienceobelisk.utils.ExperienceUtils.levelsToXP;
