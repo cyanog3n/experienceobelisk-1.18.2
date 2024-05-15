@@ -23,13 +23,13 @@ public class RegisterBlocks {
     public static final RegistryObject<Block> PRECISION_DISPELLER = BLOCKS.register("precision_dispeller", PrecisionDispellerBlock::new);
     public static final RegistryObject<Block> EXPERIENCE_RELAY = BLOCKS.register("experience_relay", ExperienceRelayBlock::new);
     public static final RegistryObject<Block> EXPERIENCE_ACCELERATOR = BLOCKS.register("experience_accelerator", ExperienceAcceleratorBlock::new);
-
-    public static final RegistryObject<Block> TEMPLATE = BLOCKS.register("template", TemplateBlock::new);
+    public static final RegistryObject<Block> LINEAR_EXPERIENCE_ACCELERATOR = BLOCKS.register("linear_experience_accelerator", LinearExperienceAcceleratorBlock::new);
 
     //-----DECORATIVE / CRAFTING-----//
 
     public static final RegistryObject<Block> COGNITIVE_ALLOY_BLOCK = BLOCKS.register("cognitive_alloy_block", CognitiveAlloyBlock::new);
     public static final RegistryObject<Block> COGNITIVE_CRYSTAL_BLOCK = BLOCKS.register("cognitive_crystal_block", CognitiveCrystalBlock::new);
+    public static final RegistryObject<Block> WHISPERGLASS_BLOCK = BLOCKS.register("whisperglass", WhisperglassBlock::new);
 
     //-----FLUID BLOCKS-----//
 

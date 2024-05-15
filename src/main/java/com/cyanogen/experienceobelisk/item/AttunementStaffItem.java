@@ -5,10 +5,8 @@ import com.cyanogen.experienceobelisk.block_entities.ExperienceReceivingEntity;
 import com.cyanogen.experienceobelisk.block_entities.ExperienceRelayEntity;
 import com.cyanogen.experienceobelisk.registries.RegisterItems;
 import com.cyanogen.experienceobelisk.utils.MiscUtils;
-import net.minecraft.ChatFormatting;
 import net.minecraft.core.BlockPos;
 import net.minecraft.nbt.CompoundTag;
-import net.minecraft.network.chat.Component;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
 import net.minecraft.world.InteractionResultHolder;
@@ -98,8 +96,8 @@ public class AttunementStaffItem extends Item {
                     System.out.println("Cannot bind an obelisk to a relay it is supplying");
                 }
                 else{
-                    obelisk.setBoundPos(savedPos);
-                    obelisk.setBound();
+                    //obelisk.setBoundPos(savedPos);
+                    //obelisk.setBound();
                     reset(stack);
                     //display success msg: Target bound to relay at X Y Z
                     System.out.println("Target bound to relay at " + savedPos);

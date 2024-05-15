@@ -1,6 +1,7 @@
 package com.cyanogen.experienceobelisk.block;
 
 import com.cyanogen.experienceobelisk.block_entities.ExperienceAcceleratorEntity;
+import com.cyanogen.experienceobelisk.block_entities.LinearExperienceAcceleratorEntity;
 import com.cyanogen.experienceobelisk.registries.RegisterBlockEntities;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
@@ -17,9 +18,9 @@ import net.minecraft.world.level.block.state.properties.BlockStateProperties;
 import net.minecraft.world.level.block.state.properties.DirectionProperty;
 import org.jetbrains.annotations.Nullable;
 
-public class ExperienceAcceleratorBlock extends ExperienceReceivingBlock implements EntityBlock {
+public class LinearExperienceAcceleratorBlock extends ExperienceReceivingBlock implements EntityBlock {
 
-    public ExperienceAcceleratorBlock() {
+    public LinearExperienceAcceleratorBlock() {
         super(Properties.of()
                 .strength(9f)
                 .destroyTime(1.2f)
@@ -27,10 +28,10 @@ public class ExperienceAcceleratorBlock extends ExperienceReceivingBlock impleme
                 .explosionResistance(9f)
                 .noOcclusion()
         );
-        this.registerDefaultState(this.stateDefinition.any().setValue(FACING, Direction.UP));
+        this.registerDefaultState(this.stateDefinition.any().setValue(FACING, Direction.NORTH));
     }
 
-    public static final DirectionProperty FACING = BlockStateProperties.FACING;
+    public static final DirectionProperty FACING = BlockStateProperties.HORIZONTAL_FACING;
 
     @Override
     protected void createBlockStateDefinition(StateDefinition.Builder<Block, BlockState> builder) {
@@ -41,8 +42,8 @@ public class ExperienceAcceleratorBlock extends ExperienceReceivingBlock impleme
     @Nullable
     @Override
     public BlockState getStateForPlacement(BlockPlaceContext context) {
-        Direction looking = context.getNearestLookingDirection();
-        return this.defaultBlockState().setValue(FACING, looking.getOpposite());
+        Direction looking = context.getHorizontalDirection();
+        return this.defaultBlockState().setValue(FACING, looking);
     }
 
     //-----BLOCK ENTITY-----//
@@ -50,12 +51,12 @@ public class ExperienceAcceleratorBlock extends ExperienceReceivingBlock impleme
     @Nullable
     @Override
     public <T extends BlockEntity> BlockEntityTicker<T> getTicker(Level level, BlockState state, BlockEntityType<T> blockEntityType) {
-        return blockEntityType == RegisterBlockEntities.EXPERIENCEACCELERATOR_BE.get() ? ExperienceAcceleratorEntity::tick : null;
+        return blockEntityType == RegisterBlockEntities.LINEAREXPERIENCEACCELERATOR_BE.get() ? LinearExperienceAcceleratorEntity::tick : null;
     }
 
     @Nullable
     @Override
     public BlockEntity newBlockEntity(BlockPos pos, BlockState state) {
-        return RegisterBlockEntities.EXPERIENCEACCELERATOR_BE.get().create(pos, state);
+        return RegisterBlockEntities.LINEAREXPERIENCEACCELERATOR_BE.get().create(pos, state);
     }
 }

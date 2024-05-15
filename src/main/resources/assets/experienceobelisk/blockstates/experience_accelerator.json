@@ -1,7 +1,29 @@
 {
   "variants": {
-    "": {
-      "model": "minecraft:block/sea_lantern"
+    "facing=north": {
+      "model": "experienceobelisk:block/experience_accelerator",
+      "x": 90
+    },
+    "facing=south": {
+      "model": "experienceobelisk:block/experience_accelerator",
+      "x": 270
+    },
+    "facing=east": {
+      "model": "experienceobelisk:block/experience_accelerator",
+      "x": 90,
+      "y": 90
+    },
+    "facing=west": {
+      "model": "experienceobelisk:block/experience_accelerator",
+      "x": 90,
+      "y": 270
+    },
+    "facing=up": {
+      "model": "experienceobelisk:block/experience_accelerator"
+    },
+    "facing=down": {
+      "model": "experienceobelisk:block/experience_accelerator",
+      "x": 180
     }
   }
 }

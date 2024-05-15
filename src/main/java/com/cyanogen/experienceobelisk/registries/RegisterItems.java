@@ -141,8 +141,11 @@ public class RegisterItems {
     public static final RegistryObject<Item> PRECISION_DISPELLER_ITEM = ITEMS.register("precision_dispeller",
             () -> new PrecisionDispellerItem(RegisterBlocks.PRECISION_DISPELLER.get(), new Item.Properties()));
 
-    public static final RegistryObject<Item> EXPERIENCE_RELAY_ITEM = ITEMS.register("experience_relay",
-            () -> new ExperienceRelayItem(RegisterBlocks.EXPERIENCE_RELAY.get(), new Item.Properties()));
+    public static final RegistryObject<Item> EXPERIENCE_ACCELERATOR_ITEM = ITEMS.register("experience_accelerator",
+            () -> new BlockItem(RegisterBlocks.EXPERIENCE_ACCELERATOR.get(), new Item.Properties()));
+
+    public static final RegistryObject<Item> LINEAR_EXPERIENCE_ACCELERATOR_ITEM = ITEMS.register("linear_experience_accelerator",
+            () -> new BlockItem(RegisterBlocks.LINEAR_EXPERIENCE_ACCELERATOR.get(), new Item.Properties()));
 
     //-----BLOCK ITEMS-----//
 
@@ -151,6 +154,9 @@ public class RegisterItems {
 
     public static final RegistryObject<Item> COGNITIVE_CRYSTAL_BLOCK_ITEM = ITEMS.register("cognitive_crystal_block",
             () -> new BlockItem(RegisterBlocks.COGNITIVE_CRYSTAL_BLOCK.get(), new Item.Properties()));
+
+    public static final RegistryObject<Item> WHISPERGLASS_ITEM = ITEMS.register("whisperglass",
+            () -> new BlockItem(RegisterBlocks.WHISPERGLASS_BLOCK.get(), new Item.Properties()));
 
     public static void register(IEventBus eventBus){
         ITEMS.register(eventBus);
