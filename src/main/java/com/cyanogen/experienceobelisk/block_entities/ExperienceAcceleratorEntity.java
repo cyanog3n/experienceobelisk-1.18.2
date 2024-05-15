@@ -4,7 +4,9 @@ import com.cyanogen.experienceobelisk.block.ExperienceAcceleratorBlock;
 import com.cyanogen.experienceobelisk.registries.RegisterBlockEntities;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
+import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.ExperienceOrb;
+import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.phys.AABB;
@@ -33,7 +35,8 @@ public class ExperienceAcceleratorEntity extends ExperienceReceivingEntity imple
 
     public static <T> void tick(Level level, BlockPos pos, BlockState state, T blockEntity) {
 
-        double speed = 2.5;
+        double orbSpeed = 2.5;
+        double entitySpeed = 0.7;
 
         Direction facing = state.getValue(ExperienceAcceleratorBlock.FACING);
         int x = 0;
@@ -57,10 +60,18 @@ public class ExperienceAcceleratorEntity extends ExperienceReceivingEntity imple
                 pos.getY() + 1 + y,
                 pos.getZ() + 1 + z);
 
-        List<ExperienceOrb> list = level.getEntitiesOfClass(ExperienceOrb.class, area);
+        List<Entity> list = level.getEntities(null, area);
 
-        if(!list.isEmpty()) for(ExperienceOrb orb : list){
-            orb.addDeltaMovement(new Vec3(speed * x,speed * y,speed * z));
+        if(!list.isEmpty()) for(Entity entity : list){
+            boolean isShiftPlayer = entity instanceof Player player && player.isShiftKeyDown();
+
+            if(entity instanceof ExperienceOrb orb){
+                orb.addDeltaMovement(new Vec3(orbSpeed * x,orbSpeed * y,orbSpeed * z));
+            }
+            else if(!isShiftPlayer){
+                entity.addDeltaMovement(new Vec3(entitySpeed * x,entitySpeed * y,entitySpeed * z));
+            }
+
         }
     }
 }

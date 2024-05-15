@@ -7,6 +7,7 @@ import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.ExperienceOrb;
+import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.phys.AABB;
@@ -35,7 +36,8 @@ public class LinearExperienceAcceleratorEntity extends ExperienceReceivingEntity
 
     public static <T> void tick(Level level, BlockPos pos, BlockState state, T blockEntity) {
 
-        double speed = 2.5;
+        double orbSpeed = 2.5;
+        double entitySpeed = 0.4;
 
         Direction facing = state.getValue(LinearExperienceAcceleratorBlock.FACING);
         int x = 0;
@@ -56,10 +58,18 @@ public class LinearExperienceAcceleratorEntity extends ExperienceReceivingEntity
                 pos.getY() + 2,
                 pos.getZ() + 1);
 
-        List<ExperienceOrb> list = level.getEntitiesOfClass(ExperienceOrb.class, area);
+        List<Entity> list = level.getEntities(null, area);
 
-        if(!list.isEmpty()) for(ExperienceOrb orb : list){
-            orb.addDeltaMovement(new Vec3(speed * x,0,speed * z));
+        if(!list.isEmpty()) for(Entity entity : list){
+            boolean isShiftPlayer = entity instanceof Player player && player.isShiftKeyDown();
+
+            if(entity instanceof ExperienceOrb orb){
+                orb.addDeltaMovement(new Vec3(orbSpeed * x,0,orbSpeed * z));
+            }
+            else if(!isShiftPlayer){
+                entity.addDeltaMovement(new Vec3(entitySpeed * x,0,entitySpeed * z));
+            }
+
         }
     }
 }
