@@ -1,6 +1,6 @@
 package com.cyanogen.experienceobelisk.block_entities;
 
-import com.cyanogen.experienceobelisk.block.ExperienceAcceleratorBlock;
+import com.cyanogen.experienceobelisk.block.AcceleratorBlock;
 import com.cyanogen.experienceobelisk.registries.RegisterBlockEntities;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
@@ -12,26 +12,13 @@ import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.phys.AABB;
 import net.minecraft.world.phys.Vec3;
-import software.bernie.geckolib.animatable.GeoBlockEntity;
-import software.bernie.geckolib.core.animatable.instance.AnimatableInstanceCache;
-import software.bernie.geckolib.core.animation.AnimatableManager;
 
 import java.util.List;
 
-public class ExperienceAcceleratorEntity extends BlockEntity implements GeoBlockEntity {
+public class AcceleratorEntity extends BlockEntity{
 
-    public ExperienceAcceleratorEntity(BlockPos pos, BlockState state) {
-        super(RegisterBlockEntities.EXPERIENCEACCELERATOR_BE.get(), pos, state);
-    }
-
-    @Override
-    public void registerControllers(AnimatableManager.ControllerRegistrar controllerRegistrar) {
-
-    }
-
-    @Override
-    public AnimatableInstanceCache getAnimatableInstanceCache() {
-        return null;
+    public AcceleratorEntity(BlockPos pos, BlockState state) {
+        super(RegisterBlockEntities.ACCELERATOR_BE.get(), pos, state);
     }
 
     public static <T> void tick(Level level, BlockPos pos, BlockState state, T blockEntity) {
@@ -39,7 +26,7 @@ public class ExperienceAcceleratorEntity extends BlockEntity implements GeoBlock
         double orbSpeed = 1.6;
         double entitySpeed = 0.7;
 
-        Direction facing = state.getValue(ExperienceAcceleratorBlock.FACING);
+        Direction facing = state.getValue(AcceleratorBlock.FACING);
         int x = 0;
         int y = 0;
         int z = 0;

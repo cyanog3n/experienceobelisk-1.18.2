@@ -1,7 +1,6 @@
 package com.cyanogen.experienceobelisk.block_entities;
 
-import com.cyanogen.experienceobelisk.block.ExperienceAcceleratorBlock;
-import com.cyanogen.experienceobelisk.block.LinearExperienceAcceleratorBlock;
+import com.cyanogen.experienceobelisk.block.LinearAcceleratorBlock;
 import com.cyanogen.experienceobelisk.registries.RegisterBlockEntities;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
@@ -13,26 +12,13 @@ import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.phys.AABB;
 import net.minecraft.world.phys.Vec3;
-import software.bernie.geckolib.animatable.GeoBlockEntity;
-import software.bernie.geckolib.core.animatable.instance.AnimatableInstanceCache;
-import software.bernie.geckolib.core.animation.AnimatableManager;
 
 import java.util.List;
 
-public class LinearExperienceAcceleratorEntity extends BlockEntity implements GeoBlockEntity {
+public class LinearAcceleratorEntity extends BlockEntity{
 
-    public LinearExperienceAcceleratorEntity(BlockPos pos, BlockState state) {
-        super(RegisterBlockEntities.LINEAREXPERIENCEACCELERATOR_BE.get(), pos, state);
-    }
-
-    @Override
-    public void registerControllers(AnimatableManager.ControllerRegistrar controllerRegistrar) {
-
-    }
-
-    @Override
-    public AnimatableInstanceCache getAnimatableInstanceCache() {
-        return null;
+    public LinearAcceleratorEntity(BlockPos pos, BlockState state) {
+        super(RegisterBlockEntities.LINEARACCELERATOR_BE.get(), pos, state);
     }
 
     public static <T> void tick(Level level, BlockPos pos, BlockState state, T blockEntity) {
@@ -40,7 +26,7 @@ public class LinearExperienceAcceleratorEntity extends BlockEntity implements Ge
         double orbSpeed = 2.5;
         double entitySpeed = 0.4;
 
-        Direction facing = state.getValue(LinearExperienceAcceleratorBlock.FACING);
+        Direction facing = state.getValue(LinearAcceleratorBlock.FACING);
         int x = 0;
         int z = 0;
 

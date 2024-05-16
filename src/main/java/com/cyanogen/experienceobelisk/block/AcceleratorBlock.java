@@ -1,12 +1,10 @@
 package com.cyanogen.experienceobelisk.block;
 
-import com.cyanogen.experienceobelisk.block_entities.ExperienceAcceleratorEntity;
-import com.cyanogen.experienceobelisk.block_entities.LinearExperienceAcceleratorEntity;
+import com.cyanogen.experienceobelisk.block_entities.AcceleratorEntity;
 import com.cyanogen.experienceobelisk.registries.RegisterBlockEntities;
 import com.cyanogen.experienceobelisk.registries.RegisterItems;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
-import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
 import net.minecraft.world.entity.player.Player;
@@ -14,9 +12,7 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.context.BlockPlaceContext;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Block;
-import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.EntityBlock;
-import net.minecraft.world.level.block.Rotation;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.entity.BlockEntityTicker;
 import net.minecraft.world.level.block.entity.BlockEntityType;
@@ -27,21 +23,20 @@ import net.minecraft.world.level.block.state.properties.DirectionProperty;
 import net.minecraft.world.phys.BlockHitResult;
 import org.jetbrains.annotations.Nullable;
 
-public class LinearExperienceAcceleratorBlock extends ExperienceReceivingBlock implements EntityBlock {
+public class AcceleratorBlock extends ExperienceReceivingBlock implements EntityBlock {
 
-    public LinearExperienceAcceleratorBlock() {
+    public AcceleratorBlock() {
         super(Properties.of()
                 .strength(9f)
                 .destroyTime(1.2f)
                 .requiresCorrectToolForDrops()
                 .explosionResistance(9f)
-                .friction(0.98f)
                 .noOcclusion()
         );
-        this.registerDefaultState(this.stateDefinition.any().setValue(FACING, Direction.NORTH));
+        this.registerDefaultState(this.stateDefinition.any().setValue(FACING, Direction.UP));
     }
 
-    public static final DirectionProperty FACING = BlockStateProperties.HORIZONTAL_FACING;
+    public static final DirectionProperty FACING = BlockStateProperties.FACING;
 
     @Override
     protected void createBlockStateDefinition(StateDefinition.Builder<Block, BlockState> builder) {
@@ -52,19 +47,19 @@ public class LinearExperienceAcceleratorBlock extends ExperienceReceivingBlock i
     @Nullable
     @Override
     public BlockState getStateForPlacement(BlockPlaceContext context) {
-        Direction looking = context.getHorizontalDirection();
-        return this.defaultBlockState().setValue(FACING, looking);
+        Direction looking = context.getNearestLookingDirection();
+        return this.defaultBlockState().setValue(FACING, looking.getOpposite());
     }
 
     @Override
     public InteractionResult use(BlockState state, Level level, BlockPos pos, Player player, InteractionHand hand, BlockHitResult result) {
         ItemStack stack = player.getItemInHand(hand);
+        Direction useDirection = result.getDirection();
 
         if(stack.is(RegisterItems.ATTUNEMENT_STAFF.get())){
 
             Direction direction = state.getValue(FACING);
-            state = state.setValue(FACING, direction.getClockWise());
-
+            state = state.setValue(FACING, direction.getClockWise(useDirection.getAxis()));
             level.setBlockAndUpdate(pos, state);
         }
 
@@ -76,12 +71,12 @@ public class LinearExperienceAcceleratorBlock extends ExperienceReceivingBlock i
     @Nullable
     @Override
     public <T extends BlockEntity> BlockEntityTicker<T> getTicker(Level level, BlockState state, BlockEntityType<T> blockEntityType) {
-        return blockEntityType == RegisterBlockEntities.LINEAREXPERIENCEACCELERATOR_BE.get() ? LinearExperienceAcceleratorEntity::tick : null;
+        return blockEntityType == RegisterBlockEntities.ACCELERATOR_BE.get() ? AcceleratorEntity::tick : null;
     }
 
     @Nullable
     @Override
     public BlockEntity newBlockEntity(BlockPos pos, BlockState state) {
-        return RegisterBlockEntities.LINEAREXPERIENCEACCELERATOR_BE.get().create(pos, state);
+        return RegisterBlockEntities.ACCELERATOR_BE.get().create(pos, state);
     }
 }

@@ -22,8 +22,8 @@ public class RegisterBlocks {
     public static final RegistryObject<Block> EXPERIENCE_FOUNTAIN = BLOCKS.register("experience_fountain", ExperienceFountainBlock::new);
     public static final RegistryObject<Block> PRECISION_DISPELLER = BLOCKS.register("precision_dispeller", PrecisionDispellerBlock::new);
     public static final RegistryObject<Block> EXPERIENCE_RELAY = BLOCKS.register("experience_relay", ExperienceRelayBlock::new);
-    public static final RegistryObject<Block> EXPERIENCE_ACCELERATOR = BLOCKS.register("experience_accelerator", ExperienceAcceleratorBlock::new);
-    public static final RegistryObject<Block> LINEAR_EXPERIENCE_ACCELERATOR = BLOCKS.register("linear_experience_accelerator", LinearExperienceAcceleratorBlock::new);
+    public static final RegistryObject<Block> ACCELERATOR = BLOCKS.register("accelerator", AcceleratorBlock::new);
+    public static final RegistryObject<Block> LINEAR_ACCELERATOR = BLOCKS.register("linear_accelerator", LinearAcceleratorBlock::new);
 
     //-----DECORATIVE / CRAFTING-----//
 

@@ -38,8 +38,8 @@ public class RegisterCreativeTab {
                         output.accept(RegisterItems.EXPERIENCE_OBELISK_ITEM.get());
                         output.accept(RegisterItems.EXPERIENCE_FOUNTAIN_ITEM.get());
                         output.accept(RegisterItems.PRECISION_DISPELLER_ITEM.get());
-                        output.accept(RegisterItems.EXPERIENCE_ACCELERATOR_ITEM.get());
-                        output.accept(RegisterItems.LINEAR_EXPERIENCE_ACCELERATOR_ITEM.get());
+                        output.accept(RegisterItems.ACCELERATOR_ITEM.get());
+                        output.accept(RegisterItems.LINEAR_ACCELERATOR_ITEM.get());
 
                         output.accept(RegisterItems.COGNITIVE_ALLOY_BLOCK_ITEM.get());
                         output.accept(RegisterItems.COGNITIVE_CRYSTAL_BLOCK_ITEM.get());

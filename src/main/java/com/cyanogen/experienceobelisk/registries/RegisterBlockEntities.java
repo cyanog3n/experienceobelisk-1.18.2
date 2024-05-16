@@ -26,11 +26,11 @@ public class RegisterBlockEntities {
     public static final RegistryObject<BlockEntityType<ExperienceRelayEntity>> EXPERIENCERELAY_BE = BLOCK_ENTITIES.register("experiencerelay_be",
             ()-> BlockEntityType.Builder.of(ExperienceRelayEntity::new, RegisterBlocks.EXPERIENCE_RELAY.get()).build(Type));
 
-    public static final RegistryObject<BlockEntityType<ExperienceAcceleratorEntity>> EXPERIENCEACCELERATOR_BE = BLOCK_ENTITIES.register("experienceaccelerator_be",
-            ()-> BlockEntityType.Builder.of(ExperienceAcceleratorEntity::new, RegisterBlocks.EXPERIENCE_ACCELERATOR.get()).build(Type));
+    public static final RegistryObject<BlockEntityType<AcceleratorEntity>> ACCELERATOR_BE = BLOCK_ENTITIES.register("accelerator_be",
+            ()-> BlockEntityType.Builder.of(AcceleratorEntity::new, RegisterBlocks.ACCELERATOR.get()).build(Type));
 
-    public static final RegistryObject<BlockEntityType<LinearExperienceAcceleratorEntity>> LINEAREXPERIENCEACCELERATOR_BE = BLOCK_ENTITIES.register("linearexperienceaccelerator_be",
-            ()-> BlockEntityType.Builder.of(LinearExperienceAcceleratorEntity::new, RegisterBlocks.LINEAR_EXPERIENCE_ACCELERATOR.get()).build(Type));
+    public static final RegistryObject<BlockEntityType<LinearAcceleratorEntity>> LINEARACCELERATOR_BE = BLOCK_ENTITIES.register("linearaccelerator_be",
+            ()-> BlockEntityType.Builder.of(LinearAcceleratorEntity::new, RegisterBlocks.LINEAR_ACCELERATOR.get()).build(Type));
 
     public static void register(IEventBus eventBus){
         BLOCK_ENTITIES.register(eventBus);

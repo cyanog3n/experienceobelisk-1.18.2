@@ -141,11 +141,11 @@ public class RegisterItems {
     public static final RegistryObject<Item> PRECISION_DISPELLER_ITEM = ITEMS.register("precision_dispeller",
             () -> new PrecisionDispellerItem(RegisterBlocks.PRECISION_DISPELLER.get(), new Item.Properties()));
 
-    public static final RegistryObject<Item> EXPERIENCE_ACCELERATOR_ITEM = ITEMS.register("experience_accelerator",
-            () -> new BlockItem(RegisterBlocks.EXPERIENCE_ACCELERATOR.get(), new Item.Properties()));
+    public static final RegistryObject<Item> ACCELERATOR_ITEM = ITEMS.register("accelerator",
+            () -> new BlockItem(RegisterBlocks.ACCELERATOR.get(), new Item.Properties()));
 
-    public static final RegistryObject<Item> LINEAR_EXPERIENCE_ACCELERATOR_ITEM = ITEMS.register("linear_experience_accelerator",
-            () -> new BlockItem(RegisterBlocks.LINEAR_EXPERIENCE_ACCELERATOR.get(), new Item.Properties()));
+    public static final RegistryObject<Item> LINEAR_ACCELERATOR_ITEM = ITEMS.register("linear_accelerator",
+            () -> new BlockItem(RegisterBlocks.LINEAR_ACCELERATOR.get(), new Item.Properties()));
 
     //-----BLOCK ITEMS-----//
 

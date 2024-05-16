@@ -1,0 +1,29 @@
+{
+  "variants": {
+    "facing=north": {
+      "model": "experienceobelisk:block/accelerator",
+      "x": 90
+    },
+    "facing=south": {
+      "model": "experienceobelisk:block/accelerator",
+      "x": 270
+    },
+    "facing=east": {
+      "model": "experienceobelisk:block/accelerator",
+      "x": 90,
+      "y": 90
+    },
+    "facing=west": {
+      "model": "experienceobelisk:block/accelerator",
+      "x": 90,
+      "y": 270
+    },
+    "facing=up": {
+      "model": "experienceobelisk:block/accelerator"
+    },
+    "facing=down": {
+      "model": "experienceobelisk:block/accelerator",
+      "x": 180
+    }
+  }
+}
