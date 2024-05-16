@@ -9,6 +9,7 @@ import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.ExperienceOrb;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.level.Level;
+import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.phys.AABB;
 import net.minecraft.world.phys.Vec3;
@@ -18,7 +19,7 @@ import software.bernie.geckolib.core.animation.AnimatableManager;
 
 import java.util.List;
 
-public class LinearExperienceAcceleratorEntity extends ExperienceReceivingEntity implements GeoBlockEntity {
+public class LinearExperienceAcceleratorEntity extends BlockEntity implements GeoBlockEntity {
 
     public LinearExperienceAcceleratorEntity(BlockPos pos, BlockState state) {
         super(RegisterBlockEntities.LINEAREXPERIENCEACCELERATOR_BE.get(), pos, state);

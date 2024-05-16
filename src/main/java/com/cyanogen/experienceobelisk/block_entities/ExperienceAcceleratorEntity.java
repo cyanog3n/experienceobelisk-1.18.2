@@ -8,6 +8,7 @@ import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.ExperienceOrb;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.level.Level;
+import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.phys.AABB;
 import net.minecraft.world.phys.Vec3;
@@ -17,7 +18,7 @@ import software.bernie.geckolib.core.animation.AnimatableManager;
 
 import java.util.List;
 
-public class ExperienceAcceleratorEntity extends ExperienceReceivingEntity implements GeoBlockEntity {
+public class ExperienceAcceleratorEntity extends BlockEntity implements GeoBlockEntity {
 
     public ExperienceAcceleratorEntity(BlockPos pos, BlockState state) {
         super(RegisterBlockEntities.EXPERIENCEACCELERATOR_BE.get(), pos, state);
@@ -35,7 +36,7 @@ public class ExperienceAcceleratorEntity extends ExperienceReceivingEntity imple
 
     public static <T> void tick(Level level, BlockPos pos, BlockState state, T blockEntity) {
 
-        double orbSpeed = 2.5;
+        double orbSpeed = 1.6;
         double entitySpeed = 0.7;
 
         Direction facing = state.getValue(ExperienceAcceleratorBlock.FACING);
