@@ -23,8 +23,8 @@ public class AcceleratorEntity extends BlockEntity{
 
     public static <T> void tick(Level level, BlockPos pos, BlockState state, T blockEntity) {
 
-        double orbSpeed = 1.6;
-        double entitySpeed = 0.7;
+        double orbSpeed = 2.0;
+        double entitySpeed = 1.3;
 
         Direction facing = state.getValue(AcceleratorBlock.FACING);
         int x = 0;
@@ -57,7 +57,8 @@ public class AcceleratorEntity extends BlockEntity{
                 orb.addDeltaMovement(new Vec3(orbSpeed * x,orbSpeed * y,orbSpeed * z));
             }
             else if(!isShiftPlayer){
-                entity.addDeltaMovement(new Vec3(entitySpeed * x,entitySpeed * y,entitySpeed * z));
+                double yVelocity = entity.getDeltaMovement().y();
+                entity.addDeltaMovement(new Vec3(entitySpeed * x,entitySpeed * y - yVelocity,entitySpeed * z));
             }
 
         }

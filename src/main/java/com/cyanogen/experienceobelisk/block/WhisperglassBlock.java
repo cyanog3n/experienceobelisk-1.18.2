@@ -14,7 +14,7 @@ public class WhisperglassBlock extends Block {
                 .strength(2.8f)
                 .destroyTime(1.2f)
                 .requiresCorrectToolForDrops()
-                .friction(0.99f)
+                .friction(1.0f)
         );
     }
 }

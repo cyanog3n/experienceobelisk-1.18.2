@@ -13,6 +13,7 @@ import net.minecraft.world.item.context.BlockPlaceContext;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.EntityBlock;
+import net.minecraft.world.level.block.SoundType;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.entity.BlockEntityTicker;
 import net.minecraft.world.level.block.entity.BlockEntityType;
@@ -28,6 +29,7 @@ public class LinearAcceleratorBlock extends ExperienceReceivingBlock implements 
     public LinearAcceleratorBlock() {
         super(Properties.of()
                 .strength(9f)
+                .sound(SoundType.NETHERITE_BLOCK)
                 .destroyTime(1.2f)
                 .requiresCorrectToolForDrops()
                 .explosionResistance(9f)

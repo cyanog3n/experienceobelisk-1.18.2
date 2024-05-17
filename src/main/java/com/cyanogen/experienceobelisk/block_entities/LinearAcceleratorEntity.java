@@ -23,8 +23,8 @@ public class LinearAcceleratorEntity extends BlockEntity{
 
     public static <T> void tick(Level level, BlockPos pos, BlockState state, T blockEntity) {
 
-        double orbSpeed = 2.5;
-        double entitySpeed = 0.4;
+        double orbSpeed = 2.0;
+        double entitySpeed = 0.5;
 
         Direction facing = state.getValue(LinearAcceleratorBlock.FACING);
         int x = 0;
