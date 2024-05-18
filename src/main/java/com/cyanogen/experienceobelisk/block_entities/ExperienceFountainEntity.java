@@ -164,7 +164,7 @@ public class ExperienceFountainEntity extends ExperienceReceivingEntity implemen
 
                 if(level.getGameTime() % interval == 0){
                     ServerLevel server = (ServerLevel) level;
-                    ExperienceOrb orb = new ExperienceOrb(server, pos.getX() + 0.5, pos.getY() + 0.7, pos.getZ() + 0.5, value);
+                    ExperienceOrb orb = new ExperienceOrb(server, pos.getX() + 0.5, pos.getY() + 0.5, pos.getZ() + 0.5, value);
                     obelisk.drain(value * 20);
                     orb.setDeltaMovement(0,0.20 + 0.10 * Math.random(),0);
                     server.addFreshEntity(orb);
