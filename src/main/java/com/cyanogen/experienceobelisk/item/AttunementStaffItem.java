@@ -2,14 +2,21 @@ package com.cyanogen.experienceobelisk.item;
 
 import com.cyanogen.experienceobelisk.block_entities.ExperienceObeliskEntity;
 import com.cyanogen.experienceobelisk.block_entities.ExperienceReceivingEntity;
-import com.cyanogen.experienceobelisk.block_entities.ExperienceRelayEntity;
 import com.cyanogen.experienceobelisk.registries.RegisterItems;
 import com.cyanogen.experienceobelisk.utils.MiscUtils;
+import com.google.common.collect.ImmutableMultimap;
+import com.google.common.collect.Multimap;
+import net.minecraft.ChatFormatting;
 import net.minecraft.core.BlockPos;
 import net.minecraft.nbt.CompoundTag;
+import net.minecraft.network.chat.Component;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
 import net.minecraft.world.InteractionResultHolder;
+import net.minecraft.world.entity.EquipmentSlot;
+import net.minecraft.world.entity.ai.attributes.Attribute;
+import net.minecraft.world.entity.ai.attributes.AttributeModifier;
+import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
@@ -35,9 +42,9 @@ public class AttunementStaffItem extends Item {
 
         ItemStack stack = player.getItemInHand(hand);
 
-        if(player.isShiftKeyDown() && stack.is(RegisterItems.ATTUNEMENT_STAFF.get())){
+        if(player.isShiftKeyDown() && stack.is(RegisterItems.ATTUNEMENT_STAFF.get()) && stack.getOrCreateTag().contains("type")){
             reset(stack);
-            System.out.println("Saved block successfully forgotten");
+            player.displayClientMessage(Component.translatable("message.experienceobelisk.binding_wand.unbind_obelisk"), true);
 
             return InteractionResultHolder.sidedSuccess(stack, level.isClientSide);
         }
@@ -59,10 +66,6 @@ public class AttunementStaffItem extends Item {
                 handleObelisk(obelisk, stack, player, level);
                 return InteractionResult.sidedSuccess(level.isClientSide);
             }
-            else if(entity instanceof ExperienceRelayEntity relay){
-                handleRelay(relay, stack, player, level);
-                return InteractionResult.sidedSuccess(level.isClientSide);
-            }
             else if(entity instanceof ExperienceReceivingEntity receiver){
                 handleExperienceReceivingBlock(receiver, stack, player, level);
                 return InteractionResult.sidedSuccess(level.isClientSide);
@@ -77,91 +80,12 @@ public class AttunementStaffItem extends Item {
         BlockPos thisPos = obelisk.getBlockPos();
         CompoundTag tag = stack.getOrCreateTag();
 
-        if(tag.getString("type").equals("relay")){
-            BlockPos savedPos = new BlockPos(
-                    tag.getInt("boundX"),
-                    tag.getInt("boundY"),
-                    tag.getInt("boundZ"));
+        tag.putInt("boundX", thisPos.getX());
+        tag.putInt("boundY", thisPos.getY());
+        tag.putInt("boundZ", thisPos.getZ());
+        tag.putString("type", "obelisk");
 
-            BlockEntity savedEntity = level.getBlockEntity(savedPos);
-
-            if(thisPos.equals(savedPos)){
-                //display error msg: Cannot bind a block to itself!
-                System.out.println("Cannot bind a block to itself!");
-            }
-            else if(MiscUtils.straightLineDistance(thisPos, savedPos) <= range && savedEntity instanceof ExperienceRelayEntity relay){
-
-                if(relay.getBoundPos().equals(thisPos)){
-                    //display error msg: Cannot bind an obelisk to a relay it is supplying
-                    System.out.println("Cannot bind an obelisk to a relay it is supplying");
-                }
-                else{
-                    //obelisk.setBoundPos(savedPos);
-                    //obelisk.setBound();
-                    reset(stack);
-                    //display success msg: Target bound to relay at X Y Z
-                    System.out.println("Target bound to relay at " + savedPos);
-                }
-            }
-            else{
-                //display error msg: the saved block is too far away or does not exist
-                System.out.println("The saved block is too far away or does not exist");
-            }
-        }
-        else{
-
-            tag.putInt("boundX", thisPos.getX());
-            tag.putInt("boundY", thisPos.getY());
-            tag.putInt("boundZ", thisPos.getZ());
-            tag.putString("type", "obelisk");
-
-            //display success msg: Block position saved
-            System.out.println("Obelisk position saved");
-
-        }
-    }
-
-    public void handleRelay(ExperienceRelayEntity relay, ItemStack stack, Player player, Level level){
-
-        BlockPos thisPos = relay.getBlockPos();
-        CompoundTag tag = stack.getOrCreateTag();
-
-        if(tag.getString("type").equals("obelisk") || tag.getString("type").equals("relay")){
-            BlockPos savedPos = new BlockPos(
-                    tag.getInt("boundX"),
-                    tag.getInt("boundY"),
-                    tag.getInt("boundZ"));
-
-            BlockEntity savedEntity = level.getBlockEntity(savedPos);
-
-            if(thisPos.equals(savedPos)){
-                //display error msg: Cannot bind a block to itself!
-                System.out.println("Cannot bind a block to itself!");
-            }
-            else if(MiscUtils.straightLineDistance(thisPos, savedPos) <= range
-                    && (savedEntity instanceof ExperienceObeliskEntity e || savedEntity instanceof ExperienceRelayEntity f)){
-
-                relay.setBoundPos(savedPos);
-                relay.setBound();
-                reset(stack);
-                //display success msg: Target bound to obelisk/relay at X Y Z
-                System.out.println("Target bound to obelisk / relay at " + savedPos);
-            }
-            else{
-                //display error msg: the saved obelisk/relay is too far away or does not exist
-                System.out.println("The saved block is too far away or does not exist");
-            }
-        }
-        else{
-
-            tag.putInt("boundX", thisPos.getX());
-            tag.putInt("boundY", thisPos.getY());
-            tag.putInt("boundZ", thisPos.getZ());
-            tag.putString("type", "relay");
-
-            //display success msg: Block position saved
-            System.out.println("Relay position saved");
-        }
+        player.displayClientMessage(Component.translatable("message.experienceobelisk.binding_wand.bind_obelisk"), true);
     }
 
     public void handleExperienceReceivingBlock(ExperienceReceivingEntity receiver, ItemStack stack, Player player, Level level){
@@ -177,20 +101,32 @@ public class AttunementStaffItem extends Item {
 
             BlockEntity savedEntity = level.getBlockEntity(savedPos);
 
-            if(MiscUtils.straightLineDistance(thisPos, savedPos) <= range && savedEntity instanceof ExperienceObeliskEntity){
-                receiver.setBoundPos(savedPos);
-                receiver.setBound();
-                //display success msg: Target bound to obelisk/relay at X Y Z
-                System.out.println("Target bound to obelisk at " + savedPos);
+            if(receiver.isBound && savedPos.equals(receiver.getBoundPos())){
+                receiver.setUnbound();
+                player.displayClientMessage(Component.translatable("message.experienceobelisk.binding_wand.unbind_target"), true);
+            }
+            else if(MiscUtils.straightLineDistance(thisPos, savedPos) <= range){
+
+                if(savedEntity instanceof ExperienceObeliskEntity){
+                    receiver.setBoundPos(savedPos);
+                    receiver.setBound();
+
+                    player.displayClientMessage(Component.translatable("message.experienceobelisk.binding_wand.bind_target",
+                            Component.literal(savedPos.toShortString()).withStyle(ChatFormatting.GREEN)), true);
+                }
+                else{
+                    player.displayClientMessage(Component.translatable("message.experienceobelisk.binding_wand.obelisk_doesnt_exist",
+                            Component.literal(savedPos.toShortString())).withStyle(ChatFormatting.RED), true);
+                }
+
             }
             else{
-                //display error msg: saved obelisk/relay is too far away or does not exist
-                System.out.println("The saved block is too far away or does not exist");
+                player.displayClientMessage(Component.translatable("message.experienceobelisk.binding_wand.obelisk_too_far"), true);
             }
         }
-        else{
-            //display error msg: this wand does not have a saved obelisk
-            System.out.println("This wand does not have a saved block");
+        else if(receiver.isBound){
+            receiver.setUnbound();
+            player.displayClientMessage(Component.translatable("message.experienceobelisk.binding_wand.unbind_target"), true);
         }
     }
 
