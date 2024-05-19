@@ -19,7 +19,7 @@ import net.minecraft.world.phys.Vec3;
 
 import java.util.List;
 
-public class LinearAcceleratorEntity extends BlockEntity{
+public class LinearAcceleratorEntity extends AbstractAcceleratorEntity{
 
     public LinearAcceleratorEntity(BlockPos pos, BlockState state) {
         super(RegisterBlockEntities.LINEARACCELERATOR_BE.get(), pos, state);
@@ -67,46 +67,5 @@ public class LinearAcceleratorEntity extends BlockEntity{
             }
         }
 
-    }
-
-    //-----------NBT-----------//
-
-    public boolean redstoneEnabled = false;
-
-    public void toggleRedstoneEnabled(){
-        this.redstoneEnabled = !redstoneEnabled;
-        setChanged();
-    }
-
-    @Override
-    public void load(CompoundTag tag)
-    {
-        super.load(tag);
-
-        this.redstoneEnabled = tag.getBoolean("isRedstoneControllable");
-    }
-
-    @Override
-    protected void saveAdditional(CompoundTag tag)
-    {
-        super.saveAdditional(tag);
-
-        tag.putBoolean("isRedstoneControllable", redstoneEnabled);
-    }
-
-    @Override
-    public CompoundTag getUpdateTag()
-    {
-        CompoundTag tag = super.getUpdateTag();
-
-        tag.putBoolean("isRedstoneControllable", redstoneEnabled);
-
-        return tag;
-    }
-
-    @Override
-    public Packet<ClientGamePacketListener> getUpdatePacket()
-    {
-        return ClientboundBlockEntityDataPacket.create(this);
     }
 }

@@ -1,9 +1,12 @@
 package com.cyanogen.experienceobelisk.block;
 
+import com.cyanogen.experienceobelisk.ExperienceObelisk;
 import com.cyanogen.experienceobelisk.block_entities.ExperienceObeliskEntity;
 import com.cyanogen.experienceobelisk.gui.ExperienceObeliskMenu;
 import com.cyanogen.experienceobelisk.registries.RegisterBlockEntities;
+import com.cyanogen.experienceobelisk.registries.RegisterItems;
 import net.minecraft.core.BlockPos;
+import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.chat.Component;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.InteractionHand;
@@ -110,12 +113,15 @@ public class ExperienceObeliskBlock extends Block implements EntityBlock {
 
     @Override
     public InteractionResult use(BlockState state, Level level, BlockPos pos, Player player, InteractionHand hand, BlockHitResult hit) {
+
         if (level.isClientSide) {
             return InteractionResult.SUCCESS;
-        } else {
+        }
+        else {
             NetworkHooks.openScreen((ServerPlayer) player, state.getMenuProvider(level,pos), pos);
             return InteractionResult.CONSUME;
         }
+
     }
 
     @Nullable

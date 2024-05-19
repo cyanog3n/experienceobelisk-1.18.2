@@ -60,27 +60,13 @@ public class LinearAcceleratorBlock extends ExperienceReceivingBlock implements 
     public InteractionResult use(BlockState state, Level level, BlockPos pos, Player player, InteractionHand hand, BlockHitResult result) {
         ItemStack stack = player.getItemInHand(hand);
 
-        if(stack.is(RegisterItems.ATTUNEMENT_STAFF.get())){
+        if(stack.is(RegisterItems.ATTUNEMENT_STAFF.get()) && !player.isShiftKeyDown()){
 
-            if(player.isShiftKeyDown()){
-                if(level.getBlockEntity(pos) instanceof LinearAcceleratorEntity accelerator){
-                    accelerator.toggleRedstoneEnabled();
+            Direction direction = state.getValue(FACING);
+            state = state.setValue(FACING, direction.getClockWise());
 
-                    if(accelerator.redstoneEnabled){
-                        player.displayClientMessage(Component.translatable("message.experienceobelisk.binding_wand.enable_redstone"), true);
-                    }
-                    else{
-                        player.displayClientMessage(Component.translatable("message.experienceobelisk.binding_wand.disable_redstone"), true);
-                    }
-
-                }
-            }
-            else{
-                Direction direction = state.getValue(FACING);
-                state = state.setValue(FACING, direction.getClockWise());
-
-                level.setBlockAndUpdate(pos, state);
-            }
+            level.setBlockAndUpdate(pos, state);
+            return InteractionResult.sidedSuccess(level.isClientSide);
         }
 
         return super.use(state, level, pos, player, hand, result);

@@ -4,22 +4,17 @@ import com.cyanogen.experienceobelisk.block.AcceleratorBlock;
 import com.cyanogen.experienceobelisk.registries.RegisterBlockEntities;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
-import net.minecraft.nbt.CompoundTag;
-import net.minecraft.network.protocol.Packet;
-import net.minecraft.network.protocol.game.ClientGamePacketListener;
-import net.minecraft.network.protocol.game.ClientboundBlockEntityDataPacket;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.ExperienceOrb;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.level.Level;
-import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.phys.AABB;
 import net.minecraft.world.phys.Vec3;
 
 import java.util.List;
 
-public class AcceleratorEntity extends BlockEntity{
+public class AcceleratorEntity extends AbstractAcceleratorEntity{
 
     public AcceleratorEntity(BlockPos pos, BlockState state) {
         super(RegisterBlockEntities.ACCELERATOR_BE.get(), pos, state);
@@ -73,44 +68,4 @@ public class AcceleratorEntity extends BlockEntity{
         }
     }
 
-    //-----------NBT-----------//
-
-    public boolean redstoneEnabled = false;
-
-    public void toggleRedstoneEnabled(){
-        this.redstoneEnabled = !redstoneEnabled;
-        setChanged();
-    }
-
-    @Override
-    public void load(CompoundTag tag)
-    {
-        super.load(tag);
-
-        this.redstoneEnabled = tag.getBoolean("isRedstoneControllable");
-    }
-
-    @Override
-    protected void saveAdditional(CompoundTag tag)
-    {
-        super.saveAdditional(tag);
-
-        tag.putBoolean("isRedstoneControllable", redstoneEnabled);
-    }
-
-    @Override
-    public CompoundTag getUpdateTag()
-    {
-        CompoundTag tag = super.getUpdateTag();
-
-        tag.putBoolean("isRedstoneControllable", redstoneEnabled);
-
-        return tag;
-    }
-
-    @Override
-    public Packet<ClientGamePacketListener> getUpdatePacket()
-    {
-        return ClientboundBlockEntityDataPacket.create(this);
-    }
 }

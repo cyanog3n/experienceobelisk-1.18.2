@@ -62,35 +62,19 @@ public class AcceleratorBlock extends ExperienceReceivingBlock implements Entity
         ItemStack stack = player.getItemInHand(hand);
         Direction useDirection = player.getDirection();
 
-        if(stack.is(RegisterItems.ATTUNEMENT_STAFF.get())){
+        if(stack.is(RegisterItems.ATTUNEMENT_STAFF.get()) && !player.isShiftKeyDown()){
 
-            if(player.isShiftKeyDown()){
-                if(level.getBlockEntity(pos) instanceof AcceleratorEntity accelerator){
-                    accelerator.toggleRedstoneEnabled();
+            Direction direction = state.getValue(FACING);
 
-                    System.out.println("triggered (block)");
-
-                    if(accelerator.redstoneEnabled){
-                        player.displayClientMessage(Component.translatable("message.experienceobelisk.binding_wand.enable_redstone"), true);
-                    }
-                    else{
-                        player.displayClientMessage(Component.translatable("message.experienceobelisk.binding_wand.disable_redstone"), true);
-                    }
-
-                }
+            if(useDirection.getAxisDirection().equals(Direction.AxisDirection.POSITIVE)){
+                state = state.setValue(FACING, direction.getCounterClockWise(useDirection.getAxis()));
             }
             else{
-                Direction direction = state.getValue(FACING);
-
-                if(useDirection.getAxisDirection().equals(Direction.AxisDirection.POSITIVE)){
-                    state = state.setValue(FACING, direction.getCounterClockWise(useDirection.getAxis()));
-                }
-                else{
-                    state = state.setValue(FACING, direction.getClockWise(useDirection.getAxis()));
-                }
-
-                level.setBlockAndUpdate(pos, state);
+                state = state.setValue(FACING, direction.getClockWise(useDirection.getAxis()));
             }
+
+            level.setBlockAndUpdate(pos, state);
+            return InteractionResult.sidedSuccess(level.isClientSide);
         }
 
         return super.use(state, level, pos, player, hand, result);

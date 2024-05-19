@@ -1,9 +1,6 @@
 package com.cyanogen.experienceobelisk.item;
 
-import com.cyanogen.experienceobelisk.block_entities.AcceleratorEntity;
-import com.cyanogen.experienceobelisk.block_entities.ExperienceObeliskEntity;
-import com.cyanogen.experienceobelisk.block_entities.ExperienceReceivingEntity;
-import com.cyanogen.experienceobelisk.block_entities.LinearAcceleratorEntity;
+import com.cyanogen.experienceobelisk.block_entities.*;
 import com.cyanogen.experienceobelisk.registries.RegisterItems;
 import com.cyanogen.experienceobelisk.utils.MiscUtils;
 import net.minecraft.ChatFormatting;
@@ -48,6 +45,7 @@ public class AttunementStaffItem extends Item {
         return super.use(level, player, hand);
     }
 
+
     @Override
     public InteractionResult useOn(UseOnContext context) {
 
@@ -59,14 +57,15 @@ public class AttunementStaffItem extends Item {
 
         if(player != null && player.isShiftKeyDown()){
             if(entity instanceof ExperienceObeliskEntity obelisk){
-                handleObelisk(obelisk, stack, player, level);
+                handleObelisk(obelisk, stack, player);
                 return InteractionResult.sidedSuccess(level.isClientSide);
             }
             else if(entity instanceof ExperienceReceivingEntity receiver){
                 handleExperienceReceivingBlock(receiver, stack, player, level);
                 return InteractionResult.sidedSuccess(level.isClientSide);
             }
-            else if(entity instanceof AcceleratorEntity || entity instanceof LinearAcceleratorEntity){
+            else if(entity instanceof AbstractAcceleratorEntity accelerator){
+                handleAccelerator(accelerator, player);
                 return InteractionResult.sidedSuccess(level.isClientSide);
             }
         }
@@ -74,7 +73,7 @@ public class AttunementStaffItem extends Item {
         return super.useOn(context);
     }
 
-    public void handleObelisk(ExperienceObeliskEntity obelisk, ItemStack stack, Player player, Level level){
+    public void handleObelisk(ExperienceObeliskEntity obelisk, ItemStack stack, Player player){
 
         BlockPos thisPos = obelisk.getBlockPos();
         CompoundTag tag = stack.getOrCreateTag();
@@ -126,6 +125,18 @@ public class AttunementStaffItem extends Item {
         else if(receiver.isBound){
             receiver.setUnbound();
             player.displayClientMessage(Component.translatable("message.experienceobelisk.binding_wand.unbind_target"), true);
+        }
+    }
+
+    public void handleAccelerator(AbstractAcceleratorEntity accelerator, Player player){
+
+        accelerator.toggleRedstoneEnabled();
+
+        if(accelerator.redstoneEnabled){
+            player.displayClientMessage(Component.translatable("message.experienceobelisk.binding_wand.enable_redstone"), true);
+        }
+        else{
+            player.displayClientMessage(Component.translatable("message.experienceobelisk.binding_wand.disable_redstone"), true);
         }
     }
 
