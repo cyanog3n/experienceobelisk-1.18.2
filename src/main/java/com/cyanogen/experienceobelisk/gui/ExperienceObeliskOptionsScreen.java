@@ -11,6 +11,7 @@ import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.gui.components.Button;
 import net.minecraft.client.gui.components.Renderable;
 import net.minecraft.client.gui.components.Tooltip;
+import net.minecraft.client.gui.navigation.ScreenRectangle;
 import net.minecraft.client.gui.screens.inventory.AbstractContainerScreen;
 import net.minecraft.core.BlockPos;
 import net.minecraft.network.chat.Component;
@@ -97,6 +98,7 @@ public class ExperienceObeliskOptionsScreen extends AbstractContainerScreen<Expe
         }
         loadWidgetElements();
 
+
         for(Renderable widget : this.renderables) {
             widget.render(gui, mouseX, mouseY, partialTick);
         }
@@ -119,6 +121,8 @@ public class ExperienceObeliskOptionsScreen extends AbstractContainerScreen<Expe
 
     private final List<Button> buttons = new ArrayList<>();
     private void setupWidgetElements(){
+
+        buttons.clear();
 
         int w = 50; //width (divisible by 2)
         int h = 20; //height

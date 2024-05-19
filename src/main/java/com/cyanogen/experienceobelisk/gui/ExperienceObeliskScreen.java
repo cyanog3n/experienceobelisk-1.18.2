@@ -17,6 +17,9 @@ import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.player.Inventory;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import static com.cyanogen.experienceobelisk.network.experience_obelisk.UpdateContents.Request.*;
 import static com.cyanogen.experienceobelisk.utils.ExperienceUtils.levelsToXP;
 import static com.cyanogen.experienceobelisk.utils.ExperienceUtils.xpToLevels;
@@ -108,7 +111,7 @@ public class ExperienceObeliskScreen extends AbstractContainerScreen<ExperienceO
                 this.width / 2,this.height / 2 + 60, 0x4DFF12);
 
         clearWidgets();
-        setupWidgetElements();
+        loadWidgetElements();
 
         for(Renderable widget : this.renderables){
             widget.render(gui, mouseX, mouseY, partialTick);
@@ -120,8 +123,20 @@ public class ExperienceObeliskScreen extends AbstractContainerScreen<ExperienceO
 
     }
 
+    private void loadWidgetElements(){
+        if(!this.buttons.isEmpty()){
+            for(Button b : this.buttons){
+                b.setFocused(false);
+                addRenderableWidget(b);
+            }
+        }
+    }
+
     //buttons and whatnot go here
+    private final List<Button> buttons = new ArrayList<>();
     private void setupWidgetElements() {
+
+        buttons.clear();
 
         int w = 50; //width (divisible by 2)
         int h = 20; //height
@@ -184,21 +199,13 @@ public class ExperienceObeliskScreen extends AbstractContainerScreen<ExperienceO
                 .tooltip(Tooltip.create(Component.translatable("tooltip.experienceobelisk.experience_obelisk.drainAll")))
                 .build();
 
-        settings.setFocused(false);
-        deposit1.setFocused(false);
-        deposit10.setFocused(false);
-        depositAll.setFocused(false);
-        withdraw1.setFocused(false);
-        withdraw10.setFocused(false);
-        withdrawAll.setFocused(false);
-
-        addRenderableWidget(settings);
-        addRenderableWidget(deposit1);
-        addRenderableWidget(deposit10);
-        addRenderableWidget(depositAll);
-        addRenderableWidget(withdraw1);
-        addRenderableWidget(withdraw10);
-        addRenderableWidget(withdrawAll);
+        buttons.add(settings);
+        buttons.add(deposit1);
+        buttons.add(deposit10);
+        buttons.add(depositAll);
+        buttons.add(withdraw1);
+        buttons.add(withdraw10);
+        buttons.add(withdrawAll);
     }
 
 }
