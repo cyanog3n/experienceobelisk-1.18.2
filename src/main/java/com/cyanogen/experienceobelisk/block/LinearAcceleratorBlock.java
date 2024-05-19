@@ -1,10 +1,12 @@
 package com.cyanogen.experienceobelisk.block;
 
+import com.cyanogen.experienceobelisk.block_entities.AcceleratorEntity;
 import com.cyanogen.experienceobelisk.block_entities.LinearAcceleratorEntity;
 import com.cyanogen.experienceobelisk.registries.RegisterBlockEntities;
 import com.cyanogen.experienceobelisk.registries.RegisterItems;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
+import net.minecraft.network.chat.Component;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
 import net.minecraft.world.entity.player.Player;
@@ -60,10 +62,25 @@ public class LinearAcceleratorBlock extends ExperienceReceivingBlock implements 
 
         if(stack.is(RegisterItems.ATTUNEMENT_STAFF.get())){
 
-            Direction direction = state.getValue(FACING);
-            state = state.setValue(FACING, direction.getClockWise());
+            if(player.isShiftKeyDown()){
+                if(level.getBlockEntity(pos) instanceof LinearAcceleratorEntity accelerator){
+                    accelerator.toggleRedstoneEnabled();
 
-            level.setBlockAndUpdate(pos, state);
+                    if(accelerator.redstoneEnabled){
+                        player.displayClientMessage(Component.translatable("message.experienceobelisk.binding_wand.enable_redstone"), true);
+                    }
+                    else{
+                        player.displayClientMessage(Component.translatable("message.experienceobelisk.binding_wand.disable_redstone"), true);
+                    }
+
+                }
+            }
+            else{
+                Direction direction = state.getValue(FACING);
+                state = state.setValue(FACING, direction.getClockWise());
+
+                level.setBlockAndUpdate(pos, state);
+            }
         }
 
         return super.use(state, level, pos, player, hand, result);

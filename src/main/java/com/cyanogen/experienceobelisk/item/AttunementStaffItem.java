@@ -1,7 +1,9 @@
 package com.cyanogen.experienceobelisk.item;
 
+import com.cyanogen.experienceobelisk.block_entities.AcceleratorEntity;
 import com.cyanogen.experienceobelisk.block_entities.ExperienceObeliskEntity;
 import com.cyanogen.experienceobelisk.block_entities.ExperienceReceivingEntity;
+import com.cyanogen.experienceobelisk.block_entities.LinearAcceleratorEntity;
 import com.cyanogen.experienceobelisk.registries.RegisterItems;
 import com.cyanogen.experienceobelisk.utils.MiscUtils;
 import net.minecraft.ChatFormatting;
@@ -62,6 +64,9 @@ public class AttunementStaffItem extends Item {
             }
             else if(entity instanceof ExperienceReceivingEntity receiver){
                 handleExperienceReceivingBlock(receiver, stack, player, level);
+                return InteractionResult.sidedSuccess(level.isClientSide);
+            }
+            else if(entity instanceof AcceleratorEntity || entity instanceof LinearAcceleratorEntity){
                 return InteractionResult.sidedSuccess(level.isClientSide);
             }
         }

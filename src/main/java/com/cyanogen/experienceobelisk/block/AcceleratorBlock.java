@@ -5,6 +5,7 @@ import com.cyanogen.experienceobelisk.registries.RegisterBlockEntities;
 import com.cyanogen.experienceobelisk.registries.RegisterItems;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
+import net.minecraft.network.chat.Component;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
 import net.minecraft.world.entity.player.Player;
@@ -62,16 +63,34 @@ public class AcceleratorBlock extends ExperienceReceivingBlock implements Entity
         Direction useDirection = player.getDirection();
 
         if(stack.is(RegisterItems.ATTUNEMENT_STAFF.get())){
-            Direction direction = state.getValue(FACING);
 
-            if(useDirection.getAxisDirection().equals(Direction.AxisDirection.POSITIVE)){
-                state = state.setValue(FACING, direction.getCounterClockWise(useDirection.getAxis()));
+            if(player.isShiftKeyDown()){
+                if(level.getBlockEntity(pos) instanceof AcceleratorEntity accelerator){
+                    accelerator.toggleRedstoneEnabled();
+
+                    System.out.println("triggered (block)");
+
+                    if(accelerator.redstoneEnabled){
+                        player.displayClientMessage(Component.translatable("message.experienceobelisk.binding_wand.enable_redstone"), true);
+                    }
+                    else{
+                        player.displayClientMessage(Component.translatable("message.experienceobelisk.binding_wand.disable_redstone"), true);
+                    }
+
+                }
             }
             else{
-                state = state.setValue(FACING, direction.getClockWise(useDirection.getAxis()));
-            }
+                Direction direction = state.getValue(FACING);
 
-            level.setBlockAndUpdate(pos, state);
+                if(useDirection.getAxisDirection().equals(Direction.AxisDirection.POSITIVE)){
+                    state = state.setValue(FACING, direction.getCounterClockWise(useDirection.getAxis()));
+                }
+                else{
+                    state = state.setValue(FACING, direction.getClockWise(useDirection.getAxis()));
+                }
+
+                level.setBlockAndUpdate(pos, state);
+            }
         }
 
         return super.use(state, level, pos, player, hand, result);
