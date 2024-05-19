@@ -23,9 +23,6 @@ public class RegisterBlockEntities {
     public static final RegistryObject<BlockEntityType<PrecisionDispellerEntity>> PRECISIONDISPELLER_BE = BLOCK_ENTITIES.register("precisiondispeller_be",
             ()-> BlockEntityType.Builder.of(PrecisionDispellerEntity::new, RegisterBlocks.PRECISION_DISPELLER.get()).build(Type));
 
-    public static final RegistryObject<BlockEntityType<ExperienceRelayEntity>> EXPERIENCERELAY_BE = BLOCK_ENTITIES.register("experiencerelay_be",
-            ()-> BlockEntityType.Builder.of(ExperienceRelayEntity::new, RegisterBlocks.EXPERIENCE_RELAY.get()).build(Type));
-
     public static final RegistryObject<BlockEntityType<AcceleratorEntity>> ACCELERATOR_BE = BLOCK_ENTITIES.register("accelerator_be",
             ()-> BlockEntityType.Builder.of(AcceleratorEntity::new, RegisterBlocks.ACCELERATOR.get()).build(Type));
 

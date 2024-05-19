@@ -79,8 +79,5 @@
   "message.experienceobelisk.experience_fountain.hyper": "Experience Fountain set to: §bHyper§r",
 
   "sounds.experienceobelisk.enlightened_amulet_activate": "Amulet activates",
-  "sounds.experienceobelisk.enlightened_amulet_deactivate": "Amulet deactivates",
-
-  "enchantment.experienceobelisk.athena_blessing": "Blessing of Athena",
-  "enchantment.experienceobelisk.athena_blessing.desc": "Tool decomposes into experience when broken"
+  "sounds.experienceobelisk.enlightened_amulet_deactivate": "Amulet deactivates"
 }
