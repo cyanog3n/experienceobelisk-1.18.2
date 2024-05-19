@@ -1,12 +1,9 @@
 package com.cyanogen.experienceobelisk.block;
 
-import com.cyanogen.experienceobelisk.ExperienceObelisk;
 import com.cyanogen.experienceobelisk.block_entities.ExperienceObeliskEntity;
 import com.cyanogen.experienceobelisk.gui.ExperienceObeliskMenu;
 import com.cyanogen.experienceobelisk.registries.RegisterBlockEntities;
-import com.cyanogen.experienceobelisk.registries.RegisterItems;
 import net.minecraft.core.BlockPos;
-import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.chat.Component;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.InteractionHand;

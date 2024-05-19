@@ -3,10 +3,8 @@ package com.cyanogen.experienceobelisk.block;
 import com.cyanogen.experienceobelisk.block_entities.ExperienceObeliskEntity;
 import com.cyanogen.experienceobelisk.block_entities.ExperienceReceivingEntity;
 import com.cyanogen.experienceobelisk.registries.RegisterItems;
-import com.cyanogen.experienceobelisk.utils.MiscUtils;
 import net.minecraft.ChatFormatting;
 import net.minecraft.core.BlockPos;
-import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
@@ -22,8 +20,6 @@ import net.minecraft.world.phys.BlockHitResult;
 
 import java.util.ArrayList;
 import java.util.List;
-
-import static com.cyanogen.experienceobelisk.item.AttunementStaffItem.range;
 
 public class ExperienceReceivingBlock extends Block {
 

@@ -1,6 +1,8 @@
 package com.cyanogen.experienceobelisk.item;
 
-import com.cyanogen.experienceobelisk.block_entities.*;
+import com.cyanogen.experienceobelisk.block_entities.AbstractAcceleratorEntity;
+import com.cyanogen.experienceobelisk.block_entities.ExperienceObeliskEntity;
+import com.cyanogen.experienceobelisk.block_entities.ExperienceReceivingEntity;
 import com.cyanogen.experienceobelisk.registries.RegisterItems;
 import com.cyanogen.experienceobelisk.utils.MiscUtils;
 import net.minecraft.ChatFormatting;
@@ -16,6 +18,7 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.context.UseOnContext;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.entity.BlockEntity;
+import net.minecraft.world.level.block.state.BlockState;
 
 public class AttunementStaffItem extends Item {
 
@@ -51,6 +54,7 @@ public class AttunementStaffItem extends Item {
 
         Level level = context.getLevel();
         BlockPos pos = context.getClickedPos();
+        BlockState state = level.getBlockState(pos);
         BlockEntity entity = level.getBlockEntity(pos);
         ItemStack stack = context.getItemInHand();
         Player player = context.getPlayer();
