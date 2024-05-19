@@ -1,12 +1,10 @@
 package com.cyanogen.experienceobelisk.block;
 
-import com.cyanogen.experienceobelisk.block_entities.AcceleratorEntity;
 import com.cyanogen.experienceobelisk.block_entities.LinearAcceleratorEntity;
 import com.cyanogen.experienceobelisk.registries.RegisterBlockEntities;
 import com.cyanogen.experienceobelisk.registries.RegisterItems;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
-import net.minecraft.network.chat.Component;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
 import net.minecraft.world.entity.player.Player;
@@ -22,6 +20,7 @@ import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.state.StateDefinition;
 import net.minecraft.world.level.block.state.properties.BlockStateProperties;
+import net.minecraft.world.level.block.state.properties.BooleanProperty;
 import net.minecraft.world.level.block.state.properties.DirectionProperty;
 import net.minecraft.world.phys.BlockHitResult;
 import org.jetbrains.annotations.Nullable;
@@ -39,13 +38,16 @@ public class LinearAcceleratorBlock extends ExperienceReceivingBlock implements 
                 .noOcclusion()
         );
         this.registerDefaultState(this.stateDefinition.any().setValue(FACING, Direction.NORTH));
+        this.registerDefaultState(this.stateDefinition.any().setValue(ACTIVE, true));
     }
 
     public static final DirectionProperty FACING = BlockStateProperties.HORIZONTAL_FACING;
+    public static final BooleanProperty ACTIVE = BooleanProperty.create("active");
 
     @Override
     protected void createBlockStateDefinition(StateDefinition.Builder<Block, BlockState> builder) {
         builder.add(FACING);
+        builder.add(ACTIVE);
         super.createBlockStateDefinition(builder);
     }
 
@@ -53,7 +55,7 @@ public class LinearAcceleratorBlock extends ExperienceReceivingBlock implements 
     @Override
     public BlockState getStateForPlacement(BlockPlaceContext context) {
         Direction looking = context.getHorizontalDirection();
-        return this.defaultBlockState().setValue(FACING, looking);
+        return this.defaultBlockState().setValue(FACING, looking).setValue(ACTIVE, true);
     }
 
     @Override

@@ -5,7 +5,6 @@ import com.cyanogen.experienceobelisk.registries.RegisterBlockEntities;
 import com.cyanogen.experienceobelisk.registries.RegisterItems;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
-import net.minecraft.network.chat.Component;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
 import net.minecraft.world.entity.player.Player;
@@ -21,6 +20,7 @@ import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.state.StateDefinition;
 import net.minecraft.world.level.block.state.properties.BlockStateProperties;
+import net.minecraft.world.level.block.state.properties.BooleanProperty;
 import net.minecraft.world.level.block.state.properties.DirectionProperty;
 import net.minecraft.world.phys.BlockHitResult;
 import org.jetbrains.annotations.Nullable;
@@ -37,13 +37,16 @@ public class AcceleratorBlock extends ExperienceReceivingBlock implements Entity
                 .noOcclusion()
         );
         this.registerDefaultState(this.stateDefinition.any().setValue(FACING, Direction.UP));
+        this.registerDefaultState(this.stateDefinition.any().setValue(ACTIVE, true));
     }
 
     public static final DirectionProperty FACING = BlockStateProperties.FACING;
+    public static final BooleanProperty ACTIVE = BooleanProperty.create("active");
 
     @Override
     protected void createBlockStateDefinition(StateDefinition.Builder<Block, BlockState> builder) {
         builder.add(FACING);
+        builder.add(ACTIVE);
         super.createBlockStateDefinition(builder);
     }
 
@@ -54,7 +57,7 @@ public class AcceleratorBlock extends ExperienceReceivingBlock implements Entity
         if(looking.getAxis().isVertical()){
             looking = looking.getOpposite();
         }
-        return this.defaultBlockState().setValue(FACING, looking);
+        return this.defaultBlockState().setValue(FACING, looking).setValue(ACTIVE, true);
     }
 
     @Override
