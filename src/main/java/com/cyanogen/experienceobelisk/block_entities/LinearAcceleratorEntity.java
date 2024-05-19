@@ -22,8 +22,8 @@ public class LinearAcceleratorEntity extends AbstractAcceleratorEntity{
         super(RegisterBlockEntities.LINEARACCELERATOR_BE.get(), pos, state);
     }
 
-    static double orbSpeed = 2.0;
-    static double entitySpeed = 0.5;
+    static double orbSpeed = 1.5;
+    static double entitySpeed = 0.6;
 
     public static <T> void tick(Level level, BlockPos pos, BlockState state, T blockEntity) {
 
