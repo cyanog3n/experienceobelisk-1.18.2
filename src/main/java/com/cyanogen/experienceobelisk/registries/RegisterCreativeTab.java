@@ -14,7 +14,32 @@ public class RegisterCreativeTab {
         @Override
         public void fillItemList(NonNullList<ItemStack> itemList) {
 
-            super.fillItemList(itemList);
+            itemList.add(RegisterItems.COGNITIVE_FLUX.get().getDefaultInstance());
+            itemList.add(RegisterItems.COGNITIVE_AMALGAM.get().getDefaultInstance());
+            itemList.add(RegisterItems.COGNITIVE_ALLOY.get().getDefaultInstance());
+            itemList.add(RegisterItems.COGNITIVE_CRYSTAL.get().getDefaultInstance());
+            itemList.add(RegisterItems.ASTUTE_ASSEMBLY.get().getDefaultInstance());
+
+            itemList.add(RegisterItems.COGNITIVE_SWORD.get().getDefaultInstance());
+            itemList.add(RegisterItems.COGNITIVE_SHOVEL.get().getDefaultInstance());
+            itemList.add(RegisterItems.COGNITIVE_PICKAXE.get().getDefaultInstance());
+            itemList.add(RegisterItems.COGNITIVE_AXE.get().getDefaultInstance());
+            itemList.add(RegisterItems.COGNITIVE_HOE.get().getDefaultInstance());
+
+            itemList.add(RegisterItems.ATTUNEMENT_STAFF.get().getDefaultInstance());
+            itemList.add(RegisterItems.ENLIGHTENED_AMULET.get().getDefaultInstance());
+
+            itemList.add(RegisterItems.EXPERIENCE_OBELISK_ITEM.get().getDefaultInstance());
+            itemList.add(RegisterItems.EXPERIENCE_FOUNTAIN_ITEM.get().getDefaultInstance());
+            itemList.add(RegisterItems.PRECISION_DISPELLER_ITEM.get().getDefaultInstance());
+            itemList.add(RegisterItems.ACCELERATOR_ITEM.get().getDefaultInstance());
+            itemList.add(RegisterItems.LINEAR_ACCELERATOR_ITEM.get().getDefaultInstance());
+
+            itemList.add(RegisterItems.COGNITIVE_ALLOY_BLOCK_ITEM.get().getDefaultInstance());
+            itemList.add(RegisterItems.COGNITIVE_CRYSTAL_BLOCK_ITEM.get().getDefaultInstance());
+            itemList.add(RegisterItems.WHISPERGLASS_ITEM.get().getDefaultInstance());
+
+            itemList.add(RegisterItems.COGNITIUM_BUCKET.get().getDefaultInstance());
         }
     };
 }
