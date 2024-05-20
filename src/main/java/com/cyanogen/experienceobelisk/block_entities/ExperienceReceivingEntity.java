@@ -9,7 +9,7 @@ import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraft.world.level.block.state.BlockState;
 
-public class ExperienceReceivingEntity extends BlockEntity {
+public abstract class ExperienceReceivingEntity extends BlockEntity {
 
     //Generic block entity for appliances that use XP
 

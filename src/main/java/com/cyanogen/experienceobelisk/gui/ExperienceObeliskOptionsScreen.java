@@ -50,11 +50,6 @@ public class ExperienceObeliskOptionsScreen extends AbstractContainerScreen<Expe
     }
 
     @Override
-    public Minecraft getMinecraft() {
-        return this.minecraft;
-    }
-
-    @Override
     public void render(PoseStack poseStack, int mouseX, int mouseY, float partialTick) {
 
         renderBackground(poseStack);
