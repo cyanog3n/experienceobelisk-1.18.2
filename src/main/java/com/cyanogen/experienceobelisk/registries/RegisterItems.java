@@ -130,6 +130,12 @@ public class RegisterItems {
     public static final RegistryObject<BucketItem> COGNITIUM_BUCKET = ITEMS.register("cognitium_bucket",
             () -> new BucketItem(RegisterFluids.COGNITIUM, new Item.Properties().craftRemainder(Items.BUCKET).stacksTo(1)));
 
+    public static final RegistryObject<Item> NIGHTMARE_BOTTLE = ITEMS.register("nightmare_bottle",
+            () -> new NightmareBottleItem(new Item.Properties().stacksTo(16)));
+
+    public static final RegistryObject<Item> DAYDREAM_BOTTLE = ITEMS.register("daydream_bottle",
+            () -> new DaydreamBottleItem(new Item.Properties().stacksTo(16)));
+
     //-----FUNCTIONAL BLOCK ITEMS-----//
 
     public static final RegistryObject<Item> EXPERIENCE_OBELISK_ITEM = ITEMS.register("experience_obelisk",

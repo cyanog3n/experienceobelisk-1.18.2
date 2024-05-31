@@ -34,6 +34,8 @@ public class RegisterCreativeTab {
 
                         output.accept(RegisterItems.ATTUNEMENT_STAFF.get());
                         output.accept(RegisterItems.ENLIGHTENED_AMULET.get());
+                        output.accept(RegisterItems.NIGHTMARE_BOTTLE.get());
+                        output.accept(RegisterItems.DAYDREAM_BOTTLE.get());
 
                         output.accept(RegisterItems.EXPERIENCE_OBELISK_ITEM.get());
                         output.accept(RegisterItems.EXPERIENCE_FOUNTAIN_ITEM.get());
