@@ -34,7 +34,7 @@ public class RegisterBlockEntities {
             ()-> BlockEntityType.Builder.of(LinearAcceleratorEntity::new, RegisterBlocks.LINEAR_ACCELERATOR.get()).build(Type));
 
     public static final RegistryObject<BlockEntityType<VermiferousBookshelfEntity>> VERMIFEROUS_BOOKSHELF_BE = BLOCK_ENTITIES.register("vermiferousbookshelf_be",
-            ()-> BlockEntityType.Builder.of(VermiferousBookshelfEntity::new, RegisterBlocks.LINEAR_ACCELERATOR.get()).build(Type));
+            ()-> BlockEntityType.Builder.of(VermiferousBookshelfEntity::new, RegisterBlocks.VERMIFEROUS_BOOKSHELF.get()).build(Type));
 
     public static final RegistryObject<BlockEntityType<VermiferousEnchantedBookshelfEntity>> VERMIFEROUS_ENCHANTED_BOOKSHELF_BE = BLOCK_ENTITIES.register("vermiferousenchantedbookshelf_be",
             ()-> BlockEntityType.Builder.of(VermiferousEnchantedBookshelfEntity::new, RegisterBlocks.VERMIFEROUS_ENCHANTED_BOOKSHELF.get()).build(Type));

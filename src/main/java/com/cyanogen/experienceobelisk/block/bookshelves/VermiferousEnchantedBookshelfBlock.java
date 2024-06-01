@@ -1,6 +1,7 @@
 package com.cyanogen.experienceobelisk.block.bookshelves;
 
 import com.cyanogen.experienceobelisk.block_entities.bookshelves.VermiferousBookshelfEntity;
+import com.cyanogen.experienceobelisk.block_entities.bookshelves.VermiferousEnchantedBookshelfEntity;
 import com.cyanogen.experienceobelisk.registries.RegisterBlockEntities;
 import net.minecraft.core.BlockPos;
 import net.minecraft.world.level.Level;
@@ -23,13 +24,13 @@ public class VermiferousEnchantedBookshelfBlock extends Block implements EntityB
     @Nullable
     @Override
     public <T extends BlockEntity> BlockEntityTicker<T> getTicker(Level level, BlockState state, BlockEntityType<T> blockEntityType) {
-        return blockEntityType == RegisterBlockEntities.VERMIFEROUS_BOOKSHELF_BE.get() ? VermiferousBookshelfEntity::tick : null;
+        return blockEntityType == RegisterBlockEntities.VERMIFEROUS_ENCHANTED_BOOKSHELF_BE.get() ? VermiferousEnchantedBookshelfEntity::tick : null;
     }
 
     @Nullable
     @Override
     public BlockEntity newBlockEntity(BlockPos pos, BlockState state) {
-        return RegisterBlockEntities.VERMIFEROUS_BOOKSHELF_BE.get().create(pos, state);
+        return RegisterBlockEntities.VERMIFEROUS_ENCHANTED_BOOKSHELF_BE.get().create(pos, state);
     }
 
 }
