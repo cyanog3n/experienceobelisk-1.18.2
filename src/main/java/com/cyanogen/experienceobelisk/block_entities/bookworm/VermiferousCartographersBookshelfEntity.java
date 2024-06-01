@@ -1,4 +1,4 @@
-package com.cyanogen.experienceobelisk.block_entities.bookshelves;
+package com.cyanogen.experienceobelisk.block_entities.bookworm;
 
 import net.minecraft.core.BlockPos;
 import net.minecraft.world.level.Level;
@@ -19,7 +19,10 @@ public class VermiferousCartographersBookshelfEntity extends AbstractVermiferous
         if(level.getGameTime() % 20 == 0 && blockEntity instanceof AbstractVermiferousBookshelfEntity bookshelf){
 
             bookshelf.incrementDecayValue();
-            bookshelf.infectAdjacent(level, pos);
+
+            if(Math.random() <= 0.15){
+                bookshelf.infectAdjacent(level, pos);
+            }
 
         }
 

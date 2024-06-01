@@ -2,10 +2,10 @@ package com.cyanogen.experienceobelisk.registries;
 
 import com.cyanogen.experienceobelisk.ExperienceObelisk;
 import com.cyanogen.experienceobelisk.block.*;
-import com.cyanogen.experienceobelisk.block.bookshelves.VermiferousArchiversBookshelfBlock;
-import com.cyanogen.experienceobelisk.block.bookshelves.VermiferousBookshelfBlock;
-import com.cyanogen.experienceobelisk.block.bookshelves.VermiferousCartographersBookshelfBlock;
-import com.cyanogen.experienceobelisk.block.bookshelves.VermiferousEnchantedBookshelfBlock;
+import com.cyanogen.experienceobelisk.block.bookworm.VermiferousArchiversBookshelfBlock;
+import com.cyanogen.experienceobelisk.block.bookworm.VermiferousBookshelfBlock;
+import com.cyanogen.experienceobelisk.block.bookworm.VermiferousCartographersBookshelfBlock;
+import com.cyanogen.experienceobelisk.block.bookworm.VermiferousEnchantedBookshelfBlock;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.LiquidBlock;

@@ -1,4 +1,4 @@
-package com.cyanogen.experienceobelisk.block_entities.bookshelves;
+package com.cyanogen.experienceobelisk.block_entities.bookworm;
 
 import net.minecraft.core.BlockPos;
 import net.minecraft.world.level.block.state.BlockState;

@@ -1,7 +1,6 @@
-package com.cyanogen.experienceobelisk.block.bookshelves;
+package com.cyanogen.experienceobelisk.block.bookworm;
 
-import com.cyanogen.experienceobelisk.block_entities.bookshelves.VermiferousArchiversBookshelfEntity;
-import com.cyanogen.experienceobelisk.block_entities.bookshelves.VermiferousBookshelfEntity;
+import com.cyanogen.experienceobelisk.block_entities.bookworm.VermiferousArchiversBookshelfEntity;
 import com.cyanogen.experienceobelisk.registries.RegisterBlockEntities;
 import net.minecraft.core.BlockPos;
 import net.minecraft.world.level.Level;

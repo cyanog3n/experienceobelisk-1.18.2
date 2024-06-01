@@ -1,7 +1,6 @@
-package com.cyanogen.experienceobelisk.block.bookshelves;
+package com.cyanogen.experienceobelisk.block.bookworm;
 
-import com.cyanogen.experienceobelisk.block_entities.bookshelves.VermiferousBookshelfEntity;
-import com.cyanogen.experienceobelisk.block_entities.bookshelves.VermiferousCartographersBookshelfEntity;
+import com.cyanogen.experienceobelisk.block_entities.bookworm.VermiferousEnchantedBookshelfEntity;
 import com.cyanogen.experienceobelisk.registries.RegisterBlockEntities;
 import net.minecraft.core.BlockPos;
 import net.minecraft.world.level.Level;
@@ -13,9 +12,9 @@ import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraft.world.level.block.state.BlockState;
 import org.jetbrains.annotations.Nullable;
 
-public class VermiferousCartographersBookshelfBlock extends Block implements EntityBlock {
+public class VermiferousEnchantedBookshelfBlock extends Block implements EntityBlock {
 
-    public VermiferousCartographersBookshelfBlock() {
+    public VermiferousEnchantedBookshelfBlock() {
         super(Properties.of());
     }
 
@@ -24,13 +23,13 @@ public class VermiferousCartographersBookshelfBlock extends Block implements Ent
     @Nullable
     @Override
     public <T extends BlockEntity> BlockEntityTicker<T> getTicker(Level level, BlockState state, BlockEntityType<T> blockEntityType) {
-        return blockEntityType == RegisterBlockEntities.VERMIFEROUS_CARTOGRAPHERS_BOOKSHELF_BE.get() ? VermiferousCartographersBookshelfEntity::tick : null;
+        return blockEntityType == RegisterBlockEntities.VERMIFEROUS_ENCHANTED_BOOKSHELF_BE.get() ? VermiferousEnchantedBookshelfEntity::tick : null;
     }
 
     @Nullable
     @Override
     public BlockEntity newBlockEntity(BlockPos pos, BlockState state) {
-        return RegisterBlockEntities.VERMIFEROUS_CARTOGRAPHERS_BOOKSHELF_BE.get().create(pos, state);
+        return RegisterBlockEntities.VERMIFEROUS_ENCHANTED_BOOKSHELF_BE.get().create(pos, state);
     }
 
 }

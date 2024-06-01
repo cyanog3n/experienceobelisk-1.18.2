@@ -2,10 +2,10 @@ package com.cyanogen.experienceobelisk.registries;
 
 import com.cyanogen.experienceobelisk.ExperienceObelisk;
 import com.cyanogen.experienceobelisk.block_entities.*;
-import com.cyanogen.experienceobelisk.block_entities.bookshelves.VermiferousArchiversBookshelfEntity;
-import com.cyanogen.experienceobelisk.block_entities.bookshelves.VermiferousBookshelfEntity;
-import com.cyanogen.experienceobelisk.block_entities.bookshelves.VermiferousCartographersBookshelfEntity;
-import com.cyanogen.experienceobelisk.block_entities.bookshelves.VermiferousEnchantedBookshelfEntity;
+import com.cyanogen.experienceobelisk.block_entities.bookworm.VermiferousArchiversBookshelfEntity;
+import com.cyanogen.experienceobelisk.block_entities.bookworm.VermiferousBookshelfEntity;
+import com.cyanogen.experienceobelisk.block_entities.bookworm.VermiferousCartographersBookshelfEntity;
+import com.cyanogen.experienceobelisk.block_entities.bookworm.VermiferousEnchantedBookshelfEntity;
 import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraftforge.eventbus.api.IEventBus;
 import net.minecraftforge.registries.DeferredRegister;
