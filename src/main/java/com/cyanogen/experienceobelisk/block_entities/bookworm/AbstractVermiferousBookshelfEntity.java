@@ -9,12 +9,14 @@ import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.entity.ExperienceOrb;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Block;
-import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.state.BlockState;
 
 import java.util.ArrayList;
 import java.util.List;
+
+import static com.cyanogen.experienceobelisk.item.BookwormItem.getValidBlocksForInfection;
+import static com.cyanogen.experienceobelisk.item.BookwormItem.infectBlock;
 
 public abstract class AbstractVermiferousBookshelfEntity extends BlockEntity {
 
@@ -76,19 +78,7 @@ public abstract class AbstractVermiferousBookshelfEntity extends BlockEntity {
             BlockPos posToInfect = posList.get(index);
             Block block = blockList.get(index);
 
-            if(block.equals(Blocks.BOOKSHELF)){
-                level.setBlockAndUpdate(posToInfect, RegisterBlocks.VERMIFEROUS_BOOKSHELF.get().defaultBlockState());
-            }
-            else if(block.equals(RegisterBlocks.ENCHANTED_BOOKSHELF.get())){
-                level.setBlockAndUpdate(posToInfect, RegisterBlocks.VERMIFEROUS_ENCHANTED_BOOKSHELF.get().defaultBlockState());
-            }
-            else if(block.equals(RegisterBlocks.ARCHIVERS_BOOKSHELF.get())){
-                level.setBlockAndUpdate(posToInfect, RegisterBlocks.VERMIFEROUS_ARCHIVERS_BOOKSHELF.get().defaultBlockState());
-            }
-            else if(block.equals(RegisterBlocks.CARTOGRAPHERS_BOOKSHELF.get())){
-                level.setBlockAndUpdate(posToInfect, RegisterBlocks.VERMIFEROUS_CARTOGRAPHERS_BOOKSHELF.get().defaultBlockState());
-            }
-
+            infectBlock(level, posToInfect, block);
             level.addParticle((ParticleOptions) ParticleTypes.DUST, pos.getX(), pos.getY(), pos.getZ(),0,0,0);
         }
     }
@@ -100,16 +90,6 @@ public abstract class AbstractVermiferousBookshelfEntity extends BlockEntity {
             ExperienceOrb orb = new ExperienceOrb(server, pos.getX() + 0.5, pos.getY() + 0.5, pos.getZ() + 0.5, orbValue);
             server.addFreshEntity(orb);
         }
-    }
-
-    public List<Block> getValidBlocksForInfection(){
-        List<Block> list = new ArrayList<>();
-        list.add(Blocks.BOOKSHELF);
-        list.add(RegisterBlocks.ENCHANTED_BOOKSHELF.get());
-        list.add(RegisterBlocks.ARCHIVERS_BOOKSHELF.get());
-        list.add(RegisterBlocks.CARTOGRAPHERS_BOOKSHELF.get());
-
-        return list;
     }
 
     public List<BlockPos> getAdjacents(BlockPos pos){
