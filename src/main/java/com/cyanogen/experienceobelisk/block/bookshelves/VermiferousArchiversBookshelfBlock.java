@@ -23,13 +23,13 @@ public class VermiferousArchiversBookshelfBlock extends Block implements EntityB
     @Nullable
     @Override
     public <T extends BlockEntity> BlockEntityTicker<T> getTicker(Level level, BlockState state, BlockEntityType<T> blockEntityType) {
-        return blockEntityType == RegisterBlockEntities.VERMIFEROUSBOOKSHELF_BE.get() ? VermiferousBookshelfEntity::tick : null;
+        return blockEntityType == RegisterBlockEntities.VERMIFEROUS_BOOKSHELF_BE.get() ? VermiferousBookshelfEntity::tick : null;
     }
 
     @Nullable
     @Override
     public BlockEntity newBlockEntity(BlockPos pos, BlockState state) {
-        return RegisterBlockEntities.VERMIFEROUSBOOKSHELF_BE.get().create(pos, state);
+        return RegisterBlockEntities.VERMIFEROUS_BOOKSHELF_BE.get().create(pos, state);
     }
 
 }

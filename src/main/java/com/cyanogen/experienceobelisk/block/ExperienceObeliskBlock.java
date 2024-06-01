@@ -141,7 +141,7 @@ public class ExperienceObeliskBlock extends Block implements EntityBlock {
     @Nullable
     @Override
     public <T extends BlockEntity> BlockEntityTicker<T> getTicker(Level level, BlockState state, BlockEntityType<T> blockEntityType) {
-        return blockEntityType == RegisterBlockEntities.EXPERIENCEOBELISK_BE.get() ? ExperienceObeliskEntity::tick : null;
+        return blockEntityType == RegisterBlockEntities.EXPERIENCE_OBELISK_BE.get() ? ExperienceObeliskEntity::tick : null;
     }
 
     @Override
@@ -152,7 +152,7 @@ public class ExperienceObeliskBlock extends Block implements EntityBlock {
     @Nullable
     @Override
     public BlockEntity newBlockEntity(BlockPos pos, BlockState state) {
-        return RegisterBlockEntities.EXPERIENCEOBELISK_BE.get().create(pos, state);
+        return RegisterBlockEntities.EXPERIENCE_OBELISK_BE.get().create(pos, state);
     }
 
 }

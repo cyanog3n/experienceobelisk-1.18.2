@@ -92,12 +92,12 @@ public class LinearAcceleratorBlock extends ExperienceReceivingBlock implements 
     @Nullable
     @Override
     public <T extends BlockEntity> BlockEntityTicker<T> getTicker(Level level, BlockState state, BlockEntityType<T> blockEntityType) {
-        return blockEntityType == RegisterBlockEntities.LINEARACCELERATOR_BE.get() ? LinearAcceleratorEntity::tick : null;
+        return blockEntityType == RegisterBlockEntities.LINEAR_ACCELERATOR_BE.get() ? LinearAcceleratorEntity::tick : null;
     }
 
     @Nullable
     @Override
     public BlockEntity newBlockEntity(BlockPos pos, BlockState state) {
-        return RegisterBlockEntities.LINEARACCELERATOR_BE.get().create(pos, state);
+        return RegisterBlockEntities.LINEAR_ACCELERATOR_BE.get().create(pos, state);
     }
 }

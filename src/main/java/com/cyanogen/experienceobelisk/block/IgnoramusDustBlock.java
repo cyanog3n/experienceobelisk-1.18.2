@@ -15,7 +15,7 @@ public class IgnoramusDustBlock extends FallingBlock {
     }
 
     @Override
-    public int getDustColor(BlockState p_53238_, BlockGetter p_53239_, BlockPos p_53240_) {
+    public int getDustColor(BlockState state, BlockGetter getter, BlockPos pos) {
         return -8356741;
     }
 }

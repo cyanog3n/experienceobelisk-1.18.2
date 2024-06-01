@@ -30,7 +30,7 @@ import java.util.List;
 public class ExperienceFountainEntity extends ExperienceReceivingEntity implements GeoBlockEntity{
 
     public ExperienceFountainEntity(BlockPos pos, BlockState state) {
-        super(RegisterBlockEntities.EXPERIENCEFOUNTAIN_BE.get(), pos, state);
+        super(RegisterBlockEntities.EXPERIENCE_FOUNTAIN_BE.get(), pos, state);
     }
 
     //-----------ANIMATIONS-----------//

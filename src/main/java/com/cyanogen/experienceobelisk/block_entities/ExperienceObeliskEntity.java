@@ -45,7 +45,7 @@ import static com.cyanogen.experienceobelisk.utils.ExperienceUtils.levelsToXP;
 public class ExperienceObeliskEntity extends BlockEntity implements GeoBlockEntity{
 
     public ExperienceObeliskEntity(BlockPos pos, BlockState state) {
-        super(RegisterBlockEntities.EXPERIENCEOBELISK_BE.get(), pos, state);
+        super(RegisterBlockEntities.EXPERIENCE_OBELISK_BE.get(), pos, state);
     }
 
     //-----------ANIMATIONS-----------//

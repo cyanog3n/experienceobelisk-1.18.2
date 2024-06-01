@@ -151,6 +151,6 @@ public class PrecisionDispellerBlock extends ExperienceReceivingBlock implements
     @Nullable
     @Override
     public BlockEntity newBlockEntity(BlockPos pos, BlockState state) {
-        return RegisterBlockEntities.PRECISIONDISPELLER_BE.get().create(pos, state);
+        return RegisterBlockEntities.PRECISION_DISPELLER_BE.get().create(pos, state);
     }
 }

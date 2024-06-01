@@ -20,7 +20,7 @@ import java.util.List;
 public abstract class AbstractVermiferousBookshelfEntity extends BlockEntity {
 
     public AbstractVermiferousBookshelfEntity(BlockPos pos, BlockState state) {
-        super(RegisterBlockEntities.VERMIFEROUSBOOKSHELF_BE.get(), pos, state);
+        super(RegisterBlockEntities.VERMIFEROUS_BOOKSHELF_BE.get(), pos, state);
     }
 
     int decayValue = 0;
