@@ -2,6 +2,7 @@ package com.cyanogen.experienceobelisk.registries;
 
 import com.cyanogen.experienceobelisk.ExperienceObelisk;
 import com.cyanogen.experienceobelisk.block_entities.*;
+import com.cyanogen.experienceobelisk.block_entities.bookshelves.VermiferousBookshelfEntity;
 import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraftforge.eventbus.api.IEventBus;
 import net.minecraftforge.registries.DeferredRegister;
@@ -28,6 +29,9 @@ public class RegisterBlockEntities {
 
     public static final RegistryObject<BlockEntityType<LinearAcceleratorEntity>> LINEARACCELERATOR_BE = BLOCK_ENTITIES.register("linearaccelerator_be",
             ()-> BlockEntityType.Builder.of(LinearAcceleratorEntity::new, RegisterBlocks.LINEAR_ACCELERATOR.get()).build(Type));
+
+    public static final RegistryObject<BlockEntityType<VermiferousBookshelfEntity>> VERMIFEROUSBOOKSHELF_BE = BLOCK_ENTITIES.register("vermiferousbookshelf_be",
+            ()-> BlockEntityType.Builder.of(VermiferousBookshelfEntity::new, RegisterBlocks.LINEAR_ACCELERATOR.get()).build(Type));
 
     public static void register(IEventBus eventBus){
         BLOCK_ENTITIES.register(eventBus);
