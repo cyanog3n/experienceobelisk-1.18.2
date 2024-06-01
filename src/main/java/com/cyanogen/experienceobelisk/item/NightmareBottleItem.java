@@ -24,7 +24,7 @@ public class NightmareBottleItem extends BottleItem {
         if(entity instanceof Player player){
             player.resetStat(Stats.CUSTOM.get(Stats.TIME_SINCE_REST));
             player.awardStat(Stats.TIME_SINCE_REST, 20000000);
-            player.addEffect(new MobEffectInstance(MobEffects.CONFUSION, 1)); //seconds probably?
+            player.addEffect(new MobEffectInstance(MobEffects.CONFUSION, 60));
 
             if(!player.isCreative()){
                 stack.shrink(1);

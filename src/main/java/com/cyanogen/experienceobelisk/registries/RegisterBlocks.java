@@ -28,9 +28,9 @@ public class RegisterBlocks {
     public static final RegistryObject<Block> ACCELERATOR = BLOCKS.register("accelerator", AcceleratorBlock::new);
     public static final RegistryObject<Block> LINEAR_ACCELERATOR = BLOCKS.register("linear_accelerator", LinearAcceleratorBlock::new);
     public static final RegistryObject<Block> VERMIFEROUS_BOOKSHELF = BLOCKS.register("vermiferous_bookshelf", VermiferousBookshelfBlock::new);
-    public static final RegistryObject<Block> VERMIFEROUS_ENCHANTED_BOOKSHELF = BLOCKS.register("vermiferous_bookshelf", VermiferousEnchantedBookshelfBlock::new);
-    public static final RegistryObject<Block> VERMIFEROUS_ARCHIVERS_BOOKSHELF = BLOCKS.register("vermiferous_bookshelf", VermiferousArchiversBookshelfBlock::new);
-    public static final RegistryObject<Block> VERMIFEROUS_CARTOGRAPHERS_BOOKSHELF = BLOCKS.register("vermiferous_bookshelf", VermiferousCartographersBookshelfBlock::new);
+    public static final RegistryObject<Block> VERMIFEROUS_ENCHANTED_BOOKSHELF = BLOCKS.register("vermiferous_enchanted_bookshelf", VermiferousEnchantedBookshelfBlock::new);
+    public static final RegistryObject<Block> VERMIFEROUS_ARCHIVERS_BOOKSHELF = BLOCKS.register("vermiferous_archivers_bookshelf", VermiferousArchiversBookshelfBlock::new);
+    public static final RegistryObject<Block> VERMIFEROUS_CARTOGRAPHERS_BOOKSHELF = BLOCKS.register("vermiferous_cartographers_bookshelf", VermiferousCartographersBookshelfBlock::new);
 
     //-----DECORATIVE / CRAFTING-----//
 
