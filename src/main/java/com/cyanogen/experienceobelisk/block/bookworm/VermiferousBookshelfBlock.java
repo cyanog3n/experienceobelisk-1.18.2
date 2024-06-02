@@ -31,5 +31,4 @@ public class VermiferousBookshelfBlock extends Block implements EntityBlock {
     public BlockEntity newBlockEntity(BlockPos pos, BlockState state) {
         return RegisterBlockEntities.VERMIFEROUS_BOOKSHELF_BE.get().create(pos, state);
     }
-
 }

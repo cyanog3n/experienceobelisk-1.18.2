@@ -5,12 +5,17 @@ import com.cyanogen.experienceobelisk.registries.RegisterBlocks;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.particles.ParticleOptions;
 import net.minecraft.core.particles.ParticleTypes;
+import net.minecraft.nbt.CompoundTag;
+import net.minecraft.network.protocol.Packet;
+import net.minecraft.network.protocol.game.ClientGamePacketListener;
+import net.minecraft.network.protocol.game.ClientboundBlockEntityDataPacket;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.entity.ExperienceOrb;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.phys.AABB;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -34,7 +39,7 @@ public abstract class AbstractVermiferousBookshelfEntity extends BlockEntity {
 
         if(level.getGameTime() % 20 == 0 && blockEntity instanceof AbstractVermiferousBookshelfEntity bookshelf){
 
-            if(Math.random() <= 0.15){
+            if(Math.random() <= 0.022){
                 bookshelf.infectAdjacent(level, pos);
             }
 
@@ -79,15 +84,23 @@ public abstract class AbstractVermiferousBookshelfEntity extends BlockEntity {
             Block block = blockList.get(index);
 
             infectBlock(level, posToInfect, block);
-            level.addParticle((ParticleOptions) ParticleTypes.DUST, pos.getX(), pos.getY(), pos.getZ(),0,0,0);
+            //level.addParticle((ParticleOptions) ParticleTypes.DUST, pos.getX(), pos.getY(), pos.getZ(),0,0,0);
+            //find out how to add particles
         }
+    }
+
+    public void incrementDecayValue(){
+        this.decayValue += 1;
+        setChanged();
     }
 
     public void handleExperience(Level level, BlockPos pos){
 
         if(!level.isClientSide){
             ServerLevel server = (ServerLevel) level;
-            ExperienceOrb orb = new ExperienceOrb(server, pos.getX() + 0.5, pos.getY() + 0.5, pos.getZ() + 0.5, orbValue);
+            ExperienceOrb orb = new ExperienceOrb(server, pos.getX() + 0.5, pos.getY() + 1.0, pos.getZ() + 0.5, orbValue);
+            orb.setDeltaMovement(0,0,0);
+
             server.addFreshEntity(orb);
         }
     }
@@ -118,9 +131,37 @@ public abstract class AbstractVermiferousBookshelfEntity extends BlockEntity {
         return list;
     }
 
-    public void incrementDecayValue(){
-        this.decayValue += 1;
-        setChanged();
+    //-----------NBT-----------//
+
+    @Override
+    public void load(CompoundTag tag)
+    {
+        super.load(tag);
+
+        this.decayValue = tag.getInt("DecayValue");
+    }
+
+    @Override
+    protected void saveAdditional(CompoundTag tag)
+    {
+        super.saveAdditional(tag);
+
+        tag.putInt("DecayValue", decayValue);
+    }
+
+    @Override
+    public CompoundTag getUpdateTag()
+    {
+        CompoundTag tag = super.getUpdateTag();
+
+        tag.putInt("DecayValue", decayValue);
+        return tag;
+    }
+
+    @Override
+    public Packet<ClientGamePacketListener> getUpdatePacket()
+    {
+        return ClientboundBlockEntityDataPacket.create(this);
     }
 
 

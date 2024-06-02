@@ -259,6 +259,15 @@ public class ExperienceObeliskEntity extends BlockEntity implements GeoBlockEnti
 
     public int getSpace(){ return tank.getSpace(); }
 
+    @Override
+    @Nonnull
+    public <T> LazyOptional<T> getCapability(@Nonnull Capability<T> capability, @Nullable Direction facing)
+    {
+        if (capability == ForgeCapabilities.FLUID_HANDLER)
+            return handler.cast();
+        return super.getCapability(capability, facing);
+        //controls which sides can give or receive fluids
+    }
 
     //-----------NBT-----------//
 
@@ -300,17 +309,6 @@ public class ExperienceObeliskEntity extends BlockEntity implements GeoBlockEnti
     public Packet<ClientGamePacketListener> getUpdatePacket()
     {
         return ClientboundBlockEntityDataPacket.create(this);
-    }
-
-
-    @Override
-    @Nonnull
-    public <T> LazyOptional<T> getCapability(@Nonnull Capability<T> capability, @Nullable Direction facing)
-    {
-        if (capability == ForgeCapabilities.FLUID_HANDLER)
-            return handler.cast();
-        return super.getCapability(capability, facing);
-        //controls which sides can give or receive fluids
     }
 
 
