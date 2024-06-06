@@ -1,10 +1,7 @@
 package com.cyanogen.experienceobelisk.block_entities.bookworm;
 
-import com.cyanogen.experienceobelisk.registries.RegisterBlockEntities;
 import com.cyanogen.experienceobelisk.registries.RegisterBlocks;
 import net.minecraft.core.BlockPos;
-import net.minecraft.core.particles.ParticleOptions;
-import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.protocol.Packet;
 import net.minecraft.network.protocol.game.ClientGamePacketListener;
@@ -16,7 +13,6 @@ import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraft.world.level.block.state.BlockState;
-import net.minecraft.world.phys.AABB;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -65,7 +61,7 @@ public abstract class AbstractVermiferousBookshelfEntity extends BlockEntity {
             }
 
             if(level.getGameTime() % 20 == 0){
-                bookshelf.incrementDecayValue();
+                bookshelf.incrementDecayValue(level, pos);
 
                 if(Math.random() <= 0.025){
                     bookshelf.infectAdjacent(level, pos);
@@ -100,8 +96,19 @@ public abstract class AbstractVermiferousBookshelfEntity extends BlockEntity {
         }
     }
 
-    public void incrementDecayValue(){
-        if(Math.random() <= 0.75){
+    public void incrementDecayValue(Level level, BlockPos pos){
+
+        double threshold;
+
+        if(getAdjacentBlockStates(level, pos).contains(RegisterBlocks.COGNITIVE_ALLOY_BLOCK.get().defaultBlockState())){
+            //change to enlightened alloy later
+            threshold = 0.5;
+        }
+        else{
+            threshold = 0.75;
+        }
+
+        if(Math.random() <= threshold){
             this.decayValue += 1;
         }
         setChanged();
@@ -119,9 +126,16 @@ public abstract class AbstractVermiferousBookshelfEntity extends BlockEntity {
 
     public void handleExperience(Level level, BlockPos pos){
 
+        int value = orbValue;
+
+        if(getAdjacentBlockStates(level, pos).contains(RegisterBlocks.COGNITIVE_CRYSTAL_BLOCK.get().defaultBlockState())){
+            //change to enlightened crystal later
+            value = (int) (value * 1.5);
+        }
+
         if(!level.isClientSide){
             ServerLevel server = (ServerLevel) level;
-            ExperienceOrb orb = new ExperienceOrb(server, pos.getX() + 0.5, pos.getY() + 1.0, pos.getZ() + 0.5, orbValue);
+            ExperienceOrb orb = new ExperienceOrb(server, pos.getX() + 0.5, pos.getY() + 0.5, pos.getZ() + 0.5, value);
             orb.setDeltaMovement(0,0,0);
 
             server.addFreshEntity(orb);
@@ -136,6 +150,15 @@ public abstract class AbstractVermiferousBookshelfEntity extends BlockEntity {
         list.add(pos.south());
         list.add(pos.east());
         list.add(pos.west());
+
+        return list;
+    }
+
+    public List<BlockState> getAdjacentBlockStates(Level level, BlockPos pos){
+        List<BlockState> list = new ArrayList<>();
+        for(BlockPos adjacent : getAdjacents(pos)){
+            list.add(level.getBlockState(adjacent));
+        }
 
         return list;
     }

@@ -4,7 +4,6 @@ import com.cyanogen.experienceobelisk.block_entities.bookworm.VermiferousArchive
 import com.cyanogen.experienceobelisk.registries.RegisterBlockEntities;
 import net.minecraft.core.BlockPos;
 import net.minecraft.world.level.Level;
-import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.EntityBlock;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.entity.BlockEntityTicker;
@@ -12,10 +11,10 @@ import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraft.world.level.block.state.BlockState;
 import org.jetbrains.annotations.Nullable;
 
-public class VermiferousArchiversBookshelfBlock extends Block implements EntityBlock {
+public class VermiferousArchiversBookshelfBlock extends VermiferousBookshelfBlock implements EntityBlock {
 
     public VermiferousArchiversBookshelfBlock() {
-        super(Properties.of());
+        super();
     }
 
     //-----BLOCK ENTITY-----//
