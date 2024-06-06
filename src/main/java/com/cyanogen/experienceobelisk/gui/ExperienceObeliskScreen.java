@@ -14,11 +14,13 @@ import net.minecraft.client.gui.components.Tooltip;
 import net.minecraft.client.gui.screens.inventory.AbstractContainerScreen;
 import net.minecraft.core.BlockPos;
 import net.minecraft.network.chat.Component;
+import net.minecraft.network.chat.MutableComponent;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.player.Inventory;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 import static com.cyanogen.experienceobelisk.network.experience_obelisk.UpdateContents.Request.*;
 import static com.cyanogen.experienceobelisk.utils.ExperienceUtils.levelsToXP;
@@ -78,8 +80,6 @@ public class ExperienceObeliskScreen extends AbstractContainerScreen<ExperienceO
         RenderSystem.setShaderColor(1.0f, 1.0f, 1.0f, 1.0f);
         RenderSystem.setShaderTexture(0, texture);
 
-        int textureWidth = 256;
-        int textureHeight = 256;
         int x = this.width / 2 - 176 / 2;
         int y = this.height / 2 - 166 / 2;
 
@@ -116,6 +116,18 @@ public class ExperienceObeliskScreen extends AbstractContainerScreen<ExperienceO
         for(Renderable widget : this.renderables){
             widget.render(gui, mouseX, mouseY, partialTick);
         }
+
+        int infoX = this.width / 2;
+        int infoY = this.height / 2 + 35;
+
+        if(mouseX >= infoX - 30 && mouseX <= infoX + 30 && mouseY >= infoY - 5 && mouseY <= infoY + 5){
+            List<Component> tooltipList = new ArrayList<>();
+            MutableComponent content = Component.literal(experiencePoints + " XP");
+            tooltipList.add(content);
+            gui.renderTooltip(this.font, tooltipList, Optional.empty(), mouseX, mouseY);
+        }
+
+
     }
 
     @Override
