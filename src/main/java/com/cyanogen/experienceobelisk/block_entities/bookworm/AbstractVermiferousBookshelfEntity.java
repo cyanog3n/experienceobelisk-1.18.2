@@ -29,9 +29,12 @@ public abstract class AbstractVermiferousBookshelfEntity extends BlockEntity {
         super(RegisterBlockEntities.VERMIFEROUS_BOOKSHELF_BE.get(), pos, state);
     }
 
-    int decayValue = 0;
-    int orbValue;
-    int durability;
+    int decayValue = 0; //the current decay value of the bookshelf
+    int spawnDelay = -99; //the current time in ticks until the bookshelf is due to spawn an orb
+    int spawnDelayMin; //the minimum spawn delay for the bookshelf
+    int spawnDelayMax; //the maximum spawn delay for the bookshelf
+    int orbValue; //the value of orbs to spawn
+    int durability; //the durability of the bookshelf
 
     //-----------BEHAVIOR-----------//
 
@@ -39,7 +42,7 @@ public abstract class AbstractVermiferousBookshelfEntity extends BlockEntity {
 
         if(level.getGameTime() % 20 == 0 && blockEntity instanceof AbstractVermiferousBookshelfEntity bookshelf){
 
-            if(Math.random() <= 0.022){
+            if(Math.random() <= 0.02){
                 bookshelf.infectAdjacent(level, pos);
             }
 
@@ -50,15 +53,20 @@ public abstract class AbstractVermiferousBookshelfEntity extends BlockEntity {
                 //todo: play some sound & particle effect
             }
             else{
-                List<VermiferousCartographersBookshelfEntity> cartoBookshelves = bookshelf.getAdjacentCartographersBookshelves(level, pos);
-                if(cartoBookshelves.isEmpty()){
-                    bookshelf.incrementDecayValue();
+
+                bookshelf.incrementDecayValue();
+
+                if(bookshelf.spawnDelay == -99){
+                    bookshelf.resetSpawnDelay();
+                }
+                else if(bookshelf.spawnDelay <= 0){
+                    bookshelf.handleExperience(level, pos);
+                    bookshelf.resetSpawnDelay();
                 }
                 else{
-                    cartoBookshelves.get((int) Math.floor(Math.random() * cartoBookshelves.size())).decayValue += 1;
+                    bookshelf.decrementSpawnDelay();
                 }
 
-                bookshelf.handleExperience(level, pos);
             }
 
         }
@@ -90,8 +98,20 @@ public abstract class AbstractVermiferousBookshelfEntity extends BlockEntity {
     }
 
     public void incrementDecayValue(){
-        this.decayValue += 1;
+        if(Math.random() <= 0.75){
+            this.decayValue += 1;
+        }
         setChanged();
+    }
+
+    public void resetSpawnDelay(){
+        this.spawnDelay = (int) (spawnDelayMin + Math.floor((spawnDelayMax - spawnDelayMin) * Math.random()));
+        this.setChanged();
+    }
+
+    public void decrementSpawnDelay(){
+        this.spawnDelay -= 1;
+        this.setChanged();
     }
 
     public void handleExperience(Level level, BlockPos pos){

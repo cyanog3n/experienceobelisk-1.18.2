@@ -8,7 +8,9 @@ public class VermiferousBookshelfEntity extends AbstractVermiferousBookshelfEnti
     public VermiferousBookshelfEntity(BlockPos pos, BlockState state) {
         super(pos, state);
 
-        super.orbValue = 2;
+        super.spawnDelayMin = 120;
+        super.spawnDelayMax = 200;
+        super.orbValue = 12;
         super.durability = 600;
 
     }
