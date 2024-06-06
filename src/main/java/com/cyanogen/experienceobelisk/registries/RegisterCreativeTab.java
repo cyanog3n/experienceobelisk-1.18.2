@@ -48,6 +48,8 @@ public class RegisterCreativeTab {
                         output.accept(RegisterItems.PRECISION_DISPELLER_ITEM.get());
                         output.accept(RegisterItems.ACCELERATOR_ITEM.get());
                         output.accept(RegisterItems.LINEAR_ACCELERATOR_ITEM.get());
+                        output.accept(RegisterItems.ENCHANTED_BOOKSHELF_ITEM.get());
+                        output.accept(RegisterItems.ARCHIVERS_BOOKSHELF_ITEM.get());
 
                         //DECORATIVE / OTHER BLOCKS
                         output.accept(RegisterItems.COGNITIVE_ALLOY_BLOCK_ITEM.get());

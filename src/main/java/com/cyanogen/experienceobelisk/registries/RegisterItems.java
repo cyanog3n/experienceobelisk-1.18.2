@@ -156,6 +156,17 @@ public class RegisterItems {
     public static final RegistryObject<Item> LINEAR_ACCELERATOR_ITEM = ITEMS.register("linear_accelerator",
             () -> new BlockItem(RegisterBlocks.LINEAR_ACCELERATOR.get(), new Item.Properties()));
 
+    public static final RegistryObject<Item> IGNORAMUS_DUST_BLOCK_ITEM = ITEMS.register("ignoramus_dust_block",
+            () -> new BlockItem(RegisterBlocks.IGNORAMUS_DUST_BLOCK.get(), new Item.Properties()));
+
+    public static final RegistryObject<Item> ENCHANTED_BOOKSHELF_ITEM = ITEMS.register("enchanted_bookshelf",
+            () -> new BlockItem(RegisterBlocks.ENCHANTED_BOOKSHELF.get(), new Item.Properties()));
+
+    public static final RegistryObject<Item> ARCHIVERS_BOOKSHELF_ITEM = ITEMS.register("archivers_bookshelf",
+            () -> new BlockItem(RegisterBlocks.ARCHIVERS_BOOKSHELF.get(), new Item.Properties()));
+
+
+
     //-----BLOCK ITEMS-----//
 
     public static final RegistryObject<Item> COGNITIVE_ALLOY_BLOCK_ITEM = ITEMS.register("cognitive_alloy_block",

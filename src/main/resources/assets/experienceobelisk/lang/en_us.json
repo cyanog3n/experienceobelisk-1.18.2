@@ -14,6 +14,7 @@
   "item.experienceobelisk.enlightened_amulet": "Enlightened Amulet",
   "item.experienceobelisk.nightmare_bottle": "Bottle o' Nightmare",
   "item.experienceobelisk.daydream_bottle": "Bottle o' Daydream",
+  "item.experienceobelisk.ignoramus_dust": "Ignoramus Dust",
 
   "block.experienceobelisk.experience_obelisk": "Experience Obelisk",
   "block.experienceobelisk.experience_fountain": "Experience Fountain",
@@ -25,6 +26,12 @@
   "block.experienceobelisk.linear_accelerator": "Linear Accelerator",
   "block.experienceobelisk.whisperglass": "Whisperglass",
   "block.experienceobelisk.cognitium": "Cognitium",
+  "block.experienceobelisk.ignoramus_dust_block": "Block of Ignoramus Dust",
+  "block.experienceobelisk.enchanted_bookshelf": "Enchanted Bookshelf",
+  "block.experienceobelisk.archivers_bookshelf": "Archiver's Bookshelf",
+  "block.experienceobelisk.vermiferous_bookshelf": "Vermiferous Bookshelf",
+  "block.experienceobelisk.vermiferous_enchanted_bookshelf": "Vermiferous Enchanted Bookshelf",
+  "block.experienceobelisk.vermiferous_archivers_bookshelf": "Vermiferous Archiver's Bookshelf",
 
   "fluid.experienceobelisk.cognitium": "Cognitium",
   "fluid_type.experienceobelisk.cognitium": "Cognitium",

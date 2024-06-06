@@ -2,6 +2,6 @@
     "parent": "minecraft:block/cube_column",
     "textures": {
         "end": "minecraft:block/oak_planks",
-        "side": "experienceobelisk:block/vermiferous_bookshelf"
+        "side": "experienceobelisk:block/vermiferous_archivers_bookshelf"
     }
 }

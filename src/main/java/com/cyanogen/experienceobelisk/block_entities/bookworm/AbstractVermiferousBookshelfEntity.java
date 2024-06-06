@@ -14,6 +14,7 @@ import net.minecraft.world.entity.ExperienceOrb;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.entity.BlockEntity;
+import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.phys.AABB;
 
@@ -25,8 +26,8 @@ import static com.cyanogen.experienceobelisk.item.BookwormItem.infectBlock;
 
 public abstract class AbstractVermiferousBookshelfEntity extends BlockEntity {
 
-    public AbstractVermiferousBookshelfEntity(BlockPos pos, BlockState state) {
-        super(RegisterBlockEntities.VERMIFEROUS_BOOKSHELF_BE.get(), pos, state);
+    public AbstractVermiferousBookshelfEntity(BlockEntityType<?> type, BlockPos pos, BlockState state) {
+        super(type, pos, state);
     }
 
     int decayValue = 0; //the current decay value of the bookshelf
@@ -40,11 +41,7 @@ public abstract class AbstractVermiferousBookshelfEntity extends BlockEntity {
 
     public static <T> void tick(Level level, BlockPos pos, BlockState state, T blockEntity) {
 
-        if(level.getGameTime() % 20 == 0 && blockEntity instanceof AbstractVermiferousBookshelfEntity bookshelf){
-
-            if(Math.random() <= 0.02){
-                bookshelf.infectAdjacent(level, pos);
-            }
+        if(blockEntity instanceof AbstractVermiferousBookshelfEntity bookshelf){
 
             if(bookshelf.decayValue >= bookshelf.durability){
                 BlockState dustBlock = RegisterBlocks.IGNORAMUS_DUST_BLOCK.get().defaultBlockState();
@@ -53,8 +50,6 @@ public abstract class AbstractVermiferousBookshelfEntity extends BlockEntity {
                 //todo: play some sound & particle effect
             }
             else{
-
-                bookshelf.incrementDecayValue();
 
                 if(bookshelf.spawnDelay == -99){
                     bookshelf.resetSpawnDelay();
@@ -67,6 +62,14 @@ public abstract class AbstractVermiferousBookshelfEntity extends BlockEntity {
                     bookshelf.decrementSpawnDelay();
                 }
 
+            }
+
+            if(level.getGameTime() % 20 == 0){
+                bookshelf.incrementDecayValue();
+
+                if(Math.random() <= 0.025){
+                    bookshelf.infectAdjacent(level, pos);
+                }
             }
 
         }
@@ -159,6 +162,7 @@ public abstract class AbstractVermiferousBookshelfEntity extends BlockEntity {
         super.load(tag);
 
         this.decayValue = tag.getInt("DecayValue");
+        this.spawnDelay = tag.getInt("SpawnDelay");
     }
 
     @Override
@@ -167,6 +171,7 @@ public abstract class AbstractVermiferousBookshelfEntity extends BlockEntity {
         super.saveAdditional(tag);
 
         tag.putInt("DecayValue", decayValue);
+        tag.putInt("SpawnDelay", spawnDelay);
     }
 
     @Override
@@ -175,6 +180,7 @@ public abstract class AbstractVermiferousBookshelfEntity extends BlockEntity {
         CompoundTag tag = super.getUpdateTag();
 
         tag.putInt("DecayValue", decayValue);
+        tag.putInt("SpawnDelay", spawnDelay);
         return tag;
     }
 
