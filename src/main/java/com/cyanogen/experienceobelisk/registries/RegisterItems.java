@@ -65,6 +65,7 @@ public class RegisterItems {
     public static final RegistryObject<Item> COGNITIVE_ALLOY = ITEMS.register("cognitive_alloy", RegisterItems::baseItem);
     public static final RegistryObject<Item> COGNITIVE_CRYSTAL = ITEMS.register("cognitive_crystal", RegisterItems::baseItem);
     public static final RegistryObject<Item> ASTUTE_ASSEMBLY = ITEMS.register("astute_assembly", RegisterItems::baseItem);
+    public static final RegistryObject<Item> IGNORAMUS_DUST = ITEMS.register("ignoramus_dust", RegisterItems::baseItem);
 
     //-----COGNITIVE TOOLSET-----//
 
@@ -156,15 +157,20 @@ public class RegisterItems {
     public static final RegistryObject<Item> LINEAR_ACCELERATOR_ITEM = ITEMS.register("linear_accelerator",
             () -> new BlockItem(RegisterBlocks.LINEAR_ACCELERATOR.get(), new Item.Properties()));
 
-    public static final RegistryObject<Item> IGNORAMUS_DUST_BLOCK_ITEM = ITEMS.register("ignoramus_dust_block",
-            () -> new BlockItem(RegisterBlocks.IGNORAMUS_DUST_BLOCK.get(), new Item.Properties()));
-
     public static final RegistryObject<Item> ENCHANTED_BOOKSHELF_ITEM = ITEMS.register("enchanted_bookshelf",
             () -> new BlockItem(RegisterBlocks.ENCHANTED_BOOKSHELF.get(), new Item.Properties()));
 
     public static final RegistryObject<Item> ARCHIVERS_BOOKSHELF_ITEM = ITEMS.register("archivers_bookshelf",
             () -> new BlockItem(RegisterBlocks.ARCHIVERS_BOOKSHELF.get(), new Item.Properties()));
 
+    public static final RegistryObject<Item> VERMIFEROUS_BOOKSHELF_ITEM = ITEMS.register("archivers_bookshelf",
+            () -> new BlockItem(RegisterBlocks.VERMIFEROUS_BOOKSHELF.get(), new Item.Properties()));
+
+    public static final RegistryObject<Item> VERMIFEROUS_ENCHANTED_BOOKSHELF_ITEM = ITEMS.register("archivers_bookshelf",
+            () -> new BlockItem(RegisterBlocks.VERMIFEROUS_ENCHANTED_BOOKSHELF.get(), new Item.Properties()));
+
+    public static final RegistryObject<Item> VERMIFEROUS_ARCHIVERS_BOOKSHELF_ITEM = ITEMS.register("archivers_bookshelf",
+            () -> new BlockItem(RegisterBlocks.VERMIFEROUS_ARCHIVERS_BOOKSHELF.get(), new Item.Properties()));
 
 
     //-----BLOCK ITEMS-----//
@@ -177,6 +183,10 @@ public class RegisterItems {
 
     public static final RegistryObject<Item> WHISPERGLASS_ITEM = ITEMS.register("whisperglass",
             () -> new BlockItem(RegisterBlocks.WHISPERGLASS_BLOCK.get(), new Item.Properties()));
+
+    public static final RegistryObject<Item> IGNORAMUS_DUST_BLOCK_ITEM = ITEMS.register("ignoramus_dust_block",
+            () -> new BlockItem(RegisterBlocks.IGNORAMUS_DUST_BLOCK.get(), new Item.Properties()));
+
 
     public static void register(IEventBus eventBus){
         ITEMS.register(eventBus);
