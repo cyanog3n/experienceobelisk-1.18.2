@@ -185,6 +185,18 @@ public abstract class AbstractVermiferousBookshelfEntity extends BlockEntity {
         return this.isDisplay;
     }
 
+    public int getDecayValue(){
+        return this.decayValue;
+    }
+
+    public int getOrbValue(){
+        return this.orbValue;
+    }
+
+    public int getDurability(){
+        return this.durability;
+    }
+
     //-----------NBT-----------//
 
     @Override
