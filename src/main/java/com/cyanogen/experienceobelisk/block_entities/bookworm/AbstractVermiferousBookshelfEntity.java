@@ -32,12 +32,13 @@ public abstract class AbstractVermiferousBookshelfEntity extends BlockEntity {
     int spawnDelayMax; //the maximum spawn delay for the bookshelf
     int orbValue; //the value of orbs to spawn
     int durability; //the durability of the bookshelf
+    boolean isDisplay = false; //whether or not the bookshelf is a display block. with display=true, bookshelves will not infect adjacents, produce XP, or decay
 
     //-----------BEHAVIOR-----------//
 
     public static <T> void tick(Level level, BlockPos pos, BlockState state, T blockEntity) {
 
-        if(blockEntity instanceof AbstractVermiferousBookshelfEntity bookshelf){
+        if(blockEntity instanceof AbstractVermiferousBookshelfEntity bookshelf && !bookshelf.isDisplay){
 
             if(bookshelf.decayValue >= bookshelf.durability){
                 BlockState dustBlock = RegisterBlocks.IGNORAMUS_DUST_BLOCK.get().defaultBlockState();
@@ -177,6 +178,13 @@ public abstract class AbstractVermiferousBookshelfEntity extends BlockEntity {
         return list;
     }
 
+    public boolean toggleDisplay(){
+        this.isDisplay = !this.isDisplay;
+        this.setChanged();
+
+        return this.isDisplay;
+    }
+
     //-----------NBT-----------//
 
     @Override
@@ -186,6 +194,7 @@ public abstract class AbstractVermiferousBookshelfEntity extends BlockEntity {
 
         this.decayValue = tag.getInt("DecayValue");
         this.spawnDelay = tag.getInt("SpawnDelay");
+        this.isDisplay = tag.getBoolean("IsDisplay");
     }
 
     @Override
@@ -195,6 +204,7 @@ public abstract class AbstractVermiferousBookshelfEntity extends BlockEntity {
 
         tag.putInt("DecayValue", decayValue);
         tag.putInt("SpawnDelay", spawnDelay);
+        tag.putBoolean("IsDisplay", isDisplay);
     }
 
     @Override
@@ -204,6 +214,7 @@ public abstract class AbstractVermiferousBookshelfEntity extends BlockEntity {
 
         tag.putInt("DecayValue", decayValue);
         tag.putInt("SpawnDelay", spawnDelay);
+        tag.putBoolean("IsDisplay", isDisplay);
         return tag;
     }
 
