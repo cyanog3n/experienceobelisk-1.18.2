@@ -1,0 +1,16 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "AA",
+    "AA"
+  ],
+  "key": {
+    "A": {
+      "item": "experienceobelisk:ignoramus_dust"
+    }
+  },
+  "result": {
+    "item": "experienceobelisk:ignoramus_dust_block",
+    "count": 1
+  }
+}
