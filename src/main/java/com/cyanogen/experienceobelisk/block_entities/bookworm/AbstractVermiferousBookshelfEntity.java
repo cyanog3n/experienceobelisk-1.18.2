@@ -59,14 +59,14 @@ public abstract class AbstractVermiferousBookshelfEntity extends BlockEntity {
                     bookshelf.decrementSpawnDelay();
                 }
 
-            }
+                if(level.getGameTime() % 20 == 0){
+                    bookshelf.incrementDecayValue(level, pos);
 
-            if(level.getGameTime() % 20 == 0){
-                bookshelf.incrementDecayValue(level, pos);
-
-                if(Math.random() <= 0.025){
-                    bookshelf.infectAdjacent(level, pos);
+                    if(Math.random() <= 0.025){
+                        bookshelf.infectAdjacent(level, pos);
+                    }
                 }
+
             }
 
         }
@@ -111,8 +111,9 @@ public abstract class AbstractVermiferousBookshelfEntity extends BlockEntity {
 
         if(Math.random() <= threshold){
             this.decayValue += 1;
+            setChanged();
         }
-        setChanged();
+
     }
 
     public void resetSpawnDelay(){
@@ -195,6 +196,10 @@ public abstract class AbstractVermiferousBookshelfEntity extends BlockEntity {
 
     public int getDurability(){
         return this.durability;
+    }
+
+    public int getAverageSpawnDelay(){
+        return (this.spawnDelayMax + this.spawnDelayMin) / 2;
     }
 
     //-----------NBT-----------//

@@ -73,6 +73,8 @@ public class RegisterItems {
             return 100;
         }
     });
+    public static final RegistryObject<Item> ENLIGHTENED_ALLOY = ITEMS.register("enlightened_alloy", RegisterItems::baseItem);
+    public static final RegistryObject<Item> ENLIGHTENED_CRYSTAL = ITEMS.register("enlightened_crystal", RegisterItems::baseItem);
 
     //-----COGNITIVE TOOLSET-----//
 

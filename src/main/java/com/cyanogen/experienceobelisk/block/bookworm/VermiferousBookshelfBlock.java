@@ -3,17 +3,14 @@ package com.cyanogen.experienceobelisk.block.bookworm;
 import com.cyanogen.experienceobelisk.block_entities.bookworm.AbstractVermiferousBookshelfEntity;
 import com.cyanogen.experienceobelisk.block_entities.bookworm.VermiferousBookshelfEntity;
 import com.cyanogen.experienceobelisk.registries.RegisterBlockEntities;
-import com.cyanogen.experienceobelisk.registries.RegisterBlocks;
 import net.minecraft.core.BlockPos;
 import net.minecraft.server.level.ServerLevel;
-import net.minecraft.util.RandomSource;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.ExperienceOrb;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.BlockGetter;
 import net.minecraft.world.level.Level;
-import net.minecraft.world.level.LevelReader;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.EntityBlock;
@@ -50,7 +47,7 @@ public class VermiferousBookshelfBlock extends Block implements EntityBlock {
     }
 
     @Override
-    public List<ItemStack> getDrops(BlockState p_287732_, LootParams.Builder p_287596_) {
+    public List<ItemStack> getDrops(BlockState state, LootParams.Builder builder) {
         return null;
     }
 
@@ -59,15 +56,16 @@ public class VermiferousBookshelfBlock extends Block implements EntityBlock {
 
         if(level.getBlockEntity(pos) instanceof AbstractVermiferousBookshelfEntity bookshelf){
             int remaining = bookshelf.getDurability() - bookshelf.getDecayValue();
-            int remainingProduction = remaining * bookshelf.getOrbValue() / 8;
-            int totalValue = (int) (remainingProduction * 0.6 * Math.random());
+            int remainingProduction = remaining * bookshelf.getOrbValue() / (bookshelf.getAverageSpawnDelay() / 20);
+
+            int totalValue = (int) (remainingProduction * 0.377 * Math.random());
             int orbCount = (int) (1 + Math.random() * 4);
             int orbValue = totalValue / orbCount;
 
             if(!level.isClientSide && totalValue > 10){
                 ServerLevel server = (ServerLevel) level;
 
-                for(int i = 0; i <= orbCount; i++){
+                for(int i = 0; i < orbCount; i++){
                     server.addFreshEntity(new ExperienceOrb(level, pos.getCenter().x, pos.getCenter().y, pos.getCenter().z, orbValue));
                 }
             }
