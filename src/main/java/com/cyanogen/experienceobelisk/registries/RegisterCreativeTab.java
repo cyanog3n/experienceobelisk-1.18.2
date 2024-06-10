@@ -43,7 +43,7 @@ public class RegisterCreativeTab {
                         output.accept(RegisterItems.ENLIGHTENED_AMULET.get());
                         output.accept(RegisterItems.NIGHTMARE_BOTTLE.get());
                         output.accept(RegisterItems.DAYDREAM_BOTTLE.get());
-                        output.accept(RegisterItems.BOOKWORM.get());
+                        output.accept(RegisterItems.BIBLIOPHAGE.get());
 
                         //FUNCTIONAL BLOCKS
                         output.accept(RegisterItems.EXPERIENCE_OBELISK_ITEM.get());

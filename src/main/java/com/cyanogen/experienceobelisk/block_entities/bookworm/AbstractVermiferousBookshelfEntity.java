@@ -17,8 +17,8 @@ import net.minecraft.world.level.block.state.BlockState;
 import java.util.ArrayList;
 import java.util.List;
 
-import static com.cyanogen.experienceobelisk.item.BookwormItem.getValidBlocksForInfection;
-import static com.cyanogen.experienceobelisk.item.BookwormItem.infectBlock;
+import static com.cyanogen.experienceobelisk.item.BibliophageItem.getValidBlocksForInfection;
+import static com.cyanogen.experienceobelisk.item.BibliophageItem.infectBlock;
 
 public abstract class AbstractVermiferousBookshelfEntity extends BlockEntity {
 

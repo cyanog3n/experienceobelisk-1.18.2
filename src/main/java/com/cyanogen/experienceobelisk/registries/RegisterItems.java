@@ -146,8 +146,8 @@ public class RegisterItems {
     public static final RegistryObject<Item> DAYDREAM_BOTTLE = ITEMS.register("daydream_bottle",
             () -> new DaydreamBottleItem(new Item.Properties().stacksTo(16)));
 
-    public static final RegistryObject<Item> BOOKWORM = ITEMS.register("bookworm",
-            () -> new BookwormItem(new Item.Properties()));
+    public static final RegistryObject<Item> BIBLIOPHAGE = ITEMS.register("bibliophage",
+            () -> new BibliophageItem(new Item.Properties()));
 
     //-----FUNCTIONAL BLOCK ITEMS-----//
 

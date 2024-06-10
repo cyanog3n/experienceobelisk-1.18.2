@@ -12,9 +12,9 @@ import net.minecraft.world.level.block.Blocks;
 import java.util.ArrayList;
 import java.util.List;
 
-public class BookwormItem extends Item {
+public class BibliophageItem extends Item {
 
-    public BookwormItem(Properties p) {
+    public BibliophageItem(Properties p) {
         super(p);
     }
 
