@@ -1,7 +1,7 @@
 {
   "variants": {
     "": {
-      "model": "experienceobelisk:block/vermiferous_bookshelf"
+      "model": "experienceobelisk:block/infected_bookshelf"
     }
   }
 }

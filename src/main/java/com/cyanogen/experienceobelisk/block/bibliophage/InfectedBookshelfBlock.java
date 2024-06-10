@@ -47,11 +47,6 @@ public class InfectedBookshelfBlock extends Block implements EntityBlock {
     }
 
     @Override
-    public List<ItemStack> getDrops(BlockState state, LootParams.Builder builder) {
-        return null;
-    }
-
-    @Override
     public boolean onDestroyedByPlayer(BlockState state, Level level, BlockPos pos, Player player, boolean willHarvest, FluidState fluid) {
 
         if(level.getBlockEntity(pos) instanceof AbstractInfectedBookshelfEntity bookshelf){
