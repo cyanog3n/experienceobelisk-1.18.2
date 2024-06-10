@@ -1,4 +1,4 @@
-package com.cyanogen.experienceobelisk.block_entities.bookworm;
+package com.cyanogen.experienceobelisk.block_entities.bibliophage;
 
 import com.cyanogen.experienceobelisk.registries.RegisterBlockEntities;
 import net.minecraft.core.BlockPos;

@@ -1,6 +1,6 @@
-package com.cyanogen.experienceobelisk.block.bookworm;
+package com.cyanogen.experienceobelisk.block.bibliophage;
 
-import com.cyanogen.experienceobelisk.block_entities.bookworm.VermiferousCartographersBookshelfEntity;
+import com.cyanogen.experienceobelisk.block_entities.bibliophage.VermiferousCartographersBookshelfEntity;
 import com.cyanogen.experienceobelisk.registries.RegisterBlockEntities;
 import net.minecraft.core.BlockPos;
 import net.minecraft.world.level.Level;

@@ -1,6 +1,6 @@
-package com.cyanogen.experienceobelisk.block.bookworm;
+package com.cyanogen.experienceobelisk.block.bibliophage;
 
-import com.cyanogen.experienceobelisk.block_entities.bookworm.VermiferousEnchantedBookshelfEntity;
+import com.cyanogen.experienceobelisk.block_entities.bibliophage.VermiferousArchiversBookshelfEntity;
 import com.cyanogen.experienceobelisk.registries.RegisterBlockEntities;
 import net.minecraft.core.BlockPos;
 import net.minecraft.world.level.Level;
@@ -11,9 +11,9 @@ import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraft.world.level.block.state.BlockState;
 import org.jetbrains.annotations.Nullable;
 
-public class VermiferousEnchantedBookshelfBlock extends VermiferousBookshelfBlock implements EntityBlock {
+public class VermiferousArchiversBookshelfBlock extends VermiferousBookshelfBlock implements EntityBlock {
 
-    public VermiferousEnchantedBookshelfBlock() {
+    public VermiferousArchiversBookshelfBlock() {
         super();
     }
 
@@ -22,13 +22,13 @@ public class VermiferousEnchantedBookshelfBlock extends VermiferousBookshelfBloc
     @Nullable
     @Override
     public <T extends BlockEntity> BlockEntityTicker<T> getTicker(Level level, BlockState state, BlockEntityType<T> blockEntityType) {
-        return blockEntityType == RegisterBlockEntities.VERMIFEROUS_ENCHANTED_BOOKSHELF_BE.get() ? VermiferousEnchantedBookshelfEntity::tick : null;
+        return blockEntityType == RegisterBlockEntities.VERMIFEROUS_ARCHIVERS_BOOKSHELF_BE.get() ? VermiferousArchiversBookshelfEntity::tick : null;
     }
 
     @Nullable
     @Override
     public BlockEntity newBlockEntity(BlockPos pos, BlockState state) {
-        return RegisterBlockEntities.VERMIFEROUS_ENCHANTED_BOOKSHELF_BE.get().create(pos, state);
+        return RegisterBlockEntities.VERMIFEROUS_ARCHIVERS_BOOKSHELF_BE.get().create(pos, state);
     }
 
 }
