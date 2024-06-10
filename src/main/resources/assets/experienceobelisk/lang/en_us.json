@@ -30,9 +30,9 @@
   "block.experienceobelisk.ignoramus_dust_block": "Block of Ignoramus Dust",
   "block.experienceobelisk.enchanted_bookshelf": "Enchanted Bookshelf",
   "block.experienceobelisk.archivers_bookshelf": "Archiver's Bookshelf",
-  "block.experienceobelisk.vermiferous_bookshelf": "Vermiferous Bookshelf",
-  "block.experienceobelisk.vermiferous_enchanted_bookshelf": "Vermiferous Enchanted Bookshelf",
-  "block.experienceobelisk.vermiferous_archivers_bookshelf": "Vermiferous Archiver's Bookshelf",
+  "block.experienceobelisk.infected_bookshelf": "Infected Bookshelf",
+  "block.experienceobelisk.infected_enchanted_bookshelf": "Infected Enchanted Bookshelf",
+  "block.experienceobelisk.infected_archivers_bookshelf": "Infected Archiver's Bookshelf",
 
   "fluid.experienceobelisk.cognitium": "Cognitium",
   "fluid_type.experienceobelisk.cognitium": "Cognitium",

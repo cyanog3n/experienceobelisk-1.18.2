@@ -3,7 +3,7 @@ package com.cyanogen.experienceobelisk.item;
 import com.cyanogen.experienceobelisk.block_entities.AbstractAcceleratorEntity;
 import com.cyanogen.experienceobelisk.block_entities.ExperienceObeliskEntity;
 import com.cyanogen.experienceobelisk.block_entities.ExperienceReceivingEntity;
-import com.cyanogen.experienceobelisk.block_entities.bibliophage.AbstractVermiferousBookshelfEntity;
+import com.cyanogen.experienceobelisk.block_entities.bibliophage.AbstractInfectedBookshelfEntity;
 import com.cyanogen.experienceobelisk.registries.RegisterItems;
 import com.cyanogen.experienceobelisk.utils.MiscUtils;
 import net.minecraft.ChatFormatting;
@@ -73,7 +73,7 @@ public class AttunementStaffItem extends Item {
                 handleAccelerator(accelerator, player);
                 return InteractionResult.sidedSuccess(level.isClientSide);
             }
-            else if(entity instanceof AbstractVermiferousBookshelfEntity bookshelf){
+            else if(entity instanceof AbstractInfectedBookshelfEntity bookshelf){
                 handleBookshelf(bookshelf, player);
                 return InteractionResult.sidedSuccess(level.isClientSide);
             }
@@ -149,7 +149,7 @@ public class AttunementStaffItem extends Item {
         }
     }
 
-    public void handleBookshelf(AbstractVermiferousBookshelfEntity bookshelf, Player player){
+    public void handleBookshelf(AbstractInfectedBookshelfEntity bookshelf, Player player){
         boolean status = bookshelf.toggleDisplay();
         if(status){
             player.displayClientMessage(Component.translatable("message.experienceobelisk.binding_wand.disable_bookshelf"), true);

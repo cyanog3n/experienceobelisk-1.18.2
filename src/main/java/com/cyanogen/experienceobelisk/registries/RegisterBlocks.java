@@ -2,10 +2,10 @@ package com.cyanogen.experienceobelisk.registries;
 
 import com.cyanogen.experienceobelisk.ExperienceObelisk;
 import com.cyanogen.experienceobelisk.block.*;
-import com.cyanogen.experienceobelisk.block.bibliophage.VermiferousArchiversBookshelfBlock;
-import com.cyanogen.experienceobelisk.block.bibliophage.VermiferousBookshelfBlock;
-import com.cyanogen.experienceobelisk.block.bibliophage.VermiferousCartographersBookshelfBlock;
-import com.cyanogen.experienceobelisk.block.bibliophage.VermiferousEnchantedBookshelfBlock;
+import com.cyanogen.experienceobelisk.block.bibliophage.InfectedArchiversBookshelfBlock;
+import com.cyanogen.experienceobelisk.block.bibliophage.InfectedBookshelfBlock;
+import com.cyanogen.experienceobelisk.block.bibliophage.InfectedCartographersBookshelfBlock;
+import com.cyanogen.experienceobelisk.block.bibliophage.InfectedEnchantedBookshelfBlock;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.LiquidBlock;
@@ -27,10 +27,10 @@ public class RegisterBlocks {
     public static final RegistryObject<Block> PRECISION_DISPELLER = BLOCKS.register("precision_dispeller", PrecisionDispellerBlock::new);
     public static final RegistryObject<Block> ACCELERATOR = BLOCKS.register("accelerator", AcceleratorBlock::new);
     public static final RegistryObject<Block> LINEAR_ACCELERATOR = BLOCKS.register("linear_accelerator", LinearAcceleratorBlock::new);
-    public static final RegistryObject<Block> VERMIFEROUS_BOOKSHELF = BLOCKS.register("vermiferous_bookshelf", VermiferousBookshelfBlock::new);
-    public static final RegistryObject<Block> VERMIFEROUS_ENCHANTED_BOOKSHELF = BLOCKS.register("vermiferous_enchanted_bookshelf", VermiferousEnchantedBookshelfBlock::new);
-    public static final RegistryObject<Block> VERMIFEROUS_ARCHIVERS_BOOKSHELF = BLOCKS.register("vermiferous_archivers_bookshelf", VermiferousArchiversBookshelfBlock::new);
-    public static final RegistryObject<Block> VERMIFEROUS_CARTOGRAPHERS_BOOKSHELF = BLOCKS.register("vermiferous_cartographers_bookshelf", VermiferousCartographersBookshelfBlock::new);
+    public static final RegistryObject<Block> INFECTED_BOOKSHELF = BLOCKS.register("infected_bookshelf", InfectedBookshelfBlock::new);
+    public static final RegistryObject<Block> INFECTED_ENCHANTED_BOOKSHELF = BLOCKS.register("infected_enchanted_bookshelf", InfectedEnchantedBookshelfBlock::new);
+    public static final RegistryObject<Block> INFECTED_ARCHIVERS_BOOKSHELF = BLOCKS.register("infected_archivers_bookshelf", InfectedArchiversBookshelfBlock::new);
+    public static final RegistryObject<Block> INFECTED_CARTOGRAPHERS_BOOKSHELF = BLOCKS.register("infected_cartographers_bookshelf", InfectedCartographersBookshelfBlock::new);
 
     //-----DECORATIVE / CRAFTING-----//
 

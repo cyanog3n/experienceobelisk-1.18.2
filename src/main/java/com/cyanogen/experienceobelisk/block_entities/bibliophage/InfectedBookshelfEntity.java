@@ -4,15 +4,16 @@ import com.cyanogen.experienceobelisk.registries.RegisterBlockEntities;
 import net.minecraft.core.BlockPos;
 import net.minecraft.world.level.block.state.BlockState;
 
-public class VermiferousEnchantedBookshelfEntity extends AbstractVermiferousBookshelfEntity {
+public class InfectedBookshelfEntity extends AbstractInfectedBookshelfEntity {
 
-    public VermiferousEnchantedBookshelfEntity(BlockPos pos, BlockState state) {
-        super(RegisterBlockEntities.VERMIFEROUS_ENCHANTED_BOOKSHELF_BE.get(), pos, state);
+    public InfectedBookshelfEntity(BlockPos pos, BlockState state) {
+        super(RegisterBlockEntities.INFECTED_BOOKSHELF_BE.get(), pos, state);
 
         super.spawnDelayMin = 120;
         super.spawnDelayMax = 200;
-        super.orbValue = 48;
+        super.orbValue = 12;
         super.durability = 600;
+
     }
 
 }

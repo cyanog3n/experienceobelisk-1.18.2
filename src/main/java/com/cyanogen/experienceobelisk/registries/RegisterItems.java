@@ -172,14 +172,14 @@ public class RegisterItems {
     public static final RegistryObject<Item> ARCHIVERS_BOOKSHELF_ITEM = ITEMS.register("archivers_bookshelf",
             () -> new BlockItem(RegisterBlocks.ARCHIVERS_BOOKSHELF.get(), new Item.Properties()));
 
-    public static final RegistryObject<Item> VERMIFEROUS_BOOKSHELF_ITEM = ITEMS.register("vermiferous_bookshelf",
-            () -> new BlockItem(RegisterBlocks.VERMIFEROUS_BOOKSHELF.get(), new Item.Properties()));
+    public static final RegistryObject<Item> INFECTED_BOOKSHELF_ITEM = ITEMS.register("infected_bookshelf",
+            () -> new BlockItem(RegisterBlocks.INFECTED_BOOKSHELF.get(), new Item.Properties()));
 
-    public static final RegistryObject<Item> VERMIFEROUS_ENCHANTED_BOOKSHELF_ITEM = ITEMS.register("vermiferous_enchanted_bookshelf",
-            () -> new BlockItem(RegisterBlocks.VERMIFEROUS_ENCHANTED_BOOKSHELF.get(), new Item.Properties()));
+    public static final RegistryObject<Item> INFECTED_ENCHANTED_BOOKSHELF_ITEM = ITEMS.register("infected_enchanted_bookshelf",
+            () -> new BlockItem(RegisterBlocks.INFECTED_ENCHANTED_BOOKSHELF.get(), new Item.Properties()));
 
-    public static final RegistryObject<Item> VERMIFEROUS_ARCHIVERS_BOOKSHELF_ITEM = ITEMS.register("vermiferous_archivers_bookshelf",
-            () -> new BlockItem(RegisterBlocks.VERMIFEROUS_ARCHIVERS_BOOKSHELF.get(), new Item.Properties()));
+    public static final RegistryObject<Item> INFECTED_ARCHIVERS_BOOKSHELF_ITEM = ITEMS.register("infected_archivers_bookshelf",
+            () -> new BlockItem(RegisterBlocks.INFECTED_ARCHIVERS_BOOKSHELF.get(), new Item.Properties()));
 
 
     //-----BLOCK ITEMS-----//

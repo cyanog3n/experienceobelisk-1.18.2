@@ -46,16 +46,16 @@ public class BibliophageItem extends Item {
     public static void infectBlock(Level level, BlockPos pos, Block block){
 
         if(block.equals(Blocks.BOOKSHELF)){
-            level.setBlockAndUpdate(pos, RegisterBlocks.VERMIFEROUS_BOOKSHELF.get().defaultBlockState());
+            level.setBlockAndUpdate(pos, RegisterBlocks.INFECTED_BOOKSHELF.get().defaultBlockState());
         }
         else if(block.equals(RegisterBlocks.ENCHANTED_BOOKSHELF.get())){
-            level.setBlockAndUpdate(pos, RegisterBlocks.VERMIFEROUS_ENCHANTED_BOOKSHELF.get().defaultBlockState());
+            level.setBlockAndUpdate(pos, RegisterBlocks.INFECTED_ENCHANTED_BOOKSHELF.get().defaultBlockState());
         }
         else if(block.equals(RegisterBlocks.ARCHIVERS_BOOKSHELF.get())){
-            level.setBlockAndUpdate(pos, RegisterBlocks.VERMIFEROUS_ARCHIVERS_BOOKSHELF.get().defaultBlockState());
+            level.setBlockAndUpdate(pos, RegisterBlocks.INFECTED_ARCHIVERS_BOOKSHELF.get().defaultBlockState());
         }
         else if(block.equals(RegisterBlocks.CARTOGRAPHERS_BOOKSHELF.get())){
-            level.setBlockAndUpdate(pos, RegisterBlocks.VERMIFEROUS_CARTOGRAPHERS_BOOKSHELF.get().defaultBlockState());
+            level.setBlockAndUpdate(pos, RegisterBlocks.INFECTED_CARTOGRAPHERS_BOOKSHELF.get().defaultBlockState());
         }
     }
 

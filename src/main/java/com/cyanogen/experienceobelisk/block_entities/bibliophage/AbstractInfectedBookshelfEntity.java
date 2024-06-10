@@ -20,9 +20,9 @@ import java.util.List;
 import static com.cyanogen.experienceobelisk.item.BibliophageItem.getValidBlocksForInfection;
 import static com.cyanogen.experienceobelisk.item.BibliophageItem.infectBlock;
 
-public abstract class AbstractVermiferousBookshelfEntity extends BlockEntity {
+public abstract class AbstractInfectedBookshelfEntity extends BlockEntity {
 
-    public AbstractVermiferousBookshelfEntity(BlockEntityType<?> type, BlockPos pos, BlockState state) {
+    public AbstractInfectedBookshelfEntity(BlockEntityType<?> type, BlockPos pos, BlockState state) {
         super(type, pos, state);
     }
 
@@ -38,7 +38,7 @@ public abstract class AbstractVermiferousBookshelfEntity extends BlockEntity {
 
     public static <T> void tick(Level level, BlockPos pos, BlockState state, T blockEntity) {
 
-        if(blockEntity instanceof AbstractVermiferousBookshelfEntity bookshelf && !bookshelf.isDisplay){
+        if(blockEntity instanceof AbstractInfectedBookshelfEntity bookshelf && !bookshelf.isDisplay){
 
             if(bookshelf.decayValue >= bookshelf.durability){
                 BlockState dustBlock = RegisterBlocks.IGNORAMUS_DUST_BLOCK.get().defaultBlockState();
@@ -165,14 +165,14 @@ public abstract class AbstractVermiferousBookshelfEntity extends BlockEntity {
         return list;
     }
 
-    public List<VermiferousCartographersBookshelfEntity> getAdjacentCartographersBookshelves(Level level, BlockPos pos){
+    public List<InfectedCartographersBookshelfEntity> getAdjacentCartographersBookshelves(Level level, BlockPos pos){
 
-        List<VermiferousCartographersBookshelfEntity> list = new ArrayList<>();
+        List<InfectedCartographersBookshelfEntity> list = new ArrayList<>();
 
         for(BlockPos adjacent : getAdjacents(pos)){
             BlockEntity entity = level.getBlockEntity(adjacent);
-            if(entity instanceof VermiferousCartographersBookshelfEntity){
-                list.add((VermiferousCartographersBookshelfEntity) entity);
+            if(entity instanceof InfectedCartographersBookshelfEntity){
+                list.add((InfectedCartographersBookshelfEntity) entity);
             }
         }
 

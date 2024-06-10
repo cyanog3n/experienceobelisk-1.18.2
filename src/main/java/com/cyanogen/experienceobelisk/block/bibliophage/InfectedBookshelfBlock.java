@@ -1,7 +1,7 @@
 package com.cyanogen.experienceobelisk.block.bibliophage;
 
-import com.cyanogen.experienceobelisk.block_entities.bibliophage.AbstractVermiferousBookshelfEntity;
-import com.cyanogen.experienceobelisk.block_entities.bibliophage.VermiferousBookshelfEntity;
+import com.cyanogen.experienceobelisk.block_entities.bibliophage.AbstractInfectedBookshelfEntity;
+import com.cyanogen.experienceobelisk.block_entities.bibliophage.InfectedBookshelfEntity;
 import com.cyanogen.experienceobelisk.registries.RegisterBlockEntities;
 import net.minecraft.core.BlockPos;
 import net.minecraft.server.level.ServerLevel;
@@ -28,9 +28,9 @@ import org.jetbrains.annotations.Nullable;
 
 import java.util.List;
 
-public class VermiferousBookshelfBlock extends Block implements EntityBlock {
+public class InfectedBookshelfBlock extends Block implements EntityBlock {
 
-    public VermiferousBookshelfBlock() {
+    public InfectedBookshelfBlock() {
         super(Properties.copy(Blocks.BOOKSHELF));
     }
 
@@ -54,7 +54,7 @@ public class VermiferousBookshelfBlock extends Block implements EntityBlock {
     @Override
     public boolean onDestroyedByPlayer(BlockState state, Level level, BlockPos pos, Player player, boolean willHarvest, FluidState fluid) {
 
-        if(level.getBlockEntity(pos) instanceof AbstractVermiferousBookshelfEntity bookshelf){
+        if(level.getBlockEntity(pos) instanceof AbstractInfectedBookshelfEntity bookshelf){
             int remaining = bookshelf.getDurability() - bookshelf.getDecayValue();
             int remainingProduction = remaining * bookshelf.getOrbValue() / (bookshelf.getAverageSpawnDelay() / 20);
 
@@ -79,12 +79,12 @@ public class VermiferousBookshelfBlock extends Block implements EntityBlock {
     @Nullable
     @Override
     public <T extends BlockEntity> BlockEntityTicker<T> getTicker(Level level, BlockState state, BlockEntityType<T> blockEntityType) {
-        return blockEntityType == RegisterBlockEntities.VERMIFEROUS_BOOKSHELF_BE.get() ? VermiferousBookshelfEntity::tick : null;
+        return blockEntityType == RegisterBlockEntities.INFECTED_BOOKSHELF_BE.get() ? InfectedBookshelfEntity::tick : null;
     }
 
     @Nullable
     @Override
     public BlockEntity newBlockEntity(BlockPos pos, BlockState state) {
-        return RegisterBlockEntities.VERMIFEROUS_BOOKSHELF_BE.get().create(pos, state);
+        return RegisterBlockEntities.INFECTED_BOOKSHELF_BE.get().create(pos, state);
     }
 }

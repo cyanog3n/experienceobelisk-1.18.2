@@ -2,10 +2,10 @@ package com.cyanogen.experienceobelisk.registries;
 
 import com.cyanogen.experienceobelisk.ExperienceObelisk;
 import com.cyanogen.experienceobelisk.block_entities.*;
-import com.cyanogen.experienceobelisk.block_entities.bibliophage.VermiferousArchiversBookshelfEntity;
-import com.cyanogen.experienceobelisk.block_entities.bibliophage.VermiferousBookshelfEntity;
-import com.cyanogen.experienceobelisk.block_entities.bibliophage.VermiferousCartographersBookshelfEntity;
-import com.cyanogen.experienceobelisk.block_entities.bibliophage.VermiferousEnchantedBookshelfEntity;
+import com.cyanogen.experienceobelisk.block_entities.bibliophage.InfectedArchiversBookshelfEntity;
+import com.cyanogen.experienceobelisk.block_entities.bibliophage.InfectedBookshelfEntity;
+import com.cyanogen.experienceobelisk.block_entities.bibliophage.InfectedCartographersBookshelfEntity;
+import com.cyanogen.experienceobelisk.block_entities.bibliophage.InfectedEnchantedBookshelfEntity;
 import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraftforge.eventbus.api.IEventBus;
 import net.minecraftforge.registries.DeferredRegister;
@@ -33,17 +33,17 @@ public class RegisterBlockEntities {
     public static final RegistryObject<BlockEntityType<LinearAcceleratorEntity>> LINEAR_ACCELERATOR_BE = BLOCK_ENTITIES.register("linearaccelerator_be",
             ()-> BlockEntityType.Builder.of(LinearAcceleratorEntity::new, RegisterBlocks.LINEAR_ACCELERATOR.get()).build(Type));
 
-    public static final RegistryObject<BlockEntityType<VermiferousBookshelfEntity>> VERMIFEROUS_BOOKSHELF_BE = BLOCK_ENTITIES.register("vermiferousbookshelf_be",
-            ()-> BlockEntityType.Builder.of(VermiferousBookshelfEntity::new, RegisterBlocks.VERMIFEROUS_BOOKSHELF.get()).build(Type));
+    public static final RegistryObject<BlockEntityType<InfectedBookshelfEntity>> INFECTED_BOOKSHELF_BE = BLOCK_ENTITIES.register("infectedbookshelf_be",
+            ()-> BlockEntityType.Builder.of(InfectedBookshelfEntity::new, RegisterBlocks.INFECTED_BOOKSHELF.get()).build(Type));
 
-    public static final RegistryObject<BlockEntityType<VermiferousEnchantedBookshelfEntity>> VERMIFEROUS_ENCHANTED_BOOKSHELF_BE = BLOCK_ENTITIES.register("vermiferousenchantedbookshelf_be",
-            ()-> BlockEntityType.Builder.of(VermiferousEnchantedBookshelfEntity::new, RegisterBlocks.VERMIFEROUS_ENCHANTED_BOOKSHELF.get()).build(Type));
+    public static final RegistryObject<BlockEntityType<InfectedEnchantedBookshelfEntity>> INFECTED_ENCHANTED_BOOKSHELF_BE = BLOCK_ENTITIES.register("infectedenchantedbookshelf_be",
+            ()-> BlockEntityType.Builder.of(InfectedEnchantedBookshelfEntity::new, RegisterBlocks.INFECTED_ENCHANTED_BOOKSHELF.get()).build(Type));
 
-    public static final RegistryObject<BlockEntityType<VermiferousArchiversBookshelfEntity>> VERMIFEROUS_ARCHIVERS_BOOKSHELF_BE = BLOCK_ENTITIES.register("vermiferousarchiversbookshelf_be",
-            ()-> BlockEntityType.Builder.of(VermiferousArchiversBookshelfEntity::new, RegisterBlocks.VERMIFEROUS_ARCHIVERS_BOOKSHELF.get()).build(Type));
+    public static final RegistryObject<BlockEntityType<InfectedArchiversBookshelfEntity>> INFECTED_ARCHIVERS_BOOKSHELF_BE = BLOCK_ENTITIES.register("infectedarchiversbookshelf_be",
+            ()-> BlockEntityType.Builder.of(InfectedArchiversBookshelfEntity::new, RegisterBlocks.INFECTED_ARCHIVERS_BOOKSHELF.get()).build(Type));
 
-    public static final RegistryObject<BlockEntityType<VermiferousCartographersBookshelfEntity>> VERMIFEROUS_CARTOGRAPHERS_BOOKSHELF_BE = BLOCK_ENTITIES.register("vermiferouscartographersbookshelf_be",
-            ()-> BlockEntityType.Builder.of(VermiferousCartographersBookshelfEntity::new, RegisterBlocks.VERMIFEROUS_CARTOGRAPHERS_BOOKSHELF.get()).build(Type));
+    public static final RegistryObject<BlockEntityType<InfectedCartographersBookshelfEntity>> INFECTED_CARTOGRAPHERS_BOOKSHELF_BE = BLOCK_ENTITIES.register("infectedcartographersbookshelf_be",
+            ()-> BlockEntityType.Builder.of(InfectedCartographersBookshelfEntity::new, RegisterBlocks.INFECTED_CARTOGRAPHERS_BOOKSHELF.get()).build(Type));
 
     public static void register(IEventBus eventBus){
         BLOCK_ENTITIES.register(eventBus);
