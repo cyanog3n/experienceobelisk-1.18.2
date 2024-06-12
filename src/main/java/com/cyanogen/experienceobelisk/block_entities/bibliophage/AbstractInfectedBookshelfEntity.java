@@ -1,18 +1,31 @@
 package com.cyanogen.experienceobelisk.block_entities.bibliophage;
 
 import com.cyanogen.experienceobelisk.registries.RegisterBlocks;
+import net.minecraft.client.particle.TotemParticle;
+import net.minecraft.commands.Commands;
 import net.minecraft.core.BlockPos;
+import net.minecraft.core.particles.BlockParticleOption;
+import net.minecraft.core.particles.ParticleOptions;
+import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.protocol.Packet;
 import net.minecraft.network.protocol.game.ClientGamePacketListener;
 import net.minecraft.network.protocol.game.ClientboundBlockEntityDataPacket;
 import net.minecraft.server.level.ServerLevel;
+import net.minecraft.sounds.SoundEvents;
+import net.minecraft.sounds.SoundSource;
 import net.minecraft.world.entity.ExperienceOrb;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Block;
+import net.minecraft.world.level.block.Blocks;
+import net.minecraft.world.level.block.CampfireBlock;
+import net.minecraft.world.level.block.TorchBlock;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.entity.BlockEntityType;
+import net.minecraft.world.level.block.state.BlockBehaviour;
 import net.minecraft.world.level.block.state.BlockState;
+import net.minecraftforge.common.Tags;
+import org.apache.logging.log4j.core.jmx.Server;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -42,9 +55,14 @@ public abstract class AbstractInfectedBookshelfEntity extends BlockEntity {
 
             if(bookshelf.decayValue >= bookshelf.durability){
                 BlockState dustBlock = RegisterBlocks.IGNORAMUS_DUST_BLOCK.get().defaultBlockState();
-                level.setBlockAndUpdate(pos, dustBlock);
 
-                //todo: play some sound & particle effect
+                if(!level.isClientSide){
+                    ServerLevel server = (ServerLevel) level;
+                    server.setBlockAndUpdate(pos, dustBlock);
+                    level.playSound(null, pos, SoundEvents.STONE_BREAK, SoundSource.BLOCKS, 1f,1f);
+                    server.sendParticles(ParticleTypes.POOF, pos.getX() + 0.5, pos.getY() + 0.5, pos.getZ() + 0.5, 20, 0,0,0,0.1);
+                    //type, xpos, ypos, zpos, count, xdelta, ydelta, zdelta, maxspeed
+                }
             }
             else{
 
