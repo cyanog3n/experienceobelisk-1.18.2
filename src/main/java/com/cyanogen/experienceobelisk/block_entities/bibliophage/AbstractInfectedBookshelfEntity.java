@@ -59,7 +59,7 @@ public abstract class AbstractInfectedBookshelfEntity extends BlockEntity {
                 if(!level.isClientSide){
                     ServerLevel server = (ServerLevel) level;
                     server.setBlockAndUpdate(pos, dustBlock);
-                    level.playSound(null, pos, SoundEvents.STONE_BREAK, SoundSource.BLOCKS, 1f,1f);
+                    level.playSound(null, pos, SoundEvents.WART_BLOCK_BREAK, SoundSource.BLOCKS, 1f,1f);
                     server.sendParticles(ParticleTypes.POOF, pos.getX() + 0.5, pos.getY() + 0.5, pos.getZ() + 0.5, 20, 0,0,0,0.1);
                     //type, xpos, ypos, zpos, count, xdelta, ydelta, zdelta, maxspeed
                 }
