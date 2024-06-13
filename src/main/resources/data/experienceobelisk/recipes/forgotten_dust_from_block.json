@@ -2,11 +2,11 @@
   "type": "minecraft:crafting_shapeless",
   "ingredients": [
     {
-      "item": "experienceobelisk:ignoramus_dust_block"
+      "item": "experienceobelisk:forgotten_dust_block"
     }
   ],
   "result": {
-    "item": "experienceobelisk:ignoramus_dust",
+    "item": "experienceobelisk:forgotten_dust",
     "count": 9
   }
 }

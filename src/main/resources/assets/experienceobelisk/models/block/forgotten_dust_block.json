@@ -1,7 +1,7 @@
 {
     "parent": "minecraft:block/cube_all",
     "textures": {
-        "all": "experienceobelisk:block/ignoramus_dust_block"
+        "all": "experienceobelisk:block/forgotten_dust_block"
     }
 }
 

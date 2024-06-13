@@ -6,11 +6,11 @@
   ],
   "key": {
     "A": {
-      "item": "experienceobelisk:ignoramus_dust"
+      "item": "experienceobelisk:forgotten_dust"
     }
   },
   "result": {
-    "item": "experienceobelisk:ignoramus_dust_block",
+    "item": "experienceobelisk:forgotten_dust_block",
     "count": 1
   }
 }
