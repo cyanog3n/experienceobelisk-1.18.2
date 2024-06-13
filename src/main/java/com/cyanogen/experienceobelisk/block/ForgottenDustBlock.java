@@ -6,9 +6,9 @@ import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.FallingBlock;
 import net.minecraft.world.level.block.state.BlockState;
 
-public class IgnoramusDustBlock extends FallingBlock {
+public class ForgottenDustBlock extends FallingBlock {
 
-    public IgnoramusDustBlock() {
+    public ForgottenDustBlock() {
         super(Properties.copy(Blocks.SAND)
                 .strength(0.3f)
         );
