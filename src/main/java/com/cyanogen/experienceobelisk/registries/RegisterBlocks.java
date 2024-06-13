@@ -37,7 +37,7 @@ public class RegisterBlocks {
     public static final RegistryObject<Block> COGNITIVE_ALLOY_BLOCK = BLOCKS.register("cognitive_alloy_block", CognitiveAlloyBlock::new);
     public static final RegistryObject<Block> COGNITIVE_CRYSTAL_BLOCK = BLOCKS.register("cognitive_crystal_block", CognitiveCrystalBlock::new);
     public static final RegistryObject<Block> WHISPERGLASS_BLOCK = BLOCKS.register("whisperglass", WhisperglassBlock::new);
-    public static final RegistryObject<Block> FORGOTTEN_DUST_BLOCK = BLOCKS.register("ignoramus_dust_block", ForgottenDustBlock::new);
+    public static final RegistryObject<Block> FORGOTTEN_DUST_BLOCK = BLOCKS.register("forgotten_dust_block", ForgottenDustBlock::new);
     public static final RegistryObject<Block> ENCHANTED_BOOKSHELF = BLOCKS.register("enchanted_bookshelf", () -> new Block(BlockBehaviour.Properties.copy(Blocks.BOOKSHELF)));
     public static final RegistryObject<Block> ARCHIVERS_BOOKSHELF = BLOCKS.register("archivers_bookshelf", () -> new Block(BlockBehaviour.Properties.copy(Blocks.BOOKSHELF)));
     public static final RegistryObject<Block> CARTOGRAPHERS_BOOKSHELF = BLOCKS.register("cartographers_bookshelf", () -> new Block(BlockBehaviour.Properties.copy(Blocks.BOOKSHELF)));
