@@ -70,7 +70,7 @@ public abstract class AbstractInfectedBookshelfEntity extends BlockEntity {
                 if(level.getGameTime() % 20 == 0){
                     bookshelf.incrementDecayValue(level, pos);
 
-                    if(Math.random() <= 0.025){
+                    if(Math.random() <= 0.022){
                         bookshelf.infectAdjacent(level, pos);
                     }
                 }
