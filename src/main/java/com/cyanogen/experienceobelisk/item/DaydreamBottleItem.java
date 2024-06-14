@@ -23,7 +23,7 @@ public class DaydreamBottleItem extends BottleItem {
 
         if(entity instanceof Player player){
             player.resetStat(Stats.CUSTOM.get(Stats.TIME_SINCE_REST));
-            player.addEffect(new MobEffectInstance(MobEffects.LEVITATION, 40));
+            player.addEffect(new MobEffectInstance(MobEffects.NIGHT_VISION, 60));
 
             if(!player.isCreative()){
                 stack.shrink(1);
