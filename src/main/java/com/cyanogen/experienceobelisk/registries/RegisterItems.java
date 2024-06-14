@@ -67,6 +67,7 @@ public class RegisterItems {
     public static final RegistryObject<Item> COGNITIVE_ALLOY = ITEMS.register("cognitive_alloy", RegisterItems::baseItem);
     public static final RegistryObject<Item> COGNITIVE_CRYSTAL = ITEMS.register("cognitive_crystal", RegisterItems::baseItem);
     public static final RegistryObject<Item> ASTUTE_ASSEMBLY = ITEMS.register("astute_assembly", RegisterItems::baseItem);
+    public static final RegistryObject<Item> PRIMORDIAL_ASSEMBLY = ITEMS.register("primordial_assembly", RegisterItems::baseItem);
     public static final RegistryObject<Item> FORGOTTEN_DUST = ITEMS.register("forgotten_dust", () -> new Item(new Item.Properties()){
         @Override
         public int getBurnTime(ItemStack itemStack, @Nullable RecipeType<?> recipeType) {
