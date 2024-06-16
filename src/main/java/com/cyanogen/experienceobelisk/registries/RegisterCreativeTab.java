@@ -20,14 +20,13 @@ public class RegisterCreativeTab {
                     .withTabsBefore(CreativeModeTabs.SPAWN_EGGS)
                     .displayItems((p_270258_, output) -> {
 
-                        //INGREDIENTS
+                        //BASIC INGREDIENTS
                         output.accept(RegisterItems.COGNITIVE_FLUX.get());
                         output.accept(RegisterItems.COGNITIVE_AMALGAM.get());
                         output.accept(RegisterItems.COGNITIVE_ALLOY.get());
                         output.accept(RegisterItems.COGNITIVE_CRYSTAL.get());
                         output.accept(RegisterItems.ASTUTE_ASSEMBLY.get());
                         output.accept(RegisterItems.PRIMORDIAL_ASSEMBLY.get());
-                        output.accept(RegisterItems.FORGOTTEN_DUST.get());
 
                         //TOOLSETS
                         output.accept(RegisterItems.COGNITIVE_SWORD.get());
@@ -37,12 +36,9 @@ public class RegisterCreativeTab {
                         output.accept(RegisterItems.COGNITIVE_HOE.get());
 
                         //FUNCTIONAL ITEMS
-                        output.accept(RegisterItems.COGNITIUM_BUCKET.get());
                         output.accept(RegisterItems.ATTUNEMENT_STAFF.get());
                         output.accept(RegisterItems.ENLIGHTENED_AMULET.get());
                         output.accept(RegisterItems.BIBLIOPHAGE.get());
-                        output.accept(RegisterItems.NIGHTMARE_BOTTLE.get());
-                        output.accept(RegisterItems.DAYDREAM_BOTTLE.get());
 
                         //FUNCTIONAL BLOCKS
                         output.accept(RegisterItems.EXPERIENCE_OBELISK_ITEM.get());
@@ -60,10 +56,13 @@ public class RegisterCreativeTab {
                         output.accept(RegisterItems.COGNITIVE_ALLOY_BLOCK_ITEM.get());
                         output.accept(RegisterItems.COGNITIVE_CRYSTAL_BLOCK_ITEM.get());
                         output.accept(RegisterItems.WHISPERGLASS_ITEM.get());
+
+                        //MISC
+                        output.accept(RegisterItems.FORGOTTEN_DUST.get());
                         output.accept(RegisterItems.FORGOTTEN_DUST_BLOCK_ITEM.get());
-
-
-
+                        output.accept(RegisterItems.NIGHTMARE_BOTTLE.get());
+                        output.accept(RegisterItems.DAYDREAM_BOTTLE.get());
+                        output.accept(RegisterItems.COGNITIUM_BUCKET.get());
                     })
                     .build());
 
