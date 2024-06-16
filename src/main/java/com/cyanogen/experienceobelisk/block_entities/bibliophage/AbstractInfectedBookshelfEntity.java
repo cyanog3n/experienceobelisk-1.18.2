@@ -18,7 +18,9 @@ import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraft.world.level.block.state.BlockState;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import static com.cyanogen.experienceobelisk.item.BibliophageItem.getValidBlocksForInfection;
 import static com.cyanogen.experienceobelisk.item.BibliophageItem.infectBlock;
@@ -83,25 +85,25 @@ public abstract class AbstractInfectedBookshelfEntity extends BlockEntity {
 
     public void infectAdjacent(Level level, BlockPos pos){
 
+        Map<BlockPos, Block> adjacentMap = new HashMap<>();
         List<BlockPos> posList = new ArrayList<>();
-        List<Block> blockList = new ArrayList<>();
 
-        for(BlockPos adjacent : getAdjacents(pos)){
-            if(getValidBlocksForInfection().contains(level.getBlockState(adjacent).getBlock())){
-                posList.add(adjacent);
-                blockList.add(level.getBlockState(adjacent).getBlock());
+        for(BlockPos adjacentPos : getAdjacents(pos)){
+            if(getValidBlocksForInfection().contains(level.getBlockState(adjacentPos).getBlock())){
+
+                Block adjacentBlock = level.getBlockState(adjacentPos).getBlock();
+                adjacentMap.put(adjacentPos, adjacentBlock);
+                posList.add(adjacentPos);
             }
         }
 
-        if(!posList.isEmpty()){
+        if(!adjacentMap.isEmpty()){
 
             int index = (int) Math.floor(Math.random() * posList.size());
             BlockPos posToInfect = posList.get(index);
-            Block block = blockList.get(index);
+            Block block = adjacentMap.get(posToInfect);
 
             infectBlock(level, posToInfect, block);
-            //level.addParticle((ParticleOptions) ParticleTypes.DUST, pos.getX(), pos.getY(), pos.getZ(),0,0,0);
-            //find out how to add particles
         }
     }
 

@@ -53,7 +53,7 @@ public class InfectedBookshelfBlock extends Block implements EntityBlock {
             int orbCount = (int) (1 + Math.random() * 4);
             int orbValue = totalValue / orbCount;
 
-            if(!level.isClientSide && totalValue > 10){
+            if(!level.isClientSide && totalValue > 10 && !player.isCreative()){
                 ServerLevel server = (ServerLevel) level;
 
                 for(int i = 0; i < orbCount; i++){
