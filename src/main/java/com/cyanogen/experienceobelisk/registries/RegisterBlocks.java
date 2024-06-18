@@ -31,6 +31,7 @@ public class RegisterBlocks {
     public static final RegistryObject<Block> INFECTED_ENCHANTED_BOOKSHELF = BLOCKS.register("infected_enchanted_bookshelf", InfectedEnchantedBookshelfBlock::new);
     public static final RegistryObject<Block> INFECTED_ARCHIVERS_BOOKSHELF = BLOCKS.register("infected_archivers_bookshelf", InfectedArchiversBookshelfBlock::new);
     public static final RegistryObject<Block> INFECTED_CARTOGRAPHERS_BOOKSHELF = BLOCKS.register("infected_cartographers_bookshelf", InfectedCartographersBookshelfBlock::new);
+    public static final RegistryObject<Block> LASER_TRANSFIGURATOR = BLOCKS.register("laser_transfigurator", LaserTransfiguratorBlock::new);
 
     //-----DECORATIVE / CRAFTING-----//
 

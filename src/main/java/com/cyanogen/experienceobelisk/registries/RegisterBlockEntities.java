@@ -45,6 +45,9 @@ public class RegisterBlockEntities {
     public static final RegistryObject<BlockEntityType<InfectedCartographersBookshelfEntity>> INFECTED_CARTOGRAPHERS_BOOKSHELF_BE = BLOCK_ENTITIES.register("infectedcartographersbookshelf_be",
             ()-> BlockEntityType.Builder.of(InfectedCartographersBookshelfEntity::new, RegisterBlocks.INFECTED_CARTOGRAPHERS_BOOKSHELF.get()).build(Type));
 
+    public static final RegistryObject<BlockEntityType<LaserTransfiguratorEntity>> LASER_TRANSFIGURATOR_BE = BLOCK_ENTITIES.register("lasertransfigurator_be",
+            ()-> BlockEntityType.Builder.of(LaserTransfiguratorEntity::new, RegisterBlocks.LASER_TRANSFIGURATOR.get()).build(Type));
+
     public static void register(IEventBus eventBus){
         BLOCK_ENTITIES.register(eventBus);
     }

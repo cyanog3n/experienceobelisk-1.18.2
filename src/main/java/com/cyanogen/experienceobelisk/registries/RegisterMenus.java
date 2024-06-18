@@ -2,6 +2,7 @@ package com.cyanogen.experienceobelisk.registries;
 
 import com.cyanogen.experienceobelisk.ExperienceObelisk;
 import com.cyanogen.experienceobelisk.gui.ExperienceObeliskMenu;
+import com.cyanogen.experienceobelisk.gui.LaserTransfiguratorMenu;
 import com.cyanogen.experienceobelisk.gui.PrecisionDispellerMenu;
 import net.minecraft.world.inventory.MenuType;
 import net.minecraftforge.common.extensions.IForgeMenuType;
@@ -20,6 +21,9 @@ public class RegisterMenus {
 
     public static final RegistryObject<MenuType<ExperienceObeliskMenu>> EXPERIENCE_OBELISK_MENU = MENUS.register("experience_obelisk_menu",
             ()-> IForgeMenuType.create(ExperienceObeliskMenu::new));
+
+    public static final RegistryObject<MenuType<LaserTransfiguratorMenu>> LASER_TRANSFIGURATOR_MENU = MENUS.register("laser_transfigurator_menu",
+            ()-> IForgeMenuType.create(LaserTransfiguratorMenu::new));
 
     public static void register(IEventBus eventBus) {
         MENUS.register(eventBus);
