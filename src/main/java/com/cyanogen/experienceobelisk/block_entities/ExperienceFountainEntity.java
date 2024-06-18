@@ -190,25 +190,6 @@ public class ExperienceFountainEntity extends ExperienceReceivingEntity implemen
         setChanged();
     }
 
-    public String toName(int activityState, boolean isActive){
-
-        switch(activityState){
-            case 0 -> {
-                return isActive ? "active-slow" : "slow";
-            }
-            case 1 -> {
-                return isActive ? "active-moderate" : "moderate";
-            }
-            case 2 -> {
-                return isActive ? "active-fast" : "fast";
-            }
-            case 3 -> {
-                return isActive ? "active-hyperspeed" : "hyperspeed";
-            }
-        }
-        return null;
-    }
-
     @Override
     public void load(CompoundTag tag)
     {
