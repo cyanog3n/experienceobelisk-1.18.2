@@ -10,22 +10,10 @@ public class InfectedCartographersBookshelfEntity extends AbstractInfectedBooksh
     public InfectedCartographersBookshelfEntity(BlockPos pos, BlockState state) {
         super(RegisterBlockEntities.INFECTED_CARTOGRAPHERS_BOOKSHELF_BE.get(), pos, state);
 
-        super.orbValue = 0;
-        super.durability = 1400;
-
-    }
-
-    public static <T> void tick(Level level, BlockPos pos, BlockState state, T blockEntity) {
-
-        if(level.getGameTime() % 20 == 0 && blockEntity instanceof AbstractInfectedBookshelfEntity bookshelf){
-
-            bookshelf.incrementDecayValue(level, pos);
-
-            if(Math.random() <= 0.15){
-                bookshelf.infectAdjacent(level, pos);
-            }
-
-        }
+        super.spawnDelayMin = 70;
+        super.spawnDelayMax = 90;
+        super.orbValue = 60;
+        super.durability = 60;
 
     }
 
