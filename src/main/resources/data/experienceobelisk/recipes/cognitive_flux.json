@@ -2,14 +2,19 @@
   "type": "minecraft:crafting_shapeless",
   "ingredients": [
     {
-      "item": "minecraft:soul_sand"
-    },
-    {
       "item": "minecraft:quartz"
     },
     {
       "item": "minecraft:lapis_lazuli"
-    }
+    },
+    [
+      {
+        "item": "minecraft:soul_sand"
+      },
+      {
+        "item": "minecraft:soul_soil"
+      }
+    ]
   ],
   "result": {
     "item": "experienceobelisk:cognitive_flux",
