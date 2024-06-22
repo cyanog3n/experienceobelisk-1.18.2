@@ -29,6 +29,9 @@ import org.jetbrains.annotations.Nullable;
 
 public class LinearAcceleratorBlock extends ExperienceReceivingBlock implements EntityBlock {
 
+    public static final DirectionProperty FACING = BlockStateProperties.HORIZONTAL_FACING;
+    public static final BooleanProperty ACTIVE = BooleanProperty.create("active");
+
     public LinearAcceleratorBlock() {
         super(Properties.of()
                 .strength(9f)
@@ -42,9 +45,6 @@ public class LinearAcceleratorBlock extends ExperienceReceivingBlock implements 
         this.registerDefaultState(this.stateDefinition.any().setValue(FACING, Direction.NORTH));
         this.registerDefaultState(this.stateDefinition.any().setValue(ACTIVE, true));
     }
-
-    public static final DirectionProperty FACING = BlockStateProperties.HORIZONTAL_FACING;
-    public static final BooleanProperty ACTIVE = BooleanProperty.create("active");
 
     @Override
     public float getFriction(BlockState state, LevelReader level, BlockPos pos, @Nullable Entity entity) {
