@@ -109,15 +109,12 @@ public abstract class AbstractInfectedBookshelfEntity extends BlockEntity {
 
     public void incrementDecayValue(Level level, BlockPos pos){
 
-        double threshold;
-
-        if(getAdjacentBlockStates(level, pos).contains(RegisterBlocks.COGNITIVE_ALLOY_BLOCK.get().defaultBlockState())){
-            //change to enlightened alloy later
-            threshold = 0.5;
-        }
-        else{
-            threshold = 0.75;
-        }
+        double threshold = 0.75;
+//        int multiplier = enumerateAdjacentsOfType(level, pos, RegisterBlocks.COGNITIVE_ALLOY_BLOCK.get().defaultBlockState());
+//
+//        if(multiplier > 0){
+//            threshold = threshold / Math.pow(1.5, multiplier);
+//        }
 
         if(Math.random() <= threshold){
             this.decayValue += 1;
@@ -139,11 +136,11 @@ public abstract class AbstractInfectedBookshelfEntity extends BlockEntity {
     public void handleExperience(Level level, BlockPos pos){
 
         int value = orbValue;
-
-        if(getAdjacentBlockStates(level, pos).contains(RegisterBlocks.COGNITIVE_CRYSTAL_BLOCK.get().defaultBlockState())){
-            //change to enlightened crystal later
-            value = (int) (value * 1.5);
-        }
+//        int multiplier = enumerateAdjacentsOfType(level, pos, RegisterBlocks.COGNITIVE_CRYSTAL_BLOCK.get().defaultBlockState());
+//
+//        if(multiplier > 0){
+//            value = (int) (value * Math.pow(1.5, multiplier));
+//        }
 
         if(!level.isClientSide){
             ServerLevel server = (ServerLevel) level;
@@ -175,18 +172,16 @@ public abstract class AbstractInfectedBookshelfEntity extends BlockEntity {
         return list;
     }
 
-    public List<InfectedCartographersBookshelfEntity> getAdjacentCartographersBookshelves(Level level, BlockPos pos){
+    public int enumerateAdjacentsOfType(Level level, BlockPos pos, BlockState state){
 
-        List<InfectedCartographersBookshelfEntity> list = new ArrayList<>();
+        int count = 0;
 
-        for(BlockPos adjacent : getAdjacents(pos)){
-            BlockEntity entity = level.getBlockEntity(adjacent);
-            if(entity instanceof InfectedCartographersBookshelfEntity){
-                list.add((InfectedCartographersBookshelfEntity) entity);
+        for(BlockState adjacent : getAdjacentBlockStates(level, pos)){
+            if(adjacent.equals(state)){
+                count++;
             }
         }
-
-        return list;
+        return count;
     }
 
     public boolean toggleDisplay(){
