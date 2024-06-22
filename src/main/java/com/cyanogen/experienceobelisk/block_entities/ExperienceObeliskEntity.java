@@ -291,7 +291,6 @@ public class ExperienceObeliskEntity extends BlockEntity implements GeoBlockEnti
         tag.putBoolean("isRedstoneControllable", redstoneEnabled);
     }
 
-    //sends CompoundTag out with nbt data
     @Override
     public CompoundTag getUpdateTag()
     {
@@ -304,7 +303,6 @@ public class ExperienceObeliskEntity extends BlockEntity implements GeoBlockEnti
         return tag;
     }
 
-    //gets packet to send to client
     @Override
     public Packet<ClientGamePacketListener> getUpdatePacket()
     {
