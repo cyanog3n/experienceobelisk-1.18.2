@@ -39,6 +39,7 @@ public class ExperienceObelisk
         RegisterBlockEntities.register(eventBus);
         RegisterFluids.register(eventBus);
         RegisterMenus.register(eventBus);
+        RegisterRecipes.register(eventBus);
         RegisterSounds.register(eventBus);
 
         PacketHandler.init();

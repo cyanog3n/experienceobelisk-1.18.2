@@ -75,12 +75,7 @@ public class LaserTransfiguratorEntity extends ExperienceReceivingEntity impleme
 
             @Override
             public boolean isItemValid(int slot, @NotNull ItemStack stack) {
-                if(slot == 4){
-                    return false;
-                }
-                else{
-                    return true;
-                }
+                return slot != 3;
             }
         };
     }
