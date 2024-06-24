@@ -1,53 +1,125 @@
 package com.cyanogen.experienceobelisk.gui;
 
+import com.cyanogen.experienceobelisk.block_entities.LaserTransfiguratorEntity;
 import com.cyanogen.experienceobelisk.registries.RegisterMenus;
 import net.minecraft.core.BlockPos;
 import net.minecraft.network.FriendlyByteBuf;
+import net.minecraft.world.Container;
 import net.minecraft.world.SimpleContainer;
 import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.inventory.AbstractContainerMenu;
 import net.minecraft.world.inventory.Slot;
 import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.level.Level;
+import net.minecraft.world.level.block.entity.BlockEntity;
+import net.minecraftforge.items.IItemHandler;
+import net.minecraftforge.items.SlotItemHandler;
 
 public class LaserTransfiguratorMenu extends AbstractContainerMenu {
 
     SimpleContainer container = new SimpleContainer(4);
+    LaserTransfiguratorEntity transfigurator;
 
     public LaserTransfiguratorMenu(int id, Inventory inventory, FriendlyByteBuf data){
-        this(id, inventory, inventory.player, new BlockPos(0,0,0));
+        this(id, inventory, null, inventory.player, new BlockPos(0,0,0));
+
+        Level level = inventory.player.level();
+        BlockEntity entity = level.getBlockEntity(data.readBlockPos());
+        if(entity instanceof LaserTransfiguratorEntity transfigurator){
+            this.transfigurator = transfigurator;
+        }
     }
 
     //-----SLOTS-----//
 
-    public LaserTransfiguratorMenu(int id, Inventory inventory, Player player, BlockPos pos){
+    public LaserTransfiguratorMenu(int id, Inventory inventoryPlayer, IItemHandler inventoryBlock, Player player, BlockPos pos){
 
         super(RegisterMenus.LASER_TRANSFIGURATOR_MENU.get(), id);
 
-        // INPUT 1
-        this.addSlot(new Slot(this.container, 0, 17, 18));
-        // INPUT 2
-        this.addSlot(new Slot(this.container, 0, 17, 38));
-        // INPUT 3
-        this.addSlot(new Slot(this.container, 0, 17, 58));
-        // OUTPUT 1
-        this.addSlot(new Slot(this.container, 0, 37, 38){
-            @Override
-            public boolean mayPlace(ItemStack p_40231_) {
-                return false;
-            }
-        });
+        if(inventoryBlock != null){
+            // INPUT 1
+            this.addSlot(new SlotItemHandler(inventoryBlock, 0, 17, 18));
+            // INPUT 2
+            this.addSlot(new SlotItemHandler(inventoryBlock, 1, 37, 18));
+            // INPUT 3
+            this.addSlot(new SlotItemHandler(inventoryBlock, 2, 57, 18));
+            // OUTPUT 1
+            this.addSlot(new SlotItemHandler(inventoryBlock, 3, 37, 38){
+                @Override
+                public boolean mayPlace(ItemStack p_40231_) {
+                    return false;
+                }
+            });
+        }
+        else{
+            // INPUT 1
+            this.addSlot(new Slot(this.container, 0, 17, 18));
+            // INPUT 2
+            this.addSlot(new Slot(this.container, 1, 37, 18));
+            // INPUT 3
+            this.addSlot(new Slot(this.container, 2, 57, 18));
+            // OUTPUT 1
+            this.addSlot(new Slot(this.container, 3, 37, 38){
+                @Override
+                public boolean mayPlace(ItemStack p_40231_) {
+                    return false;
+                }
+            });
+        }
 
+        addPlayerInventory(inventoryPlayer);
+        addPlayerHotbar(inventoryPlayer);
     }
 
+    private void addPlayerInventory(Inventory playerInventory) {
+        for (int i = 0; i < 3; ++i) {
+            for (int l = 0; l < 9; ++l) {
+                this.addSlot(new Slot(playerInventory, l + i * 9 + 9, 8 + l * 18, 84 + i * 18));
+            }
+        }
+    }
+
+    private void addPlayerHotbar(Inventory playerInventory) {
+        for (int i = 0; i < 9; ++i) {
+            this.addSlot(new Slot(playerInventory, i, 8 + i * 18, 142));
+        }
+    }
 
     @Override
-    public ItemStack quickMoveStack(Player p_38941_, int p_38942_) {
-        return null;
+    public ItemStack quickMoveStack(Player player, int index) {
+        ItemStack itemstack = ItemStack.EMPTY;
+        Slot slot = this.slots.get(index);
+
+        if(slot.hasItem()) {
+            if(index == 0){
+                container.setItem(1, ItemStack.EMPTY);
+            }
+            else if(index == 1){
+                container.setItem(0, ItemStack.EMPTY);
+            }
+
+            ItemStack itemstack1 = slot.getItem();
+            itemstack = itemstack1.copy();
+            if (index < 2) {
+                if (!this.moveItemStackTo(itemstack1, 2, this.slots.size(), true)) {
+                    return ItemStack.EMPTY;
+                }
+            } else if (!this.moveItemStackTo(itemstack1, 0, 2, false)) {
+                return ItemStack.EMPTY;
+            }
+
+            if (itemstack1.isEmpty()) {
+                slot.set(ItemStack.EMPTY);
+            } else {
+                slot.setChanged();
+            }
+        }
+        return itemstack;
     }
 
     @Override
     public boolean stillValid(Player p_38874_) {
-        return false;
+        return true;
     }
 }

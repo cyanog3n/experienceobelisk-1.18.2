@@ -21,8 +21,12 @@ public class LaserTransfiguratorScreen extends AbstractContainerScreen<LaserTran
     }
 
     @Override
+    public boolean isPauseScreen() {
+        return false;
+    }
+
+    @Override
     public void render(GuiGraphics gui, int mouseX, int mouseY, float partialTick) {
-        super.render(gui, mouseX, mouseY, partialTick);
 
         RenderSystem.setShaderColor(1.0F, 1.0F, 1.0F, 1.0F);
         RenderSystem.setShaderTexture(0, texture);
@@ -32,5 +36,8 @@ public class LaserTransfiguratorScreen extends AbstractContainerScreen<LaserTran
 
         //render background texture
         gui.blit(texture, x, y, 0, 0, 176, 166);
+
+        super.render(gui, mouseX, mouseY, partialTick);
+        this.renderTooltip(gui, mouseX, mouseY);
     }
 }

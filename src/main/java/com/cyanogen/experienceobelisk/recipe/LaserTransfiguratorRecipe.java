@@ -103,7 +103,7 @@ public class LaserTransfiguratorRecipe implements Recipe<SimpleContainer> {
             JsonArray ingredients = GsonHelper.getAsJsonArray(recipe, "ingredients");
             ItemStack result = ShapedRecipe.itemStackFromJson(GsonHelper.getAsJsonObject(recipe, "result"));
 
-            for(int i = 0; i < inputs.size(); i++){
+            for(int i = 0; i < inputs.size() -1; i++){ //none of the arrays are size 2??
                 inputs.set(i, Ingredient.fromJson(ingredients.get(i)));
             }
 

@@ -1,6 +1,7 @@
 package com.cyanogen.experienceobelisk.block;
 
 import com.cyanogen.experienceobelisk.block_entities.LaserTransfiguratorEntity;
+import com.cyanogen.experienceobelisk.gui.LaserTransfiguratorMenu;
 import com.cyanogen.experienceobelisk.gui.PrecisionDispellerMenu;
 import com.cyanogen.experienceobelisk.registries.RegisterBlockEntities;
 import net.minecraft.core.BlockPos;
@@ -20,6 +21,7 @@ import net.minecraft.world.level.block.entity.BlockEntityTicker;
 import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.phys.BlockHitResult;
+import net.minecraftforge.items.IItemHandler;
 import net.minecraftforge.network.NetworkHooks;
 import org.jetbrains.annotations.Nullable;
 
@@ -56,15 +58,21 @@ public class LaserTransfiguratorBlock extends ExperienceReceivingBlock implement
     @Override
     public MenuProvider getMenuProvider(BlockState state, Level level, BlockPos pos) {
 
+        IItemHandler itemHandler = null;
+        if(level.getBlockEntity(pos) instanceof LaserTransfiguratorEntity entity){
+            itemHandler = entity.getItemHandler();
+        }
+        final IItemHandler handler = itemHandler;
+
         return new MenuProvider() {
             @Override
             public Component getDisplayName() {
-                return Component.literal("Precision Dispeller");
+                return Component.literal("Laser Transfigurator");
             }
 
             @Override
             public AbstractContainerMenu createMenu(int containerId, Inventory inventory, Player player) {
-                return new PrecisionDispellerMenu(containerId, inventory, player, pos);
+                return new LaserTransfiguratorMenu(containerId, inventory, handler, player, pos);
             }
         };
 
