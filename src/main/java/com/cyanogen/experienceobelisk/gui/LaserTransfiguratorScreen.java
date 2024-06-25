@@ -1,5 +1,6 @@
 package com.cyanogen.experienceobelisk.gui;
 
+import com.cyanogen.experienceobelisk.block_entities.LaserTransfiguratorEntity;
 import com.mojang.blaze3d.systems.RenderSystem;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.gui.screens.inventory.AbstractContainerScreen;
@@ -10,9 +11,11 @@ import net.minecraft.world.entity.player.Inventory;
 public class LaserTransfiguratorScreen extends AbstractContainerScreen<LaserTransfiguratorMenu>{
 
     private final ResourceLocation texture = new ResourceLocation("experienceobelisk:textures/gui/screens/experience_obelisk.png");
+    public LaserTransfiguratorEntity transfigurator;
 
     public LaserTransfiguratorScreen(LaserTransfiguratorMenu menu, Inventory inventory, Component component) {
         super(menu, inventory, component);
+        this.transfigurator = menu.transfigurator;
     }
 
     @Override
@@ -34,8 +37,16 @@ public class LaserTransfiguratorScreen extends AbstractContainerScreen<LaserTran
         int x = (this.width - this.imageWidth) / 2;
         int y = (this.height - this.imageHeight) / 2;
 
+        int completionPercent = 0;
+        if(transfigurator.getProcessTime() != 0){
+            completionPercent = transfigurator.getProcessProgress() * 100 / transfigurator.getProcessTime();
+        }
+
         //render background texture
         gui.blit(texture, x, y, 0, 0, 176, 166);
+
+        gui.drawCenteredString(this.font, Component.literal(completionPercent + "%"),
+                this.width / 2 + 20,this.height / 2 - 56, 0xFFFFFF);
 
         super.render(gui, mouseX, mouseY, partialTick);
         this.renderTooltip(gui, mouseX, mouseY);

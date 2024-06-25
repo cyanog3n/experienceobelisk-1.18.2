@@ -1,5 +1,6 @@
 package com.cyanogen.experienceobelisk.gui;
 
+import com.cyanogen.experienceobelisk.block_entities.ExperienceObeliskEntity;
 import com.cyanogen.experienceobelisk.block_entities.LaserTransfiguratorEntity;
 import com.cyanogen.experienceobelisk.registries.RegisterMenus;
 import net.minecraft.core.BlockPos;
@@ -9,6 +10,7 @@ import net.minecraft.world.SimpleContainer;
 import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.inventory.AbstractContainerMenu;
+import net.minecraft.world.inventory.DataSlot;
 import net.minecraft.world.inventory.Slot;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
@@ -18,17 +20,14 @@ import net.minecraftforge.items.SlotItemHandler;
 
 public class LaserTransfiguratorMenu extends AbstractContainerMenu {
 
-    SimpleContainer container = new SimpleContainer(4);
+    SimpleContainer container = new SimpleContainer(5);
     LaserTransfiguratorEntity transfigurator;
 
     public LaserTransfiguratorMenu(int id, Inventory inventory, FriendlyByteBuf data){
         this(id, inventory, null, inventory.player, new BlockPos(0,0,0));
 
         Level level = inventory.player.level();
-        BlockEntity entity = level.getBlockEntity(data.readBlockPos());
-        if(entity instanceof LaserTransfiguratorEntity transfigurator){
-            this.transfigurator = transfigurator;
-        }
+        this.transfigurator = (LaserTransfiguratorEntity) level.getBlockEntity(data.readBlockPos());
     }
 
     //-----SLOTS-----//
@@ -92,20 +91,16 @@ public class LaserTransfiguratorMenu extends AbstractContainerMenu {
         Slot slot = this.slots.get(index);
 
         if(slot.hasItem()) {
-            if(index == 0){
-                container.setItem(1, ItemStack.EMPTY);
-            }
-            else if(index == 1){
-                container.setItem(0, ItemStack.EMPTY);
-            }
 
             ItemStack itemstack1 = slot.getItem();
             itemstack = itemstack1.copy();
-            if (index < 2) {
-                if (!this.moveItemStackTo(itemstack1, 2, this.slots.size(), true)) {
+
+            if(index <= 3){ //moving from menu to player inventory
+                if (!this.moveItemStackTo(itemstack1, 4, this.slots.size(), true)) {
                     return ItemStack.EMPTY;
                 }
-            } else if (!this.moveItemStackTo(itemstack1, 0, 2, false)) {
+            } //moving from player inventory to menu
+            else if (!this.moveItemStackTo(itemstack1, 0, 3, false)) {
                 return ItemStack.EMPTY;
             }
 
@@ -115,6 +110,7 @@ public class LaserTransfiguratorMenu extends AbstractContainerMenu {
                 slot.setChanged();
             }
         }
+
         return itemstack;
     }
 

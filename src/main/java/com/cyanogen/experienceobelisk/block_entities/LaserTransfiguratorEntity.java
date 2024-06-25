@@ -4,7 +4,6 @@ import com.cyanogen.experienceobelisk.recipe.LaserTransfiguratorRecipe;
 import com.cyanogen.experienceobelisk.registries.RegisterBlockEntities;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
-import net.minecraft.core.NonNullList;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.protocol.Packet;
 import net.minecraft.network.protocol.game.ClientGamePacketListener;
@@ -29,9 +28,7 @@ import software.bernie.geckolib.core.object.PlayState;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Optional;
+import java.util.*;
 
 public class LaserTransfiguratorEntity extends ExperienceReceivingEntity implements GeoBlockEntity {
 
@@ -42,7 +39,6 @@ public class LaserTransfiguratorEntity extends ExperienceReceivingEntity impleme
     boolean isProcessing = false;
     int processTime = 0;
     int processProgress = 0;
-    ItemStack outputItem = ItemStack.EMPTY;
 
     //-----------ANIMATIONS-----------//
 
@@ -64,23 +60,27 @@ public class LaserTransfiguratorEntity extends ExperienceReceivingEntity impleme
 
     public static <T> void tick(Level level, BlockPos pos, BlockState state, T blockEntity) {
 
-        if(blockEntity instanceof LaserTransfiguratorEntity transfigurator && transfigurator.isProcessing){
+        if(blockEntity instanceof LaserTransfiguratorEntity transfigurator){
 
-            if(transfigurator.processProgress >= transfigurator.processTime){
-                transfigurator.dispenseResult();
+            if(transfigurator.isProcessing){
+                if(transfigurator.processProgress >= transfigurator.processTime){
 
-                transfigurator.setOutputItem(ItemStack.EMPTY);
-                transfigurator.setProcessProgress(0);
-                transfigurator.setProcessTime(0);
-                transfigurator.setProcessing(false);
+                    transfigurator.setProcessing(false);
+                    transfigurator.setProcessProgress(0);
+                    transfigurator.setProcessTime(0);
 
-                System.out.println("Done!");
+                    transfigurator.dispenseResult();
+                    System.out.println("Done!");
+                }
+                else{
+                    transfigurator.incrementProcessProgress();
+                }
             }
-            else{
-                transfigurator.incrementProcessProgress();
+            else if(!transfigurator.inputsAreEmpty()){
+                transfigurator.handleRecipes();
             }
+
         }
-
 
     }
 
@@ -91,23 +91,13 @@ public class LaserTransfiguratorEntity extends ExperienceReceivingEntity impleme
 
     private ItemStackHandler transfiguratorHandler(){
 
-        return new ItemStackHandler(4){
-
-            @Override
-            protected void onContentsChanged(int slot) {
-
-                System.out.println("Change in contents detected.");
-
-                handleRecipe(NETHERITE_RECIPE);
-
-                super.onContentsChanged(slot);
-                setChanged();
-            }
+        return new ItemStackHandler(5){
 
             @Override
             public boolean isItemValid(int slot, @NotNull ItemStack stack) {
-                return slot != 3;
+                return slot <= 2;
             }
+
         };
     }
 
@@ -126,99 +116,9 @@ public class LaserTransfiguratorEntity extends ExperienceReceivingEntity impleme
 
     //-----------RECIPE HANDLER-----------//
 
-    public boolean canPerformRecipe(ItemStack ingredient1, ItemStack ingredient2, ItemStack ingredient3, ItemStack output, int cost){
-
-        return !isProcessing //no recipe already in progress
-                && hasIngredients(ingredient1, ingredient2, ingredient3) //has enough of the required ingredients
-                && getBoundObelisk() != null //has been bound to a valid obelisk
-                && getBoundObelisk().getFluidAmount() >= cost * 20 //obelisk has enough Cognitium
-                && (itemHandler.getStackInSlot(3).getItem().equals(output.getItem()) || itemHandler.getStackInSlot(3).isEmpty()) //results slot empty or same as output
-                && itemHandler.getStackInSlot(3).getCount() <= 64 - output.getCount(); //results slot can accommodate output
-    }
-
-    public boolean hasIngredients(ItemStack ingredient1, ItemStack ingredient2, ItemStack ingredient3){
-
-        //the single application where i'd rather be using R than java
-
-        List<Item> itemHandlerContents = new ArrayList<>(3);
-        List<Integer> itemHandlerCounts = new ArrayList<>(3);
-        List<Item> recipeIngredients = new ArrayList<>(3);
-        List<Integer> recipeCounts = new ArrayList<>(3);
-
-        for(int i = 0; i < itemHandler.getSlots(); i++){
-            itemHandlerContents.add(i, itemHandler.getStackInSlot(i).getItem());
-            itemHandlerCounts.add(i, itemHandler.getStackInSlot(i).getCount());
-        }
-
-        if(!ingredient1.isEmpty()){
-            recipeIngredients.add(0, ingredient1.getItem());
-            recipeCounts.add(0, ingredient1.getCount());
-        }
-        if(!ingredient2.isEmpty()){
-            recipeIngredients.add(1, ingredient2.getItem());
-            recipeCounts.add(1, ingredient2.getCount());
-        }
-        if(!ingredient3.isEmpty()){
-            recipeIngredients.add(2, ingredient3.getItem());
-            recipeCounts.add(2, ingredient3.getCount());
-        }
-
-        System.out.println(itemHandlerContents);
-        System.out.println(itemHandlerCounts);
-        System.out.println(recipeIngredients);
-        System.out.println(recipeCounts);
-
-        boolean enoughAll = false;
-
-        if(itemHandlerContents.containsAll(recipeIngredients)){
-            for(Item item : recipeIngredients){
-
-                int indexHandler = itemHandlerContents.indexOf(item);
-                int indexRecipe = recipeIngredients.indexOf(item);
-
-                if(itemHandlerCounts.get(indexHandler) >= recipeCounts.get(indexRecipe)){
-                    enoughAll = true;
-                }
-                else{
-                    enoughAll = false;
-                    break;
-                }
-            }
-        }
-
-        System.out.println("Ingredients Validated: " + enoughAll);
-
-        return enoughAll;
-    }
-
-    public void initiateRecipe(ItemStack ingredient1, ItemStack ingredient2, ItemStack ingredient3, ItemStack output, int processTime){
-
-        System.out.println("Recipe Initiated...");
-
-        this.setOutputItem(output);
-        this.setProcessProgress(0);
-        this.setProcessTime(processTime);
-        this.setProcessing(true);
-
-        for(int i = 0; i < itemHandler.getSlots(); i++){
-            ItemStack stack = itemHandler.getStackInSlot(i);
-
-            if(stack.is(ingredient1.getItem())){
-                stack.shrink(ingredient1.getCount());
-            }
-            else if(stack.is(ingredient2.getItem())){
-                stack.shrink(ingredient2.getCount());
-            }
-            else if(stack.is(ingredient3.getItem())){
-                stack.shrink(ingredient3.getCount());
-            }
-
-            //behavior might be a little weird if user has put in two stacks of the same item
-            //to check out.
-
-            itemHandler.setStackInSlot(i, stack);
-        }
-
+    public void handleRecipes(){
+        handleRecipe(NETHERITE_RECIPE);
+        //handleRecipe(LEATHER_RECIPE);
     }
 
     public void handleRecipe(Recipe recipe){
@@ -230,21 +130,124 @@ public class LaserTransfiguratorEntity extends ExperienceReceivingEntity impleme
         int cost = recipe.cost;
         int processTime = recipe.processTime;
 
-        if(canPerformRecipe(ingredient1, ingredient2, ingredient3, output, cost)){
-            System.out.println("Recipe Validated.");
-            initiateRecipe(ingredient1, ingredient2, ingredient3, output, processTime);
+        if(canPerformRecipe(output, cost)){
+
+            System.out.println("----- Can perform recipe");
+
+            if(deplete(ingredient1, ingredient2, ingredient3)){
+                getBoundObelisk().drain(cost * 20);
+                initiateRecipe(output, processTime);
+            }
+        }
+    }
+
+    public boolean canPerformRecipe(ItemStack output, int cost){
+
+        return getBoundObelisk() != null //has been bound to a valid obelisk
+                && getBoundObelisk().getFluidAmount() >= cost * 20 //obelisk has enough Cognitium
+                && (itemHandler.getStackInSlot(3).getItem().equals(output.getItem()) || itemHandler.getStackInSlot(3).isEmpty()) //results slot empty or same as output
+                && itemHandler.getStackInSlot(3).getCount() <= 64 - output.getCount(); //results slot can accommodate output
+    }
+
+    public boolean inputsAreEmpty(){
+        return itemHandler.getStackInSlot(0).isEmpty() && itemHandler.getStackInSlot(1).isEmpty() && itemHandler.getStackInSlot(2).isEmpty();
+    }
+
+    public boolean deplete(ItemStack ingredient1, ItemStack ingredient2, ItemStack ingredient3){
+
+        ItemStack[] recipeList = {ingredient1.copy(), ingredient2.copy(), ingredient3.copy()};
+        ItemStack[] contentList = {itemHandler.getStackInSlot(0).copy(), itemHandler.getStackInSlot(1).copy(), itemHandler.getStackInSlot(2).copy()};
+        Map<Item, Integer> recipeMap = new HashMap<>();
+        Map<Item, Integer> contentMap = new HashMap<>();
+
+        for(ItemStack stack : recipeList){
+            if(!stack.isEmpty()){
+                recipeMap.put(stack.getItem(), stack.getCount());
+            }
         }
 
-        //test recipe for making netherite
-        //this will be replaced with recipe serializer later
+        for(ItemStack stack : contentList){
+            if(!stack.isEmpty()){
+
+                if(contentMap.containsKey(stack.getItem())){
+                    int oldCount = contentMap.get(stack.getItem());
+                    contentMap.replace(stack.getItem(), oldCount + stack.getCount());
+                    //this is so we don't get duplicate instances of items in the map
+                }
+                else{
+                    contentMap.put(stack.getItem(), stack.getCount());
+                }
+            }
+        }
+
+        boolean canDeplete = false;
+
+        if(contentMap.keySet().containsAll(recipeMap.keySet())){
+            for(Item item : recipeMap.keySet()){
+                if(contentMap.get(item) >= recipeMap.get(item)){
+                    canDeplete = true;
+                }
+                else{
+                    return false;
+                }
+            }
+        }
+        else{
+            return false;
+        }
+
+        if(canDeplete){
+
+            System.out.println("----- Can deplete");
+
+            for(ItemStack stack1 : recipeList){
+                Item item1 = stack1.getItem();
+                int count1 = stack1.getCount();
+
+                for(ItemStack stack2 : contentList){
+
+                    Item item2 = stack2.getItem();
+                    int count2 = stack2.getCount();
+
+                    if(count1 > 0 && count2 > 0 && item1.equals(item2)){
+                        if(count2 >= count1){
+                            count2 = count2 - count1;
+                            count1 = 0;
+                        }
+                        else{
+                            count1 = count1 - count2;
+                            count2 = 0;
+                        }
+                        stack1.setCount(count1);
+                        stack2.setCount(count2);
+                    }
+                }
+            }
+
+            for(int i = 0; i < 3; i++){
+                itemHandler.setStackInSlot(i, contentList[i]);
+            }
+
+            System.out.println("----- Successfully depleted");
+        }
+
+        return canDeplete;
+    }
+
+    public void initiateRecipe(ItemStack output, int processTime){
+
+        this.setProcessing(true);
+        this.setOutputItem(output);
+        this.setProcessProgress(0);
+        this.setProcessTime(processTime);
     }
 
     public void dispenseResult(){
 
-        ItemStack result = outputItem;
-        ItemStack existingStack = itemHandler.getStackInSlot(3);
+        ItemStack result = itemHandler.getStackInSlot(4).copy();
+        ItemStack existingStack = itemHandler.getStackInSlot(3).copy();
 
-        System.out.println("Dispensing result: " + outputItem);
+        System.out.println("Dispensing result: " + result);
 
         if(existingStack.getItem().equals(result.getItem())){
             existingStack.grow(1);
@@ -304,11 +307,20 @@ public class LaserTransfiguratorEntity extends ExperienceReceivingEntity impleme
     }
 
     public void setOutputItem(ItemStack stack){
-        this.outputItem = stack;
-        setChanged();
+        itemHandler.setStackInSlot(4, stack.copy());
+        System.out.println("Output item set to: " + itemHandler.getStackInSlot(4));
     }
 
     //-----------NBT-----------//
+
+    @Override
+    public void setChanged() {
+        if(this.level != null){
+            level.sendBlockUpdated(getBlockPos(), getBlockState(), getBlockState(), 2);
+            //do this if live block entity data is needed in the GUI
+        }
+        super.setChanged();
+    }
 
     @Override
     public void load(CompoundTag tag)
@@ -319,7 +331,6 @@ public class LaserTransfiguratorEntity extends ExperienceReceivingEntity impleme
         this.isProcessing = tag.getBoolean("IsProcessing");
         this.processTime = tag.getInt("ProcessTime");
         this.processProgress = tag.getInt("ProcessProgress");
-        this.outputItem = ItemStack.of(tag.getCompound("OutputItem"));
     }
 
     @Override
@@ -331,7 +342,6 @@ public class LaserTransfiguratorEntity extends ExperienceReceivingEntity impleme
         tag.putBoolean("IsProcessing", isProcessing);
         tag.putInt("ProcessTime", processTime);
         tag.putInt("ProcessProgress", processProgress);
-        tag.put("OutputItem", outputItem.getOrCreateTag());
     }
 
     @Override
@@ -343,7 +353,6 @@ public class LaserTransfiguratorEntity extends ExperienceReceivingEntity impleme
         tag.putBoolean("IsProcessing", isProcessing);
         tag.putInt("ProcessTime", processTime);
         tag.putInt("ProcessProgress", processProgress);
-        tag.put("OutputItem", outputItem.getOrCreateTag());
 
         return tag;
     }
@@ -376,11 +385,18 @@ public class LaserTransfiguratorEntity extends ExperienceReceivingEntity impleme
 
     }
 
-    Recipe NETHERITE_RECIPE = new Recipe(
+    private final Recipe NETHERITE_RECIPE = new Recipe(
             new ItemStack(Items.NETHERITE_SCRAP, 3),
             new ItemStack(Items.GOLD_INGOT, 6),
             ItemStack.EMPTY,
             new ItemStack(Items.NETHERITE_INGOT, 1),
-            30,200);
+            30,100);
+
+    private final Recipe LEATHER_RECIPE = new Recipe(
+            new ItemStack(Items.DRIED_KELP, 4),
+            ItemStack.EMPTY,
+            ItemStack.EMPTY,
+            new ItemStack(Items.LEATHER, 1),
+            1,20);
 
 }
