@@ -1,0 +1,21 @@
+{
+  "type": "experienceobelisk:laser_transfiguration",
+  "ingredients": [
+    {
+      "item": "experienceobelisk:astute_assembly",
+      "count": 4
+    },
+    {
+      "item": "minecraft:oak_sapling"
+    },
+    {
+      "item": "minecraft:gold_ingot"
+    }
+  ],
+  "result": {
+    "item": "experienceobelisk:primordial_assembly",
+    "count": 1
+  },
+  "cost": 1,
+  "processTime": 20
+}

@@ -14,50 +14,52 @@ import net.minecraft.world.item.crafting.*;
 import net.minecraft.world.level.Level;
 import org.jetbrains.annotations.Nullable;
 
+import java.util.ArrayList;
+
 public class LaserTransfiguratorRecipe implements Recipe<SimpleContainer> {
 
-    private final NonNullList<Ingredient> inputs;
+    private final NonNullList<Ingredient> ingredients;
     private final ItemStack output;
     private final int cost;
+    private final int processTime;
     private final ResourceLocation id;
 
 
-    public LaserTransfiguratorRecipe(NonNullList<Ingredient> input, ItemStack output, int cost, ResourceLocation id){
-        this.inputs = input;
+    public LaserTransfiguratorRecipe(NonNullList<Ingredient> ingredients, ItemStack output, int cost, int processTime, ResourceLocation id){
+        this.ingredients = ingredients;
         this.output = output;
         this.cost = cost;
+        this.processTime = processTime;
         this.id = id;
     }
 
+    //each input slot = one ingredient
+    //each ingredient can only be represented by one item (eg. gold ingot) or multiple valid items (eg. all kinds of saplings)
+    //so ingredients are functionally arrays
 
     @Override
     public boolean matches(SimpleContainer container, Level level) {
 
-        ItemStack stack1 = container.getItem(0);
-        ItemStack stack2 = container.getItem(1);
-        ItemStack stack3 = container.getItem(2);
-
-        int[][] permutations = {
-                {0, 1, 2},
-                {0, 2, 1},
-                {1, 0, 2},
-                {1, 2, 0},
-                {2, 0, 1},
-                {2, 1, 0}
-        };
-
-        if(!level.isClientSide){
-            for (int[] perm : permutations) {
-                if(inputs.get(perm[0]).test(stack1) && inputs.get(perm[1]).test(stack2) && inputs.get(perm[2]).test(stack3)){
-                    return true;
-                }
-            }
+        ArrayList<ItemStack> contents = new ArrayList<>();
+        for(int i = 0; i < 3; i++){
+            contents.add(i, container.getItem(i));
         }
-        return false;
+
+        boolean slot1 = ingredients.get(0).test(contents.get(0));
+        boolean slot2 = ingredients.get(1).test(contents.get(1));
+        boolean slot3 = ingredients.get(2).test(contents.get(2));
+
+        System.out.println(slot1 + " " + slot2 + " " + slot3);
+        return slot1 && slot2 && slot3;
     }
 
     @Override
-    public ItemStack assemble(SimpleContainer container, RegistryAccess accesss) {
+    public NonNullList<Ingredient> getIngredients() {
+        return this.ingredients;
+    }
+
+    @Override
+    public ItemStack assemble(SimpleContainer container, RegistryAccess access) {
         return output.copy();
     }
 
@@ -67,13 +69,21 @@ public class LaserTransfiguratorRecipe implements Recipe<SimpleContainer> {
     }
 
     @Override
-    public ItemStack getResultItem(RegistryAccess p_267052_) {
+    public ItemStack getResultItem(@Nullable RegistryAccess p_267052_) {
         return output.copy();
     }
 
     @Override
     public ResourceLocation getId() {
         return id;
+    }
+
+    public int getCost(){
+        return cost;
+    }
+
+    public int getProcessTime(){
+        return processTime;
     }
 
     @Override
@@ -91,6 +101,8 @@ public class LaserTransfiguratorRecipe implements Recipe<SimpleContainer> {
         public static final String ID = "laser_transfiguration";
     }
 
+    //-----SERIALIZER-----//
+
     public static class Serializer implements RecipeSerializer<LaserTransfiguratorRecipe> {
 
         public static final Serializer INSTANCE = new Serializer();
@@ -101,39 +113,48 @@ public class LaserTransfiguratorRecipe implements Recipe<SimpleContainer> {
 
             NonNullList<Ingredient> inputs = NonNullList.withSize(3, Ingredient.EMPTY);
             JsonArray ingredients = GsonHelper.getAsJsonArray(recipe, "ingredients");
+            ItemStack stackItem = ShapedRecipe.itemStackFromJson(GsonHelper.getAsJsonObject(recipe, "ingredient3"));
+
+            //i need the ingredients in an array of type itemstack, with the counts properly represented
+
             ItemStack result = ShapedRecipe.itemStackFromJson(GsonHelper.getAsJsonObject(recipe, "result"));
 
-            for(int i = 0; i < inputs.size() -1; i++){ //none of the arrays are size 2??
+            int cost = GsonHelper.getAsInt(recipe, "cost");
+            int processTime = GsonHelper.getAsInt(recipe, "processTime");
+
+            for(int i = 0; i < inputs.size(); i++){
                 inputs.set(i, Ingredient.fromJson(ingredients.get(i)));
             }
 
-            return new LaserTransfiguratorRecipe(inputs, result, 0, id);
+            return new LaserTransfiguratorRecipe(inputs, result, cost, processTime, id);
         }
 
         @Override
         public @Nullable LaserTransfiguratorRecipe fromNetwork(ResourceLocation id, FriendlyByteBuf buffer) {
 
             NonNullList<Ingredient> inputs = NonNullList.withSize(buffer.readInt(), Ingredient.EMPTY);
-
             for(int i = 0; i < inputs.size(); i++){
                 inputs.set(i, Ingredient.fromNetwork(buffer));
             }
-
             ItemStack result = buffer.readItem();
 
-            return new LaserTransfiguratorRecipe(inputs, result, 0, id);
+            int cost = buffer.readInt();
+            int processTime = buffer.readInt();
+
+            return new LaserTransfiguratorRecipe(inputs, result, cost, processTime, id);
         }
 
         @Override
         public void toNetwork(FriendlyByteBuf buffer, LaserTransfiguratorRecipe recipe) {
 
-            buffer.writeInt(recipe.inputs.size());
-
+            buffer.writeInt(recipe.ingredients.size());
             for(Ingredient ingredient : recipe.getIngredients()){
                 ingredient.toNetwork(buffer);
             }
-
             buffer.writeItemStack(recipe.getResultItem(null), false);
+
+            buffer.writeInt(recipe.cost);
+            buffer.writeInt(recipe.processTime);
         }
     }
 
