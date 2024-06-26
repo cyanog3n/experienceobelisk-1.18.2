@@ -1,13 +1,10 @@
 {
-  "type": "minecraft:smithing_transform",
-  "template": {
-    "item": "experienceobelisk:astute_assembly"
-  },
+  "type": "minecraft:smithing",
   "base": {
     "item": "minecraft:iron_pickaxe"
   },
   "addition": {
-    "item": "experienceobelisk:cognitive_alloy"
+    "item": "experienceobelisk:astute_assembly"
   },
   "result": {
     "item": "experienceobelisk:cognitive_pickaxe"
