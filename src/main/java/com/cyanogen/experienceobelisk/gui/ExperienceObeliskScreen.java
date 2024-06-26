@@ -67,7 +67,8 @@ public class ExperienceObeliskScreen extends AbstractContainerScreen<ExperienceO
         int x = this.width / 2 - 176 / 2;
         int y = this.height / 2 - 166 / 2;
 
-        int experiencePoints = menu.entity.getFluidAmount() / 20;
+        int mB = menu.entity.getFluidAmount();
+        int experiencePoints = mB / 20;
 
         int n = experiencePoints - levelsToXP(xpToLevels(experiencePoints)); //remaining xp
         int m = levelsToXP(xpToLevels(experiencePoints) + 1) - levelsToXP(xpToLevels(experiencePoints)); //xp for next level
@@ -87,7 +88,7 @@ public class ExperienceObeliskScreen extends AbstractContainerScreen<ExperienceO
                 this.width / 2 - 77,this.height / 2 - 56, 0xFFFFFF);
         drawString(new PoseStack(), this.font, Component.translatable("title.experienceobelisk.experience_obelisk.retrieve"),
                 this.width / 2 - 77,this.height / 2 - 10, 0xFFFFFF);
-        drawCenteredString(new PoseStack(), this.font, experiencePoints * 20 + " mB",
+        drawCenteredString(new PoseStack(), this.font, mB + " mB",
                 this.width / 2,this.height / 2 + 35, 0xFFFFFF);
         drawCenteredString(new PoseStack(), this.font, String.valueOf(xpToLevels(experiencePoints)),
                 this.width / 2,this.height / 2 + 60, 0x4DFF12);
