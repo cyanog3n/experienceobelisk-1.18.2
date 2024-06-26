@@ -105,7 +105,7 @@ public class ExperienceObeliskScreen extends AbstractContainerScreen<ExperienceO
                 this.width / 2 - 77,this.height / 2 - 56, 0xFFFFFF);
         gui.drawString(this.font, Component.translatable("title.experienceobelisk.experience_obelisk.retrieve"),
                 this.width / 2 - 77,this.height / 2 - 10, 0xFFFFFF);
-        gui.drawCenteredString(this.font, experiencePoints * 20 + " mB",
+        gui.drawCenteredString(this.font, xpobelisk.getFluidAmount() + " mB",
                 this.width / 2,this.height / 2 + 35, 0xFFFFFF);
         gui.drawCenteredString(this.font, String.valueOf(xpToLevels(experiencePoints)),
                 this.width / 2,this.height / 2 + 60, 0x4DFF12);
@@ -113,6 +113,7 @@ public class ExperienceObeliskScreen extends AbstractContainerScreen<ExperienceO
         clearWidgets();
         loadWidgetElements();
 
+        //render widgets
         for(Renderable widget : this.renderables){
             widget.render(gui, mouseX, mouseY, partialTick);
         }
@@ -120,6 +121,7 @@ public class ExperienceObeliskScreen extends AbstractContainerScreen<ExperienceO
         int infoX = this.width / 2;
         int infoY = this.height / 2 + 35;
 
+        //render XP tooltip
         if(mouseX >= infoX - 30 && mouseX <= infoX + 30 && mouseY >= infoY - 5 && mouseY <= infoY + 5){
             List<Component> tooltipList = new ArrayList<>();
             MutableComponent content = Component.literal(experiencePoints + " XP");
