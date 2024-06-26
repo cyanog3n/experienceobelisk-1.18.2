@@ -161,7 +161,7 @@ public class ExperienceFountainBlock extends ExperienceReceivingBlock implements
 
             }
 
-            obelisk.drain(140);
+            obelisk.drain(250);
             player.playSound(SoundEvents.BOTTLE_FILL, 1f, 1f);
         }
         else if(heldItem.is(Items.EXPERIENCE_BOTTLE) && obelisk.getSpace() >= 250){
