@@ -74,11 +74,13 @@ public class ExperienceObeliskItem extends BlockItem implements IAnimatable{
         int amount = stack.getOrCreateTag().getCompound("BlockEntityTag").getInt("Amount");
         int levels = xpToLevels(amount / 20);
 
-        tooltip.add(Component.translatable("tooltip.experienceobelisk.experience_obelisk.item_fluid_amount",
-                Component.literal(amount + " mB").withStyle(ChatFormatting.GOLD)));
+        if(stack.hasTag()){
+            tooltip.add(Component.translatable("tooltip.experienceobelisk.experience_obelisk.item_fluid_amount",
+                    Component.literal(amount + " mB").withStyle(ChatFormatting.GOLD)));
 
-        tooltip.add(Component.translatable("tooltip.experienceobelisk.experience_obelisk.item_levels",
-                Component.literal(String.valueOf(levels)).withStyle(ChatFormatting.GREEN)));
+            tooltip.add(Component.translatable("tooltip.experienceobelisk.experience_obelisk.item_levels",
+                    Component.literal(String.valueOf(levels)).withStyle(ChatFormatting.GREEN)));
+        }
 
         super.appendHoverText(stack, level, tooltip, flag);
 
