@@ -4,7 +4,7 @@
     "item": "minecraft:iron_sword"
   },
   "addition": {
-    "item": "experienceobelisk:astute_assembly"
+    "item": "experienceobelisk:cognitive_alloy"
   },
   "result": {
     "item": "experienceobelisk:cognitive_sword"

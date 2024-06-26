@@ -4,7 +4,7 @@
     "item": "minecraft:grindstone"
   },
   "addition": {
-    "item": "experienceobelisk:astute_assembly"
+    "item": "experienceobelisk:cognitive_crystal_block"
   },
   "result": {
     "item": "experienceobelisk:precision_dispeller"
