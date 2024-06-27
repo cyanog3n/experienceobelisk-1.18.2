@@ -2,13 +2,15 @@ package com.cyanogen.experienceobelisk.block_entities;
 
 import com.cyanogen.experienceobelisk.recipe.LaserTransfiguratorRecipe;
 import com.cyanogen.experienceobelisk.registries.RegisterBlockEntities;
-import com.cyanogen.experienceobelisk.registries.RegisterItems;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
+import net.minecraft.core.NonNullList;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.protocol.Packet;
 import net.minecraft.network.protocol.game.ClientGamePacketListener;
 import net.minecraft.network.protocol.game.ClientboundBlockEntityDataPacket;
+import net.minecraft.resources.ResourceLocation;
+import net.minecraft.world.ContainerHelper;
 import net.minecraft.world.SimpleContainer;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
@@ -41,6 +43,8 @@ public class LaserTransfiguratorEntity extends ExperienceReceivingEntity impleme
     boolean isProcessing = false;
     int processTime = 0;
     int processProgress = 0;
+    NonNullList<ItemStack> remainderItems = NonNullList.withSize(4, ItemStack.EMPTY);
+    ResourceLocation recipeId;
 
     //-----------ANIMATIONS-----------//
 
@@ -65,11 +69,8 @@ public class LaserTransfiguratorEntity extends ExperienceReceivingEntity impleme
         if(blockEntity instanceof LaserTransfiguratorEntity transfigurator){
 
             if(transfigurator.isProcessing){
-                if(transfigurator.processProgress >= transfigurator.processTime){
 
-                    transfigurator.setProcessing(false);
-                    transfigurator.setProcessProgress(0);
-                    transfigurator.setProcessTime(0);
+                if(transfigurator.processProgress >= transfigurator.processTime){
 
                     transfigurator.dispenseResult();
                 }
@@ -78,7 +79,6 @@ public class LaserTransfiguratorEntity extends ExperienceReceivingEntity impleme
                 }
             }
             else if(transfigurator.hasContents()){
-                System.out.println("Items detected.");
                 transfigurator.handleJsonRecipes();
             }
 
@@ -107,7 +107,29 @@ public class LaserTransfiguratorEntity extends ExperienceReceivingEntity impleme
 
     private ItemStackHandler transfiguratorHandler(){
 
-        return new ItemStackHandler(5){
+        return new ItemStackHandler(4){
+
+            //0,1,2 -- input
+            //3 -- output
+
+            @Override
+            protected void onContentsChanged(int slot) {
+                if(slot <= 2 && isProcessing){
+                    if(getRecipe().isPresent()){
+                        LaserTransfiguratorRecipe recipe = getRecipe().get();
+
+                        if(!recipe.getId().equals(recipeId)){
+                            setProcessing(false);
+                            resetAll();
+                        }
+                    }
+                    else{
+                        setProcessing(false);
+                        resetAll();
+                    }
+                }
+                super.onContentsChanged(slot);
+            }
 
             @Override
             public boolean isItemValid(int slot, @NotNull ItemStack stack) {
@@ -134,13 +156,8 @@ public class LaserTransfiguratorEntity extends ExperienceReceivingEntity impleme
 
     public void handleJsonRecipes(){
 
-        SimpleContainer container = new SimpleContainer(3);
-        container.setItem(0, itemHandler.getStackInSlot(0));
-        container.setItem(1, itemHandler.getStackInSlot(1));
-        container.setItem(2, itemHandler.getStackInSlot(2));
-
-        if(getRecipe(container).isPresent()){
-            LaserTransfiguratorRecipe recipe = getRecipe(container).get();
+        if(getRecipe().isPresent()){
+            LaserTransfiguratorRecipe recipe = getRecipe().get();
             ItemStack output = recipe.getResultItem(null);
             int cost = recipe.getCost();
             int processTime = recipe.getProcessTime();
@@ -149,10 +166,9 @@ public class LaserTransfiguratorEntity extends ExperienceReceivingEntity impleme
 
             if(canPerformRecipe(output, cost)){
                 System.out.println("Can perform recipe, proceeding... process time: " + processTime);
-                initiateRecipe(output, processTime);
+
+                initiateRecipe(recipe);
                 getBoundObelisk().drain(cost * 20);
-                deplete(recipe);
-                System.out.println("Contents depleted.");
             }
 
         }
@@ -165,11 +181,24 @@ public class LaserTransfiguratorEntity extends ExperienceReceivingEntity impleme
 
         return getBoundObelisk() != null //has been bound to a valid obelisk
                 && getBoundObelisk().getFluidAmount() >= cost * 20 //obelisk has enough Cognitium
-                && (itemHandler.getStackInSlot(3).getItem().equals(output.getItem()) || itemHandler.getStackInSlot(3).isEmpty()) //results slot empty or same as output
+                && (itemHandler.getStackInSlot(3).getItem().equals(output.getItem())
+                || itemHandler.getStackInSlot(3).isEmpty() || itemHandler.getStackInSlot(3).is(Items.AIR)) //results slot empty or same as output
                 && itemHandler.getStackInSlot(3).getCount() <= 64 - output.getCount(); //results slot can accommodate output
     }
 
-    public void deplete(LaserTransfiguratorRecipe recipe){
+    public void initiateRecipe(LaserTransfiguratorRecipe recipe){
+
+        this.setProcessing(true);
+        this.setRecipeId(recipe);
+        this.setOutputItem(recipe.getResultItem(null));
+        this.setRemainderItems(deplete(recipe));
+        this.setProcessProgress(0);
+        this.setProcessTime(recipe.getProcessTime());
+    }
+
+    public SimpleContainer deplete(LaserTransfiguratorRecipe recipe){
+
+        SimpleContainer container = getRecipeContainer();
 
         Map<Ingredient, Integer> ingredientMap = recipe.getIngredientMapNoFiller();
 
@@ -179,7 +208,7 @@ public class LaserTransfiguratorEntity extends ExperienceReceivingEntity impleme
             int count = entry.getValue();
 
             for(int i = 0; i < 3; i++){
-                ItemStack stack = itemHandler.getStackInSlot(i);
+                ItemStack stack = container.getItem(i);
 
                 if(ingredient.test(stack)){
                     stack.shrink(count);
@@ -187,22 +216,16 @@ public class LaserTransfiguratorEntity extends ExperienceReceivingEntity impleme
                 }
             }
         }
-    }
 
-    public void initiateRecipe(ItemStack output, int processTime){
-
-        this.setProcessing(true);
-        this.setOutputItem(output);
-        this.setProcessProgress(0);
-        this.setProcessTime(processTime);
+        return container;
     }
 
     public void dispenseResult(){
 
-        ItemStack result = itemHandler.getStackInSlot(4).copy();
-        ItemStack existingStack = itemHandler.getStackInSlot(3).copy();
+        setProcessing(false);
 
-        System.out.println("Recipe done, dispensing result: " + result);
+        ItemStack result = remainderItems.get(3);
+        ItemStack existingStack = itemHandler.getStackInSlot(3).copy();
 
         if(existingStack.getItem().equals(result.getItem())){
             existingStack.grow(1);
@@ -211,10 +234,27 @@ public class LaserTransfiguratorEntity extends ExperienceReceivingEntity impleme
         else{
             itemHandler.setStackInSlot(3, result);
         }
+
+        for(int i = 0; i < 3; i++){
+            itemHandler.setStackInSlot(i, remainderItems.get(i));
+        }
+
+        resetAll();
+
+        System.out.println("Recipe done, dispensing result: " + result);
     }
 
-    public Optional<LaserTransfiguratorRecipe> getRecipe(SimpleContainer container){
-        return this.level.getRecipeManager().getRecipeFor(LaserTransfiguratorRecipe.Type.INSTANCE, container, level);
+    public Optional<LaserTransfiguratorRecipe> getRecipe(){
+        return this.level.getRecipeManager().getRecipeFor(LaserTransfiguratorRecipe.Type.INSTANCE, getRecipeContainer(), level);
+    }
+
+    public SimpleContainer getRecipeContainer(){
+        SimpleContainer container = new SimpleContainer(3);
+        container.setItem(0, itemHandler.getStackInSlot(0).copy());
+        container.setItem(1, itemHandler.getStackInSlot(1).copy());
+        container.setItem(2, itemHandler.getStackInSlot(2).copy());
+
+        return container;
     }
 
     public ExperienceObeliskEntity getBoundObelisk(){
@@ -254,9 +294,34 @@ public class LaserTransfiguratorEntity extends ExperienceReceivingEntity impleme
         setChanged();
     }
 
+    public void setRemainderItems(SimpleContainer container){
+        for(int i = 0; i < 3; i++){
+            remainderItems.set(i, container.getItem(i));
+        }
+        setChanged();
+
+        System.out.println("Remainder items set to: " + remainderItems);
+    }
+
     public void setOutputItem(ItemStack stack){
-        itemHandler.setStackInSlot(4, stack.copy());
-        System.out.println("Output item set to: " + itemHandler.getStackInSlot(4));
+        remainderItems.set(3, stack);
+        setChanged();
+
+        System.out.println("Output item set to: " + stack);
+    }
+
+    public void setRecipeId(LaserTransfiguratorRecipe recipe){
+        this.recipeId = recipe.getId();
+        setChanged();
+    }
+
+    public void resetAll(){
+
+        processProgress = 0;
+        processTime = 0;
+        this.remainderItems = NonNullList.withSize(4, ItemStack.EMPTY);
+        recipeId = null;
+        setChanged();
     }
 
     //-----------NBT-----------//
@@ -276,9 +341,13 @@ public class LaserTransfiguratorEntity extends ExperienceReceivingEntity impleme
         super.load(tag);
 
         itemHandler.deserializeNBT(tag.getCompound("Inventory"));
+        this.remainderItems = NonNullList.withSize(4, ItemStack.EMPTY);
+        ContainerHelper.loadAllItems(tag, remainderItems);
+
         this.isProcessing = tag.getBoolean("IsProcessing");
         this.processTime = tag.getInt("ProcessTime");
         this.processProgress = tag.getInt("ProcessProgress");
+        this.recipeId = new ResourceLocation(tag.getString("RecipeID"));
     }
 
     @Override
@@ -287,9 +356,15 @@ public class LaserTransfiguratorEntity extends ExperienceReceivingEntity impleme
         super.saveAdditional(tag);
 
         tag.put("Inventory", itemHandler.serializeNBT());
+        ContainerHelper.saveAllItems(tag, remainderItems);
+
         tag.putBoolean("IsProcessing", isProcessing);
         tag.putInt("ProcessTime", processTime);
         tag.putInt("ProcessProgress", processProgress);
+
+        if(recipeId != null){
+            tag.putString("RecipeID", recipeId.toString());
+        }
     }
 
     @Override
@@ -298,9 +373,15 @@ public class LaserTransfiguratorEntity extends ExperienceReceivingEntity impleme
         CompoundTag tag = super.getUpdateTag();
 
         tag.put("Inventory", itemHandler.serializeNBT());
+        ContainerHelper.saveAllItems(tag, remainderItems);
+
         tag.putBoolean("IsProcessing", isProcessing);
         tag.putInt("ProcessTime", processTime);
         tag.putInt("ProcessProgress", processProgress);
+
+        if(recipeId != null){
+            tag.putString("RecipeID", recipeId.toString());
+        }
 
         return tag;
     }
