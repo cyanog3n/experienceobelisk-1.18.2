@@ -109,33 +109,26 @@ public class LaserTransfiguratorEntity extends ExperienceReceivingEntity impleme
 
         return new ItemStackHandler(4){
 
-            //0,1,2 -- input
-            //3 -- output
-
-            @Override
-            protected void onContentsChanged(int slot) {
-                if(slot <= 2 && isProcessing){
-                    if(getRecipe().isPresent()){
-                        LaserTransfiguratorRecipe recipe = getRecipe().get();
-
-                        if(!recipe.getId().equals(recipeId)){
-                            setProcessing(false);
-                            resetAll();
-                        }
-                    }
-                    else{
-                        setProcessing(false);
-                        resetAll();
-                    }
-                }
-                super.onContentsChanged(slot);
-            }
-
             @Override
             public boolean isItemValid(int slot, @NotNull ItemStack stack) {
                 return slot <= 2;
             }
 
+            @Override
+            protected void onContentsChanged(int slot) {
+                if(slot <= 2 && isProcessing){
+
+                    if(getRecipe().isEmpty()){
+                        setProcessing(false);
+                        resetAll();
+                    }
+                    else{
+                        setRemainderItems(deplete(getRecipe().get()));
+                    }
+
+                }
+                super.onContentsChanged(slot);
+            }
         };
     }
 

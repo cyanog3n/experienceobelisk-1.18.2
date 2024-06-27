@@ -9,7 +9,7 @@
   },
   "count2": 1,
   "ingredient3": {
-    "item": "minecraft:oak_sapling"
+    "tag": "minecraft:saplings"
   },
   "count3": 1,
   "result": {

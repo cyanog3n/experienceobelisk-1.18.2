@@ -14,7 +14,9 @@ import net.minecraft.world.item.crafting.*;
 import net.minecraft.world.level.Level;
 import org.jetbrains.annotations.Nullable;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
 
 public class LaserTransfiguratorRecipe implements Recipe<SimpleContainer> {
 
@@ -77,11 +79,11 @@ public class LaserTransfiguratorRecipe implements Recipe<SimpleContainer> {
     }
 
     public Map<Ingredient, Integer> getIngredientMapNoFiller(){
-        Map<Ingredient, Integer> ingredients = new HashMap<>(this.getIngredientMap());
+        Map<Ingredient, Integer> ingredients = new HashMap<>();
 
-        for(Map.Entry<Ingredient, Integer> entry : ingredients.entrySet()){
-            if(entry.getValue() == -99){
-                ingredients.remove(entry.getKey());
+        for(Map.Entry<Ingredient, Integer> entry : getIngredientMap().entrySet()){
+            if(entry.getValue() != -99){
+                ingredients.put(entry.getKey(), entry.getValue());
             }
         }
         return ingredients;

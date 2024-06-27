@@ -2,7 +2,6 @@ package com.cyanogen.experienceobelisk.block;
 
 import com.cyanogen.experienceobelisk.block_entities.LaserTransfiguratorEntity;
 import com.cyanogen.experienceobelisk.gui.LaserTransfiguratorMenu;
-import com.cyanogen.experienceobelisk.gui.PrecisionDispellerMenu;
 import com.cyanogen.experienceobelisk.registries.RegisterBlockEntities;
 import net.minecraft.core.BlockPos;
 import net.minecraft.network.chat.Component;

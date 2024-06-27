@@ -7,15 +7,20 @@
   "ingredient2": {
     "item": "minecraft:gold_ingot"
   },
-  "count2": 6,
-  "ingredient3": {
-    "item": "minecraft:air"
-  },
-  "count3": -99,
+  "count2": -99,
+  "ingredient3": [
+    {
+    "item": "minecraft:diamond"
+    },
+    {
+      "item": "minecraft:emerald"
+    }
+  ],
+  "count3": 1,
   "result": {
     "item": "minecraft:netherite_ingot",
     "count": 1
   },
   "cost": 1,
-  "processTime": 20
+  "processTime": 60
 }
