@@ -1,7 +1,7 @@
 package com.cyanogen.experienceobelisk.recipe;
 
 import com.cyanogen.experienceobelisk.ExperienceObelisk;
-import com.google.gson.JsonArray;
+import com.google.common.collect.ImmutableMap;
 import com.google.gson.JsonObject;
 import net.minecraft.core.NonNullList;
 import net.minecraft.core.RegistryAccess;
@@ -14,28 +14,23 @@ import net.minecraft.world.item.crafting.*;
 import net.minecraft.world.level.Level;
 import org.jetbrains.annotations.Nullable;
 
-import java.util.ArrayList;
+import java.util.*;
 
 public class LaserTransfiguratorRecipe implements Recipe<SimpleContainer> {
 
-    private final NonNullList<Ingredient> ingredients;
+    private final ImmutableMap<Ingredient, Integer> ingredients;
     private final ItemStack output;
     private final int cost;
     private final int processTime;
     private final ResourceLocation id;
 
-
-    public LaserTransfiguratorRecipe(NonNullList<Ingredient> ingredients, ItemStack output, int cost, int processTime, ResourceLocation id){
+    public LaserTransfiguratorRecipe(ImmutableMap<Ingredient, Integer> ingredients, ItemStack output, int cost, int processTime, ResourceLocation id){
         this.ingredients = ingredients;
         this.output = output;
         this.cost = cost;
         this.processTime = processTime;
         this.id = id;
     }
-
-    //each input slot = one ingredient
-    //each ingredient can only be represented by one item (eg. gold ingot) or multiple valid items (eg. all kinds of saplings)
-    //so ingredients are functionally arrays
 
     @Override
     public boolean matches(SimpleContainer container, Level level) {
@@ -45,17 +40,51 @@ public class LaserTransfiguratorRecipe implements Recipe<SimpleContainer> {
             contents.add(i, container.getItem(i));
         }
 
-        boolean slot1 = ingredients.get(0).test(contents.get(0));
-        boolean slot2 = ingredients.get(1).test(contents.get(1));
-        boolean slot3 = ingredients.get(2).test(contents.get(2));
+        Map<Ingredient, Integer> ingredientMap = getIngredientMapNoFiller();
+        ArrayList<Ingredient> ingredientSet = new ArrayList<>(ingredientMap.keySet());
 
-        System.out.println(slot1 + " " + slot2 + " " + slot3);
-        return slot1 && slot2 && slot3;
+        if(!ingredientMap.isEmpty()){
+            for(Map.Entry<Ingredient, Integer> entry : ingredientMap.entrySet()){
+
+                Ingredient ingredient = entry.getKey();
+                int count = entry.getValue();
+
+                for(ItemStack stack : contents){
+                    if(ingredient.test(stack) && stack.getCount() >= count){
+                        ingredientSet.remove(entry.getKey());
+                        break;
+                    }
+                }
+            }
+        }
+        else{
+            return false;
+        }
+
+        return ingredientSet.isEmpty();
     }
 
     @Override
     public NonNullList<Ingredient> getIngredients() {
+        NonNullList<Ingredient> list = NonNullList.create();
+        list.addAll(this.ingredients.keySet());
+
+        return list;
+    }
+
+    public ImmutableMap<Ingredient, Integer> getIngredientMap(){
         return this.ingredients;
+    }
+
+    public Map<Ingredient, Integer> getIngredientMapNoFiller(){
+        Map<Ingredient, Integer> ingredients = new HashMap<>(this.getIngredientMap());
+
+        for(Map.Entry<Ingredient, Integer> entry : ingredients.entrySet()){
+            if(entry.getValue() == -99){
+                ingredients.remove(entry.getKey());
+            }
+        }
+        return ingredients;
     }
 
     @Override
@@ -111,48 +140,58 @@ public class LaserTransfiguratorRecipe implements Recipe<SimpleContainer> {
         @Override
         public LaserTransfiguratorRecipe fromJson(ResourceLocation id, JsonObject recipe) {
 
-            NonNullList<Ingredient> inputs = NonNullList.withSize(3, Ingredient.EMPTY);
-            JsonArray ingredients = GsonHelper.getAsJsonArray(recipe, "ingredients");
-            ItemStack stackItem = ShapedRecipe.itemStackFromJson(GsonHelper.getAsJsonObject(recipe, "ingredient3"));
+            Ingredient ingredient1 = Ingredient.fromJson(GsonHelper.getNonNull(recipe, "ingredient1"));
+            Ingredient ingredient2 = Ingredient.fromJson(GsonHelper.getNonNull(recipe, "ingredient2"));
+            Ingredient ingredient3 = Ingredient.fromJson(GsonHelper.getNonNull(recipe, "ingredient3"));
+            int count1 = GsonHelper.getAsInt(recipe, "count1");
+            int count2 = GsonHelper.getAsInt(recipe, "count2");
+            int count3 = GsonHelper.getAsInt(recipe, "count3");
 
-            //i need the ingredients in an array of type itemstack, with the counts properly represented
+            Map<Ingredient, Integer> ingredients = new HashMap<>();
+            ingredients.put(ingredient1, count1);
+            ingredients.put(ingredient2, count2);
+            ingredients.put(ingredient3, count3);
 
             ItemStack result = ShapedRecipe.itemStackFromJson(GsonHelper.getAsJsonObject(recipe, "result"));
-
             int cost = GsonHelper.getAsInt(recipe, "cost");
             int processTime = GsonHelper.getAsInt(recipe, "processTime");
 
-            for(int i = 0; i < inputs.size(); i++){
-                inputs.set(i, Ingredient.fromJson(ingredients.get(i)));
-            }
-
-            return new LaserTransfiguratorRecipe(inputs, result, cost, processTime, id);
+            return new LaserTransfiguratorRecipe(ImmutableMap.copyOf(ingredients), result, cost, processTime, id);
         }
 
         @Override
         public @Nullable LaserTransfiguratorRecipe fromNetwork(ResourceLocation id, FriendlyByteBuf buffer) {
 
-            NonNullList<Ingredient> inputs = NonNullList.withSize(buffer.readInt(), Ingredient.EMPTY);
-            for(int i = 0; i < inputs.size(); i++){
-                inputs.set(i, Ingredient.fromNetwork(buffer));
-            }
-            ItemStack result = buffer.readItem();
+            Ingredient ingredient1 = Ingredient.fromNetwork(buffer);
+            Ingredient ingredient2 = Ingredient.fromNetwork(buffer);
+            Ingredient ingredient3 = Ingredient.fromNetwork(buffer);
+            int count1 = buffer.readInt();
+            int count2 = buffer.readInt();
+            int count3 = buffer.readInt();
 
+            Map<Ingredient, Integer> ingredients = new HashMap<>();
+            ingredients.put(ingredient1, count1);
+            ingredients.put(ingredient2, count2);
+            ingredients.put(ingredient3, count3);
+
+            ItemStack result = buffer.readItem();
             int cost = buffer.readInt();
             int processTime = buffer.readInt();
 
-            return new LaserTransfiguratorRecipe(inputs, result, cost, processTime, id);
+            return new LaserTransfiguratorRecipe(ImmutableMap.copyOf(ingredients), result, cost, processTime, id);
         }
 
         @Override
         public void toNetwork(FriendlyByteBuf buffer, LaserTransfiguratorRecipe recipe) {
 
-            buffer.writeInt(recipe.ingredients.size());
-            for(Ingredient ingredient : recipe.getIngredients()){
-                ingredient.toNetwork(buffer);
+            for(Map.Entry<Ingredient, Integer> entry : recipe.getIngredientMap().entrySet()){
+                entry.getKey().toNetwork(buffer);
+                buffer.writeInt(entry.getValue());
+                //i'm not sure if this would mess things up, but the order of input and retrieval of ingredients & counts will still be the same
+                //guess we'll find out
             }
-            buffer.writeItemStack(recipe.getResultItem(null), false);
 
+            buffer.writeItemStack(recipe.getResultItem(null), false);
             buffer.writeInt(recipe.cost);
             buffer.writeInt(recipe.processTime);
         }

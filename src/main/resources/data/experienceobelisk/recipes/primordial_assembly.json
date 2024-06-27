@@ -1,17 +1,17 @@
 {
   "type": "experienceobelisk:laser_transfiguration",
-  "ingredients": [
-    {
-      "item": "experienceobelisk:astute_assembly",
-      "count": 4
-    },
-    {
-      "item": "minecraft:oak_sapling"
-    },
-    {
-      "item": "minecraft:gold_ingot"
-    }
-  ],
+  "ingredient1": {
+      "item": "experienceobelisk:astute_assembly"
+  },
+  "count1": 1,
+  "ingredient2": {
+    "item": "minecraft:gold_ingot"
+  },
+  "count2": 1,
+  "ingredient3": {
+    "item": "minecraft:oak_sapling"
+  },
+  "count3": 1,
   "result": {
     "item": "experienceobelisk:primordial_assembly",
     "count": 1
