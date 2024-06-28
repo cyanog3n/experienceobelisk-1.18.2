@@ -1,0 +1,26 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "ABA",
+    "CDC",
+    "ABA"
+  ],
+  "key": {
+    "A": {
+      "item": "experienceobelisk:astute_assembly"
+    },
+    "B": {
+      "item": "experienceobelisk:accelerator"
+    },
+    "C": {
+      "item": "experienceobelisk:linear_accelerator"
+    },
+    "D": {
+      "item": "experienceobelisk:whisperglass"
+    }
+  },
+  "result": {
+    "item": "experienceobelisk:laser_transfigurator",
+    "count": 1
+  }
+}
