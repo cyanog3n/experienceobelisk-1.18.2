@@ -5,17 +5,17 @@
   },
   "count1": 4,
   "ingredient2": {
-    "item": "minecraft:air"
+    "item": "minecraft:barrier"
   },
   "count2": -99,
   "ingredient3": {
-    "item": "minecraft:air"
+    "item": "minecraft:barrier"
   },
   "count3": -99,
   "result": {
     "item": "minecraft:leather",
     "count": 1
   },
-  "cost": 1,
+  "cost": 16,
   "processTime": 20
 }

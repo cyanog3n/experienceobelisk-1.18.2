@@ -1,21 +1,21 @@
 {
   "type": "experienceobelisk:laser_transfiguration",
   "ingredient1": {
-      "item": "experienceobelisk:astute_assembly"
+      "item": "minecraft:glass_bottle"
   },
   "count1": 1,
   "ingredient2": {
-    "item": "minecraft:gold_ingot"
+    "item": "minecraft:warped_fungus"
   },
   "count2": 1,
   "ingredient3": {
-    "tag": "minecraft:saplings"
+    "item": "minecraft:twisting_vines"
   },
   "count3": 1,
   "result": {
-    "item": "experienceobelisk:primordial_assembly",
+    "item": "experienceobelisk:nightmare_bottle",
     "count": 1
   },
-  "cost": 315,
-  "processTime": 100
+  "cost": 55,
+  "processTime": 40
 }

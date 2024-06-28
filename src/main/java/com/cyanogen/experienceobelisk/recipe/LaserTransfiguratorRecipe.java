@@ -189,8 +189,6 @@ public class LaserTransfiguratorRecipe implements Recipe<SimpleContainer> {
             for(Map.Entry<Ingredient, Integer> entry : recipe.getIngredientMap().entrySet()){
                 entry.getKey().toNetwork(buffer);
                 buffer.writeInt(entry.getValue());
-                //i'm not sure if this would mess things up, but the order of input and retrieval of ingredients & counts will still be the same
-                //guess we'll find out
             }
 
             buffer.writeItemStack(recipe.getResultItem(null), false);

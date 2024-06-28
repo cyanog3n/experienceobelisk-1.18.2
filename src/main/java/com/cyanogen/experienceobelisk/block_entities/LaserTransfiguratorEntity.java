@@ -174,9 +174,9 @@ public class LaserTransfiguratorEntity extends ExperienceReceivingEntity impleme
 
         return getBoundObelisk() != null //has been bound to a valid obelisk
                 && getBoundObelisk().getFluidAmount() >= cost * 20 //obelisk has enough Cognitium
-                && (itemHandler.getStackInSlot(3).getItem().equals(output.getItem())
+                && (ItemStack.isSameItemSameTags(itemHandler.getStackInSlot(3), output)
                 || itemHandler.getStackInSlot(3).isEmpty() || itemHandler.getStackInSlot(3).is(Items.AIR)) //results slot empty or same as output
-                && itemHandler.getStackInSlot(3).getCount() <= 64 - output.getCount(); //results slot can accommodate output
+                && itemHandler.getStackInSlot(3).getCount() <= output.getMaxStackSize() - output.getCount(); //results slot can accommodate output
     }
 
     public void initiateRecipe(LaserTransfiguratorRecipe recipe){
