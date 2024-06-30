@@ -74,6 +74,21 @@ public class LaserTransfiguratorRecipe implements Recipe<SimpleContainer> {
         return list;
     }
 
+    public NonNullList<Ingredient> getIngredientListWithEmpty(){
+        NonNullList<Ingredient> list = NonNullList.create();
+
+        for(Map.Entry<Ingredient, Integer> entry : getIngredientMap().entrySet()){
+            if(entry.getValue() != -99){
+                list.add(entry.getKey());
+            }
+            else{
+                list.add(Ingredient.EMPTY);
+            }
+        }
+
+        return list;
+    }
+
     public ImmutableMap<Ingredient, Integer> getIngredientMap(){
         return this.ingredients;
     }
