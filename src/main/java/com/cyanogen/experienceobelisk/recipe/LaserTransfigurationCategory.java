@@ -28,7 +28,7 @@ public class LaserTransfigurationCategory implements IRecipeCategory<LaserTransf
 
     IRecipeCategoryRegistration registration;
     IGuiHelper guiHelper;
-    private final ResourceLocation texture = new ResourceLocation("experienceobelisk:textures/gui/screens/experience_obelisk.png");
+    private final ResourceLocation texture = new ResourceLocation("experienceobelisk:textures/gui/screens/laser_transfigurator_jei.png");
 
     public LaserTransfigurationCategory(IRecipeCategoryRegistration registration){
         this.registration = registration;
@@ -47,7 +47,7 @@ public class LaserTransfigurationCategory implements IRecipeCategory<LaserTransf
 
     @Override
     public IDrawable getBackground() {
-        return guiHelper.createBlankDrawable(160, 50);
+        return guiHelper.createDrawable(texture, 0, 0, 176, 87);
     }
 
     @Override
@@ -64,7 +64,10 @@ public class LaserTransfigurationCategory implements IRecipeCategory<LaserTransf
 
     @Override
     public void draw(LaserTransfiguratorRecipe recipe, IRecipeSlotsView recipeSlotsView, GuiGraphics guiGraphics, double mouseX, double mouseY) {
+
+        guiHelper.drawableBuilder().buildAnimated();
         //add text for XP amount
+
         IRecipeCategory.super.draw(recipe, recipeSlotsView, guiGraphics, mouseX, mouseY);
     }
 
