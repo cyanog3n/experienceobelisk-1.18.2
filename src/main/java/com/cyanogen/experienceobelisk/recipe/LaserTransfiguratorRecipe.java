@@ -8,6 +8,7 @@ import net.minecraft.core.RegistryAccess;
 import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.util.GsonHelper;
+import net.minecraft.util.Tuple;
 import net.minecraft.world.SimpleContainer;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.crafting.*;
@@ -20,13 +21,13 @@ import java.util.Map;
 
 public class LaserTransfiguratorRecipe implements Recipe<SimpleContainer> {
 
-    private final ImmutableMap<Ingredient, Integer> ingredients;
+    private final ImmutableMap<Ingredient, Tuple<Integer, Integer>> ingredients; //A -- ingredient no., B -- count
     private final ItemStack output;
     private final int cost;
     private final int processTime;
     private final ResourceLocation id;
 
-    public LaserTransfiguratorRecipe(ImmutableMap<Ingredient, Integer> ingredients, ItemStack output, int cost, int processTime, ResourceLocation id){
+    public LaserTransfiguratorRecipe(ImmutableMap<Ingredient, Tuple<Integer, Integer>> ingredients, ItemStack output, int cost, int processTime, ResourceLocation id){
         this.ingredients = ingredients;
         this.output = output;
         this.cost = cost;
@@ -42,14 +43,14 @@ public class LaserTransfiguratorRecipe implements Recipe<SimpleContainer> {
             contents.add(i, container.getItem(i));
         }
 
-        Map<Ingredient, Integer> ingredientMap = getIngredientMapNoFiller();
+        Map<Ingredient, Tuple<Integer, Integer>> ingredientMap = getIngredientMapNoFiller();
         ArrayList<Ingredient> ingredientSet = new ArrayList<>(ingredientMap.keySet());
 
         if(!ingredientMap.isEmpty()){
-            for(Map.Entry<Ingredient, Integer> entry : ingredientMap.entrySet()){
+            for(Map.Entry<Ingredient, Tuple<Integer, Integer>> entry : ingredientMap.entrySet()){
 
                 Ingredient ingredient = entry.getKey();
-                int count = entry.getValue();
+                int count = entry.getValue().getB();
 
                 for(ItemStack stack : contents){
                     if(ingredient.test(stack) && stack.getCount() >= count){
@@ -74,30 +75,16 @@ public class LaserTransfiguratorRecipe implements Recipe<SimpleContainer> {
         return list;
     }
 
-    public NonNullList<Ingredient> getIngredientListWithEmpty(){
-        NonNullList<Ingredient> list = NonNullList.create();
 
-        for(Map.Entry<Ingredient, Integer> entry : getIngredientMap().entrySet()){
-            if(entry.getValue() != -99){
-                list.add(entry.getKey());
-            }
-            else{
-                list.add(Ingredient.EMPTY);
-            }
-        }
-
-        return list;
-    }
-
-    public ImmutableMap<Ingredient, Integer> getIngredientMap(){
+    public ImmutableMap<Ingredient, Tuple<Integer, Integer>> getIngredientMap(){
         return this.ingredients;
     }
 
-    public Map<Ingredient, Integer> getIngredientMapNoFiller(){
-        Map<Ingredient, Integer> ingredients = new HashMap<>();
+    public Map<Ingredient, Tuple<Integer, Integer>> getIngredientMapNoFiller(){
+        Map<Ingredient, Tuple<Integer, Integer>> ingredients = new HashMap<>();
 
-        for(Map.Entry<Ingredient, Integer> entry : getIngredientMap().entrySet()){
-            if(entry.getValue() != -99){
+        for(Map.Entry<Ingredient, Tuple<Integer, Integer>> entry : getIngredientMap().entrySet()){
+            if(entry.getValue().getB() != -99){
                 ingredients.put(entry.getKey(), entry.getValue());
             }
         }
@@ -164,10 +151,10 @@ public class LaserTransfiguratorRecipe implements Recipe<SimpleContainer> {
             int count2 = GsonHelper.getAsInt(recipe, "count2");
             int count3 = GsonHelper.getAsInt(recipe, "count3");
 
-            Map<Ingredient, Integer> ingredients = new HashMap<>();
-            ingredients.put(ingredient1, count1);
-            ingredients.put(ingredient2, count2);
-            ingredients.put(ingredient3, count3);
+            Map<Ingredient, Tuple<Integer, Integer>> ingredients = new HashMap<>();
+            ingredients.put(ingredient1, new Tuple<>(1, count1));
+            ingredients.put(ingredient2, new Tuple<>(2, count2));
+            ingredients.put(ingredient3, new Tuple<>(3, count3));
 
             ItemStack result = ShapedRecipe.itemStackFromJson(GsonHelper.getAsJsonObject(recipe, "result"));
             int cost = GsonHelper.getAsInt(recipe, "cost");
@@ -186,10 +173,10 @@ public class LaserTransfiguratorRecipe implements Recipe<SimpleContainer> {
             int count2 = buffer.readInt();
             int count3 = buffer.readInt();
 
-            Map<Ingredient, Integer> ingredients = new HashMap<>();
-            ingredients.put(ingredient1, count1);
-            ingredients.put(ingredient2, count2);
-            ingredients.put(ingredient3, count3);
+            Map<Ingredient, Tuple<Integer, Integer>> ingredients = new HashMap<>();
+            ingredients.put(ingredient1, new Tuple<>(1, count1));
+            ingredients.put(ingredient2, new Tuple<>(2, count2));
+            ingredients.put(ingredient3, new Tuple<>(3, count3));
 
             ItemStack result = buffer.readItem();
             int cost = buffer.readInt();
@@ -201,9 +188,9 @@ public class LaserTransfiguratorRecipe implements Recipe<SimpleContainer> {
         @Override
         public void toNetwork(FriendlyByteBuf buffer, LaserTransfiguratorRecipe recipe) {
 
-            for(Map.Entry<Ingredient, Integer> entry : recipe.getIngredientMap().entrySet()){
+            for(Map.Entry<Ingredient, Tuple<Integer, Integer>> entry : recipe.getIngredientMap().entrySet()){
                 entry.getKey().toNetwork(buffer);
-                buffer.writeInt(entry.getValue());
+                buffer.writeInt(entry.getValue().getB());
             }
 
             buffer.writeItemStack(recipe.getResultItem(null), false);

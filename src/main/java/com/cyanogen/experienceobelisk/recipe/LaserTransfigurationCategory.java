@@ -12,13 +12,17 @@ import mezz.jei.api.recipe.RecipeType;
 import mezz.jei.api.recipe.category.IRecipeCategory;
 import mezz.jei.api.registration.IRecipeCategoryRegistration;
 import net.minecraft.client.gui.GuiGraphics;
+import net.minecraft.core.NonNullList;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
+import net.minecraft.util.Tuple;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.crafting.Ingredient;
 import org.jetbrains.annotations.Nullable;
 
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 public class LaserTransfigurationCategory implements IRecipeCategory<LaserTransfiguratorRecipe>{
 
@@ -43,7 +47,7 @@ public class LaserTransfigurationCategory implements IRecipeCategory<LaserTransf
 
     @Override
     public IDrawable getBackground() {
-        return guiHelper.createBlankDrawable(100, 50);
+        return guiHelper.createBlankDrawable(160, 50);
     }
 
     @Override
@@ -67,17 +71,37 @@ public class LaserTransfigurationCategory implements IRecipeCategory<LaserTransf
     @Override
     public void setRecipe(IRecipeLayoutBuilder builder, LaserTransfiguratorRecipe recipe, IFocusGroup focuses) {
 
-        List<Ingredient> ingredients = recipe.getIngredientListWithEmpty();
         ItemStack result = recipe.getResultItem(null);
+        //position of 1st slot
+        int x = 21; //21, 36, 51
+        int y = 21;
 
-        builder.addSlot(RecipeIngredientRole.INPUT, 19,35).setSlotName("input1").addIngredients(ingredients.get(0));
-        builder.addSlot(RecipeIngredientRole.INPUT, 50,53).setSlotName("input2").addIngredients(ingredients.get(1));
-        builder.addSlot(RecipeIngredientRole.INPUT, 69,17).setSlotName("input3").addIngredients(ingredients.get(2));
-        builder.addSlot(RecipeIngredientRole.OUTPUT, 140,35).setSlotName("output").addItemStack(result);
+        for(Map.Entry<Ingredient, Tuple<Integer, Integer>> entry : recipe.getIngredientMap().entrySet()){
 
+            int position = entry.getValue().getA() - 1;
+            int count = entry.getValue().getB();
+            Ingredient ingredient = entry.getKey();
+
+            if(count != -99){
+                builder.addSlot(RecipeIngredientRole.INPUT, x + position * 30, y).setSlotName("input" + position).addItemStacks(getItemListWithCounts(ingredient, count));
+            }
+
+        }
+
+        builder.addSlot(RecipeIngredientRole.OUTPUT, 21 + 4 * 30,21).setSlotName("output").addItemStack(result);
         builder.setShapeless();
+    }
 
+    public List<ItemStack> getItemListWithCounts(Ingredient ingredient, int count){
+        List<ItemStack> list = new ArrayList<>();
 
+        for(ItemStack stack : ingredient.getItems()){
+            ItemStack stack2 = stack.copy();
+            stack2.setCount(count);
+            list.add(stack2);
+        }
+
+        return list;
     }
 
 

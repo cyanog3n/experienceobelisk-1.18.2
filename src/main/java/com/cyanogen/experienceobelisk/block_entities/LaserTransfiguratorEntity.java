@@ -10,6 +10,7 @@ import net.minecraft.network.protocol.Packet;
 import net.minecraft.network.protocol.game.ClientGamePacketListener;
 import net.minecraft.network.protocol.game.ClientboundBlockEntityDataPacket;
 import net.minecraft.resources.ResourceLocation;
+import net.minecraft.util.Tuple;
 import net.minecraft.world.ContainerHelper;
 import net.minecraft.world.SimpleContainer;
 import net.minecraft.world.item.ItemStack;
@@ -193,12 +194,12 @@ public class LaserTransfiguratorEntity extends ExperienceReceivingEntity impleme
 
         SimpleContainer container = getRecipeContainer();
 
-        Map<Ingredient, Integer> ingredientMap = recipe.getIngredientMapNoFiller();
+        Map<Ingredient, Tuple<Integer, Integer>> ingredientMap = recipe.getIngredientMapNoFiller();
 
-        for(Map.Entry<Ingredient, Integer> entry : ingredientMap.entrySet()){
+        for(Map.Entry<Ingredient, Tuple<Integer, Integer>> entry : ingredientMap.entrySet()){
 
             Ingredient ingredient = entry.getKey();
-            int count = entry.getValue();
+            int count = entry.getValue().getB();
 
             for(int i = 0; i < 3; i++){
                 ItemStack stack = container.getItem(i);
