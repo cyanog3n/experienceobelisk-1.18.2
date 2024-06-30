@@ -4,7 +4,9 @@ import com.cyanogen.experienceobelisk.ExperienceObelisk;
 import com.cyanogen.experienceobelisk.registries.RegisterItems;
 import mezz.jei.api.gui.builder.IRecipeLayoutBuilder;
 import mezz.jei.api.gui.drawable.IDrawable;
+import mezz.jei.api.helpers.IGuiHelper;
 import mezz.jei.api.recipe.IFocusGroup;
+import mezz.jei.api.recipe.RecipeIngredientRole;
 import mezz.jei.api.recipe.RecipeType;
 import mezz.jei.api.recipe.category.IRecipeCategory;
 import mezz.jei.api.registration.IRecipeCategoryRegistration;
@@ -16,9 +18,11 @@ import org.jetbrains.annotations.Nullable;
 public class LaserTransfigurationCategory implements IRecipeCategory<LaserTransfiguratorRecipe>{
 
     IRecipeCategoryRegistration registration;
+    IGuiHelper guiHelper;
 
     public LaserTransfigurationCategory(IRecipeCategoryRegistration registration){
         this.registration = registration;
+        this.guiHelper = registration.getJeiHelpers().getGuiHelper();
     }
 
     @Override
@@ -45,11 +49,19 @@ public class LaserTransfigurationCategory implements IRecipeCategory<LaserTransf
     public IDrawable getIcon() {
 
         ItemStack icon = new ItemStack(RegisterItems.LASER_TRANSFIGURATOR_ITEM.get());
-        return registration.getJeiHelpers().getGuiHelper().createDrawableItemStack(icon);
+        return guiHelper.createDrawableItemStack(icon);
     }
 
     @Override
     public void setRecipe(IRecipeLayoutBuilder builder, LaserTransfiguratorRecipe recipe, IFocusGroup focuses) {
+
+        builder.addSlot(RecipeIngredientRole.INPUT, 0,0);
+        builder.addSlot(RecipeIngredientRole.INPUT, 0,0);
+        builder.addSlot(RecipeIngredientRole.INPUT, 0,0);
+        builder.addSlot(RecipeIngredientRole.OUTPUT, 0,0);
+
+        builder.setShapeless();
+
 
     }
 

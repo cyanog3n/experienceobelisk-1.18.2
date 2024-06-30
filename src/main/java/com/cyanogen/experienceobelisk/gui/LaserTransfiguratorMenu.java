@@ -34,13 +34,13 @@ public class LaserTransfiguratorMenu extends AbstractContainerMenu {
 
         if(inventoryBlock != null){
             // INPUT 1
-            this.addSlot(new SlotItemHandler(inventoryBlock, 0, 17, 18));
+            this.addSlot(new SlotItemHandler(inventoryBlock, 0, 19, 35));
             // INPUT 2
-            this.addSlot(new SlotItemHandler(inventoryBlock, 1, 37, 18));
+            this.addSlot(new SlotItemHandler(inventoryBlock, 1, 50, 53));
             // INPUT 3
-            this.addSlot(new SlotItemHandler(inventoryBlock, 2, 57, 18));
+            this.addSlot(new SlotItemHandler(inventoryBlock, 2, 69, 17));
             // OUTPUT 1
-            this.addSlot(new SlotItemHandler(inventoryBlock, 3, 37, 38){
+            this.addSlot(new SlotItemHandler(inventoryBlock, 3, 140, 35){
                 @Override
                 public boolean mayPlace(ItemStack p_40231_) {
                     return false;
@@ -49,13 +49,13 @@ public class LaserTransfiguratorMenu extends AbstractContainerMenu {
         }
         else{
             // INPUT 1
-            this.addSlot(new Slot(this.container, 0, 17, 18));
+            this.addSlot(new Slot(this.container, 0, 19, 35));
             // INPUT 2
-            this.addSlot(new Slot(this.container, 1, 37, 18));
+            this.addSlot(new Slot(this.container, 1, 50, 53));
             // INPUT 3
-            this.addSlot(new Slot(this.container, 2, 57, 18));
+            this.addSlot(new Slot(this.container, 2, 69, 17));
             // OUTPUT 1
-            this.addSlot(new Slot(this.container, 3, 37, 38){
+            this.addSlot(new Slot(this.container, 3, 140, 35){
                 @Override
                 public boolean mayPlace(ItemStack p_40231_) {
                     return false;
