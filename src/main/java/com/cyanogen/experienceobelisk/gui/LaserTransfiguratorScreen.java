@@ -26,7 +26,6 @@ public class LaserTransfiguratorScreen extends AbstractContainerScreen<LaserTran
     public LaserTransfiguratorScreen(LaserTransfiguratorMenu menu, Inventory inventory, Component component) {
         super(menu, inventory, component);
         this.transfigurator = menu.transfigurator;
-        this.obelisk = menu.obeliskClient;
     }
 
     @Override
@@ -70,12 +69,14 @@ public class LaserTransfiguratorScreen extends AbstractContainerScreen<LaserTran
 
         //render xp bar
         int xpBarWidth = 61;
-        int levels = 0;
-        double progress = 0;
+        int levels;
+        int points;
+        double progress;
 
-        if(obelisk != null){
-            levels = obelisk.getLevels();
-            progress = obelisk.getProgressToNextLevel();
+        if(transfigurator.obeliskStillExists){
+            levels = transfigurator.getObeliskLevels();
+            points = transfigurator.getObeliskPoints();
+            progress = transfigurator.getObeliskProgress();
 
             gui.blit(texture, this.width / 2 + 105 - 88, this.height / 2 + 70 - 83, 0, 179, 64, 11);
             gui.blit(texture, this.width / 2 + 107 - 88, this.height / 2 + 71 - 83, 0, 166, (int) (xpBarWidth * progress), 9);
@@ -95,7 +96,7 @@ public class LaserTransfiguratorScreen extends AbstractContainerScreen<LaserTran
             tooltipList.add(Component.literal("Bound Obelisk"));
 
             tooltipList.add(Component.translatable("tooltip.experienceobelisk.laser_transfigurator.xp",
-                    Component.literal(String.valueOf(obelisk.getExperiencePoints())).withStyle(ChatFormatting.GREEN)));
+                    Component.literal(String.valueOf(points)).withStyle(ChatFormatting.GREEN)));
 
             if(mouseX >= x1 && mouseX <= x2 && mouseY >= y1 && mouseY <= y2){
                 gui.renderTooltip(this.font, tooltipList, Optional.empty(), mouseX, mouseY);

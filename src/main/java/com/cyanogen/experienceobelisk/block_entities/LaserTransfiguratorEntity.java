@@ -44,6 +44,12 @@ public class LaserTransfiguratorEntity extends ExperienceReceivingEntity impleme
     boolean isProcessing = false;
     int processTime = 0;
     int processProgress = 0;
+    public boolean obeliskStillExists = false;
+    int obeliskLevels = 0;
+    int obeliskPoints = 0;
+    double obeliskProgress = 0;
+
+
     NonNullList<ItemStack> remainderItems = NonNullList.withSize(4, ItemStack.EMPTY);
     ResourceLocation recipeId;
 
@@ -68,6 +74,10 @@ public class LaserTransfiguratorEntity extends ExperienceReceivingEntity impleme
     public static <T> void tick(Level level, BlockPos pos, BlockState state, T blockEntity) {
 
         if(blockEntity instanceof LaserTransfiguratorEntity transfigurator){
+
+            if(transfigurator.getBoundObelisk() != null){
+                transfigurator.sendObeliskInfoToScreen(transfigurator.getBoundObelisk());
+            }
 
             if(transfigurator.isProcessing){
 
@@ -238,6 +248,8 @@ public class LaserTransfiguratorEntity extends ExperienceReceivingEntity impleme
         System.out.println("Recipe done, dispensing result: " + result);
     }
 
+    //-----------UTILITY METHODS-----------//
+
     public Optional<LaserTransfiguratorRecipe> getRecipe(){
         return this.level.getRecipeManager().getRecipeFor(LaserTransfiguratorRecipe.Type.INSTANCE, getRecipeContainer(), level);
     }
@@ -258,6 +270,25 @@ public class LaserTransfiguratorEntity extends ExperienceReceivingEntity impleme
         else{
             return null;
         }
+    }
+
+    public int getObeliskLevels(){
+        return obeliskLevels;
+    }
+
+    public int getObeliskPoints(){
+        return obeliskPoints;
+    }
+
+    public double getObeliskProgress(){
+        return obeliskProgress;
+    }
+
+    public void sendObeliskInfoToScreen(ExperienceObeliskEntity obelisk){
+        this.obeliskStillExists = true;
+        this.obeliskLevels = obelisk.getLevels();
+        this.obeliskPoints = obelisk.getExperiencePoints();
+        this.obeliskProgress = obelisk.getProgressToNextLevel();
     }
 
     public void setProcessing(boolean isProcessing){

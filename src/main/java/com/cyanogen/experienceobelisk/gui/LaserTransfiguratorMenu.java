@@ -20,7 +20,6 @@ public class LaserTransfiguratorMenu extends AbstractContainerMenu {
 
     SimpleContainer container = new SimpleContainer(5);
     LaserTransfiguratorEntity transfigurator;
-    ExperienceObeliskEntity obeliskClient;
 
     public LaserTransfiguratorMenu(int id, Inventory inventory, FriendlyByteBuf data){
         this(id, inventory, null, inventory.player, new BlockPos(0,0,0));
@@ -28,13 +27,6 @@ public class LaserTransfiguratorMenu extends AbstractContainerMenu {
         Level level = inventory.player.level();
         BlockPos pos = data.readBlockPos();
         this.transfigurator = (LaserTransfiguratorEntity) level.getBlockEntity(pos);
-
-        if(transfigurator != null && transfigurator.isBound){
-            BlockPos obeliskPos = transfigurator.getBoundPos();
-            if(level.getBlockEntity(obeliskPos) instanceof ExperienceObeliskEntity obelisk){
-                this.obeliskClient = obelisk;
-            }
-        }
     }
 
     //-----SLOTS-----//
