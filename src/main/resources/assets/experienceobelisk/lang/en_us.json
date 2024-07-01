@@ -70,6 +70,8 @@
   "tooltip.experienceobelisk.precision_dispeller.enchantment": "§7Gives %s §7XP / %s §7base levels",
   "tooltip.experienceobelisk.precision_dispeller.insufficient_xp": "§6Insufficient XP!",
 
+  "tooltip.experienceobelisk.laser_transfigurator.xp": "%s §7XP",
+
   "button.experienceobelisk.experience_obelisk.settings": "§l▶§r",
   "button.experienceobelisk.experience_obelisk.back": "§l◀§r",
   "button.experienceobelisk.experience_obelisk.ignored": "§cIgnored§r",

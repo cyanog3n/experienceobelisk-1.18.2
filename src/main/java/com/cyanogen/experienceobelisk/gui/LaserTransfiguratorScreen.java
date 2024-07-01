@@ -7,8 +7,13 @@ import net.minecraft.ChatFormatting;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.gui.screens.inventory.AbstractContainerScreen;
 import net.minecraft.network.chat.Component;
+import net.minecraft.network.chat.MutableComponent;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.player.Inventory;
+
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Optional;
 
 public class LaserTransfiguratorScreen extends AbstractContainerScreen<LaserTransfiguratorMenu>{
 
@@ -76,6 +81,25 @@ public class LaserTransfiguratorScreen extends AbstractContainerScreen<LaserTran
 
         gui.drawCenteredString(this.font, Component.literal(String.valueOf(levels)).withStyle(ChatFormatting.GREEN),
                 this.width / 2 + 52,this.height / 2 - 11, 0xFFFFFF);
+
+        //render XP tooltip
+        int x1 = this.width / 2 + 19;
+        int y1 = this.height / 2 - 12;
+        int x2 = x1 + xpBarWidth;
+        int y2 = y1 + 9;
+
+        List<Component> tooltipList = new ArrayList<>();
+
+        if(obelisk != null){
+            tooltipList.add(Component.literal("Bound Obelisk"));
+
+            tooltipList.add(Component.translatable("tooltip.experienceobelisk.laser_transfigurator.xp",
+                    Component.literal(String.valueOf(obelisk.getExperiencePoints())).withStyle(ChatFormatting.GREEN)));
+
+            if(mouseX >= x1 && mouseX <= x2 && mouseY >= y1 && mouseY <= y2){
+                gui.renderTooltip(this.font, tooltipList, Optional.empty(), mouseX, mouseY);
+            }
+        }
 
         super.render(gui, mouseX, mouseY, partialTick);
         this.renderTooltip(gui, mouseX, mouseY);
