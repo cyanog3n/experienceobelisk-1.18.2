@@ -47,7 +47,7 @@ public class LaserTransfigurationCategory implements IRecipeCategory<LaserTransf
         this.guiHelper = registration.getJeiHelpers().getGuiHelper();
 
         this.arrow = guiHelper.drawableBuilder(texture,0,87,29,5)
-                .buildAnimated(200, IDrawableAnimated.StartDirection.LEFT, false);
+                .buildAnimated(100, IDrawableAnimated.StartDirection.LEFT, false);
     }
 
     @Override
@@ -87,7 +87,7 @@ public class LaserTransfigurationCategory implements IRecipeCategory<LaserTransf
         int processTime = recipe.getProcessTime();
         int levelCost = ExperienceUtils.xpToLevels(cost);
 
-        Component costLabel = Component.literal("Costs " + cost + " XP / " + levelCost + " Lv");
+        Component costLabel = Component.literal(cost + " XP / " + levelCost + " Lv");
         Component timeLabel = Component.literal(processTime / 20 + "s");
         int costLabelWidth = font.width(costLabel);
         int timeLabelWidth = font.width(timeLabel);
@@ -103,17 +103,11 @@ public class LaserTransfigurationCategory implements IRecipeCategory<LaserTransf
     }
 
     @Override
-    public List<Component> getTooltipStrings(LaserTransfiguratorRecipe recipe, IRecipeSlotsView recipeSlotsView, double mouseX, double mouseY) {
-        //display base level cost
-        return IRecipeCategory.super.getTooltipStrings(recipe, recipeSlotsView, mouseX, mouseY);
-    }
-
-    @Override
     public void setRecipe(IRecipeLayoutBuilder builder, LaserTransfiguratorRecipe recipe, IFocusGroup focuses) {
 
         ItemStack result = recipe.getResultItem(null);
-        int[] x = {19,50,69};
-        int[] y = {35,53,17};
+        int[] x = {19,50,70};
+        int[] y = {35,52,18};
 
         for(Map.Entry<Ingredient, Tuple<Integer, Integer>> entry : recipe.getIngredientMap().entrySet()){
 

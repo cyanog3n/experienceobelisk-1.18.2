@@ -1,5 +1,6 @@
 package com.cyanogen.experienceobelisk.gui;
 
+import com.cyanogen.experienceobelisk.block_entities.ExperienceObeliskEntity;
 import com.cyanogen.experienceobelisk.block_entities.LaserTransfiguratorEntity;
 import com.cyanogen.experienceobelisk.registries.RegisterMenus;
 import net.minecraft.core.BlockPos;
@@ -11,6 +12,7 @@ import net.minecraft.world.inventory.AbstractContainerMenu;
 import net.minecraft.world.inventory.Slot;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
+import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraftforge.items.IItemHandler;
 import net.minecraftforge.items.SlotItemHandler;
 
@@ -18,12 +20,21 @@ public class LaserTransfiguratorMenu extends AbstractContainerMenu {
 
     SimpleContainer container = new SimpleContainer(5);
     LaserTransfiguratorEntity transfigurator;
+    ExperienceObeliskEntity obeliskClient;
 
     public LaserTransfiguratorMenu(int id, Inventory inventory, FriendlyByteBuf data){
         this(id, inventory, null, inventory.player, new BlockPos(0,0,0));
 
         Level level = inventory.player.level();
-        this.transfigurator = (LaserTransfiguratorEntity) level.getBlockEntity(data.readBlockPos());
+        BlockPos pos = data.readBlockPos();
+        this.transfigurator = (LaserTransfiguratorEntity) level.getBlockEntity(pos);
+
+        if(transfigurator != null && transfigurator.isBound){
+            BlockPos obeliskPos = transfigurator.getBoundPos();
+            if(level.getBlockEntity(obeliskPos) instanceof ExperienceObeliskEntity obelisk){
+                this.obeliskClient = obelisk;
+            }
+        }
     }
 
     //-----SLOTS-----//
@@ -36,9 +47,9 @@ public class LaserTransfiguratorMenu extends AbstractContainerMenu {
             // INPUT 1
             this.addSlot(new SlotItemHandler(inventoryBlock, 0, 19, 35));
             // INPUT 2
-            this.addSlot(new SlotItemHandler(inventoryBlock, 1, 50, 53));
+            this.addSlot(new SlotItemHandler(inventoryBlock, 1, 50, 52));
             // INPUT 3
-            this.addSlot(new SlotItemHandler(inventoryBlock, 2, 69, 17));
+            this.addSlot(new SlotItemHandler(inventoryBlock, 2, 70, 18));
             // OUTPUT 1
             this.addSlot(new SlotItemHandler(inventoryBlock, 3, 140, 35){
                 @Override
@@ -51,9 +62,9 @@ public class LaserTransfiguratorMenu extends AbstractContainerMenu {
             // INPUT 1
             this.addSlot(new Slot(this.container, 0, 19, 35));
             // INPUT 2
-            this.addSlot(new Slot(this.container, 1, 50, 53));
+            this.addSlot(new Slot(this.container, 1, 50, 52));
             // INPUT 3
-            this.addSlot(new Slot(this.container, 2, 69, 17));
+            this.addSlot(new Slot(this.container, 2, 70, 18));
             // OUTPUT 1
             this.addSlot(new Slot(this.container, 3, 140, 35){
                 @Override

@@ -1,7 +1,9 @@
 package com.cyanogen.experienceobelisk.gui;
 
+import com.cyanogen.experienceobelisk.block_entities.ExperienceObeliskEntity;
 import com.cyanogen.experienceobelisk.block_entities.LaserTransfiguratorEntity;
 import com.mojang.blaze3d.systems.RenderSystem;
+import net.minecraft.ChatFormatting;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.gui.screens.inventory.AbstractContainerScreen;
 import net.minecraft.network.chat.Component;
@@ -12,12 +14,14 @@ public class LaserTransfiguratorScreen extends AbstractContainerScreen<LaserTran
 
     private final ResourceLocation texture = new ResourceLocation("experienceobelisk:textures/gui/screens/laser_transfigurator.png");
     public LaserTransfiguratorEntity transfigurator;
+    public ExperienceObeliskEntity obelisk;
     private final Component title = Component.translatable("title.experienceobelisk.laser_transfigurator");
     private final Component inventoryTitle = Component.translatable("title.experienceobelisk.precision_dispeller.inventory");
 
     public LaserTransfiguratorScreen(LaserTransfiguratorMenu menu, Inventory inventory, Component component) {
         super(menu, inventory, component);
         this.transfigurator = menu.transfigurator;
+        this.obelisk = menu.obeliskClient;
     }
 
     @Override
@@ -47,16 +51,31 @@ public class LaserTransfiguratorScreen extends AbstractContainerScreen<LaserTran
         int x = (this.width - this.imageWidth) / 2;
         int y = (this.height - this.imageHeight) / 2;
 
-        int completionPercent = 0;
+        int arrowWidth = 26;
+        int completion = 0;
         if(transfigurator.getProcessTime() != 0){
-            completionPercent = transfigurator.getProcessProgress() * 100 / transfigurator.getProcessTime();
+            completion = transfigurator.getProcessProgress() / transfigurator.getProcessTime();
+        }
+
+        int xpBarWidth = 61;
+        int levels = 0;
+        double progress = 0;
+        if(obelisk != null){
+            levels = obelisk.getLevels();
+            progress = obelisk.getProgressToNextLevel();
         }
 
         //render background texture
         gui.blit(texture, x, y, 0, 0, 176, 166);
 
-        gui.drawCenteredString(this.font, Component.literal(completionPercent + "%"),
-                this.width / 2 + 30,this.height / 2 - 5, 0xFFFFFF);
+        //render recipe progress
+        gui.blit(texture, this.width / 2 + 109 - 88, this.height / 2 + 48 - 83, 0, 175, arrowWidth * completion, 5);
+
+        //render xp bar
+        gui.blit(texture, this.width / 2 + 107 - 88, this.height / 2 + 71 - 83, 0, 166, (int) (xpBarWidth * progress), 9);
+
+        gui.drawCenteredString(this.font, Component.literal(String.valueOf(levels)).withStyle(ChatFormatting.GREEN),
+                this.width / 2 + 52,this.height / 2 - 11, 0xFFFFFF);
 
         super.render(gui, mouseX, mouseY, partialTick);
         this.renderTooltip(gui, mouseX, mouseY);
