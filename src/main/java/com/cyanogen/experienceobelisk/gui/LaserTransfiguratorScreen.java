@@ -62,14 +62,6 @@ public class LaserTransfiguratorScreen extends AbstractContainerScreen<LaserTran
             completion = transfigurator.getProcessProgress() / transfigurator.getProcessTime();
         }
 
-        int xpBarWidth = 61;
-        int levels = 0;
-        double progress = 0;
-        if(obelisk != null){
-            levels = obelisk.getLevels();
-            progress = obelisk.getProgressToNextLevel();
-        }
-
         //render background texture
         gui.blit(texture, x, y, 0, 0, 176, 166);
 
@@ -77,20 +69,29 @@ public class LaserTransfiguratorScreen extends AbstractContainerScreen<LaserTran
         gui.blit(texture, this.width / 2 + 109 - 88, this.height / 2 + 48 - 83, 0, 175, arrowWidth * completion, 5);
 
         //render xp bar
-        gui.blit(texture, this.width / 2 + 107 - 88, this.height / 2 + 71 - 83, 0, 166, (int) (xpBarWidth * progress), 9);
-
-        gui.drawCenteredString(this.font, Component.literal(String.valueOf(levels)).withStyle(ChatFormatting.GREEN),
-                this.width / 2 + 52,this.height / 2 - 11, 0xFFFFFF);
-
-        //render XP tooltip
-        int x1 = this.width / 2 + 19;
-        int y1 = this.height / 2 - 12;
-        int x2 = x1 + xpBarWidth;
-        int y2 = y1 + 9;
-
-        List<Component> tooltipList = new ArrayList<>();
+        int xpBarWidth = 61;
+        int levels = 0;
+        double progress = 0;
 
         if(obelisk != null){
+            levels = obelisk.getLevels();
+            progress = obelisk.getProgressToNextLevel();
+
+            gui.blit(texture, this.width / 2 + 105 - 88, this.height / 2 + 70 - 83, 0, 179, 64, 11);
+            gui.blit(texture, this.width / 2 + 107 - 88, this.height / 2 + 71 - 83, 0, 166, (int) (xpBarWidth * progress), 9);
+
+            //render level counter
+            gui.drawCenteredString(this.font, Component.literal(String.valueOf(levels)).withStyle(ChatFormatting.GREEN),
+                    this.width / 2 + 52,this.height / 2 - 11, 0xFFFFFF);
+
+            //render XP tooltip
+            int x1 = this.width / 2 + 19;
+            int y1 = this.height / 2 - 12;
+            int x2 = x1 + xpBarWidth;
+            int y2 = y1 + 9;
+
+            List<Component> tooltipList = new ArrayList<>();
+
             tooltipList.add(Component.literal("Bound Obelisk"));
 
             tooltipList.add(Component.translatable("tooltip.experienceobelisk.laser_transfigurator.xp",
