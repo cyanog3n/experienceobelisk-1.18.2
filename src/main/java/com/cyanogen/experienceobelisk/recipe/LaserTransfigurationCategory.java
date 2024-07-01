@@ -4,6 +4,8 @@ import com.cyanogen.experienceobelisk.ExperienceObelisk;
 import com.cyanogen.experienceobelisk.registries.RegisterItems;
 import mezz.jei.api.gui.builder.IRecipeLayoutBuilder;
 import mezz.jei.api.gui.drawable.IDrawable;
+import mezz.jei.api.gui.drawable.IDrawableAnimated;
+import mezz.jei.api.gui.drawable.IDrawableStatic;
 import mezz.jei.api.gui.ingredient.IRecipeSlotsView;
 import mezz.jei.api.helpers.IGuiHelper;
 import mezz.jei.api.recipe.IFocusGroup;
@@ -11,13 +13,20 @@ import mezz.jei.api.recipe.RecipeIngredientRole;
 import mezz.jei.api.recipe.RecipeType;
 import mezz.jei.api.recipe.category.IRecipeCategory;
 import mezz.jei.api.registration.IRecipeCategoryRegistration;
+import net.minecraft.ChatFormatting;
+import net.minecraft.client.Minecraft;
+import net.minecraft.client.gui.Font;
 import net.minecraft.client.gui.GuiGraphics;
-import net.minecraft.core.NonNullList;
+import net.minecraft.client.gui.font.FontManager;
+import net.minecraft.client.gui.font.FontSet;
 import net.minecraft.network.chat.Component;
+import net.minecraft.network.chat.Style;
 import net.minecraft.resources.ResourceLocation;
+import net.minecraft.util.FormattedCharSequence;
 import net.minecraft.util.Tuple;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.crafting.Ingredient;
+import net.minecraftforge.client.extensions.IForgeFont;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.ArrayList;
@@ -28,11 +37,15 @@ public class LaserTransfigurationCategory implements IRecipeCategory<LaserTransf
 
     IRecipeCategoryRegistration registration;
     IGuiHelper guiHelper;
-    private final ResourceLocation texture = new ResourceLocation("experienceobelisk:textures/gui/screens/laser_transfigurator_jei.png");
+    private final ResourceLocation texture = new ResourceLocation("experienceobelisk:textures/gui/recipes/laser_transfigurator_jei.png");
+    private final IDrawableAnimated arrow;
 
     public LaserTransfigurationCategory(IRecipeCategoryRegistration registration){
         this.registration = registration;
         this.guiHelper = registration.getJeiHelpers().getGuiHelper();
+
+        this.arrow = guiHelper.drawableBuilder(texture,0,87,29,5)
+                .buildAnimated(200, IDrawableAnimated.StartDirection.LEFT, false);
     }
 
     @Override
@@ -65,8 +78,17 @@ public class LaserTransfigurationCategory implements IRecipeCategory<LaserTransf
     @Override
     public void draw(LaserTransfiguratorRecipe recipe, IRecipeSlotsView recipeSlotsView, GuiGraphics guiGraphics, double mouseX, double mouseY) {
 
-        guiHelper.drawableBuilder().buildAnimated();
-        //add text for XP amount
+        arrow.draw(guiGraphics, 108, 47);
+
+        Component costLabel = Component.literal(recipe.getCost() + " XP");
+        Component timeLabel = Component.literal(String.valueOf(recipe.getProcessTime()));
+        int grey = 0x7E7E7E;
+
+        guiGraphics.drawString(Minecraft.getInstance().font, costLabel.getVisualOrderText(),
+                getWidth() - 30,getHeight() - 10, grey, false);
+        guiGraphics.drawString(Minecraft.getInstance().font, timeLabel.getVisualOrderText(),
+                getWidth() - 20,getHeight() - 17, grey, false);
+
 
         IRecipeCategory.super.draw(recipe, recipeSlotsView, guiGraphics, mouseX, mouseY);
     }
@@ -75,9 +97,8 @@ public class LaserTransfigurationCategory implements IRecipeCategory<LaserTransf
     public void setRecipe(IRecipeLayoutBuilder builder, LaserTransfiguratorRecipe recipe, IFocusGroup focuses) {
 
         ItemStack result = recipe.getResultItem(null);
-        //position of 1st slot
-        int x = 21; //21, 36, 51
-        int y = 21;
+        int[] x = {19,50,69};
+        int[] y = {35,53,17};
 
         for(Map.Entry<Ingredient, Tuple<Integer, Integer>> entry : recipe.getIngredientMap().entrySet()){
 
@@ -86,12 +107,12 @@ public class LaserTransfigurationCategory implements IRecipeCategory<LaserTransf
             Ingredient ingredient = entry.getKey();
 
             if(count != -99){
-                builder.addSlot(RecipeIngredientRole.INPUT, x + position * 30, y).setSlotName("input" + position).addItemStacks(getItemListWithCounts(ingredient, count));
+                builder.addSlot(RecipeIngredientRole.INPUT, x[position], y[position]).setSlotName("input" + position).addItemStacks(getItemListWithCounts(ingredient, count));
             }
 
         }
 
-        builder.addSlot(RecipeIngredientRole.OUTPUT, 21 + 4 * 30,21).setSlotName("output").addItemStack(result);
+        builder.addSlot(RecipeIngredientRole.OUTPUT, 140,35).setSlotName("output").addItemStack(result);
         builder.setShapeless();
     }
 

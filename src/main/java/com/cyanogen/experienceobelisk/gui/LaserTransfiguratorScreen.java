@@ -39,6 +39,8 @@ public class LaserTransfiguratorScreen extends AbstractContainerScreen<LaserTran
     @Override
     public void render(GuiGraphics gui, int mouseX, int mouseY, float partialTick) {
 
+        renderBackground(gui);
+
         RenderSystem.setShaderColor(1.0F, 1.0F, 1.0F, 1.0F);
         RenderSystem.setShaderTexture(0, texture);
 

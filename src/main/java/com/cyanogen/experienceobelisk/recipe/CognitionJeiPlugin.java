@@ -2,7 +2,6 @@ package com.cyanogen.experienceobelisk.recipe;
 
 import com.cyanogen.experienceobelisk.ExperienceObelisk;
 import com.cyanogen.experienceobelisk.registries.RegisterItems;
-import com.cyanogen.experienceobelisk.registries.RegisterRecipes;
 import mezz.jei.api.IModPlugin;
 import mezz.jei.api.constants.VanillaTypes;
 import mezz.jei.api.recipe.RecipeType;
@@ -14,7 +13,6 @@ import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.crafting.Recipe;
-import net.minecraft.world.item.crafting.RecipeManager;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -24,33 +22,26 @@ public class CognitionJeiPlugin implements IModPlugin {
 
     public final RecipeType<LaserTransfiguratorRecipe> transfiguratorType = RecipeType.create(LaserTransfiguratorRecipe.Type.ID, ExperienceObelisk.MOD_ID, LaserTransfiguratorRecipe.class);
 
-
-    public CognitionJeiPlugin(){
-
-    }
-
     @Override
     public void registerCategories(IRecipeCategoryRegistration registration) {
 
         registration.addRecipeCategories(new LaserTransfigurationCategory(registration));
 
-        System.out.println("----- Categories registered -----");
         IModPlugin.super.registerCategories(registration);
     }
 
     @Override
     public void registerRecipes(IRecipeRegistration registration) {
 
+        //RECIPES
         List<LaserTransfiguratorRecipe> transfiguratorRecipes = new ArrayList<>();
 
         for(Recipe<?> recipe : Minecraft.getInstance().level.getRecipeManager().getRecipes()){
             if(recipe instanceof LaserTransfiguratorRecipe transfiguratorRecipe){
-                System.out.println("----- Found recipe: " + transfiguratorRecipe.getId() + " -----");
                 transfiguratorRecipes.add(transfiguratorRecipe);
             }
         }
 
-        //RECIPES
         registration.addRecipes(transfiguratorType, transfiguratorRecipes);
 
         //INFO
@@ -60,7 +51,6 @@ public class CognitionJeiPlugin implements IModPlugin {
 
         registration.addIngredientInfo(FORGOTTEN_DUST, VanillaTypes.ITEM_STACK, Component.literal(description));
 
-        System.out.println("----- Recipes registered -----");
         IModPlugin.super.registerRecipes(registration);
     }
 
@@ -70,7 +60,6 @@ public class CognitionJeiPlugin implements IModPlugin {
         ItemStack stack = new ItemStack(RegisterItems.LASER_TRANSFIGURATOR_ITEM.get());
         registration.addRecipeCatalyst(stack, transfiguratorType);
 
-        System.out.println("----- Catalysts registered -----");
         IModPlugin.super.registerRecipeCatalysts(registration);
     }
 
