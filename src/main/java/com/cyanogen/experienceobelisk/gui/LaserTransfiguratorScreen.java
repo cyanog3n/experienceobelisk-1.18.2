@@ -74,9 +74,9 @@ public class LaserTransfiguratorScreen extends AbstractContainerScreen<LaserTran
         double progress;
 
         if(transfigurator.obeliskStillExists){
-            levels = transfigurator.getObeliskLevels();
-            points = transfigurator.getObeliskPoints();
-            progress = transfigurator.getObeliskProgress();
+            levels = transfigurator.obeliskLevels;
+            points = transfigurator.obeliskPoints;
+            progress = transfigurator.obeliskProgress;
 
             gui.blit(texture, this.width / 2 + 105 - 88, this.height / 2 + 70 - 83, 0, 179, 64, 11);
             gui.blit(texture, this.width / 2 + 107 - 88, this.height / 2 + 71 - 83, 0, 166, (int) (xpBarWidth * progress), 9);

@@ -44,10 +44,6 @@ public class LaserTransfiguratorEntity extends ExperienceReceivingEntity impleme
     boolean isProcessing = false;
     int processTime = 0;
     int processProgress = 0;
-    public boolean obeliskStillExists = false;
-    int obeliskLevels = 0;
-    int obeliskPoints = 0;
-    double obeliskProgress = 0;
 
 
     NonNullList<ItemStack> remainderItems = NonNullList.withSize(4, ItemStack.EMPTY);
@@ -261,34 +257,6 @@ public class LaserTransfiguratorEntity extends ExperienceReceivingEntity impleme
         container.setItem(2, itemHandler.getStackInSlot(2).copy());
 
         return container;
-    }
-
-    public ExperienceObeliskEntity getBoundObelisk(){
-        if(this.level.getBlockEntity(this.getBoundPos()) instanceof ExperienceObeliskEntity obelisk){
-            return obelisk;
-        }
-        else{
-            return null;
-        }
-    }
-
-    public int getObeliskLevels(){
-        return obeliskLevels;
-    }
-
-    public int getObeliskPoints(){
-        return obeliskPoints;
-    }
-
-    public double getObeliskProgress(){
-        return obeliskProgress;
-    }
-
-    public void sendObeliskInfoToScreen(ExperienceObeliskEntity obelisk){
-        this.obeliskStillExists = true;
-        this.obeliskLevels = obelisk.getLevels();
-        this.obeliskPoints = obelisk.getExperiencePoints();
-        this.obeliskProgress = obelisk.getProgressToNextLevel();
     }
 
     public void setProcessing(boolean isProcessing){

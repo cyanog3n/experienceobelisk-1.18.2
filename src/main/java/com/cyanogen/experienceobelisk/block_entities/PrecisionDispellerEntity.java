@@ -2,6 +2,7 @@ package com.cyanogen.experienceobelisk.block_entities;
 
 import com.cyanogen.experienceobelisk.registries.RegisterBlockEntities;
 import net.minecraft.core.BlockPos;
+import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.state.BlockState;
 import software.bernie.geckolib.animatable.GeoBlockEntity;
 import software.bernie.geckolib.core.animatable.instance.AnimatableInstanceCache;
@@ -35,6 +36,18 @@ public class PrecisionDispellerEntity extends ExperienceReceivingEntity implemen
 
     public void triggerUseAnimation(){
         triggerAnim("controller", "use");
+    }
+
+    //-----------BEHAVIOR-----------//
+
+    public static <T> void tick(Level level, BlockPos pos, BlockState state, T blockEntity) {
+
+        if(blockEntity instanceof PrecisionDispellerEntity dispeller){
+
+            if (dispeller.getBoundPos() != null) {
+                dispeller.sendObeliskInfoToScreen(dispeller.getBoundObelisk());
+            }
+        }
     }
 
 }

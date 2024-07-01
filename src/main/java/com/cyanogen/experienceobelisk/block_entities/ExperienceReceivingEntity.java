@@ -1,5 +1,6 @@
 package com.cyanogen.experienceobelisk.block_entities;
 
+import com.cyanogen.experienceobelisk.ExperienceObelisk;
 import net.minecraft.core.BlockPos;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.protocol.Packet;
@@ -43,6 +44,29 @@ public abstract class ExperienceReceivingEntity extends BlockEntity {
 
     public BlockPos getBoundPos(){
         return new BlockPos(boundX, boundY, boundZ);
+    }
+
+    public ExperienceObeliskEntity getBoundObelisk(){
+        if(this.level != null && this.level.getBlockEntity(getBoundPos()) instanceof ExperienceObeliskEntity obelisk){
+            return obelisk;
+        }
+        else{
+            return null;
+        }
+    }
+
+    //-----------SCREEN-----------//
+
+    public boolean obeliskStillExists = false;
+    public int obeliskLevels = 0;
+    public int obeliskPoints = 0;
+    public double obeliskProgress = 0;
+
+    public void sendObeliskInfoToScreen(ExperienceObeliskEntity obelisk){
+        this.obeliskStillExists = true;
+        this.obeliskLevels = obelisk.getLevels();
+        this.obeliskPoints = obelisk.getExperiencePoints();
+        this.obeliskProgress = obelisk.getProgressToNextLevel();
     }
 
     //-----------NBT-----------//
