@@ -27,8 +27,10 @@ import org.jetbrains.annotations.NotNull;
 import software.bernie.geckolib.animatable.GeoBlockEntity;
 import software.bernie.geckolib.core.animatable.instance.AnimatableInstanceCache;
 import software.bernie.geckolib.core.animation.AnimatableManager;
+import software.bernie.geckolib.core.animation.AnimationController;
 import software.bernie.geckolib.core.animation.AnimationState;
 import software.bernie.geckolib.core.object.PlayState;
+import software.bernie.geckolib.util.GeckoLibUtil;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
@@ -51,18 +53,20 @@ public class LaserTransfiguratorEntity extends ExperienceReceivingEntity impleme
 
     //-----------ANIMATIONS-----------//
 
+    private final AnimatableInstanceCache cache = GeckoLibUtil.createInstanceCache(this);
+
     @Override
     public void registerControllers(AnimatableManager.ControllerRegistrar controllerRegistrar) {
+        controllerRegistrar.add(new AnimationController<>(this, this::controller));
+    }
 
+    protected <E extends LaserTransfiguratorEntity> PlayState controller(final AnimationState<E> state){
+        return PlayState.CONTINUE;
     }
 
     @Override
     public AnimatableInstanceCache getAnimatableInstanceCache() {
-        return null;
-    }
-
-    protected <E extends ExperienceFountainEntity> PlayState controller(final AnimationState<E> state) {
-        return null;
+        return cache;
     }
 
     //-----------BEHAVIOR-----------//
