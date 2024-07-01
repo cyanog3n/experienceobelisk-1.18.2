@@ -44,7 +44,7 @@ public class PrecisionDispellerEntity extends ExperienceReceivingEntity implemen
 
         if(blockEntity instanceof PrecisionDispellerEntity dispeller){
 
-            if (dispeller.getBoundPos() != null) {
+            if(dispeller.getBoundObelisk() != null) {
                 dispeller.sendObeliskInfoToScreen(dispeller.getBoundObelisk());
             }
         }

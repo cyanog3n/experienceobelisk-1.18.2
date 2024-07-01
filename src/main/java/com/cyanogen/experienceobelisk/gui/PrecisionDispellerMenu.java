@@ -27,13 +27,15 @@ public class PrecisionDispellerMenu extends AbstractContainerMenu {
     SimpleContainer container = new SimpleContainer(2);
     Player player;
     BlockPos pos;
-    PrecisionDispellerEntity dispeller;
+    PrecisionDispellerEntity dispellerClient;
+    PrecisionDispellerEntity dispellerServer;
 
     public PrecisionDispellerMenu(int id, Inventory inventory, FriendlyByteBuf data) {
         this(id, inventory, inventory.player, new BlockPos(0,0,0));
 
         Level level = inventory.player.level();
-        this.dispeller = (PrecisionDispellerEntity) level.getBlockEntity(data.readBlockPos());
+        BlockPos pos = data.readBlockPos();
+        this.dispellerClient = (PrecisionDispellerEntity) level.getBlockEntity(pos);
     }
 
     //-----SLOTS-----//
@@ -44,6 +46,7 @@ public class PrecisionDispellerMenu extends AbstractContainerMenu {
 
         this.player = player;
         this.pos = pos;
+        this.dispellerServer = (PrecisionDispellerEntity) player.level().getBlockEntity(pos);
 
         this.addSlot(new Slot(this.container, 0, 17, 18){
 
@@ -124,8 +127,8 @@ public class PrecisionDispellerMenu extends AbstractContainerMenu {
             }
 
             if(removed != null){
-                if(dispeller.isBound &&
-                        server.getBlockEntity(dispeller.getBoundPos()) instanceof ExperienceObeliskEntity obelisk){
+                if(dispellerServer.isBound &&
+                        server.getBlockEntity(dispellerServer.getBoundPos()) instanceof ExperienceObeliskEntity obelisk){
                     handleExperienceBound(removed, enchLevel, server, obelisk);
                 }
                 else{
