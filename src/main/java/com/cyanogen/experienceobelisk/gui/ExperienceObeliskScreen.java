@@ -85,18 +85,16 @@ public class ExperienceObeliskScreen extends AbstractContainerScreen<ExperienceO
 
         //breaks around 2980000 mB for some reason
 
-        int experiencePoints = xpobelisk.getFluidAmount() / 20;
-
-        int n = experiencePoints - levelsToXP(xpToLevels(experiencePoints)); //remaining xp
-        int m = levelsToXP(xpToLevels(experiencePoints) + 1) - levelsToXP(xpToLevels(experiencePoints)); //xp for next level
-        int p = n * 138 / m;
+        int experiencePoints = xpobelisk.getExperiencePoints();
+        int levels = xpobelisk.getLevels();
+        int progress = (int) (xpobelisk.getProgressToNextLevel() * 138);
 
         //render gui texture
         gui.blit(texture, x, y, 0, 0, 176, 166);
 
         //render xp bar
         gui.blit(texture, this.width / 2 - 138 / 2, this.height / 2 + 50, 0, 169, 138, 5);
-        gui.blit(texture, this.width / 2 - 138 / 2, this.height / 2 + 50, 0, 173, p, 5);
+        gui.blit(texture, this.width / 2 - 138 / 2, this.height / 2 + 50, 0, 173, progress, 5);
 
         //descriptors & info
         gui.drawCenteredString(this.font, Component.translatable("title.experienceobelisk.experience_obelisk"),
@@ -107,7 +105,7 @@ public class ExperienceObeliskScreen extends AbstractContainerScreen<ExperienceO
                 this.width / 2 - 77,this.height / 2 - 10, 0xFFFFFF);
         gui.drawCenteredString(this.font, xpobelisk.getFluidAmount() + " mB",
                 this.width / 2,this.height / 2 + 35, 0xFFFFFF);
-        gui.drawCenteredString(this.font, String.valueOf(xpToLevels(experiencePoints)),
+        gui.drawCenteredString(this.font, String.valueOf(levels),
                 this.width / 2,this.height / 2 + 60, 0x4DFF12);
 
         clearWidgets();
@@ -124,7 +122,7 @@ public class ExperienceObeliskScreen extends AbstractContainerScreen<ExperienceO
         //render XP tooltip
         if(mouseX >= infoX - 30 && mouseX <= infoX + 30 && mouseY >= infoY - 5 && mouseY <= infoY + 5){
             List<Component> tooltipList = new ArrayList<>();
-            MutableComponent content = Component.literal((int) Math.floor(xpobelisk.getFluidAmount() / 20.0f) + " XP");
+            MutableComponent content = Component.literal(experiencePoints + " XP");
             tooltipList.add(content);
             gui.renderTooltip(this.font, tooltipList, Optional.empty(), mouseX, mouseY);
         }

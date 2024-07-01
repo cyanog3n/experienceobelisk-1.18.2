@@ -41,6 +41,7 @@ import javax.annotation.Nullable;
 import java.util.List;
 
 import static com.cyanogen.experienceobelisk.utils.ExperienceUtils.levelsToXP;
+import static com.cyanogen.experienceobelisk.utils.ExperienceUtils.xpToLevels;
 
 public class ExperienceObeliskEntity extends BlockEntity implements GeoBlockEntity{
 
@@ -258,6 +259,22 @@ public class ExperienceObeliskEntity extends BlockEntity implements GeoBlockEnti
     }
 
     public int getSpace(){ return tank.getSpace(); }
+
+    public int getExperiencePoints(){
+        return getFluidAmount() / 20;
+    }
+
+    public int getLevels(){
+        return xpToLevels(getExperiencePoints());
+    }
+
+    public double getProgressToNextLevel(){
+
+        int n = getExperiencePoints() - levelsToXP(getLevels()); //remaining xp after levels are removed
+        int m = levelsToXP(getLevels() + 1) - levelsToXP(getLevels()); //total xp to get to next level
+
+        return (double) n/m;
+    }
 
     @Override
     @Nonnull
