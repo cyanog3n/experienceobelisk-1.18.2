@@ -124,7 +124,7 @@ public class ExperienceObeliskScreen extends AbstractContainerScreen<ExperienceO
         //render XP tooltip
         if(mouseX >= infoX - 30 && mouseX <= infoX + 30 && mouseY >= infoY - 5 && mouseY <= infoY + 5){
             List<Component> tooltipList = new ArrayList<>();
-            MutableComponent content = Component.literal(Math.floor(xpobelisk.getFluidAmount() / 20.0f) + " XP");
+            MutableComponent content = Component.literal((int) Math.floor(xpobelisk.getFluidAmount() / 20.0f) + " XP");
             tooltipList.add(content);
             gui.renderTooltip(this.font, tooltipList, Optional.empty(), mouseX, mouseY);
         }

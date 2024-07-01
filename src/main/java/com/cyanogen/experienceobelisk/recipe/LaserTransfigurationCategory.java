@@ -2,6 +2,7 @@ package com.cyanogen.experienceobelisk.recipe;
 
 import com.cyanogen.experienceobelisk.ExperienceObelisk;
 import com.cyanogen.experienceobelisk.registries.RegisterItems;
+import com.cyanogen.experienceobelisk.utils.ExperienceUtils;
 import mezz.jei.api.gui.builder.IRecipeLayoutBuilder;
 import mezz.jei.api.gui.drawable.IDrawable;
 import mezz.jei.api.gui.drawable.IDrawableAnimated;
@@ -28,6 +29,7 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.crafting.Ingredient;
 import net.minecraftforge.client.extensions.IForgeFont;
 import org.jetbrains.annotations.Nullable;
+import software.bernie.shadowed.eliotlash.mclib.math.functions.limit.Min;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -80,17 +82,30 @@ public class LaserTransfigurationCategory implements IRecipeCategory<LaserTransf
 
         arrow.draw(guiGraphics, 108, 47);
 
-        Component costLabel = Component.literal(recipe.getCost() + " XP");
-        Component timeLabel = Component.literal(String.valueOf(recipe.getProcessTime()));
+        Font font = Minecraft.getInstance().font;
+        int cost = recipe.getCost();
+        int processTime = recipe.getProcessTime();
+        int levelCost = ExperienceUtils.xpToLevels(cost);
+
+        Component costLabel = Component.literal("Costs " + cost + " XP / " + levelCost + " Lv");
+        Component timeLabel = Component.literal(processTime / 20 + "s");
+        int costLabelWidth = font.width(costLabel);
+        int timeLabelWidth = font.width(timeLabel);
         int grey = 0x7E7E7E;
 
-        guiGraphics.drawString(Minecraft.getInstance().font, costLabel.getVisualOrderText(),
-                getWidth() - 30,getHeight() - 10, grey, false);
-        guiGraphics.drawString(Minecraft.getInstance().font, timeLabel.getVisualOrderText(),
-                getWidth() - 20,getHeight() - 17, grey, false);
+        guiGraphics.drawString(font, costLabel.getVisualOrderText(),
+                getWidth() - 4 - costLabelWidth,getHeight() - 9, grey, false);
+        guiGraphics.drawString(font, timeLabel.getVisualOrderText(),
+                getWidth() - 4 - timeLabelWidth,getHeight() - 20, grey, false);
 
 
         IRecipeCategory.super.draw(recipe, recipeSlotsView, guiGraphics, mouseX, mouseY);
+    }
+
+    @Override
+    public List<Component> getTooltipStrings(LaserTransfiguratorRecipe recipe, IRecipeSlotsView recipeSlotsView, double mouseX, double mouseY) {
+        //display base level cost
+        return IRecipeCategory.super.getTooltipStrings(recipe, recipeSlotsView, mouseX, mouseY);
     }
 
     @Override
