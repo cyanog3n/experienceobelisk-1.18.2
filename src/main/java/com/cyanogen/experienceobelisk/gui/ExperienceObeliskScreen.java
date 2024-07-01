@@ -116,14 +116,18 @@ public class ExperienceObeliskScreen extends AbstractContainerScreen<ExperienceO
             widget.render(gui, mouseX, mouseY, partialTick);
         }
 
-        int infoX = this.width / 2;
-        int infoY = this.height / 2 + 35;
-
         //render XP tooltip
-        if(mouseX >= infoX - 30 && mouseX <= infoX + 30 && mouseY >= infoY - 5 && mouseY <= infoY + 5){
-            List<Component> tooltipList = new ArrayList<>();
-            MutableComponent content = Component.literal(experiencePoints + " XP");
-            tooltipList.add(content);
+        int infoX = this.width / 2;
+        int infoY = this.height / 2 + 55;
+
+        int hoverAreaX = 80;
+        int hoverAreaY = 14;
+
+        List<Component> tooltipList = new ArrayList<>();
+        MutableComponent content = Component.literal(experiencePoints + " XP");
+        tooltipList.add(content);
+
+        if(mouseX >= infoX - hoverAreaX/2 && mouseX <= infoX + hoverAreaX/2 && mouseY >= infoY - hoverAreaY/2 && mouseY <= infoY + hoverAreaY/2){
             gui.renderTooltip(this.font, tooltipList, Optional.empty(), mouseX, mouseY);
         }
 
