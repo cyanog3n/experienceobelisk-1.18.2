@@ -283,7 +283,12 @@ public class ExperienceObeliskEntity extends BlockEntity implements GeoBlockEnti
         if (capability == ForgeCapabilities.FLUID_HANDLER)
             return handler.cast();
         return super.getCapability(capability, facing);
-        //controls which sides can give or receive fluids
+    }
+
+    @Override
+    public void invalidateCaps() {
+        handler.invalidate();
+        super.invalidateCaps();
     }
 
     //-----------NBT-----------//

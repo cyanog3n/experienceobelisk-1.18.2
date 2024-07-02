@@ -55,7 +55,6 @@ public class LaserTransfiguratorEntity extends ExperienceReceivingEntity impleme
     int processTime = 0;
     int processProgress = 0;
 
-
     NonNullList<ItemStack> remainderItems = NonNullList.withSize(4, ItemStack.EMPTY);
     ResourceLocation recipeId;
 
@@ -164,9 +163,17 @@ public class LaserTransfiguratorEntity extends ExperienceReceivingEntity impleme
     @Nonnull
     public <T> LazyOptional<T> getCapability(@Nonnull Capability<T> capability, @Nullable Direction facing)
     {
-        if (capability == ForgeCapabilities.ITEM_HANDLER)
+        if(capability == ForgeCapabilities.ITEM_HANDLER && facing != Direction.UP){
             return handler.cast();
+        }
+
         return super.getCapability(capability, facing);
+    }
+
+    @Override
+    public void invalidateCaps() {
+        handler.invalidate();
+        super.invalidateCaps();
     }
 
     //-----------RECIPE HANDLER-----------//

@@ -55,16 +55,16 @@ public class LaserTransfiguratorScreen extends AbstractContainerScreen<LaserTran
         int y = (this.height - this.imageHeight) / 2;
 
         int arrowWidth = 26;
-        int completion = 0;
+        double completion = 0;
         if(transfigurator.getProcessTime() != 0){
-            completion = transfigurator.getProcessProgress() / transfigurator.getProcessTime();
+            completion = transfigurator.getProcessProgress() / (float) transfigurator.getProcessTime();
         }
 
         //render background texture
         gui.blit(texture, x, y, 0, 0, 176, 166);
 
         //render recipe progress
-        gui.blit(texture, this.width / 2 + 109 - 88, this.height / 2 + 48 - 83, 0, 175, arrowWidth * completion, 5);
+        gui.blit(texture, this.width / 2 + 109 - 88, this.height / 2 + 48 - 83, 0, 175, (int) (arrowWidth * completion), 4);
 
         //render xp bar
         int xpBarWidth = 61;
