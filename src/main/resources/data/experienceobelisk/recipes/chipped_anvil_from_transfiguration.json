@@ -1,0 +1,21 @@
+{
+  "type": "experienceobelisk:laser_transfiguration",
+  "ingredient1": {
+    "item": "minecraft:damaged_anvil"
+  },
+  "count1": 1,
+  "ingredient2": {
+    "item": "minecraft:iron_ingot"
+  },
+  "count2": 1,
+  "ingredient3": {
+    "item": "minecraft:barrier"
+  },
+  "count3": -99,
+  "result": {
+    "item": "minecraft:chipped_anvil",
+    "count": 1
+  },
+  "cost": 55,
+  "processTime": 100
+}

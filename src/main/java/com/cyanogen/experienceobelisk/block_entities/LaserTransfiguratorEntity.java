@@ -1,11 +1,16 @@
 package com.cyanogen.experienceobelisk.block_entities;
 
+import com.cyanogen.experienceobelisk.ExperienceObelisk;
 import com.cyanogen.experienceobelisk.recipe.LaserTransfiguratorRecipe;
 import com.cyanogen.experienceobelisk.registries.RegisterBlockEntities;
+import com.cyanogen.experienceobelisk.utils.MiscUtils;
+import com.google.common.collect.ImmutableMap;
+import net.minecraft.ChatFormatting;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.core.NonNullList;
 import net.minecraft.nbt.CompoundTag;
+import net.minecraft.network.chat.MutableComponent;
 import net.minecraft.network.protocol.Packet;
 import net.minecraft.network.protocol.game.ClientGamePacketListener;
 import net.minecraft.network.protocol.game.ClientboundBlockEntityDataPacket;
@@ -13,6 +18,8 @@ import net.minecraft.resources.ResourceLocation;
 import net.minecraft.util.Tuple;
 import net.minecraft.world.ContainerHelper;
 import net.minecraft.world.SimpleContainer;
+import net.minecraft.world.item.DyeItem;
+import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
 import net.minecraft.world.item.crafting.Ingredient;
@@ -34,6 +41,7 @@ import software.bernie.geckolib.util.GeckoLibUtil;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
+import java.util.HashMap;
 import java.util.Map;
 import java.util.Optional;
 
@@ -90,7 +98,9 @@ public class LaserTransfiguratorEntity extends ExperienceReceivingEntity impleme
                 }
             }
             else if(transfigurator.hasContents()){
-                transfigurator.handleJsonRecipes();
+                if(!transfigurator.handleJsonRecipes()){
+                    transfigurator.handleNameFormattingRecipes();
+                }
             }
 
         }
@@ -137,6 +147,9 @@ public class LaserTransfiguratorEntity extends ExperienceReceivingEntity impleme
                         setRemainderItems(deplete(getRecipe().get()));
                     }
 
+                    //could pose problems
+                    //if stacks aren't exactly the same nbt wise, reset. only allowed operation is to add or remove items already in the slots
+
                 }
                 super.onContentsChanged(slot);
             }
@@ -158,7 +171,7 @@ public class LaserTransfiguratorEntity extends ExperienceReceivingEntity impleme
 
     //-----------RECIPE HANDLER-----------//
 
-    public void handleJsonRecipes(){
+    public boolean handleJsonRecipes(){
 
         if(getRecipe().isPresent()){
             LaserTransfiguratorRecipe recipe = getRecipe().get();
@@ -172,10 +185,11 @@ public class LaserTransfiguratorEntity extends ExperienceReceivingEntity impleme
                 System.out.println("Can perform recipe, proceeding... process time: " + processTime);
 
                 initiateRecipe(recipe);
-                getBoundObelisk().drain(cost * 20);
+                return true;
             }
 
         }
+        return false;
 
     }
 
@@ -198,6 +212,7 @@ public class LaserTransfiguratorEntity extends ExperienceReceivingEntity impleme
         this.setRemainderItems(deplete(recipe));
         this.setProcessProgress(0);
         this.setProcessTime(recipe.getProcessTime());
+        this.getBoundObelisk().drain(recipe.getCost() * 20);
     }
 
     public SimpleContainer deplete(LaserTransfiguratorRecipe recipe){
@@ -246,6 +261,54 @@ public class LaserTransfiguratorEntity extends ExperienceReceivingEntity impleme
         resetAll();
 
         System.out.println("Recipe done, dispensing result: " + result);
+    }
+
+    //-----------NON-JSON RECIPES-----------//
+
+    public void handleNameFormattingRecipes(){
+        if(itemHandler.getStackInSlot(1).is(Items.NAME_TAG)){
+
+            ItemStack inputItem = itemHandler.getStackInSlot(0);
+            MutableComponent name = inputItem.getHoverName().copy();
+            Item formatItem = itemHandler.getStackInSlot(2).getItem();
+
+            if(formatItem instanceof DyeItem || MiscUtils.getValidFormattingItems().contains(formatItem)){
+
+                if(formatItem instanceof DyeItem dye){
+                    int dyeColor = dye.getDyeColor().getId();
+                    ChatFormatting format = ChatFormatting.getById(MiscUtils.dyeColorToTextColor(dyeColor));
+
+                    if (format != null) {
+                        name = name.withStyle(format);
+                    }
+                }
+                else if(MiscUtils.getValidFormattingItems().contains(formatItem)){
+                    int index = MiscUtils.getValidFormattingItems().indexOf(formatItem);
+                    char code = MiscUtils.itemToFormat(index);
+                    ChatFormatting format = ChatFormatting.getByCode(code);
+
+                    if (format != null) {
+                        name = name.withStyle(format);
+                    }
+                }
+
+                Map<Ingredient, Tuple<Integer, Integer>> ingredientMap = new HashMap<>();
+                ingredientMap.put(Ingredient.of(inputItem.copy()), new Tuple<>(1, inputItem.getCount()));
+                ingredientMap.put(Ingredient.of(itemHandler.getStackInSlot(1).copy()), new Tuple<>(2, itemHandler.getStackInSlot(1).getCount()));
+                ingredientMap.put(Ingredient.of(itemHandler.getStackInSlot(2).copy()), new Tuple<>(3, itemHandler.getStackInSlot(2).getCount()));
+
+                ItemStack output = inputItem.copy().setHoverName(name);
+                int cost = 55;
+                int processTime = 40;
+
+                if(canPerformRecipe(output, cost)){
+                    initiateRecipe(new LaserTransfiguratorRecipe(ImmutableMap.copyOf(ingredientMap), output, cost, processTime,
+                            new ResourceLocation(ExperienceObelisk.MOD_ID, "item_name_formatting")));
+                }
+
+            }
+
+        }
     }
 
     //-----------UTILITY METHODS-----------//

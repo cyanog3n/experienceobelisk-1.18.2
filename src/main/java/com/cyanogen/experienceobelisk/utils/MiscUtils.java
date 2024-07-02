@@ -1,6 +1,11 @@
 package com.cyanogen.experienceobelisk.utils;
 
 import net.minecraft.core.BlockPos;
+import net.minecraft.world.item.Item;
+import net.minecraft.world.item.Items;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class MiscUtils {
 
@@ -25,6 +30,17 @@ public class MiscUtils {
             case 15 -> 0; //black -> black
             default -> 15;
         };
+    }
+
+    public static List<Item> getValidFormattingItems(){
+        List<Item> validFormattingItems = new ArrayList<>();
+        validFormattingItems.add(Items.END_CRYSTAL);
+        validFormattingItems.add(Items.ECHO_SHARD);
+        validFormattingItems.add(Items.TRIDENT);
+        validFormattingItems.add(Items.NETHER_STAR);
+        validFormattingItems.add(Items.TNT);
+
+        return validFormattingItems;
     }
 
     public static char itemToFormat(int index){
