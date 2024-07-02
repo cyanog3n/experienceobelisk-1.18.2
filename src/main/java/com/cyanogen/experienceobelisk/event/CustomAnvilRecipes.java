@@ -64,24 +64,4 @@ public class CustomAnvilRecipes {
         }
     }
 
-    public static void repairRecipes(AnvilUpdateEvent event){
-
-        ItemStack right = event.getRight();
-        ItemStack left = event.getLeft();
-        int outputCount = Math.min(left.getCount(), left.getCount());
-
-        if(right.is(Items.IRON_INGOT)){
-            if(left.is(Items.CHIPPED_ANVIL)){
-                event.setOutput(new ItemStack(Items.ANVIL, outputCount));
-                event.setCost(outputCount);
-                event.setMaterialCost(outputCount);
-            }
-            else if(left.is(Items.DAMAGED_ANVIL)){
-                event.setOutput(new ItemStack(Items.CHIPPED_ANVIL, outputCount));
-                event.setCost(outputCount);
-                event.setMaterialCost(outputCount);
-            }
-        }
-    }
-
 }

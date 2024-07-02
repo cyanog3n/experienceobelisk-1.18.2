@@ -12,10 +12,6 @@ public class EventHandler {
         if(Config.COMMON.formatting.get()){
             CustomAnvilRecipes.nameFormattingRecipes(event);
         }
-
-        if(Config.COMMON.anvilRepair.get()){
-            CustomAnvilRecipes.repairRecipes(event);
-        }
     }
 
 
