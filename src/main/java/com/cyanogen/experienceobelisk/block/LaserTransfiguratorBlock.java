@@ -13,14 +13,18 @@ import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.inventory.AbstractContainerMenu;
+import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.BlockGetter;
+import net.minecraft.world.level.Explosion;
 import net.minecraft.world.level.Level;
+import net.minecraft.world.level.LevelAccessor;
 import net.minecraft.world.level.block.EntityBlock;
 import net.minecraft.world.level.block.SoundType;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.entity.BlockEntityTicker;
 import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.level.storage.loot.LootParams;
 import net.minecraft.world.phys.AABB;
 import net.minecraft.world.phys.BlockHitResult;
 import net.minecraft.world.phys.shapes.BooleanOp;
@@ -30,6 +34,8 @@ import net.minecraft.world.phys.shapes.VoxelShape;
 import net.minecraftforge.items.IItemHandler;
 import net.minecraftforge.network.NetworkHooks;
 import org.jetbrains.annotations.Nullable;
+
+import java.util.List;
 
 public class LaserTransfiguratorBlock extends ExperienceReceivingBlock implements EntityBlock {
 
@@ -74,6 +80,36 @@ public class LaserTransfiguratorBlock extends ExperienceReceivingBlock implement
     @Override
     public VoxelShape getShape(BlockState state, BlockGetter getter, BlockPos pos, CollisionContext context) {
         return whole;
+    }
+
+    public List<ItemStack> contents;
+    @Override
+    public void playerWillDestroy(Level level, BlockPos pos, BlockState state, Player player) {
+        if (!level.isClientSide) {
+            BlockEntity entity = level.getBlockEntity(pos);
+            if (player.hasCorrectToolForDrops(state) && entity instanceof LaserTransfiguratorEntity transfigurator) {
+                contents.addAll(transfigurator.getSimpleContainer().removeAllItems());
+            }
+        }
+        super.playerWillDestroy(level, pos, state, player);
+    }
+
+    @Override
+    public void onBlockExploded(BlockState state, Level level, BlockPos pos, Explosion explosion) {
+        if (!level.isClientSide) {
+            BlockEntity entity = level.getBlockEntity(pos);
+            if (entity instanceof LaserTransfiguratorEntity transfigurator) {
+                contents.addAll(transfigurator.getSimpleContainer().removeAllItems());
+            }
+        }
+        super.onBlockExploded(state, level, pos, explosion);
+    }
+
+    @Override
+    public List<ItemStack> getDrops(BlockState state, LootParams.Builder params) {
+        List<ItemStack> drops = super.getDrops(state, params);
+        drops.addAll(contents);
+        return drops;
     }
 
     @Nullable

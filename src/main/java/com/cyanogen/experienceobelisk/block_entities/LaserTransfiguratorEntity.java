@@ -43,6 +43,7 @@ import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Objects;
 import java.util.Optional;
 
 public class LaserTransfiguratorEntity extends ExperienceReceivingEntity implements GeoBlockEntity {
@@ -89,11 +90,11 @@ public class LaserTransfiguratorEntity extends ExperienceReceivingEntity impleme
             if(transfigurator.isProcessing){
 
                 if(transfigurator.processProgress >= transfigurator.processTime){
-
                     transfigurator.dispenseResult();
                 }
                 else{
                     transfigurator.incrementProcessProgress();
+                    transfigurator.validateRecipe();
                 }
             }
             else if(transfigurator.hasContents()){
@@ -133,25 +134,6 @@ public class LaserTransfiguratorEntity extends ExperienceReceivingEntity impleme
             public boolean isItemValid(int slot, @NotNull ItemStack stack) {
                 return slot <= 2;
             }
-
-            @Override
-            protected void onContentsChanged(int slot) {
-                if(slot <= 2 && isProcessing){
-
-                    if(getRecipe().isEmpty()){
-                        setProcessing(false);
-                        resetAll();
-                    }
-                    else{
-                        setRemainderItems(deplete(getRecipe().get()));
-                    }
-
-                    //could pose problems
-                    //if stacks aren't exactly the same nbt wise, reset. only allowed operation is to add or remove items already in the slots
-
-                }
-                super.onContentsChanged(slot);
-            }
         };
     }
 
@@ -184,13 +166,8 @@ public class LaserTransfiguratorEntity extends ExperienceReceivingEntity impleme
             LaserTransfiguratorRecipe recipe = getRecipe().get();
             ItemStack output = recipe.getResultItem(null);
             int cost = recipe.getCost();
-            int processTime = recipe.getProcessTime();
-
-            System.out.println("Recipe detected: " + recipe.getId());
 
             if(canPerformRecipe(output, cost)){
-                System.out.println("Can perform recipe, proceeding... process time: " + processTime);
-
                 initiateRecipe(recipe);
                 return true;
             }
@@ -222,9 +199,20 @@ public class LaserTransfiguratorEntity extends ExperienceReceivingEntity impleme
         this.getBoundObelisk().drain(recipe.getCost() * 20);
     }
 
+    public void validateRecipe(){
+
+        boolean hasValidRecipe = hasNameFormattingRecipe() || (getRecipe().isPresent() && getRecipe().get().getId().equals(recipeId));
+
+        if(!hasValidRecipe){
+            setProcessing(false);
+            resetAll();
+        }
+
+    }
+
     public SimpleContainer deplete(LaserTransfiguratorRecipe recipe){
 
-        SimpleContainer container = getRecipeContainer();
+        SimpleContainer container = getSimpleContainer();
 
         Map<Ingredient, Tuple<Integer, Integer>> ingredientMap = recipe.getIngredientMapNoFiller();
 
@@ -266,65 +254,66 @@ public class LaserTransfiguratorEntity extends ExperienceReceivingEntity impleme
         }
 
         resetAll();
-
-        System.out.println("Recipe done, dispensing result: " + result);
     }
 
     //-----------NON-JSON RECIPES-----------//
 
     public void handleNameFormattingRecipes(){
-        if(itemHandler.getStackInSlot(1).is(Items.NAME_TAG)){
 
+        if(hasNameFormattingRecipe()){
             ItemStack inputItem = itemHandler.getStackInSlot(0);
             MutableComponent name = inputItem.getHoverName().copy();
             Item formatItem = itemHandler.getStackInSlot(2).getItem();
 
-            if(formatItem instanceof DyeItem || MiscUtils.getValidFormattingItems().contains(formatItem)){
+            if(formatItem instanceof DyeItem dye){
+                int dyeColor = dye.getDyeColor().getId();
+                ChatFormatting format = ChatFormatting.getById(MiscUtils.dyeColorToTextColor(dyeColor));
 
-                if(formatItem instanceof DyeItem dye){
-                    int dyeColor = dye.getDyeColor().getId();
-                    ChatFormatting format = ChatFormatting.getById(MiscUtils.dyeColorToTextColor(dyeColor));
-
-                    if (format != null) {
-                        name = name.withStyle(format);
-                    }
+                if (format != null) {
+                    name = name.withStyle(format);
                 }
-                else if(MiscUtils.getValidFormattingItems().contains(formatItem)){
-                    int index = MiscUtils.getValidFormattingItems().indexOf(formatItem);
-                    char code = MiscUtils.itemToFormat(index);
-                    ChatFormatting format = ChatFormatting.getByCode(code);
+            }
+            else if(MiscUtils.getValidFormattingItems().contains(formatItem)){
+                int index = MiscUtils.getValidFormattingItems().indexOf(formatItem);
+                char code = MiscUtils.itemToFormat(index);
+                ChatFormatting format = ChatFormatting.getByCode(code);
 
-                    if (format != null) {
-                        name = name.withStyle(format);
-                    }
+                if (format != null) {
+                    name = name.withStyle(format);
                 }
-
-                Map<Ingredient, Tuple<Integer, Integer>> ingredientMap = new HashMap<>();
-                ingredientMap.put(Ingredient.of(inputItem.copy()), new Tuple<>(1, inputItem.getCount()));
-                ingredientMap.put(Ingredient.of(itemHandler.getStackInSlot(1).copy()), new Tuple<>(2, itemHandler.getStackInSlot(1).getCount()));
-                ingredientMap.put(Ingredient.of(itemHandler.getStackInSlot(2).copy()), new Tuple<>(3, itemHandler.getStackInSlot(2).getCount()));
-
-                ItemStack output = inputItem.copy().setHoverName(name);
-                int cost = 55;
-                int processTime = 40;
-
-                if(canPerformRecipe(output, cost)){
-                    initiateRecipe(new LaserTransfiguratorRecipe(ImmutableMap.copyOf(ingredientMap), output, cost, processTime,
-                            new ResourceLocation(ExperienceObelisk.MOD_ID, "item_name_formatting")));
-                }
-
             }
 
+            Map<Ingredient, Tuple<Integer, Integer>> ingredientMap = new HashMap<>();
+            ingredientMap.put(Ingredient.of(inputItem.copy()), new Tuple<>(1, inputItem.getCount()));
+            ingredientMap.put(Ingredient.of(itemHandler.getStackInSlot(1).copy()), new Tuple<>(2, itemHandler.getStackInSlot(1).getCount()));
+            ingredientMap.put(Ingredient.of(itemHandler.getStackInSlot(2).copy()), new Tuple<>(3, itemHandler.getStackInSlot(2).getCount()));
+
+            ItemStack output = inputItem.copy().setHoverName(name);
+            int cost = 55;
+            int processTime = 40;
+
+            if(canPerformRecipe(output, cost)){
+                initiateRecipe(new LaserTransfiguratorRecipe(ImmutableMap.copyOf(ingredientMap), output, cost, processTime,
+                        new ResourceLocation(ExperienceObelisk.MOD_ID, "item_name_formatting")));
+            }
         }
+    }
+
+    public boolean hasNameFormattingRecipe(){
+        Item formatItem = itemHandler.getStackInSlot(2).getItem();
+
+        return !itemHandler.getStackInSlot(0).isEmpty()
+                && itemHandler.getStackInSlot(1).is(Items.NAME_TAG)
+                && (formatItem instanceof DyeItem || MiscUtils.getValidFormattingItems().contains(formatItem));
     }
 
     //-----------UTILITY METHODS-----------//
 
     public Optional<LaserTransfiguratorRecipe> getRecipe(){
-        return this.level.getRecipeManager().getRecipeFor(LaserTransfiguratorRecipe.Type.INSTANCE, getRecipeContainer(), level);
+        return this.level.getRecipeManager().getRecipeFor(LaserTransfiguratorRecipe.Type.INSTANCE, getSimpleContainer(), level);
     }
 
-    public SimpleContainer getRecipeContainer(){
+    public SimpleContainer getSimpleContainer(){
         SimpleContainer container = new SimpleContainer(3);
         container.setItem(0, itemHandler.getStackInSlot(0).copy());
         container.setItem(1, itemHandler.getStackInSlot(1).copy());
@@ -366,15 +355,11 @@ public class LaserTransfiguratorEntity extends ExperienceReceivingEntity impleme
             remainderItems.set(i, container.getItem(i));
         }
         setChanged();
-
-        System.out.println("Remainder items set to: " + remainderItems);
     }
 
     public void setOutputItem(ItemStack stack){
         remainderItems.set(3, stack);
         setChanged();
-
-        System.out.println("Output item set to: " + stack);
     }
 
     public void setRecipeId(LaserTransfiguratorRecipe recipe){
