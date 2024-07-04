@@ -49,7 +49,7 @@ public class LaserTransfigurationCategory implements IRecipeCategory<LaserTransf
 
     @Override
     public Component getTitle() {
-        return Component.literal("Laser Transfigurator");
+        return Component.translatable("title.experienceobelisk.laser_transfigurator");
     }
 
     @Override

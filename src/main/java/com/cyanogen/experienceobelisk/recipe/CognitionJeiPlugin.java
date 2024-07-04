@@ -45,11 +45,8 @@ public class CognitionJeiPlugin implements IModPlugin {
         registration.addRecipes(transfiguratorType, transfiguratorRecipes);
 
         //INFO
-        String description = "Forgotten Dust is obtained from breaking Infected Bookshelves " +
-                "or by waiting for Infected Bookshelves to decay into Forgotten Dust Blocks";
         ItemStack FORGOTTEN_DUST = new ItemStack(RegisterItems.FORGOTTEN_DUST.get());
-
-        registration.addIngredientInfo(FORGOTTEN_DUST, VanillaTypes.ITEM_STACK, Component.literal(description));
+        registration.addIngredientInfo(FORGOTTEN_DUST, VanillaTypes.ITEM_STACK, Component.literal("jei.experienceobelisk.description.forgotten_dust"));
 
         IModPlugin.super.registerRecipes(registration);
     }
