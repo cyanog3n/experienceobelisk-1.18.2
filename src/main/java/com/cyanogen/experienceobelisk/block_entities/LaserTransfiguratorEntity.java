@@ -43,7 +43,6 @@ import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 import java.util.HashMap;
 import java.util.Map;
-import java.util.Objects;
 import java.util.Optional;
 
 public class LaserTransfiguratorEntity extends ExperienceReceivingEntity implements GeoBlockEntity {
@@ -53,6 +52,7 @@ public class LaserTransfiguratorEntity extends ExperienceReceivingEntity impleme
     }
 
     boolean isProcessing = false;
+    boolean changedWhileProcessing = false;
     int processTime = 0;
     int processProgress = 0;
 
@@ -123,22 +123,33 @@ public class LaserTransfiguratorEntity extends ExperienceReceivingEntity impleme
 
     //-----------ITEM HANDLER-----------//
 
-    protected ItemStackHandler itemHandler = transfiguratorHandler();
+    protected ItemStackHandler itemHandler = itemHandler();
     private final LazyOptional<IItemHandler> handler = LazyOptional.of(() -> itemHandler);
 
-    private ItemStackHandler transfiguratorHandler(){
+    public ItemStackHandler itemHandler() {
 
         return new ItemStackHandler(4){
-
             @Override
             public boolean isItemValid(int slot, @NotNull ItemStack stack) {
                 return slot <= 2;
+            }
+
+            @Override
+            protected void onContentsChanged(int slot) {
+                if(isProcessing && slot <= 2){
+                    changedWhileProcessing = true;
+                }
+                super.onContentsChanged(slot);
             }
         };
     }
 
     public ItemStackHandler getItemHandler(){
         return itemHandler;
+    }
+
+    public void setChangedWhileProcessing(boolean changed){
+        this.changedWhileProcessing = changed;
     }
 
     @Override
@@ -201,13 +212,22 @@ public class LaserTransfiguratorEntity extends ExperienceReceivingEntity impleme
 
     public void validateRecipe(){
 
-        boolean hasValidRecipe = hasNameFormattingRecipe() || (getRecipe().isPresent() && getRecipe().get().getId().equals(recipeId));
+        if(changedWhileProcessing){
+            boolean hasValidRecipe = getRecipe().isPresent() && getRecipe().get().getId().equals(recipeId);
 
-        if(!hasValidRecipe){
-            setProcessing(false);
-            resetAll();
+            if(hasValidRecipe){
+                setRemainderItems(deplete(getRecipe().get()));
+            }
+            else if(hasNameFormattingRecipe()){
+                setRemainderItems(deplete(getNameFormattingRecipe()));
+            }
+            else{
+                setProcessing(false);
+                resetAll();
+            }
+
+            changedWhileProcessing = false;
         }
-
     }
 
     public SimpleContainer deplete(LaserTransfiguratorRecipe recipe){
@@ -261,40 +281,13 @@ public class LaserTransfiguratorEntity extends ExperienceReceivingEntity impleme
     public void handleNameFormattingRecipes(){
 
         if(hasNameFormattingRecipe()){
-            ItemStack inputItem = itemHandler.getStackInSlot(0);
-            MutableComponent name = inputItem.getHoverName().copy();
-            Item formatItem = itemHandler.getStackInSlot(2).getItem();
 
-            if(formatItem instanceof DyeItem dye){
-                int dyeColor = dye.getDyeColor().getId();
-                ChatFormatting format = ChatFormatting.getById(MiscUtils.dyeColorToTextColor(dyeColor));
-
-                if (format != null) {
-                    name = name.withStyle(format);
-                }
-            }
-            else if(MiscUtils.getValidFormattingItems().contains(formatItem)){
-                int index = MiscUtils.getValidFormattingItems().indexOf(formatItem);
-                char code = MiscUtils.itemToFormat(index);
-                ChatFormatting format = ChatFormatting.getByCode(code);
-
-                if (format != null) {
-                    name = name.withStyle(format);
-                }
-            }
-
-            Map<Ingredient, Tuple<Integer, Integer>> ingredientMap = new HashMap<>();
-            ingredientMap.put(Ingredient.of(inputItem.copy()), new Tuple<>(1, inputItem.getCount()));
-            ingredientMap.put(Ingredient.of(itemHandler.getStackInSlot(1).copy()), new Tuple<>(2, itemHandler.getStackInSlot(1).getCount()));
-            ingredientMap.put(Ingredient.of(itemHandler.getStackInSlot(2).copy()), new Tuple<>(3, itemHandler.getStackInSlot(2).getCount()));
-
-            ItemStack output = inputItem.copy().setHoverName(name);
-            int cost = 55;
-            int processTime = 40;
+            LaserTransfiguratorRecipe recipe = getNameFormattingRecipe();
+            ItemStack output = recipe.getResultItem(null);
+            int cost = recipe.getCost();
 
             if(canPerformRecipe(output, cost)){
-                initiateRecipe(new LaserTransfiguratorRecipe(ImmutableMap.copyOf(ingredientMap), output, cost, processTime,
-                        new ResourceLocation(ExperienceObelisk.MOD_ID, "item_name_formatting")));
+                initiateRecipe(recipe);
             }
         }
     }
@@ -305,6 +298,43 @@ public class LaserTransfiguratorEntity extends ExperienceReceivingEntity impleme
         return !itemHandler.getStackInSlot(0).isEmpty()
                 && itemHandler.getStackInSlot(1).is(Items.NAME_TAG)
                 && (formatItem instanceof DyeItem || MiscUtils.getValidFormattingItems().contains(formatItem));
+    }
+
+    public LaserTransfiguratorRecipe getNameFormattingRecipe(){
+
+        ItemStack inputItem = itemHandler.getStackInSlot(0);
+        MutableComponent name = inputItem.getHoverName().copy();
+        Item formatItem = itemHandler.getStackInSlot(2).getItem();
+
+        if(formatItem instanceof DyeItem dye){
+            int dyeColor = dye.getDyeColor().getId();
+            ChatFormatting format = ChatFormatting.getById(MiscUtils.dyeColorToTextColor(dyeColor));
+
+            if (format != null) {
+                name = name.withStyle(format);
+            }
+        }
+        else if(MiscUtils.getValidFormattingItems().contains(formatItem)){
+            int index = MiscUtils.getValidFormattingItems().indexOf(formatItem);
+            char code = MiscUtils.itemToFormat(index);
+            ChatFormatting format = ChatFormatting.getByCode(code);
+
+            if (format != null) {
+                name = name.withStyle(format);
+            }
+        }
+
+        Map<Ingredient, Tuple<Integer, Integer>> ingredientMap = new HashMap<>();
+        ingredientMap.put(Ingredient.of(inputItem.copy()), new Tuple<>(1, inputItem.getCount()));
+        ingredientMap.put(Ingredient.of(itemHandler.getStackInSlot(1).copy()), new Tuple<>(2, itemHandler.getStackInSlot(1).getCount()));
+        ingredientMap.put(Ingredient.of(itemHandler.getStackInSlot(2).copy()), new Tuple<>(3, itemHandler.getStackInSlot(2).getCount()));
+
+        ItemStack output = inputItem.copy().setHoverName(name);
+        int cost = 55;
+        int processTime = 40;
+
+        return new LaserTransfiguratorRecipe(ImmutableMap.copyOf(ingredientMap), output, cost, processTime,
+                new ResourceLocation(ExperienceObelisk.MOD_ID, "item_name_formatting"));
     }
 
     //-----------UTILITY METHODS-----------//

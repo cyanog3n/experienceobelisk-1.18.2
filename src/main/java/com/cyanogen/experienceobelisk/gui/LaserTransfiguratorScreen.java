@@ -92,7 +92,7 @@ public class LaserTransfiguratorScreen extends AbstractContainerScreen<LaserTran
 
             List<Component> tooltipList = new ArrayList<>();
 
-            tooltipList.add(Component.literal("Bound Obelisk"));
+            tooltipList.add(Component.translatable("tooltip.experienceobelisk.laser_transfigurator.bound"));
 
             tooltipList.add(Component.translatable("tooltip.experienceobelisk.laser_transfigurator.xp",
                     Component.literal(String.valueOf(points)).withStyle(ChatFormatting.GREEN)));

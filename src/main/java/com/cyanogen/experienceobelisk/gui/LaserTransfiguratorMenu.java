@@ -93,17 +93,26 @@ public class LaserTransfiguratorMenu extends AbstractContainerMenu {
             itemstack = itemstack1.copy();
 
             if(index <= 3){ //moving from menu to player inventory
-                if (!this.moveItemStackTo(itemstack1, 4, this.slots.size(), true)) {
+                if(this.moveItemStackTo(itemstack1, 4, this.slots.size(), true)){
+                    transfigurator.setChangedWhileProcessing(true);
+                }
+                else{
                     return ItemStack.EMPTY;
                 }
             } //moving from player inventory to menu
-            else if (!this.moveItemStackTo(itemstack1, 0, 3, false)) {
-                return ItemStack.EMPTY;
+            else{
+                if(this.moveItemStackTo(itemstack1, 0, 3, false)){
+                    transfigurator.setChangedWhileProcessing(true);
+                }
+                else{
+                    return ItemStack.EMPTY;
+                }
             }
 
-            if (itemstack1.isEmpty()) {
+            if(itemstack1.isEmpty()){
                 slot.set(ItemStack.EMPTY);
-            } else {
+            }
+            else {
                 slot.setChanged();
             }
         }
