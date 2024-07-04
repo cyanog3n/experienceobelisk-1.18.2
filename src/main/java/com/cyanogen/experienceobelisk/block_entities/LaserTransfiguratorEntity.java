@@ -55,6 +55,7 @@ public class LaserTransfiguratorEntity extends ExperienceReceivingEntity impleme
     boolean isProcessing = false;
     int processTime = 0;
     int processProgress = 0;
+    int recipeCost = 0;
 
     NonNullList<ItemStack> remainderItems = NonNullList.withSize(4, ItemStack.EMPTY);
     ResourceLocation recipeId;
@@ -76,7 +77,6 @@ public class LaserTransfiguratorEntity extends ExperienceReceivingEntity impleme
         LaserTransfiguratorEntity entity = state.getAnimatable();
         AnimationController<E> controller = state.getController();
         RawAnimation animation = controller.getCurrentRawAnimation();
-        controller.transitionLength(20);
 
         if(animation == null){
             controller.setAnimation(IDLE);
@@ -233,6 +233,9 @@ public class LaserTransfiguratorEntity extends ExperienceReceivingEntity impleme
             setRemainderItems(deplete(getNameFormattingRecipe()));
         }
         else{
+            if(obeliskStillExists){
+                getBoundObelisk().fill(20 * recipeCost * (1 - processProgress / processTime));
+            }
             setProcessing(false);
             resetAll();
             return false;
@@ -408,12 +411,18 @@ public class LaserTransfiguratorEntity extends ExperienceReceivingEntity impleme
         setChanged();
     }
 
+    public void setRecipeCost(int cost){
+        this.recipeCost = cost;
+        setChanged();
+    }
+
     public void resetAll(){
 
         processProgress = 0;
         processTime = 0;
         this.remainderItems = NonNullList.withSize(4, ItemStack.EMPTY);
         recipeId = null;
+        recipeCost = 0;
         setChanged();
     }
 
@@ -441,6 +450,7 @@ public class LaserTransfiguratorEntity extends ExperienceReceivingEntity impleme
         this.processTime = tag.getInt("ProcessTime");
         this.processProgress = tag.getInt("ProcessProgress");
         this.recipeId = new ResourceLocation(tag.getString("RecipeID"));
+        this.recipeCost = tag.getInt("RecipeCost");
     }
 
     @Override
@@ -454,6 +464,7 @@ public class LaserTransfiguratorEntity extends ExperienceReceivingEntity impleme
         tag.putBoolean("IsProcessing", isProcessing);
         tag.putInt("ProcessTime", processTime);
         tag.putInt("ProcessProgress", processProgress);
+        tag.putInt("RecipeCost", recipeCost);
 
         if(recipeId != null){
             tag.putString("RecipeID", recipeId.toString());
@@ -471,6 +482,7 @@ public class LaserTransfiguratorEntity extends ExperienceReceivingEntity impleme
         tag.putBoolean("IsProcessing", isProcessing);
         tag.putInt("ProcessTime", processTime);
         tag.putInt("ProcessProgress", processProgress);
+        tag.putInt("RecipeCost", recipeCost);
 
         if(recipeId != null){
             tag.putString("RecipeID", recipeId.toString());
