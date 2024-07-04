@@ -1,6 +1,7 @@
-package com.cyanogen.experienceobelisk.network.experience_obelisk;
+package com.cyanogen.experienceobelisk.network.shared;
 
 import com.cyanogen.experienceobelisk.block_entities.ExperienceObeliskEntity;
+import com.cyanogen.experienceobelisk.block_entities.ExperienceReceivingEntity;
 import net.minecraft.core.BlockPos;
 import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.server.level.ServerPlayer;
@@ -43,8 +44,10 @@ public class UpdateRedstone {
             BlockEntity serverEntity = sender.level().getBlockEntity(pos);
 
             if(serverEntity instanceof ExperienceObeliskEntity xpobelisk){
-
                 xpobelisk.setRedstoneEnabled(isControllable);
+            }
+            else if(serverEntity instanceof ExperienceReceivingEntity receiver){
+                receiver.setRedstoneEnabled(isControllable);
             }
 
             success.set(true);

@@ -1,10 +1,13 @@
 package com.cyanogen.experienceobelisk.gui;
 
-import com.cyanogen.experienceobelisk.block_entities.ExperienceObeliskEntity;
 import com.cyanogen.experienceobelisk.block_entities.LaserTransfiguratorEntity;
 import com.mojang.blaze3d.systems.RenderSystem;
 import net.minecraft.ChatFormatting;
+import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiGraphics;
+import net.minecraft.client.gui.components.Button;
+import net.minecraft.client.gui.components.Renderable;
+import net.minecraft.client.gui.components.Tooltip;
 import net.minecraft.client.gui.screens.inventory.AbstractContainerScreen;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
@@ -20,20 +23,28 @@ public class LaserTransfiguratorScreen extends AbstractContainerScreen<LaserTran
     public LaserTransfiguratorEntity transfigurator;
     private final Component title = Component.translatable("title.experienceobelisk.laser_transfigurator");
     private final Component inventoryTitle = Component.translatable("title.experienceobelisk.precision_dispeller.inventory");
+    private final LaserTransfiguratorMenu menu;
 
     public LaserTransfiguratorScreen(LaserTransfiguratorMenu menu, Inventory inventory, Component component) {
-        super(menu, inventory, component);
+        super(menu, menu.inventory, menu.component);
         this.transfigurator = menu.transfiguratorClient;
+        this.menu = menu;
     }
 
     @Override
-    protected void renderBg(GuiGraphics p_283065_, float p_97788_, int p_97789_, int p_97790_) {
+    protected void renderBg(GuiGraphics gui, float f, int a, int b) {
 
     }
 
     @Override
     public boolean isPauseScreen() {
         return false;
+    }
+
+    @Override
+    protected void init() {
+        setupWidgetElements();
+        super.init();
     }
 
     @Override
@@ -101,7 +112,41 @@ public class LaserTransfiguratorScreen extends AbstractContainerScreen<LaserTran
             }
         }
 
+        clearWidgets();
+        loadWidgetElements();
+
+        //render settings button
+        for(Renderable widget : this.renderables){
+            widget.render(gui, mouseX, mouseY, partialTick);
+        }
+
         super.render(gui, mouseX, mouseY, partialTick);
         this.renderTooltip(gui, mouseX, mouseY);
     }
+
+    private void loadWidgetElements(){
+        if(!this.buttons.isEmpty()){
+            for(Button b : this.buttons){
+                b.setFocused(false);
+                addRenderableWidget(b);
+            }
+        }
+    }
+
+    private final List<Button> buttons = new ArrayList<>();
+    private void setupWidgetElements() {
+
+        buttons.clear();
+
+        Button settings = Button.builder(Component.translatable("button.experienceobelisk.experience_obelisk.settings"),
+                        (onPress) -> Minecraft.getInstance().setScreen(new LaserTransfiguratorOptionsScreen(menu)))
+                .size(20,20)
+                .pos(this.width / 2 + 91, this.height / 2 - 78)
+                .tooltip(Tooltip.create(Component.translatable("tooltip.experienceobelisk.experience_obelisk.settings")))
+                .build();
+
+        buttons.add(settings);
+
+    }
+
 }

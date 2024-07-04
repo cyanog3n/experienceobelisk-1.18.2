@@ -1,4 +1,139 @@
 package com.cyanogen.experienceobelisk.gui;
 
-public class LaserTransfiguratorOptionsScreen {
+import com.cyanogen.experienceobelisk.block_entities.LaserTransfiguratorEntity;
+import com.cyanogen.experienceobelisk.network.PacketHandler;
+import com.cyanogen.experienceobelisk.network.shared.UpdateRedstone;
+import com.mojang.blaze3d.systems.RenderSystem;
+import net.minecraft.client.Minecraft;
+import net.minecraft.client.gui.GuiGraphics;
+import net.minecraft.client.gui.components.Button;
+import net.minecraft.client.gui.components.Renderable;
+import net.minecraft.client.gui.components.Tooltip;
+import net.minecraft.client.gui.screens.Screen;
+import net.minecraft.core.BlockPos;
+import net.minecraft.network.chat.Component;
+import net.minecraft.network.chat.MutableComponent;
+import net.minecraft.resources.ResourceLocation;
+
+import java.util.ArrayList;
+import java.util.List;
+
+public class LaserTransfiguratorOptionsScreen extends Screen{
+
+    private final ResourceLocation texture = new ResourceLocation("experienceobelisk:textures/gui/screens/experience_obelisk.png");
+    private final LaserTransfiguratorMenu menu;
+    private final LaserTransfiguratorEntity transfigurator;
+    private final BlockPos pos;
+
+    public LaserTransfiguratorOptionsScreen(LaserTransfiguratorMenu menu) {
+        super(menu.component);
+        this.menu = menu;
+        this.transfigurator = menu.transfiguratorClient;
+        this.pos = menu.pos;
+    }
+
+    @Override
+    public boolean isPauseScreen() {
+        return false;
+    }
+
+    @Override
+    public Component getTitle() {
+        return Component.empty();
+    }
+
+    @Override
+    protected void init() {
+        setupWidgetElements();
+        super.init();
+    }
+
+    @Override
+    public void render(GuiGraphics gui, int mouseX, int mouseY, float partialTick) {
+
+        renderBackground(gui);
+
+        RenderSystem.setShaderColor(1.0f, 1.0f, 1.0f, 1.0f);
+        RenderSystem.setShaderTexture(0, texture);
+
+        int textureWidth = 256;
+        int textureHeight = 256;
+        int x = this.width / 2 - 176 / 2;
+        int y = this.height / 2 - 166 / 2;
+
+        //render gui texture
+        gui.blit(texture, x, y, 0, 0, 176, 166, textureWidth, textureHeight);
+
+        //descriptors & info
+        gui.drawCenteredString(this.font, Component.translatable("title.experienceobelisk.experience_obelisk.settings"),
+                this.width / 2,this.height / 2 - 76, 0xFFFFFF);
+        gui.drawString(this.font, Component.translatable("title.experienceobelisk.experience_obelisk.redstone"),
+                this.width / 2 - 77,this.height / 2 - 56, 0xFFFFFF);
+
+        //render widgets
+        clearWidgets();
+        if(transfigurator.isRedstoneEnabled()){
+            buttons.get(1).setMessage(Component.translatable("button.experienceobelisk.experience_obelisk.enabled"));
+        }
+        else{
+            buttons.get(1).setMessage(Component.translatable("button.experienceobelisk.experience_obelisk.ignored"));
+        }
+        loadWidgetElements();
+
+
+        for(Renderable widget : this.renderables) {
+            widget.render(gui, mouseX, mouseY, partialTick);
+        }
+
+        super.render(gui, mouseX, mouseY, partialTick);
+    }
+
+    private void loadWidgetElements(){
+        if(!this.buttons.isEmpty()){
+            for(Button b : this.buttons){
+                b.setFocused(false);
+                addRenderableWidget(b);
+            }
+        }
+    }
+
+    private final List<Button> buttons = new ArrayList<>();
+    private void setupWidgetElements(){
+
+        buttons.clear();
+
+        int w = 50;
+        int h = 20;
+        int y1 = 43;
+
+        MutableComponent status;
+        if(transfigurator.isRedstoneEnabled()){
+            status = Component.translatable("button.experienceobelisk.experience_obelisk.enabled");
+        }
+        else{
+            status = Component.translatable("button.experienceobelisk.experience_obelisk.ignored");
+        }
+
+        Button back = Button.builder(Component.translatable("button.experienceobelisk.experience_obelisk.back"),
+                        (onPress) -> Minecraft.getInstance().setScreen(new LaserTransfiguratorScreen(menu, menu.inventory, menu.component)))
+                .size(20,20)
+                .pos(this.width / 2 + 91, this.height / 2 - 78)
+                .tooltip(Tooltip.create(Component.translatable("tooltip.experienceobelisk.experience_obelisk.back")))
+                .build();
+
+        Button toggleRedstone = Button.builder(status,
+                        (onPress) -> {
+                            if (!transfigurator.isRedstoneEnabled()) {
+                                PacketHandler.INSTANCE.sendToServer(new UpdateRedstone(pos, true));
+                            } else {
+                                PacketHandler.INSTANCE.sendToServer(new UpdateRedstone(pos, false));
+                            }
+                        })
+                .size(w, h)
+                .pos(this.width / 2 - 25, this.height / 2 - y1)
+                .build();
+
+        buttons.add(back);
+        buttons.add(toggleRedstone);
+    }
 }

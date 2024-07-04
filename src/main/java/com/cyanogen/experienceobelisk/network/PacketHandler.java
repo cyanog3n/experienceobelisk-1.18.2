@@ -3,7 +3,7 @@ package com.cyanogen.experienceobelisk.network;
 import com.cyanogen.experienceobelisk.ExperienceObelisk;
 import com.cyanogen.experienceobelisk.network.experience_obelisk.UpdateContents;
 import com.cyanogen.experienceobelisk.network.experience_obelisk.UpdateRadius;
-import com.cyanogen.experienceobelisk.network.experience_obelisk.UpdateRedstone;
+import com.cyanogen.experienceobelisk.network.shared.UpdateRedstone;
 import com.cyanogen.experienceobelisk.network.precision_dispeller.UpdateSlots;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraftforge.network.NetworkRegistry;

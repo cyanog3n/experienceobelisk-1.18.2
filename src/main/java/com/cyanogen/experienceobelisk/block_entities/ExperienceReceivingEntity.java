@@ -71,6 +71,20 @@ public abstract class ExperienceReceivingEntity extends BlockEntity {
         //remember to fill in the tick behavior and pass it into getTicker
     }
 
+    //-----------REDSTONE-----------//
+
+    public boolean redstoneEnabled = false;
+
+    public boolean isRedstoneEnabled(){
+        return redstoneEnabled;
+    }
+
+    public void setRedstoneEnabled(boolean enabled){
+        this.redstoneEnabled = enabled;
+        if(level != null) level.sendBlockUpdated(getBlockPos(), getBlockState(), getBlockState(), 2);
+        setChanged();
+    }
+
     //-----------NBT-----------//
 
     @Override
@@ -82,6 +96,7 @@ public abstract class ExperienceReceivingEntity extends BlockEntity {
         this.boundX = tag.getInt("BoundX");
         this.boundY = tag.getInt("BoundY");
         this.boundZ = tag.getInt("BoundZ");
+        this.redstoneEnabled = tag.getBoolean("RedstoneEnabled");
     }
 
     @Override
@@ -93,9 +108,9 @@ public abstract class ExperienceReceivingEntity extends BlockEntity {
         tag.putInt("BoundX", boundX);
         tag.putInt("BoundY", boundY);
         tag.putInt("BoundZ", boundZ);
+        tag.putBoolean("RedstoneEnabled", redstoneEnabled);
     }
 
-    //sends CompoundTag out with nbt data
     @Override
     public CompoundTag getUpdateTag()
     {
@@ -105,11 +120,11 @@ public abstract class ExperienceReceivingEntity extends BlockEntity {
         tag.putInt("BoundX", boundX);
         tag.putInt("BoundY", boundY);
         tag.putInt("BoundZ", boundZ);
+        tag.putBoolean("RedstoneEnabled", redstoneEnabled);
 
         return tag;
     }
 
-    //gets packet to send to client
     @Override
     public Packet<ClientGamePacketListener> getUpdatePacket()
     {

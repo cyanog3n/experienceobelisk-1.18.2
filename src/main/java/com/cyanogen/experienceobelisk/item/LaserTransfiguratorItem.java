@@ -1,11 +1,7 @@
 package com.cyanogen.experienceobelisk.item;
 
-import com.cyanogen.experienceobelisk.renderer.ExperienceObeliskItemRenderer;
 import com.cyanogen.experienceobelisk.renderer.LaserTransfiguratorItemRenderer;
-import net.minecraft.ChatFormatting;
 import net.minecraft.client.renderer.BlockEntityWithoutLevelRenderer;
-import net.minecraft.nbt.ListTag;
-import net.minecraft.nbt.Tag;
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.item.BlockItem;
 import net.minecraft.world.item.ItemStack;
@@ -13,7 +9,6 @@ import net.minecraft.world.item.TooltipFlag;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Block;
 import net.minecraftforge.client.extensions.common.IClientItemExtensions;
-import net.minecraftforge.eventbus.api.SubscribeEvent;
 import org.jetbrains.annotations.Nullable;
 import software.bernie.geckolib.animatable.GeoItem;
 import software.bernie.geckolib.core.animatable.instance.AnimatableInstanceCache;

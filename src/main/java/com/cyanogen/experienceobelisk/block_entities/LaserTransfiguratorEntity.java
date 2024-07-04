@@ -82,6 +82,8 @@ public class LaserTransfiguratorEntity extends ExperienceReceivingEntity impleme
 
         if(blockEntity instanceof LaserTransfiguratorEntity transfigurator){
 
+            boolean active = !transfigurator.redstoneEnabled || level.hasNeighborSignal(pos);
+
             if(transfigurator.getBoundObelisk() != null){
                 transfigurator.sendObeliskInfoToScreen(transfigurator.getBoundObelisk());
             }
@@ -97,7 +99,7 @@ public class LaserTransfiguratorEntity extends ExperienceReceivingEntity impleme
                     }
                 }
             }
-            else if(transfigurator.hasContents()){
+            else if(active && transfigurator.hasContents()){
                 if(!transfigurator.handleJsonRecipes()){
                     transfigurator.handleNameFormattingRecipes();
                 }
