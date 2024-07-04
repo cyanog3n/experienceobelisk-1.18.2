@@ -1,6 +1,6 @@
 package com.cyanogen.experienceobelisk.gui;
 
-import com.cyanogen.experienceobelisk.block_entities.LaserTransfiguratorEntity;
+import com.cyanogen.experienceobelisk.block_entities.MolecularMetamorpherEntity;
 import com.mojang.blaze3d.systems.RenderSystem;
 import net.minecraft.ChatFormatting;
 import net.minecraft.client.Minecraft;
@@ -17,17 +17,17 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
-public class LaserTransfiguratorScreen extends AbstractContainerScreen<LaserTransfiguratorMenu>{
+public class MolecularMetamorpherScreen extends AbstractContainerScreen<MolecularMetamorpherMenu>{
 
-    private final ResourceLocation texture = new ResourceLocation("experienceobelisk:textures/gui/screens/laser_transfigurator.png");
-    public LaserTransfiguratorEntity transfigurator;
-    private final Component title = Component.translatable("title.experienceobelisk.laser_transfigurator");
+    private final ResourceLocation texture = new ResourceLocation("experienceobelisk:textures/gui/screens/molecular_metamorpher.png");
+    public MolecularMetamorpherEntity metamorpher;
+    private final Component title = Component.translatable("title.experienceobelisk.molecular_metamorpher");
     private final Component inventoryTitle = Component.translatable("title.experienceobelisk.precision_dispeller.inventory");
-    private final LaserTransfiguratorMenu menu;
+    private final MolecularMetamorpherMenu menu;
 
-    public LaserTransfiguratorScreen(LaserTransfiguratorMenu menu, Inventory inventory, Component component) {
+    public MolecularMetamorpherScreen(MolecularMetamorpherMenu menu, Inventory inventory, Component component) {
         super(menu, menu.inventory, menu.component);
-        this.transfigurator = menu.transfiguratorClient;
+        this.metamorpher = menu.metamorpherClient;
         this.menu = menu;
     }
 
@@ -66,8 +66,8 @@ public class LaserTransfiguratorScreen extends AbstractContainerScreen<LaserTran
 
         int arrowWidth = 26;
         double completion = 0;
-        if(transfigurator.getProcessTime() != 0){
-            completion = transfigurator.getProcessProgress() / (float) transfigurator.getProcessTime();
+        if(metamorpher.getProcessTime() != 0){
+            completion = metamorpher.getProcessProgress() / (float) metamorpher.getProcessTime();
         }
 
         //render background texture
@@ -82,10 +82,10 @@ public class LaserTransfiguratorScreen extends AbstractContainerScreen<LaserTran
         int points;
         double progress;
 
-        if(transfigurator.obeliskStillExists){
-            levels = transfigurator.obeliskLevels;
-            points = transfigurator.obeliskPoints;
-            progress = transfigurator.obeliskProgress;
+        if(metamorpher.obeliskStillExists){
+            levels = metamorpher.obeliskLevels;
+            points = metamorpher.obeliskPoints;
+            progress = metamorpher.obeliskProgress;
 
             gui.blit(texture, this.width / 2 + 105 - 88, this.height / 2 + 70 - 83, 0, 179, 64, 11);
             gui.blit(texture, this.width / 2 + 107 - 88, this.height / 2 + 71 - 83, 0, 166, (int) (xpBarWidth * progress), 9);
@@ -102,9 +102,9 @@ public class LaserTransfiguratorScreen extends AbstractContainerScreen<LaserTran
 
             List<Component> tooltipList = new ArrayList<>();
 
-            tooltipList.add(Component.translatable("tooltip.experienceobelisk.laser_transfigurator.bound"));
+            tooltipList.add(Component.translatable("tooltip.experienceobelisk.molecular_metamorpher.bound"));
 
-            tooltipList.add(Component.translatable("tooltip.experienceobelisk.laser_transfigurator.xp",
+            tooltipList.add(Component.translatable("tooltip.experienceobelisk.molecular_metamorpher.xp",
                     Component.literal(String.valueOf(points)).withStyle(ChatFormatting.GREEN)));
 
             if(mouseX >= x1 && mouseX <= x2 && mouseY >= y1 && mouseY <= y2){
@@ -139,7 +139,7 @@ public class LaserTransfiguratorScreen extends AbstractContainerScreen<LaserTran
         buttons.clear();
 
         Button settings = Button.builder(Component.translatable("button.experienceobelisk.experience_obelisk.settings"),
-                        (onPress) -> Minecraft.getInstance().setScreen(new LaserTransfiguratorOptionsScreen(menu)))
+                        (onPress) -> Minecraft.getInstance().setScreen(new MolecularMetamorpherOptionsScreen(menu)))
                 .size(20,20)
                 .pos(this.width / 2 + 91, this.height / 2 - 78)
                 .tooltip(Tooltip.create(Component.translatable("tooltip.experienceobelisk.experience_obelisk.settings")))

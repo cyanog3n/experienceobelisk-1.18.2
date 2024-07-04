@@ -22,9 +22,9 @@ import software.bernie.geckolib.util.GeckoLibUtil;
 import java.util.List;
 import java.util.function.Consumer;
 
-public class LaserTransfiguratorItem extends BlockItem implements GeoItem {
+public class MolecularMetamorpherItem extends BlockItem implements GeoItem {
 
-    public LaserTransfiguratorItem(Block p_40565_, Properties p_40566_) {
+    public MolecularMetamorpherItem(Block p_40565_, Properties p_40566_) {
         super(p_40565_, p_40566_);
     }
 
@@ -40,7 +40,7 @@ public class LaserTransfiguratorItem extends BlockItem implements GeoItem {
 
     }
 
-    protected <E extends LaserTransfiguratorItem> PlayState controller(final AnimationState<E> state) {
+    protected <E extends MolecularMetamorpherItem> PlayState controller(final AnimationState<E> state) {
 
         AnimationController<E> controller = state.getController();
         RawAnimation animation = controller.getCurrentRawAnimation();

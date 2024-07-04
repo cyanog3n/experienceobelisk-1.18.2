@@ -27,14 +27,14 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
-public class LaserTransfigurationCategory implements IRecipeCategory<LaserTransfiguratorRecipe>{
+public class MolecularMetamorpherCategory implements IRecipeCategory<MolecularMetamorpherRecipe>{
 
     IRecipeCategoryRegistration registration;
     IGuiHelper guiHelper;
-    private final ResourceLocation texture = new ResourceLocation("experienceobelisk:textures/gui/recipes/laser_transfigurator_jei.png");
+    private final ResourceLocation texture = new ResourceLocation("experienceobelisk:textures/gui/recipes/molecular_metamorpher_jei.png");
     private final IDrawableAnimated arrow;
 
-    public LaserTransfigurationCategory(IRecipeCategoryRegistration registration){
+    public MolecularMetamorpherCategory(IRecipeCategoryRegistration registration){
         this.registration = registration;
         this.guiHelper = registration.getJeiHelpers().getGuiHelper();
 
@@ -43,13 +43,13 @@ public class LaserTransfigurationCategory implements IRecipeCategory<LaserTransf
     }
 
     @Override
-    public RecipeType<LaserTransfiguratorRecipe> getRecipeType() {
-        return RecipeType.create(LaserTransfiguratorRecipe.Type.ID, ExperienceObelisk.MOD_ID, LaserTransfiguratorRecipe.class);
+    public RecipeType<MolecularMetamorpherRecipe> getRecipeType() {
+        return RecipeType.create(MolecularMetamorpherRecipe.Type.ID, ExperienceObelisk.MOD_ID, MolecularMetamorpherRecipe.class);
     }
 
     @Override
     public Component getTitle() {
-        return Component.translatable("title.experienceobelisk.laser_transfigurator");
+        return Component.translatable("title.experienceobelisk.molecular_metamorpher");
     }
 
     @Override
@@ -58,19 +58,19 @@ public class LaserTransfigurationCategory implements IRecipeCategory<LaserTransf
     }
 
     @Override
-    public @Nullable ResourceLocation getRegistryName(LaserTransfiguratorRecipe recipe) {
+    public @Nullable ResourceLocation getRegistryName(MolecularMetamorpherRecipe recipe) {
         return IRecipeCategory.super.getRegistryName(recipe);
     }
 
     @Override
     public IDrawable getIcon() {
 
-        ItemStack icon = new ItemStack(RegisterItems.LASER_TRANSFIGURATOR_ITEM.get());
+        ItemStack icon = new ItemStack(RegisterItems.MOLECULAR_METAMORPHER_ITEM.get());
         return guiHelper.createDrawableItemStack(icon);
     }
 
     @Override
-    public void draw(LaserTransfiguratorRecipe recipe, IRecipeSlotsView recipeSlotsView, GuiGraphics guiGraphics, double mouseX, double mouseY) {
+    public void draw(MolecularMetamorpherRecipe recipe, IRecipeSlotsView recipeSlotsView, GuiGraphics guiGraphics, double mouseX, double mouseY) {
 
         arrow.draw(guiGraphics, 108, 47);
 
@@ -95,7 +95,7 @@ public class LaserTransfigurationCategory implements IRecipeCategory<LaserTransf
     }
 
     @Override
-    public void setRecipe(IRecipeLayoutBuilder builder, LaserTransfiguratorRecipe recipe, IFocusGroup focuses) {
+    public void setRecipe(IRecipeLayoutBuilder builder, MolecularMetamorpherRecipe recipe, IFocusGroup focuses) {
 
         ItemStack result = recipe.getResultItem(null);
         int[] x = {19,50,70};

@@ -1,11 +1,10 @@
 package com.cyanogen.experienceobelisk.recipe;
 
 import com.cyanogen.experienceobelisk.ExperienceObelisk;
-import com.cyanogen.experienceobelisk.gui.LaserTransfiguratorMenu;
-import com.cyanogen.experienceobelisk.gui.LaserTransfiguratorScreen;
+import com.cyanogen.experienceobelisk.gui.MolecularMetamorpherMenu;
+import com.cyanogen.experienceobelisk.gui.MolecularMetamorpherScreen;
 import com.cyanogen.experienceobelisk.registries.RegisterItems;
 import com.cyanogen.experienceobelisk.registries.RegisterMenus;
-import com.cyanogen.experienceobelisk.registries.RegisterRecipes;
 import com.google.common.collect.ImmutableMap;
 import mezz.jei.api.IModPlugin;
 import mezz.jei.api.constants.VanillaTypes;
@@ -13,20 +12,17 @@ import mezz.jei.api.gui.ingredient.IRecipeSlotsView;
 import mezz.jei.api.recipe.RecipeType;
 import mezz.jei.api.recipe.transfer.IRecipeTransferError;
 import mezz.jei.api.recipe.transfer.IRecipeTransferHandler;
-import mezz.jei.api.recipe.transfer.IRecipeTransferInfo;
 import mezz.jei.api.registration.*;
 import net.minecraft.client.Minecraft;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.util.Tuple;
-import net.minecraft.world.SimpleContainer;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.inventory.MenuType;
 import net.minecraft.world.inventory.Slot;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.crafting.Ingredient;
 import net.minecraft.world.item.crafting.Recipe;
-import net.minecraftforge.registries.ForgeRegistries;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.ArrayList;
@@ -37,13 +33,13 @@ import java.util.Optional;
 @mezz.jei.api.JeiPlugin
 public class CognitionJeiPlugin implements IModPlugin {
 
-    public final RecipeType<LaserTransfiguratorRecipe> transfiguratorType =
-            RecipeType.create(LaserTransfiguratorRecipe.Type.ID, ExperienceObelisk.MOD_ID, LaserTransfiguratorRecipe.class);
+    public final RecipeType<MolecularMetamorpherRecipe> metamorpherType =
+            RecipeType.create(MolecularMetamorpherRecipe.Type.ID, ExperienceObelisk.MOD_ID, MolecularMetamorpherRecipe.class);
 
     @Override
     public void registerCategories(IRecipeCategoryRegistration registration) {
 
-        registration.addRecipeCategories(new LaserTransfigurationCategory(registration));
+        registration.addRecipeCategories(new MolecularMetamorpherCategory(registration));
         IModPlugin.super.registerCategories(registration);
     }
 
@@ -51,15 +47,15 @@ public class CognitionJeiPlugin implements IModPlugin {
     public void registerRecipes(IRecipeRegistration registration) {
 
         //RECIPES
-        List<LaserTransfiguratorRecipe> transfiguratorRecipes = new ArrayList<>();
+        List<MolecularMetamorpherRecipe> metamorpherRecipes = new ArrayList<>();
 
         for(Recipe<?> recipe : Minecraft.getInstance().level.getRecipeManager().getRecipes()){
-            if(recipe instanceof LaserTransfiguratorRecipe transfiguratorRecipe){
-                transfiguratorRecipes.add(transfiguratorRecipe);
+            if(recipe instanceof MolecularMetamorpherRecipe metamorpherRecipe){
+                metamorpherRecipes.add(metamorpherRecipe);
             }
         }
 
-        registration.addRecipes(transfiguratorType, transfiguratorRecipes);
+        registration.addRecipes(metamorpherType, metamorpherRecipes);
 
         //INFO
         ItemStack FORGOTTEN_DUST = new ItemStack(RegisterItems.FORGOTTEN_DUST.get());
@@ -71,8 +67,8 @@ public class CognitionJeiPlugin implements IModPlugin {
     @Override
     public void registerRecipeCatalysts(IRecipeCatalystRegistration registration) {
 
-        ItemStack stack = new ItemStack(RegisterItems.LASER_TRANSFIGURATOR_ITEM.get());
-        registration.addRecipeCatalyst(stack, transfiguratorType);
+        ItemStack stack = new ItemStack(RegisterItems.MOLECULAR_METAMORPHER_ITEM.get());
+        registration.addRecipeCatalyst(stack, metamorpherType);
 
         IModPlugin.super.registerRecipeCatalysts(registration);
     }
@@ -80,7 +76,7 @@ public class CognitionJeiPlugin implements IModPlugin {
     @Override
     public void registerRecipeTransferHandlers(IRecipeTransferRegistration registration) {
 
-        registration.addRecipeTransferHandler(LaserTransfiguratorMenu.class, null, transfiguratorType,
+        registration.addRecipeTransferHandler(MolecularMetamorpherMenu.class, null, metamorpherType,
                 0, 3, 4, 36);
 
         IModPlugin.super.registerRecipeTransferHandlers(registration);
@@ -88,7 +84,7 @@ public class CognitionJeiPlugin implements IModPlugin {
 
     @Override
     public void registerGuiHandlers(IGuiHandlerRegistration registration) {
-        registration.addRecipeClickArea(LaserTransfiguratorScreen.class,107,45,32,10, transfiguratorType);
+        registration.addRecipeClickArea(MolecularMetamorpherScreen.class,107,45,32,10, metamorpherType);
         IModPlugin.super.registerGuiHandlers(registration);
     }
 
@@ -97,25 +93,25 @@ public class CognitionJeiPlugin implements IModPlugin {
         return new ResourceLocation(ExperienceObelisk.MOD_ID, "jei_plugin");
     }
 
-    public IRecipeTransferHandler<LaserTransfiguratorMenu, LaserTransfiguratorRecipe> getCustomRecipeTransferHandler(){
+    public IRecipeTransferHandler<MolecularMetamorpherMenu, MolecularMetamorpherRecipe> getCustomRecipeTransferHandler(){
         return new IRecipeTransferHandler<>() {
             @Override
-            public Class<? extends LaserTransfiguratorMenu> getContainerClass() {
-                return LaserTransfiguratorMenu.class;
+            public Class<? extends MolecularMetamorpherMenu> getContainerClass() {
+                return MolecularMetamorpherMenu.class;
             }
 
             @Override
-            public Optional<MenuType<LaserTransfiguratorMenu>> getMenuType() {
-                return Optional.of(RegisterMenus.LASER_TRANSFIGURATOR_MENU.get());
+            public Optional<MenuType<MolecularMetamorpherMenu>> getMenuType() {
+                return Optional.of(RegisterMenus.MOLECULAR_METAMORPHER_MENU.get());
             }
 
             @Override
-            public RecipeType<LaserTransfiguratorRecipe> getRecipeType() {
-                return transfiguratorType;
+            public RecipeType<MolecularMetamorpherRecipe> getRecipeType() {
+                return metamorpherType;
             }
 
             @Override
-            public @Nullable IRecipeTransferError transferRecipe(LaserTransfiguratorMenu container, LaserTransfiguratorRecipe recipe,
+            public @Nullable IRecipeTransferError transferRecipe(MolecularMetamorpherMenu container, MolecularMetamorpherRecipe recipe,
                                                                  IRecipeSlotsView recipeSlots, Player player, boolean maxTransfer, boolean doTransfer) {
 
                 ImmutableMap<Ingredient, Tuple<Integer, Integer>> ingredientMap = recipe.getIngredientMap();

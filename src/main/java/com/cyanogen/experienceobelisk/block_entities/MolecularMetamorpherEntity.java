@@ -1,7 +1,7 @@
 package com.cyanogen.experienceobelisk.block_entities;
 
 import com.cyanogen.experienceobelisk.ExperienceObelisk;
-import com.cyanogen.experienceobelisk.recipe.LaserTransfiguratorRecipe;
+import com.cyanogen.experienceobelisk.recipe.MolecularMetamorpherRecipe;
 import com.cyanogen.experienceobelisk.registries.RegisterBlockEntities;
 import com.cyanogen.experienceobelisk.utils.MiscUtils;
 import com.google.common.collect.ImmutableMap;
@@ -46,10 +46,10 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Optional;
 
-public class LaserTransfiguratorEntity extends ExperienceReceivingEntity implements GeoBlockEntity {
+public class MolecularMetamorpherEntity extends ExperienceReceivingEntity implements GeoBlockEntity {
 
-    public LaserTransfiguratorEntity(BlockPos pos, BlockState state) {
-        super(RegisterBlockEntities.LASER_TRANSFIGURATOR_BE.get(), pos, state);
+    public MolecularMetamorpherEntity(BlockPos pos, BlockState state) {
+        super(RegisterBlockEntities.MOLECULAR_METAMORPHER_BE.get(), pos, state);
     }
 
     boolean isProcessing = false;
@@ -72,9 +72,9 @@ public class LaserTransfiguratorEntity extends ExperienceReceivingEntity impleme
         controllerRegistrar.add(new AnimationController<>(this, this::controller));
     }
 
-    protected <E extends LaserTransfiguratorEntity> PlayState controller(final AnimationState<E> state){
+    protected <E extends MolecularMetamorpherEntity> PlayState controller(final AnimationState<E> state){
 
-        LaserTransfiguratorEntity entity = state.getAnimatable();
+        MolecularMetamorpherEntity entity = state.getAnimatable();
         AnimationController<E> controller = state.getController();
         RawAnimation animation = controller.getCurrentRawAnimation();
 
@@ -102,28 +102,28 @@ public class LaserTransfiguratorEntity extends ExperienceReceivingEntity impleme
 
     public static <T> void tick(Level level, BlockPos pos, BlockState state, T blockEntity) {
 
-        if(blockEntity instanceof LaserTransfiguratorEntity transfigurator){
+        if(blockEntity instanceof MolecularMetamorpherEntity metamorpher){
 
-            boolean active = !transfigurator.redstoneEnabled || level.hasNeighborSignal(pos);
+            boolean active = !metamorpher.redstoneEnabled || level.hasNeighborSignal(pos);
 
-            if(transfigurator.getBoundObelisk() != null){
-                transfigurator.sendObeliskInfoToScreen(transfigurator.getBoundObelisk());
+            if(metamorpher.getBoundObelisk() != null){
+                metamorpher.sendObeliskInfoToScreen(metamorpher.getBoundObelisk());
             }
 
-            if(transfigurator.isProcessing){
+            if(metamorpher.isProcessing){
 
-                if(transfigurator.processProgress >= transfigurator.processTime){
-                    transfigurator.dispenseResult();
+                if(metamorpher.processProgress >= metamorpher.processTime){
+                    metamorpher.dispenseResult();
                 }
                 else{
-                    if(transfigurator.validateRecipe()){
-                        transfigurator.incrementProcessProgress();
+                    if(metamorpher.validateRecipe()){
+                        metamorpher.incrementProcessProgress();
                     }
                 }
             }
-            else if(active && transfigurator.hasContents()){
-                if(!transfigurator.handleJsonRecipes()){
-                    transfigurator.handleNameFormattingRecipes();
+            else if(active && metamorpher.hasContents()){
+                if(!metamorpher.handleJsonRecipes()){
+                    metamorpher.handleNameFormattingRecipes();
                 }
             }
 
@@ -186,7 +186,7 @@ public class LaserTransfiguratorEntity extends ExperienceReceivingEntity impleme
     public boolean handleJsonRecipes(){
 
         if(getRecipe().isPresent()){
-            LaserTransfiguratorRecipe recipe = getRecipe().get();
+            MolecularMetamorpherRecipe recipe = getRecipe().get();
             ItemStack output = recipe.getResultItem(null);
             int cost = recipe.getCost();
 
@@ -211,7 +211,7 @@ public class LaserTransfiguratorEntity extends ExperienceReceivingEntity impleme
                 && itemHandler.getStackInSlot(3).getCount() <= output.getMaxStackSize() - output.getCount(); //results slot can accommodate output
     }
 
-    public void initiateRecipe(LaserTransfiguratorRecipe recipe){
+    public void initiateRecipe(MolecularMetamorpherRecipe recipe){
 
         this.setProcessing(true);
         this.setRecipeId(recipe);
@@ -244,7 +244,7 @@ public class LaserTransfiguratorEntity extends ExperienceReceivingEntity impleme
         return true;
     }
 
-    public SimpleContainer deplete(LaserTransfiguratorRecipe recipe){
+    public SimpleContainer deplete(MolecularMetamorpherRecipe recipe){
 
         SimpleContainer container = getSimpleContainer();
 
@@ -296,7 +296,7 @@ public class LaserTransfiguratorEntity extends ExperienceReceivingEntity impleme
 
         if(hasNameFormattingRecipe()){
 
-            LaserTransfiguratorRecipe recipe = getNameFormattingRecipe();
+            MolecularMetamorpherRecipe recipe = getNameFormattingRecipe();
             ItemStack output = recipe.getResultItem(null);
             int cost = recipe.getCost();
 
@@ -314,7 +314,7 @@ public class LaserTransfiguratorEntity extends ExperienceReceivingEntity impleme
                 && (formatItem instanceof DyeItem || MiscUtils.getValidFormattingItems().contains(formatItem)); //a valid formatting item
     }
 
-    public LaserTransfiguratorRecipe getNameFormattingRecipe(){
+    public MolecularMetamorpherRecipe getNameFormattingRecipe(){
 
         ItemStack inputItem = itemHandler.getStackInSlot(0);
         MutableComponent name = inputItem.getHoverName().copy();
@@ -347,14 +347,14 @@ public class LaserTransfiguratorEntity extends ExperienceReceivingEntity impleme
         int cost = 55;
         int processTime = 40;
 
-        return new LaserTransfiguratorRecipe(ImmutableMap.copyOf(ingredientMap), output, cost, processTime,
+        return new MolecularMetamorpherRecipe(ImmutableMap.copyOf(ingredientMap), output, cost, processTime,
                 new ResourceLocation(ExperienceObelisk.MOD_ID, "item_name_formatting"));
     }
 
     //-----------UTILITY METHODS-----------//
 
-    public Optional<LaserTransfiguratorRecipe> getRecipe(){
-        return this.level.getRecipeManager().getRecipeFor(LaserTransfiguratorRecipe.Type.INSTANCE, getSimpleContainer(), level);
+    public Optional<MolecularMetamorpherRecipe> getRecipe(){
+        return this.level.getRecipeManager().getRecipeFor(MolecularMetamorpherRecipe.Type.INSTANCE, getSimpleContainer(), level);
     }
 
     public SimpleContainer getSimpleContainer(){
@@ -406,7 +406,7 @@ public class LaserTransfiguratorEntity extends ExperienceReceivingEntity impleme
         setChanged();
     }
 
-    public void setRecipeId(LaserTransfiguratorRecipe recipe){
+    public void setRecipeId(MolecularMetamorpherRecipe recipe){
         this.recipeId = recipe.getId();
         setChanged();
     }

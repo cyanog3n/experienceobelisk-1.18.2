@@ -1,6 +1,6 @@
 package com.cyanogen.experienceobelisk.gui;
 
-import com.cyanogen.experienceobelisk.block_entities.LaserTransfiguratorEntity;
+import com.cyanogen.experienceobelisk.block_entities.MolecularMetamorpherEntity;
 import com.cyanogen.experienceobelisk.network.PacketHandler;
 import com.cyanogen.experienceobelisk.network.shared.UpdateRedstone;
 import com.mojang.blaze3d.systems.RenderSystem;
@@ -18,17 +18,17 @@ import net.minecraft.resources.ResourceLocation;
 import java.util.ArrayList;
 import java.util.List;
 
-public class LaserTransfiguratorOptionsScreen extends Screen{
+public class MolecularMetamorpherOptionsScreen extends Screen{
 
     private final ResourceLocation texture = new ResourceLocation("experienceobelisk:textures/gui/screens/experience_obelisk.png");
-    private final LaserTransfiguratorMenu menu;
-    private final LaserTransfiguratorEntity transfigurator;
+    private final MolecularMetamorpherMenu menu;
+    private final MolecularMetamorpherEntity metamorpher;
     private final BlockPos pos;
 
-    public LaserTransfiguratorOptionsScreen(LaserTransfiguratorMenu menu) {
+    public MolecularMetamorpherOptionsScreen(MolecularMetamorpherMenu menu) {
         super(menu.component);
         this.menu = menu;
-        this.transfigurator = menu.transfiguratorClient;
+        this.metamorpher = menu.metamorpherClient;
         this.pos = menu.pos;
     }
 
@@ -72,7 +72,7 @@ public class LaserTransfiguratorOptionsScreen extends Screen{
 
         //render widgets
         clearWidgets();
-        if(transfigurator.isRedstoneEnabled()){
+        if(metamorpher.isRedstoneEnabled()){
             buttons.get(1).setMessage(Component.translatable("button.experienceobelisk.experience_obelisk.enabled"));
         }
         else{
@@ -107,7 +107,7 @@ public class LaserTransfiguratorOptionsScreen extends Screen{
         int y1 = 43;
 
         MutableComponent status;
-        if(transfigurator.isRedstoneEnabled()){
+        if(metamorpher.isRedstoneEnabled()){
             status = Component.translatable("button.experienceobelisk.experience_obelisk.enabled");
         }
         else{
@@ -115,7 +115,7 @@ public class LaserTransfiguratorOptionsScreen extends Screen{
         }
 
         Button back = Button.builder(Component.translatable("button.experienceobelisk.experience_obelisk.back"),
-                        (onPress) -> Minecraft.getInstance().setScreen(new LaserTransfiguratorScreen(menu, menu.inventory, menu.component)))
+                        (onPress) -> Minecraft.getInstance().setScreen(new MolecularMetamorpherScreen(menu, menu.inventory, menu.component)))
                 .size(20,20)
                 .pos(this.width / 2 + 91, this.height / 2 - 78)
                 .tooltip(Tooltip.create(Component.translatable("tooltip.experienceobelisk.experience_obelisk.back")))
@@ -123,7 +123,7 @@ public class LaserTransfiguratorOptionsScreen extends Screen{
 
         Button toggleRedstone = Button.builder(status,
                         (onPress) -> {
-                            if (!transfigurator.isRedstoneEnabled()) {
+                            if (!metamorpher.isRedstoneEnabled()) {
                                 PacketHandler.INSTANCE.sendToServer(new UpdateRedstone(pos, true));
                             } else {
                                 PacketHandler.INSTANCE.sendToServer(new UpdateRedstone(pos, false));

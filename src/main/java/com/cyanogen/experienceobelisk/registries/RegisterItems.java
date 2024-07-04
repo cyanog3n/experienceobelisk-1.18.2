@@ -161,8 +161,8 @@ public class RegisterItems {
     public static final RegistryObject<Item> PRECISION_DISPELLER_ITEM = ITEMS.register("precision_dispeller",
             () -> new PrecisionDispellerItem(RegisterBlocks.PRECISION_DISPELLER.get(), new Item.Properties()));
 
-    public static final RegistryObject<Item> LASER_TRANSFIGURATOR_ITEM = ITEMS.register("laser_transfigurator",
-            () -> new LaserTransfiguratorItem(RegisterBlocks.LASER_TRANSFIGURATOR.get(), new Item.Properties()));
+    public static final RegistryObject<Item> MOLECULAR_METAMORPHER_ITEM = ITEMS.register("molecular_metamorpher",
+            () -> new MolecularMetamorpherItem(RegisterBlocks.MOLECULAR_METAMORPHER.get(), new Item.Properties()));
 
     public static final RegistryObject<Item> ACCELERATOR_ITEM = ITEMS.register("accelerator",
             () -> new BlockItem(RegisterBlocks.ACCELERATOR.get(), new Item.Properties()));

@@ -1,6 +1,6 @@
 package com.cyanogen.experienceobelisk.gui;
 
-import com.cyanogen.experienceobelisk.block_entities.LaserTransfiguratorEntity;
+import com.cyanogen.experienceobelisk.block_entities.MolecularMetamorpherEntity;
 import com.cyanogen.experienceobelisk.registries.RegisterMenus;
 import net.minecraft.core.BlockPos;
 import net.minecraft.network.FriendlyByteBuf;
@@ -16,29 +16,29 @@ import net.minecraft.world.phys.Vec3;
 import net.minecraftforge.items.IItemHandler;
 import net.minecraftforge.items.SlotItemHandler;
 
-public class LaserTransfiguratorMenu extends AbstractContainerMenu {
+public class MolecularMetamorpherMenu extends AbstractContainerMenu {
 
     SimpleContainer container = new SimpleContainer(5);
     BlockPos pos;
     BlockPos posServer;
-    LaserTransfiguratorEntity transfiguratorClient;
+    MolecularMetamorpherEntity metamorpherClient;
     Inventory inventory;
-    Component component = Component.literal("Laser Transfigurator");
+    Component component = Component.literal("Molecular Metamorpher");
 
-    public LaserTransfiguratorMenu(int id, Inventory inventory, FriendlyByteBuf data){
+    public MolecularMetamorpherMenu(int id, Inventory inventory, FriendlyByteBuf data){
         this(id, inventory, null, inventory.player, new BlockPos(0,0,0));
 
         Level level = inventory.player.level();
         this.pos = data.readBlockPos();
-        this.transfiguratorClient = (LaserTransfiguratorEntity) level.getBlockEntity(pos);
+        this.metamorpherClient = (MolecularMetamorpherEntity) level.getBlockEntity(pos);
         this.inventory = inventory;
     }
 
     //-----SLOTS-----//
 
-    public LaserTransfiguratorMenu(int id, Inventory inventoryPlayer, IItemHandler inventoryBlock, Player player, BlockPos pos){
+    public MolecularMetamorpherMenu(int id, Inventory inventoryPlayer, IItemHandler inventoryBlock, Player player, BlockPos pos){
 
-        super(RegisterMenus.LASER_TRANSFIGURATOR_MENU.get(), id);
+        super(RegisterMenus.MOLECULAR_METAMORPHER_MENU.get(), id);
         this.posServer = pos;
 
         if(inventoryBlock != null){

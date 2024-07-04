@@ -19,7 +19,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
-public class LaserTransfiguratorRecipe implements Recipe<SimpleContainer> {
+public class MolecularMetamorpherRecipe implements Recipe<SimpleContainer> {
 
     private final ImmutableMap<Ingredient, Tuple<Integer, Integer>> ingredients; //A -- ingredient no., B -- count
     private final ItemStack output;
@@ -27,7 +27,7 @@ public class LaserTransfiguratorRecipe implements Recipe<SimpleContainer> {
     private final int processTime;
     private final ResourceLocation id;
 
-    public LaserTransfiguratorRecipe(ImmutableMap<Ingredient, Tuple<Integer, Integer>> ingredients, ItemStack output, int cost, int processTime, ResourceLocation id){
+    public MolecularMetamorpherRecipe(ImmutableMap<Ingredient, Tuple<Integer, Integer>> ingredients, ItemStack output, int cost, int processTime, ResourceLocation id){
         this.ingredients = ingredients;
         this.output = output;
         this.cost = cost;
@@ -129,20 +129,20 @@ public class LaserTransfiguratorRecipe implements Recipe<SimpleContainer> {
         return Type.INSTANCE;
     }
 
-    public static class Type implements RecipeType<LaserTransfiguratorRecipe>{
+    public static class Type implements RecipeType<MolecularMetamorpherRecipe>{
         public static final Type INSTANCE = new Type();
-        public static final String ID = "laser_transfiguration";
+        public static final String ID = "molecular_metamorphosis";
     }
 
     //-----SERIALIZER-----//
 
-    public static class Serializer implements RecipeSerializer<LaserTransfiguratorRecipe> {
+    public static class Serializer implements RecipeSerializer<MolecularMetamorpherRecipe> {
 
         public static final Serializer INSTANCE = new Serializer();
-        public static final ResourceLocation ID = new ResourceLocation(ExperienceObelisk.MOD_ID, "laser_transfiguration");
+        public static final ResourceLocation ID = new ResourceLocation(ExperienceObelisk.MOD_ID, "molecular_metamorphosis");
 
         @Override
-        public LaserTransfiguratorRecipe fromJson(ResourceLocation id, JsonObject recipe) {
+        public MolecularMetamorpherRecipe fromJson(ResourceLocation id, JsonObject recipe) {
 
             Ingredient ingredient1 = Ingredient.fromJson(GsonHelper.getNonNull(recipe, "ingredient1"));
             Ingredient ingredient2 = Ingredient.fromJson(GsonHelper.getNonNull(recipe, "ingredient2"));
@@ -160,11 +160,11 @@ public class LaserTransfiguratorRecipe implements Recipe<SimpleContainer> {
             int cost = GsonHelper.getAsInt(recipe, "cost");
             int processTime = GsonHelper.getAsInt(recipe, "processTime");
 
-            return new LaserTransfiguratorRecipe(ImmutableMap.copyOf(ingredients), result, cost, processTime, id);
+            return new MolecularMetamorpherRecipe(ImmutableMap.copyOf(ingredients), result, cost, processTime, id);
         }
 
         @Override
-        public @Nullable LaserTransfiguratorRecipe fromNetwork(ResourceLocation id, FriendlyByteBuf buffer) {
+        public @Nullable MolecularMetamorpherRecipe fromNetwork(ResourceLocation id, FriendlyByteBuf buffer) {
 
             Ingredient ingredient1 = Ingredient.fromNetwork(buffer);
             Ingredient ingredient2 = Ingredient.fromNetwork(buffer);
@@ -182,11 +182,11 @@ public class LaserTransfiguratorRecipe implements Recipe<SimpleContainer> {
             int cost = buffer.readInt();
             int processTime = buffer.readInt();
 
-            return new LaserTransfiguratorRecipe(ImmutableMap.copyOf(ingredients), result, cost, processTime, id);
+            return new MolecularMetamorpherRecipe(ImmutableMap.copyOf(ingredients), result, cost, processTime, id);
         }
 
         @Override
-        public void toNetwork(FriendlyByteBuf buffer, LaserTransfiguratorRecipe recipe) {
+        public void toNetwork(FriendlyByteBuf buffer, MolecularMetamorpherRecipe recipe) {
 
             for(Map.Entry<Ingredient, Tuple<Integer, Integer>> entry : recipe.getIngredientMap().entrySet()){
                 entry.getKey().toNetwork(buffer);

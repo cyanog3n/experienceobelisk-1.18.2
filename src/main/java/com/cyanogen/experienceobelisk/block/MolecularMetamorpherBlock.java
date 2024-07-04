@@ -1,7 +1,7 @@
 package com.cyanogen.experienceobelisk.block;
 
-import com.cyanogen.experienceobelisk.block_entities.LaserTransfiguratorEntity;
-import com.cyanogen.experienceobelisk.gui.LaserTransfiguratorMenu;
+import com.cyanogen.experienceobelisk.block_entities.MolecularMetamorpherEntity;
+import com.cyanogen.experienceobelisk.gui.MolecularMetamorpherMenu;
 import com.cyanogen.experienceobelisk.registries.RegisterBlockEntities;
 import net.minecraft.core.BlockPos;
 import net.minecraft.network.chat.Component;
@@ -31,9 +31,9 @@ import net.minecraftforge.items.IItemHandler;
 import net.minecraftforge.network.NetworkHooks;
 import org.jetbrains.annotations.Nullable;
 
-public class LaserTransfiguratorBlock extends ExperienceReceivingBlock implements EntityBlock {
+public class MolecularMetamorpherBlock extends ExperienceReceivingBlock implements EntityBlock {
 
-    public LaserTransfiguratorBlock() {
+    public MolecularMetamorpherBlock() {
         super(Properties.of()
                 .strength(9f)
                 .destroyTime(1.2f)
@@ -81,7 +81,7 @@ public class LaserTransfiguratorBlock extends ExperienceReceivingBlock implement
     public MenuProvider getMenuProvider(BlockState state, Level level, BlockPos pos) {
 
         IItemHandler itemHandler = null;
-        if(level.getBlockEntity(pos) instanceof LaserTransfiguratorEntity entity){
+        if(level.getBlockEntity(pos) instanceof MolecularMetamorpherEntity entity){
             itemHandler = entity.getItemHandler();
         }
         final IItemHandler handler = itemHandler;
@@ -89,12 +89,12 @@ public class LaserTransfiguratorBlock extends ExperienceReceivingBlock implement
         return new MenuProvider() {
             @Override
             public Component getDisplayName() {
-                return Component.literal("Laser Transfigurator");
+                return Component.literal("Molecular Metamorpher");
             }
 
             @Override
             public AbstractContainerMenu createMenu(int containerId, Inventory inventory, Player player) {
-                return new LaserTransfiguratorMenu(containerId, inventory, handler, player, pos);
+                return new MolecularMetamorpherMenu(containerId, inventory, handler, player, pos);
             }
         };
 
@@ -103,12 +103,12 @@ public class LaserTransfiguratorBlock extends ExperienceReceivingBlock implement
     @Nullable
     @Override
     public <T extends BlockEntity> BlockEntityTicker<T> getTicker(Level level, BlockState state, BlockEntityType<T> blockEntityType) {
-        return blockEntityType == RegisterBlockEntities.LASER_TRANSFIGURATOR_BE.get() ? LaserTransfiguratorEntity::tick : null;
+        return blockEntityType == RegisterBlockEntities.MOLECULAR_METAMORPHER_BE.get() ? MolecularMetamorpherEntity::tick : null;
     }
 
     @Nullable
     @Override
     public BlockEntity newBlockEntity(BlockPos pos, BlockState state) {
-        return RegisterBlockEntities.LASER_TRANSFIGURATOR_BE.get().create(pos, state);
+        return RegisterBlockEntities.MOLECULAR_METAMORPHER_BE.get().create(pos, state);
     }
 }
