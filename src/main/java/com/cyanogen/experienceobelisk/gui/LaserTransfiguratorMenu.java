@@ -106,7 +106,7 @@ public class LaserTransfiguratorMenu extends AbstractContainerMenu {
                 }
             } //moving from player inventory to menu
             else{
-                if(!this.moveItemStackTo(itemstack1, 0, 2, true)){
+                if(!this.moveItemStackTo(itemstack1, 0, 3, true)){
                     return ItemStack.EMPTY;
                 }
             }

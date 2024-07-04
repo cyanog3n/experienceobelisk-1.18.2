@@ -15,6 +15,7 @@ import software.bernie.geckolib.core.animatable.instance.AnimatableInstanceCache
 import software.bernie.geckolib.core.animation.AnimatableManager;
 import software.bernie.geckolib.core.animation.AnimationController;
 import software.bernie.geckolib.core.animation.AnimationState;
+import software.bernie.geckolib.core.animation.RawAnimation;
 import software.bernie.geckolib.core.object.PlayState;
 import software.bernie.geckolib.util.GeckoLibUtil;
 
@@ -31,6 +32,8 @@ public class LaserTransfiguratorItem extends BlockItem implements GeoItem {
 
     private final AnimatableInstanceCache cache = GeckoLibUtil.createInstanceCache(this);
 
+    protected static final RawAnimation IDLE = RawAnimation.begin().thenPlay("idle");
+
     @Override
     public void registerControllers(AnimatableManager.ControllerRegistrar controllerRegistrar) {
         controllerRegistrar.add(new AnimationController<>(this, this::controller));
@@ -40,6 +43,12 @@ public class LaserTransfiguratorItem extends BlockItem implements GeoItem {
     protected <E extends LaserTransfiguratorItem> PlayState controller(final AnimationState<E> state) {
 
         AnimationController<E> controller = state.getController();
+        RawAnimation animation = controller.getCurrentRawAnimation();
+
+        if(animation == null){
+            controller.setAnimation(IDLE);
+        }
+
         return PlayState.CONTINUE;
     }
 

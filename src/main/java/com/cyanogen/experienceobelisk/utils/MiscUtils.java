@@ -1,11 +1,20 @@
 package com.cyanogen.experienceobelisk.utils;
 
+import com.cyanogen.experienceobelisk.recipe.LaserTransfiguratorRecipe;
 import net.minecraft.core.BlockPos;
+import net.minecraft.util.Tuple;
+import net.minecraft.world.item.DyeItem;
 import net.minecraft.world.item.Item;
+import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
+import net.minecraft.world.item.crafting.Ingredient;
+import net.minecraft.world.level.ItemLike;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
+import java.util.stream.Stream;
 
 public class MiscUtils {
 

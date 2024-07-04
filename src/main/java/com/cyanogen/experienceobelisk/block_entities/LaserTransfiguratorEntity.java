@@ -36,6 +36,7 @@ import software.bernie.geckolib.core.animatable.instance.AnimatableInstanceCache
 import software.bernie.geckolib.core.animation.AnimatableManager;
 import software.bernie.geckolib.core.animation.AnimationController;
 import software.bernie.geckolib.core.animation.AnimationState;
+import software.bernie.geckolib.core.animation.RawAnimation;
 import software.bernie.geckolib.core.object.PlayState;
 import software.bernie.geckolib.util.GeckoLibUtil;
 
@@ -62,12 +63,33 @@ public class LaserTransfiguratorEntity extends ExperienceReceivingEntity impleme
 
     private final AnimatableInstanceCache cache = GeckoLibUtil.createInstanceCache(this);
 
+    protected static final RawAnimation IDLE = RawAnimation.begin().thenPlay("idle");
+    protected static final RawAnimation ACTIVE = RawAnimation.begin().thenPlay("active");
+
     @Override
     public void registerControllers(AnimatableManager.ControllerRegistrar controllerRegistrar) {
         controllerRegistrar.add(new AnimationController<>(this, this::controller));
     }
 
     protected <E extends LaserTransfiguratorEntity> PlayState controller(final AnimationState<E> state){
+
+        LaserTransfiguratorEntity entity = state.getAnimatable();
+        AnimationController<E> controller = state.getController();
+        RawAnimation animation = controller.getCurrentRawAnimation();
+        controller.transitionLength(20);
+
+        if(animation == null){
+            controller.setAnimation(IDLE);
+        }
+        else{
+            if(entity.isProcessing && animation.equals(IDLE)){
+                controller.setAnimation(ACTIVE);
+            }
+            else if(!entity.isProcessing && animation.equals(ACTIVE)){
+                controller.setAnimation(IDLE);
+            }
+        }
+
         return PlayState.CONTINUE;
     }
 
@@ -284,9 +306,9 @@ public class LaserTransfiguratorEntity extends ExperienceReceivingEntity impleme
     public boolean hasNameFormattingRecipe(){
         Item formatItem = itemHandler.getStackInSlot(2).getItem();
 
-        return !itemHandler.getStackInSlot(0).isEmpty()
-                && itemHandler.getStackInSlot(1).is(Items.NAME_TAG)
-                && (formatItem instanceof DyeItem || MiscUtils.getValidFormattingItems().contains(formatItem));
+        return !itemHandler.getStackInSlot(0).isEmpty() //any item
+                && itemHandler.getStackInSlot(1).is(Items.NAME_TAG) //a name tag
+                && (formatItem instanceof DyeItem || MiscUtils.getValidFormattingItems().contains(formatItem)); //a valid formatting item
     }
 
     public LaserTransfiguratorRecipe getNameFormattingRecipe(){
