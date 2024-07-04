@@ -18,13 +18,12 @@ public class LaserTransfiguratorScreen extends AbstractContainerScreen<LaserTran
 
     private final ResourceLocation texture = new ResourceLocation("experienceobelisk:textures/gui/screens/laser_transfigurator.png");
     public LaserTransfiguratorEntity transfigurator;
-    public ExperienceObeliskEntity obelisk;
     private final Component title = Component.translatable("title.experienceobelisk.laser_transfigurator");
     private final Component inventoryTitle = Component.translatable("title.experienceobelisk.precision_dispeller.inventory");
 
     public LaserTransfiguratorScreen(LaserTransfiguratorMenu menu, Inventory inventory, Component component) {
         super(menu, inventory, component);
-        this.transfigurator = menu.transfigurator;
+        this.transfigurator = menu.transfiguratorClient;
     }
 
     @Override

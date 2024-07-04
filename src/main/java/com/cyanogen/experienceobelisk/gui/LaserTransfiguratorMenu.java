@@ -1,6 +1,7 @@
 package com.cyanogen.experienceobelisk.gui;
 
 import com.cyanogen.experienceobelisk.block_entities.LaserTransfiguratorEntity;
+import com.cyanogen.experienceobelisk.block_entities.PrecisionDispellerEntity;
 import com.cyanogen.experienceobelisk.registries.RegisterMenus;
 import net.minecraft.core.BlockPos;
 import net.minecraft.network.FriendlyByteBuf;
@@ -17,14 +18,14 @@ import net.minecraftforge.items.SlotItemHandler;
 public class LaserTransfiguratorMenu extends AbstractContainerMenu {
 
     SimpleContainer container = new SimpleContainer(5);
-    LaserTransfiguratorEntity transfigurator;
+    LaserTransfiguratorEntity transfiguratorClient;
 
     public LaserTransfiguratorMenu(int id, Inventory inventory, FriendlyByteBuf data){
         this(id, inventory, null, inventory.player, new BlockPos(0,0,0));
 
         Level level = inventory.player.level();
         BlockPos pos = data.readBlockPos();
-        this.transfigurator = (LaserTransfiguratorEntity) level.getBlockEntity(pos);
+        this.transfiguratorClient = (LaserTransfiguratorEntity) level.getBlockEntity(pos);
     }
 
     //-----SLOTS-----//
@@ -93,18 +94,12 @@ public class LaserTransfiguratorMenu extends AbstractContainerMenu {
             itemstack = itemstack1.copy();
 
             if(index <= 3){ //moving from menu to player inventory
-                if(this.moveItemStackTo(itemstack1, 4, this.slots.size(), true)){
-                    transfigurator.setChangedWhileProcessing(true);
-                }
-                else{
+                if(!this.moveItemStackTo(itemstack1, 4, this.slots.size(), true)){
                     return ItemStack.EMPTY;
                 }
             } //moving from player inventory to menu
             else{
-                if(this.moveItemStackTo(itemstack1, 0, 3, false)){
-                    transfigurator.setChangedWhileProcessing(true);
-                }
-                else{
+                if(!this.moveItemStackTo(itemstack1, 0, 2, true)){
                     return ItemStack.EMPTY;
                 }
             }

@@ -52,7 +52,6 @@ public class LaserTransfiguratorEntity extends ExperienceReceivingEntity impleme
     }
 
     boolean isProcessing = false;
-    boolean changedWhileProcessing = false;
     int processTime = 0;
     int processProgress = 0;
 
@@ -93,8 +92,9 @@ public class LaserTransfiguratorEntity extends ExperienceReceivingEntity impleme
                     transfigurator.dispenseResult();
                 }
                 else{
-                    transfigurator.incrementProcessProgress();
-                    transfigurator.validateRecipe();
+                    if(transfigurator.validateRecipe()){
+                        transfigurator.incrementProcessProgress();
+                    }
                 }
             }
             else if(transfigurator.hasContents()){
@@ -133,23 +133,11 @@ public class LaserTransfiguratorEntity extends ExperienceReceivingEntity impleme
             public boolean isItemValid(int slot, @NotNull ItemStack stack) {
                 return slot <= 2;
             }
-
-            @Override
-            protected void onContentsChanged(int slot) {
-                if(isProcessing && slot <= 2){
-                    changedWhileProcessing = true;
-                }
-                super.onContentsChanged(slot);
-            }
         };
     }
 
     public ItemStackHandler getItemHandler(){
         return itemHandler;
-    }
-
-    public void setChangedWhileProcessing(boolean changed){
-        this.changedWhileProcessing = changed;
     }
 
     @Override
@@ -210,24 +198,23 @@ public class LaserTransfiguratorEntity extends ExperienceReceivingEntity impleme
         this.getBoundObelisk().drain(recipe.getCost() * 20);
     }
 
-    public void validateRecipe(){
+    public boolean validateRecipe(){
 
-        if(changedWhileProcessing){
-            boolean hasValidRecipe = getRecipe().isPresent() && getRecipe().get().getId().equals(recipeId);
+        boolean hasValidRecipe = getRecipe().isPresent() && getRecipe().get().getId().equals(recipeId);
 
-            if(hasValidRecipe){
-                setRemainderItems(deplete(getRecipe().get()));
-            }
-            else if(hasNameFormattingRecipe()){
-                setRemainderItems(deplete(getNameFormattingRecipe()));
-            }
-            else{
-                setProcessing(false);
-                resetAll();
-            }
-
-            changedWhileProcessing = false;
+        if(hasValidRecipe){
+            setRemainderItems(deplete(getRecipe().get()));
         }
+        else if(hasNameFormattingRecipe()){
+            setRemainderItems(deplete(getNameFormattingRecipe()));
+        }
+        else{
+            setProcessing(false);
+            resetAll();
+            return false;
+        }
+
+        return true;
     }
 
     public SimpleContainer deplete(LaserTransfiguratorRecipe recipe){
