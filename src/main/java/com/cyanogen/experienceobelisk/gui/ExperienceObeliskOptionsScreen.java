@@ -37,20 +37,6 @@ public class ExperienceObeliskOptionsScreen extends AbstractContainerScreen<Expe
     }
 
     @Override
-    public boolean keyPressed(int pKeyCode, int pScanCode, int pModifiers) {
-        //check if still necessary - i suspect not
-        InputConstants.Key mouseKey = InputConstants.getKey(pKeyCode, pScanCode);
-        assert this.minecraft != null;
-        if (this.minecraft.options.keyInventory.isActiveAndMatches(mouseKey)) {
-            this.onClose();
-            return true;
-        }
-        else{
-            return super.keyPressed(pKeyCode, pScanCode, pModifiers);
-        }
-    }
-
-    @Override
     public boolean isPauseScreen() {
         return false;
     }
