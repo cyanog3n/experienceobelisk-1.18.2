@@ -62,6 +62,7 @@
   "tooltip.experienceobelisk.experience_obelisk.back": "Back...",
   "tooltip.experienceobelisk.experience_obelisk.item_fluid_amount": "§7Fluid Amount:§r %s",
   "tooltip.experienceobelisk.experience_obelisk.item_levels": "%s §7Levels§r",
+  "tooltip.experienceobelisk.experience_obelisk.xp": "%s §7XP",
 
   "tooltip.experienceobelisk.enlightened_amulet.active": "§7Currently §aactive",
   "tooltip.experienceobelisk.enlightened_amulet.inactive": "§7Currently §cinactive",

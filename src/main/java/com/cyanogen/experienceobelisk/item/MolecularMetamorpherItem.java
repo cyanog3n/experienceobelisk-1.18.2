@@ -1,6 +1,6 @@
 package com.cyanogen.experienceobelisk.item;
 
-import com.cyanogen.experienceobelisk.renderer.LaserTransfiguratorItemRenderer;
+import com.cyanogen.experienceobelisk.renderer.MolecularMetamorpherItemRenderer;
 import net.minecraft.client.renderer.BlockEntityWithoutLevelRenderer;
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.item.BlockItem;
@@ -61,7 +61,7 @@ public class MolecularMetamorpherItem extends BlockItem implements GeoItem {
     public void initializeClient(Consumer<IClientItemExtensions> consumer) {
         super.initializeClient(consumer);
         consumer.accept(new IClientItemExtensions() {
-            private final BlockEntityWithoutLevelRenderer renderer = new LaserTransfiguratorItemRenderer();
+            private final BlockEntityWithoutLevelRenderer renderer = new MolecularMetamorpherItemRenderer();
 
             @Override
             public BlockEntityWithoutLevelRenderer getCustomRenderer() {
@@ -80,7 +80,7 @@ public class MolecularMetamorpherItem extends BlockItem implements GeoItem {
         //Each itemstack should be a compound, which has an ID of 10. See net.minecraft.nbt.Tag
 
         if(!isEmpty){
-            tooltip.add(Component.translatable("tooltip.experienceobelisk.laser_transfigurator.item_contents"));
+            tooltip.add(Component.translatable("tooltip.experienceobelisk.molecular_metamorpher.item_contents"));
         }
 
         super.appendHoverText(stack, level, tooltip, flag);

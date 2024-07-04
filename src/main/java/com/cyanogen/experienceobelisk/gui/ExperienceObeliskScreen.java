@@ -101,7 +101,7 @@ public class ExperienceObeliskScreen extends AbstractContainerScreen<ExperienceO
         int hoverAreaY = 14;
 
         List<Component> tooltipList = new ArrayList<>();
-        Component content = Component.translatable("tooltip.experienceobelisk.laser_transfigurator.xp", //reusing as tooltips are exactly the same
+        Component content = Component.translatable("tooltip.experienceobelisk.experience_obelisk.xp",
                 Component.literal(String.valueOf(experiencePoints)).withStyle(ChatFormatting.GREEN));
         tooltipList.add(content);
 
