@@ -26,7 +26,7 @@
   "block.experienceobelisk.cognitive_crystal_block": "Block of Cognitive Crystal",
   "block.experienceobelisk.accelerator": "Accelerator",
   "block.experienceobelisk.linear_accelerator": "Linear Accelerator",
-  "block.experienceobelisk.laser_transfigurator": "Laser Transfigurator",
+  "block.experienceobelisk.molecular_metamorpher": "Molecular Metamorpher",
   "block.experienceobelisk.whisperglass": "Whisperglass",
   "block.experienceobelisk.cognitium": "Cognitium",
   "block.experienceobelisk.forgotten_dust_block": "Block of Forgotten Dust",
@@ -49,7 +49,7 @@
   "title.experienceobelisk.experience_obelisk.redstone": "Redstone",
   "title.experienceobelisk.precision_dispeller": "Precision Dispeller",
   "title.experienceobelisk.precision_dispeller.inventory": "Inventory",
-  "title.experienceobelisk.laser_transfigurator": "Laser Transfigurator",
+  "title.experienceobelisk.molecular_metamorpher": "Molecular Metamorpher",
 
   "tooltip.experienceobelisk.experience_obelisk.add1": "Store §a1§f XP level",
   "tooltip.experienceobelisk.experience_obelisk.add10": "Store §a10§f XP levels",
