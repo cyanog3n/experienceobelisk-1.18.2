@@ -233,7 +233,7 @@ public class LaserTransfiguratorEntity extends ExperienceReceivingEntity impleme
             setRemainderItems(deplete(getNameFormattingRecipe()));
         }
         else{
-            if(obeliskStillExists){
+            if(getBoundObelisk() != null){
                 getBoundObelisk().fill(20 * recipeCost * (1 - processProgress / processTime));
             }
             setProcessing(false);

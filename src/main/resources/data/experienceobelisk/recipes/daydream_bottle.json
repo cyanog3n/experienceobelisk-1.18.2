@@ -1,7 +1,7 @@
 {
   "type": "experienceobelisk:laser_transfiguration",
   "ingredient1": {
-      "item": "minecraft:glass_bottle"
+      "item": "minecraft:experience_bottle"
   },
   "count1": 1,
   "ingredient2": {
