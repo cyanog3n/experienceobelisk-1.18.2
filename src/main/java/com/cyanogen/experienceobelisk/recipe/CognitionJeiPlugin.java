@@ -1,13 +1,13 @@
 package com.cyanogen.experienceobelisk.recipe;
 
 import com.cyanogen.experienceobelisk.ExperienceObelisk;
+import com.cyanogen.experienceobelisk.gui.LaserTransfiguratorMenu;
+import com.cyanogen.experienceobelisk.gui.LaserTransfiguratorScreen;
 import com.cyanogen.experienceobelisk.registries.RegisterItems;
 import mezz.jei.api.IModPlugin;
 import mezz.jei.api.constants.VanillaTypes;
 import mezz.jei.api.recipe.RecipeType;
-import mezz.jei.api.registration.IRecipeCatalystRegistration;
-import mezz.jei.api.registration.IRecipeCategoryRegistration;
-import mezz.jei.api.registration.IRecipeRegistration;
+import mezz.jei.api.registration.*;
 import net.minecraft.client.Minecraft;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
@@ -20,13 +20,13 @@ import java.util.List;
 @mezz.jei.api.JeiPlugin
 public class CognitionJeiPlugin implements IModPlugin {
 
-    public final RecipeType<LaserTransfiguratorRecipe> transfiguratorType = RecipeType.create(LaserTransfiguratorRecipe.Type.ID, ExperienceObelisk.MOD_ID, LaserTransfiguratorRecipe.class);
+    public final RecipeType<LaserTransfiguratorRecipe> transfiguratorType =
+            RecipeType.create(LaserTransfiguratorRecipe.Type.ID, ExperienceObelisk.MOD_ID, LaserTransfiguratorRecipe.class);
 
     @Override
     public void registerCategories(IRecipeCategoryRegistration registration) {
 
         registration.addRecipeCategories(new LaserTransfigurationCategory(registration));
-
         IModPlugin.super.registerCategories(registration);
     }
 
@@ -58,6 +58,20 @@ public class CognitionJeiPlugin implements IModPlugin {
         registration.addRecipeCatalyst(stack, transfiguratorType);
 
         IModPlugin.super.registerRecipeCatalysts(registration);
+    }
+
+    @Override
+    public void registerRecipeTransferHandlers(IRecipeTransferRegistration registration) {
+
+        registration.addRecipeTransferHandler(LaserTransfiguratorMenu.class, null, transfiguratorType,
+                0, 3, 4, 36);
+        IModPlugin.super.registerRecipeTransferHandlers(registration);
+    }
+
+    @Override
+    public void registerGuiHandlers(IGuiHandlerRegistration registration) {
+        registration.addRecipeClickArea(LaserTransfiguratorScreen.class,107,45,32,10, transfiguratorType);
+        IModPlugin.super.registerGuiHandlers(registration);
     }
 
     @Override

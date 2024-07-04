@@ -10,6 +10,7 @@ import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.gui.components.Button;
 import net.minecraft.client.gui.components.Renderable;
 import net.minecraft.client.gui.components.Tooltip;
+import net.minecraft.client.gui.screens.Screen;
 import net.minecraft.client.gui.screens.inventory.AbstractContainerScreen;
 import net.minecraft.core.BlockPos;
 import net.minecraft.network.chat.Component;
@@ -20,7 +21,7 @@ import net.minecraft.resources.ResourceLocation;
 import java.util.ArrayList;
 import java.util.List;
 
-public class ExperienceObeliskOptionsScreen extends AbstractContainerScreen<ExperienceObeliskMenu> {
+public class ExperienceObeliskOptionsScreen extends Screen {
 
     public BlockPos pos;
     public ExperienceObeliskEntity xpobelisk;
@@ -29,7 +30,7 @@ public class ExperienceObeliskOptionsScreen extends AbstractContainerScreen<Expe
     private final ResourceLocation texture = new ResourceLocation("experienceobelisk:textures/gui/screens/experience_obelisk.png");
 
     protected ExperienceObeliskOptionsScreen(BlockPos pos, ExperienceObeliskMenu menu) {
-        super(menu, menu.inventory, Component.literal("Experience Obelisk"));
+        super(Component.literal("Experience Obelisk"));
         this.pos = pos;
         this.xpobelisk = menu.entity;
         this.menu = menu;
@@ -86,11 +87,6 @@ public class ExperienceObeliskOptionsScreen extends AbstractContainerScreen<Expe
         for(Renderable widget : this.renderables) {
             widget.render(gui, mouseX, mouseY, partialTick);
         }
-
-    }
-
-    @Override
-    protected void renderBg(GuiGraphics gui, float f, int a, int b) {
 
     }
 
