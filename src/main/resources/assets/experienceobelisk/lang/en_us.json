@@ -101,6 +101,7 @@
   "sounds.experienceobelisk.enlightened_amulet_activate": "Amulet activates",
   "sounds.experienceobelisk.enlightened_amulet_deactivate": "Amulet deactivates",
 
-  "jei.experienceobelisk.description.forgotten_dust": "Forgotten Dust is obtained from breaking Infected Bookshelves or by waiting for Infected Bookshelves to decay into Forgotten Dust Blocks"
+  "jei.experienceobelisk.description.forgotten_dust": "Forgotten Dust is obtained from breaking Infected Bookshelves or by waiting for Infected Bookshelves to decay into Forgotten Dust Blocks",
+  "jei.experienceobelisk.description.experience_bottle": "Can be obtained by right-clicking an Experience Fountain with an empty bottle, provided the bound Obelisk has enough XP"
 
 }
