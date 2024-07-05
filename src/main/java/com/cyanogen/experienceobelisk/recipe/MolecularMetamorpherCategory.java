@@ -13,6 +13,7 @@ import mezz.jei.api.recipe.RecipeIngredientRole;
 import mezz.jei.api.recipe.RecipeType;
 import mezz.jei.api.recipe.category.IRecipeCategory;
 import mezz.jei.api.registration.IRecipeCategoryRegistration;
+import net.minecraft.ChatFormatting;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.Font;
 import net.minecraft.client.gui.GuiGraphics;
@@ -79,7 +80,7 @@ public class MolecularMetamorpherCategory implements IRecipeCategory<MolecularMe
         int processTime = recipe.getProcessTime();
         int levelCost = ExperienceUtils.xpToLevels(cost);
 
-        Component costLabel = Component.literal(cost + " XP / " + levelCost + " Lv");
+        Component costLabel = Component.translatable("jei.experienceobelisk.category.base_level_cost", levelCost);
         Component timeLabel = Component.literal(processTime / 20 + "s");
         int costLabelWidth = font.width(costLabel);
         int timeLabelWidth = font.width(timeLabel);
@@ -92,6 +93,33 @@ public class MolecularMetamorpherCategory implements IRecipeCategory<MolecularMe
 
 
         IRecipeCategory.super.draw(recipe, recipeSlotsView, guiGraphics, mouseX, mouseY);
+    }
+
+    @Override
+    public List<Component> getTooltipStrings(MolecularMetamorpherRecipe recipe, IRecipeSlotsView recipeSlotsView, double mouseX, double mouseY) {
+
+        Font font = Minecraft.getInstance().font;
+        int cost = recipe.getCost();
+        int levelCost = ExperienceUtils.xpToLevels(cost);
+
+        Component costLabel = Component.translatable("jei.experienceobelisk.category.base_level_cost", levelCost);
+        int costLabelWidth = font.width(costLabel);
+
+        List<Component> tooltip = new ArrayList<>();
+
+        int x1 = getWidth() - 4 - costLabelWidth;
+        int x2 = getWidth();
+        int y1 = getHeight() - 9;
+        int y2 = getHeight();
+
+        if(mouseX >= x1 && mouseX <= x2 && mouseY >= y1 && mouseY <= y2){
+            tooltip.add(Component.translatable("tooltip.experienceobelisk.experience_obelisk.xp",
+                    Component.literal(String.valueOf(cost)).withStyle(ChatFormatting.GREEN)));
+
+            return tooltip;
+        }
+
+        return IRecipeCategory.super.getTooltipStrings(recipe, recipeSlotsView, mouseX, mouseY);
     }
 
     @Override

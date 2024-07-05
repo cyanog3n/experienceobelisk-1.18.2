@@ -62,8 +62,8 @@ public class CognitionJeiPlugin implements IModPlugin {
         ItemStack FORGOTTEN_DUST = new ItemStack(RegisterItems.FORGOTTEN_DUST.get());
         ItemStack EXPERIENCE_BOTTLE = new ItemStack(Items.EXPERIENCE_BOTTLE);
 
-        registration.addIngredientInfo(FORGOTTEN_DUST, VanillaTypes.ITEM_STACK, Component.literal("jei.experienceobelisk.description.forgotten_dust"));
-        registration.addIngredientInfo(FORGOTTEN_DUST, VanillaTypes.ITEM_STACK, Component.literal("jei.experienceobelisk.description.experience_bottle"));
+        registration.addIngredientInfo(FORGOTTEN_DUST, VanillaTypes.ITEM_STACK, Component.translatable("jei.experienceobelisk.description.forgotten_dust"));
+        registration.addIngredientInfo(EXPERIENCE_BOTTLE, VanillaTypes.ITEM_STACK, Component.translatable("jei.experienceobelisk.description.experience_bottle"));
 
         IModPlugin.super.registerRecipes(registration);
     }
