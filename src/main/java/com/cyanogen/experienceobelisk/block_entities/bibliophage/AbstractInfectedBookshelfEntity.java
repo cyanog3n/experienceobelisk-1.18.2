@@ -11,6 +11,7 @@ import net.minecraft.server.level.ServerLevel;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.sounds.SoundSource;
 import net.minecraft.world.entity.ExperienceOrb;
+import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.entity.BlockEntity;
@@ -46,15 +47,7 @@ public abstract class AbstractInfectedBookshelfEntity extends BlockEntity {
         if(blockEntity instanceof AbstractInfectedBookshelfEntity bookshelf && !bookshelf.isDisplay){
 
             if(bookshelf.decayValue >= bookshelf.durability){
-                BlockState dustBlock = RegisterBlocks.FORGOTTEN_DUST_BLOCK.get().defaultBlockState();
-
-                if(!level.isClientSide){
-                    ServerLevel server = (ServerLevel) level;
-                    server.setBlockAndUpdate(pos, dustBlock);
-                    level.playSound(null, pos, SoundEvents.WART_BLOCK_BREAK, SoundSource.BLOCKS, 1f,1f);
-                    server.sendParticles(ParticleTypes.POOF, pos.getX() + 0.5, pos.getY() + 0.5, pos.getZ() + 0.5, 20, 0,0,0,0.1);
-                    //type, xpos, ypos, zpos, count, xdelta, ydelta, zdelta, maxspeed
-                }
+                bookshelf.decay(level, pos);
             }
             else{
 
@@ -148,6 +141,19 @@ public abstract class AbstractInfectedBookshelfEntity extends BlockEntity {
             orb.setDeltaMovement(0,0,0);
 
             server.addFreshEntity(orb);
+        }
+    }
+
+    public void decay(Level level, BlockPos pos){
+
+        BlockState dustBlock = RegisterBlocks.FORGOTTEN_DUST_BLOCK.get().defaultBlockState();
+
+        level.playSound(null, pos, SoundEvents.WART_BLOCK_BREAK, SoundSource.BLOCKS, 1f,1f);
+        level.levelEvent(null, 2001, pos, Block.getId(dustBlock)); //spawn destroy particles
+
+        if(!level.isClientSide){
+            ServerLevel server = (ServerLevel) level;
+            server.setBlockAndUpdate(pos, dustBlock);
         }
     }
 

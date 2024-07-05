@@ -15,6 +15,7 @@ import net.minecraft.world.item.context.UseOnContext;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.Blocks;
+import net.minecraft.world.level.block.state.BlockState;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -30,7 +31,8 @@ public class BibliophageItem extends Item {
 
         Level level = context.getLevel();
         BlockPos pos = context.getClickedPos();
-        Block block = level.getBlockState(pos).getBlock();
+        BlockState state = level.getBlockState(pos);
+        Block block = state.getBlock();
         Player player = context.getPlayer();
         ItemStack stack = context.getItemInHand();
 
@@ -40,15 +42,6 @@ public class BibliophageItem extends Item {
             if(player != null && !player.isCreative()){
                 stack.shrink(1);
             }
-
-            if(!level.isClientSide){
-                ServerLevel server = (ServerLevel) level;
-                level.playSound(null, pos, SoundEvents.WART_BLOCK_BREAK, SoundSource.BLOCKS, 1f,1f);
-                server.sendParticles(new BlockParticleOption(ParticleTypes.BLOCK, RegisterBlocks.INFECTED_BOOKSHELF.get().defaultBlockState())
-                        , pos.getX() + 0.5, pos.getY() + 0.5, pos.getZ() + 0.5, 25, 0.1,0.1,0.1,2);
-                //type, xpos, ypos, zpos, count, xdelta, ydelta, zdelta, maxspeed
-            }
-
             return InteractionResult.sidedSuccess(level.isClientSide);
         }
 
@@ -67,18 +60,28 @@ public class BibliophageItem extends Item {
 
     public static void infectBlock(Level level, BlockPos pos, Block block){
 
+        BlockState state = null;
+
         if(block.equals(Blocks.BOOKSHELF)){
-            level.setBlockAndUpdate(pos, RegisterBlocks.INFECTED_BOOKSHELF.get().defaultBlockState());
+            state = RegisterBlocks.INFECTED_BOOKSHELF.get().defaultBlockState();
         }
         else if(block.equals(RegisterBlocks.ENCHANTED_BOOKSHELF.get())){
-            level.setBlockAndUpdate(pos, RegisterBlocks.INFECTED_ENCHANTED_BOOKSHELF.get().defaultBlockState());
+            state = RegisterBlocks.INFECTED_ENCHANTED_BOOKSHELF.get().defaultBlockState();
         }
         else if(block.equals(RegisterBlocks.ARCHIVERS_BOOKSHELF.get())){
-            level.setBlockAndUpdate(pos, RegisterBlocks.INFECTED_ARCHIVERS_BOOKSHELF.get().defaultBlockState());
+            state = RegisterBlocks.INFECTED_ARCHIVERS_BOOKSHELF.get().defaultBlockState();
         }
         else if(block.equals(RegisterBlocks.CARTOGRAPHERS_BOOKSHELF.get())){
-            level.setBlockAndUpdate(pos, RegisterBlocks.INFECTED_CARTOGRAPHERS_BOOKSHELF.get().defaultBlockState());
+            state = RegisterBlocks.INFECTED_CARTOGRAPHERS_BOOKSHELF.get().defaultBlockState();
         }
+
+        if(state != null){
+            level.setBlockAndUpdate(pos, state);
+        }
+
+        level.playSound(null, pos, SoundEvents.WART_BLOCK_BREAK, SoundSource.BLOCKS, 1f,1f);
+        level.levelEvent(null, 2001, pos, Block.getId(state)); //spawn destroy particles
+
     }
 
 }
