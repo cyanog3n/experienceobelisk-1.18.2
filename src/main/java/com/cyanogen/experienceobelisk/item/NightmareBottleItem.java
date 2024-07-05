@@ -19,6 +19,11 @@ public class NightmareBottleItem extends BottleItem {
     }
 
     @Override
+    public boolean isFoil(ItemStack stack) {
+        return true;
+    }
+
+    @Override
     public ItemStack finishUsingItem(ItemStack stack, Level level, LivingEntity entity) {
 
         if(entity instanceof Player player){
