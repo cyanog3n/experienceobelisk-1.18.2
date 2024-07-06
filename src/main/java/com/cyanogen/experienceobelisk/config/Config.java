@@ -19,7 +19,6 @@ public class Config {
         public int defaultCapacity = 100000000;
         public double defaultRange = 8.0;
         public boolean defaultFormatting = true;
-        public boolean defaultAnvilRepair = true;
 
         public Common(ForgeConfigSpec.Builder builder){
 
@@ -57,7 +56,7 @@ public class Config {
     public static final Common COMMON;
     public static final ForgeConfigSpec COMMON_SPEC;
 
-    static //constructor
+    static
     {
         Pair<Common, ForgeConfigSpec> commonSpecPair = new ForgeConfigSpec.Builder().configure(Common::new);
         COMMON = commonSpecPair.getLeft();

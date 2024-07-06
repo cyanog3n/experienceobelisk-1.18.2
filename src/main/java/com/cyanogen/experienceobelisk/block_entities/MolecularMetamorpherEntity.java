@@ -1,6 +1,7 @@
 package com.cyanogen.experienceobelisk.block_entities;
 
 import com.cyanogen.experienceobelisk.ExperienceObelisk;
+import com.cyanogen.experienceobelisk.config.Config;
 import com.cyanogen.experienceobelisk.recipe.MolecularMetamorpherRecipe;
 import com.cyanogen.experienceobelisk.registries.RegisterBlockEntities;
 import com.cyanogen.experienceobelisk.utils.MiscUtils;
@@ -294,7 +295,7 @@ public class MolecularMetamorpherEntity extends ExperienceReceivingEntity implem
 
     public void handleNameFormattingRecipes(){
 
-        if(hasNameFormattingRecipe()){
+        if(Config.COMMON.formatting.get() && hasNameFormattingRecipe()){
 
             MolecularMetamorpherRecipe recipe = getNameFormattingRecipe();
             ItemStack output = recipe.getResultItem(null);
@@ -344,8 +345,8 @@ public class MolecularMetamorpherEntity extends ExperienceReceivingEntity implem
         ingredientMap.put(Ingredient.of(itemHandler.getStackInSlot(2).copy()), new Tuple<>(3, itemHandler.getStackInSlot(2).getCount()));
 
         ItemStack output = inputItem.copy().setHoverName(name);
-        int cost = 55;
-        int processTime = 40;
+        int cost = 315;
+        int processTime = 60;
 
         return new MolecularMetamorpherRecipe(ImmutableMap.copyOf(ingredientMap), output, cost, processTime,
                 new ResourceLocation(ExperienceObelisk.MOD_ID, "item_name_formatting"));
