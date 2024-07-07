@@ -8,17 +8,17 @@ import net.minecraftforge.network.NetworkEvent;
 import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.function.Supplier;
 
-public class UpdateSlots {
+public class UpdateSlot {
 
     public static int slot;
     public static ItemStack stack;
 
-    public UpdateSlots(int slot, ItemStack stack) {
-        UpdateSlots.slot = slot;
-        UpdateSlots.stack = stack;
+    public UpdateSlot(int slot, ItemStack stack) {
+        UpdateSlot.slot = slot;
+        UpdateSlot.stack = stack;
     }
 
-    public UpdateSlots(FriendlyByteBuf buffer) {
+    public UpdateSlot(FriendlyByteBuf buffer) {
         slot = buffer.readInt();
         stack = buffer.readItem();
 

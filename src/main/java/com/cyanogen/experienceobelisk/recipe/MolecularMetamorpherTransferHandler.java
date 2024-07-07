@@ -1,6 +1,7 @@
 package com.cyanogen.experienceobelisk.recipe;
 
 import com.cyanogen.experienceobelisk.gui.MolecularMetamorpherMenu;
+import com.cyanogen.experienceobelisk.network.shared.UpdateInventory;
 import com.cyanogen.experienceobelisk.registries.RegisterMenus;
 import mezz.jei.api.gui.ingredient.IRecipeSlotView;
 import mezz.jei.api.gui.ingredient.IRecipeSlotsView;
@@ -13,7 +14,6 @@ import net.minecraft.ChatFormatting;
 import net.minecraft.network.chat.Component;
 import net.minecraft.util.Tuple;
 import net.minecraft.world.entity.player.Player;
-import net.minecraft.world.inventory.AbstractContainerMenu;
 import net.minecraft.world.inventory.MenuType;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.crafting.Ingredient;
@@ -167,7 +167,7 @@ public class MolecularMetamorpherTransferHandler implements IRecipeTransferHandl
                         if(ItemStack.isSameItemSameTags(containerStack, ingredientStack)){
 
                             transfer = Math.min(transfer, countToTransfer[i] - containerStack.getCount());
-                            //menu.growItemInSlot(transfer, i);
+                            containerStack.grow(transfer);
 
                             System.out.println("--------- [3a] transferred " + transfer + " items to the container");
                         }
@@ -178,15 +178,12 @@ public class MolecularMetamorpherTransferHandler implements IRecipeTransferHandl
                             }
 
                             ItemStack s = playerStack.copyWithCount(transfer);
-                            player.getInventory();
-                            //menu.setItemInSlot(s, i);
+                            menu.getSlot(i).set(s);
 
                             System.out.println("--------- [3b] transferred " + transfer + " items to slot " + i);
                         }
 
                         playerStack.shrink(transfer);
-                        player.getInventory().setItem(k, playerStack);
-                        player.getInventory().setChanged();
 
                         countToTransfer[i] -= transfer;
                     }
@@ -195,8 +192,9 @@ public class MolecularMetamorpherTransferHandler implements IRecipeTransferHandl
                         break;
                     }
                 }
-
             }
+
+            UpdateInventory.updateInventoryFromClient(player);
         }
         else{
             return checkOnly;
