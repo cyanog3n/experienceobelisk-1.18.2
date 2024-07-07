@@ -167,7 +167,7 @@ public class MolecularMetamorpherTransferHandler implements IRecipeTransferHandl
                         if(ItemStack.isSameItemSameTags(containerStack, ingredientStack)){
 
                             transfer = Math.min(transfer, countToTransfer[i] - containerStack.getCount());
-                            containerStack.grow(transfer);
+                            //menu.growItemInSlot(transfer, i);
 
                             System.out.println("--------- [3a] transferred " + transfer + " items to the container");
                         }
@@ -178,12 +178,16 @@ public class MolecularMetamorpherTransferHandler implements IRecipeTransferHandl
                             }
 
                             ItemStack s = playerStack.copyWithCount(transfer);
-                            menu.getSlot(i).set(s);
+                            player.getInventory();
+                            //menu.setItemInSlot(s, i);
 
-                            System.out.println("--------- [3b] transferred " + transfer + " items to the container");
+                            System.out.println("--------- [3b] transferred " + transfer + " items to slot " + i);
                         }
 
                         playerStack.shrink(transfer);
+                        player.getInventory().setItem(k, playerStack);
+                        player.getInventory().setChanged();
+
                         countToTransfer[i] -= transfer;
                     }
 
@@ -201,9 +205,6 @@ public class MolecularMetamorpherTransferHandler implements IRecipeTransferHandl
         System.out.println("--------- [4] transfer concluded");
 
         return null;
-
-        //player side is fine
-        //container is not updating...
     }
 
 }

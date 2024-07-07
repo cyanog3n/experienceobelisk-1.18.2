@@ -1,6 +1,8 @@
 package com.cyanogen.experienceobelisk.gui;
 
 import com.cyanogen.experienceobelisk.block_entities.MolecularMetamorpherEntity;
+import com.cyanogen.experienceobelisk.network.PacketHandler;
+import com.cyanogen.experienceobelisk.network.precision_dispeller.UpdateSlots;
 import com.cyanogen.experienceobelisk.registries.RegisterMenus;
 import net.minecraft.core.BlockPos;
 import net.minecraft.network.FriendlyByteBuf;
@@ -76,10 +78,6 @@ public class MolecularMetamorpherMenu extends AbstractContainerMenu {
         addPlayerHotbar(inventoryPlayer);
     }
 
-    public void insertItem(ItemStack stack){
-        this.moveItemStackTo(stack, 0, 3, true);
-    }
-
     private void addPlayerInventory(Inventory playerInventory) {
         for (int i = 0; i < 3; ++i) {
             for (int l = 0; l < 9; ++l) {
@@ -96,6 +94,7 @@ public class MolecularMetamorpherMenu extends AbstractContainerMenu {
 
     @Override
     public ItemStack quickMoveStack(Player player, int index) {
+
         ItemStack itemstack = ItemStack.EMPTY;
         Slot slot = this.slots.get(index);
 

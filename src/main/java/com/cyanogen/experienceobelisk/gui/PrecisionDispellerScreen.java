@@ -355,7 +355,7 @@ public class PrecisionDispellerScreen extends AbstractContainerScreen<PrecisionD
 
                 if(selectedIndex == selectablePanels.indexOf(panel)){
                     selectedIndex = -1;
-                    PacketHandler.INSTANCE.sendToServer(new UpdateSlots(this.menu.containerId, 1, ItemStack.EMPTY));
+                    PacketHandler.INSTANCE.sendToServer(new UpdateSlots(1, ItemStack.EMPTY));
                 }
                 else{
                     selectedIndex = selectablePanels.indexOf(panel);
@@ -390,7 +390,7 @@ public class PrecisionDispellerScreen extends AbstractContainerScreen<PrecisionD
                         outputItem.setRepairCost(repairCost);
                     }
 
-                    PacketHandler.INSTANCE.sendToServer(new UpdateSlots(this.menu.containerId, 1, outputItem));
+                    PacketHandler.INSTANCE.sendToServer(new UpdateSlots(1, outputItem));
                 }
 
                 Minecraft.getInstance().getSoundManager().play(SimpleSoundInstance.forUI(SoundEvents.UI_BUTTON_CLICK, 1.0F));
