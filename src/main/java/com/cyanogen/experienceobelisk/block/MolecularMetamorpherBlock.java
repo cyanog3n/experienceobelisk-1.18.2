@@ -72,6 +72,11 @@ public class MolecularMetamorpherBlock extends ExperienceReceivingBlock implemen
     }
 
     @Override
+    public VoxelShape getInteractionShape(BlockState state, BlockGetter getter, BlockPos pos) {
+        return whole;
+    }
+
+    @Override
     public VoxelShape getShape(BlockState state, BlockGetter getter, BlockPos pos, CollisionContext context) {
         return whole;
     }

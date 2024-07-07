@@ -13,8 +13,8 @@ import net.minecraft.ChatFormatting;
 import net.minecraft.network.chat.Component;
 import net.minecraft.util.Tuple;
 import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.inventory.AbstractContainerMenu;
 import net.minecraft.world.inventory.MenuType;
-import net.minecraft.world.inventory.Slot;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.crafting.Ingredient;
 import org.jetbrains.annotations.Nullable;
@@ -48,11 +48,11 @@ public class MolecularMetamorpherTransferHandler implements IRecipeTransferHandl
     }
 
     @Override
-    public @Nullable IRecipeTransferError transferRecipe(MolecularMetamorpherMenu container, MolecularMetamorpherRecipe recipe,
+    public @Nullable IRecipeTransferError transferRecipe(MolecularMetamorpherMenu menu, MolecularMetamorpherRecipe recipe,
                                                          IRecipeSlotsView recipeSlots, Player player, boolean maxTransfer, boolean doTransfer) {
 
         if(doTransfer){
-            return checkAndTransfer(container, recipe, player, recipeSlots, maxTransfer);
+            return checkAndTransfer(menu, recipe, player, recipeSlots, maxTransfer);
         }
         else{
             ItemStack[] playerItems = {ItemStack.EMPTY, ItemStack.EMPTY, ItemStack.EMPTY};
@@ -104,9 +104,9 @@ public class MolecularMetamorpherTransferHandler implements IRecipeTransferHandl
     }
 
     public IRecipeTransferError checkOnly(ItemStack[] playerItems, int[] playerItemCount, int[] requiredCount,
-                                          MolecularMetamorpherRecipe recipe, Player player, IRecipeSlotsView recipeSlots){
+                                          MolecularMetamorpherRecipe menu, Player player, IRecipeSlotsView recipeSlots){
 
-        check(playerItems, playerItemCount, requiredCount, recipe, player);
+        check(playerItems, playerItemCount, requiredCount, menu, player);
 
         if(playerItemCount[0] >= requiredCount[0] && playerItemCount[1] >= requiredCount[1] && playerItemCount[2] >= requiredCount[2]){
             return null;
@@ -128,7 +128,7 @@ public class MolecularMetamorpherTransferHandler implements IRecipeTransferHandl
 
     }
 
-    public IRecipeTransferError checkAndTransfer(MolecularMetamorpherMenu container, MolecularMetamorpherRecipe recipe,
+    public IRecipeTransferError checkAndTransfer(MolecularMetamorpherMenu menu, MolecularMetamorpherRecipe recipe,
                                                      Player player, IRecipeSlotsView recipeSlots, boolean maxTransfer){
 
         ItemStack[] playerItems = {ItemStack.EMPTY, ItemStack.EMPTY, ItemStack.EMPTY};
@@ -156,7 +156,7 @@ public class MolecularMetamorpherTransferHandler implements IRecipeTransferHandl
                 for(int k = 0; k < player.getInventory().getContainerSize(); k++){
 
                     ItemStack playerStack = player.getInventory().getItem(k);
-                    ItemStack containerStack = container.getSlot(i).getItem();
+                    ItemStack containerStack = menu.getSlot(i).getItem();
 
                     if(ItemStack.isSameItemSameTags(playerStack, ingredientStack)){
 
@@ -178,7 +178,7 @@ public class MolecularMetamorpherTransferHandler implements IRecipeTransferHandl
                             }
 
                             ItemStack s = playerStack.copyWithCount(transfer);
-                            container.getSlot(i).setByPlayer(s);
+                            menu.getSlot(i).set(s);
 
                             System.out.println("--------- [3b] transferred " + transfer + " items to the container");
                         }
@@ -201,6 +201,9 @@ public class MolecularMetamorpherTransferHandler implements IRecipeTransferHandl
         System.out.println("--------- [4] transfer concluded");
 
         return null;
+
+        //player side is fine
+        //container is not updating...
     }
 
 }

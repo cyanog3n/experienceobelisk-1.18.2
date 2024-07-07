@@ -76,6 +76,10 @@ public class MolecularMetamorpherMenu extends AbstractContainerMenu {
         addPlayerHotbar(inventoryPlayer);
     }
 
+    public void insertItem(ItemStack stack){
+        this.moveItemStackTo(stack, 0, 3, true);
+    }
+
     private void addPlayerInventory(Inventory playerInventory) {
         for (int i = 0; i < 3; ++i) {
             for (int l = 0; l < 9; ++l) {
