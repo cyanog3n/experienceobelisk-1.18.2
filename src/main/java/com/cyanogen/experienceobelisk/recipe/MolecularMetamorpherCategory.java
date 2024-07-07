@@ -136,16 +136,17 @@ public class MolecularMetamorpherCategory implements IRecipeCategory<MolecularMe
             Ingredient ingredient = entry.getKey();
 
             if(count != -99){
-                builder.addSlot(RecipeIngredientRole.INPUT, x[position], y[position]).setSlotName("input" + position).addItemStacks(getItemListWithCounts(ingredient, count));
+                builder.addSlot(RecipeIngredientRole.INPUT, x[position], y[position])
+                       .setSlotName("input" + position)
+                       .addItemStacks(getItemListWithCounts(ingredient, count));
             }
-
         }
 
         builder.addSlot(RecipeIngredientRole.OUTPUT, 140,35).setSlotName("output").addItemStack(result);
         builder.setShapeless();
     }
 
-    public List<ItemStack> getItemListWithCounts(Ingredient ingredient, int count){
+    public static List<ItemStack> getItemListWithCounts(Ingredient ingredient, int count){
         List<ItemStack> list = new ArrayList<>();
 
         for(ItemStack stack : ingredient.getItems()){

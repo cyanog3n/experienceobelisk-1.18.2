@@ -34,7 +34,7 @@ import java.util.Optional;
 @mezz.jei.api.JeiPlugin
 public class CognitionJeiPlugin implements IModPlugin {
 
-    public final RecipeType<MolecularMetamorpherRecipe> metamorpherType =
+    public static final RecipeType<MolecularMetamorpherRecipe> metamorpherType =
             RecipeType.create(MolecularMetamorpherRecipe.Type.ID, ExperienceObelisk.MOD_ID, MolecularMetamorpherRecipe.class);
 
     @Override
@@ -79,9 +79,9 @@ public class CognitionJeiPlugin implements IModPlugin {
 
     @Override
     public void registerRecipeTransferHandlers(IRecipeTransferRegistration registration) {
+        registration.addRecipeTransferHandler(new MolecularMetamorpherTransferHandler(registration), metamorpherType);
 
-        registration.addRecipeTransferHandler(MolecularMetamorpherMenu.class, null, metamorpherType,
-                0, 3, 4, 36);
+        //registration.addRecipeTransferHandler(MolecularMetamorpherMenu.class, null, metamorpherType, 0, 3, 4, 36);
 
         IModPlugin.super.registerRecipeTransferHandlers(registration);
     }
@@ -97,65 +97,4 @@ public class CognitionJeiPlugin implements IModPlugin {
         return new ResourceLocation(ExperienceObelisk.MOD_ID, "jei_plugin");
     }
 
-    public IRecipeTransferHandler<MolecularMetamorpherMenu, MolecularMetamorpherRecipe> getCustomRecipeTransferHandler(){
-        return new IRecipeTransferHandler<>() {
-            @Override
-            public Class<? extends MolecularMetamorpherMenu> getContainerClass() {
-                return MolecularMetamorpherMenu.class;
-            }
-
-            @Override
-            public Optional<MenuType<MolecularMetamorpherMenu>> getMenuType() {
-                return Optional.of(RegisterMenus.MOLECULAR_METAMORPHER_MENU.get());
-            }
-
-            @Override
-            public RecipeType<MolecularMetamorpherRecipe> getRecipeType() {
-                return metamorpherType;
-            }
-
-            @Override
-            public @Nullable IRecipeTransferError transferRecipe(MolecularMetamorpherMenu container, MolecularMetamorpherRecipe recipe,
-                                                                 IRecipeSlotsView recipeSlots, Player player, boolean maxTransfer, boolean doTransfer) {
-
-                ImmutableMap<Ingredient, Tuple<Integer, Integer>> ingredientMap = recipe.getIngredientMap();
-                boolean[] hasItemForSlot = {false, false, false};
-                int[] trackCounts = {0, 0, 0};
-
-                for(Map.Entry<Ingredient, Tuple<Integer, Integer>> entry : ingredientMap.entrySet()){
-
-                    Ingredient ingredient = entry.getKey();
-                    int position = entry.getValue().getA() - 1;
-                    int count = entry.getValue().getB();
-                    trackCounts[position] = count;
-
-                    for(int i = 0; i < player.inventoryMenu.getSize(); i++){
-                        Slot slot = player.inventoryMenu.getSlot(i);
-                        ItemStack stack = slot.getItem();
-
-                        if(ingredient.test(stack)){
-                            hasItemForSlot[position] = true;
-                            trackCounts[position] = trackCounts[position] - stack.getCount();
-
-                            if(doTransfer){
-
-                            }
-
-                            if(trackCounts[position] <= 0){
-                                break;
-                            }
-                        }
-
-                    }
-                }
-
-                boolean hasAllItems = hasItemForSlot[0] && hasItemForSlot[1] && hasItemForSlot[2];
-
-
-
-
-                return null;
-            }
-        };
-    }
 }
