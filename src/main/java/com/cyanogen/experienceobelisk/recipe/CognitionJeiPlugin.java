@@ -79,9 +79,9 @@ public class CognitionJeiPlugin implements IModPlugin {
 
     @Override
     public void registerRecipeTransferHandlers(IRecipeTransferRegistration registration) {
-        //registration.addRecipeTransferHandler(new MolecularMetamorpherTransferHandler(registration), metamorpherType);
+        registration.addRecipeTransferHandler(new MolecularMetamorpherTransferHandler(registration), metamorpherType);
 
-        registration.addRecipeTransferHandler(MolecularMetamorpherMenu.class, null, metamorpherType, 0, 3, 4, 36);
+        //registration.addRecipeTransferHandler(MolecularMetamorpherMenu.class, null, metamorpherType, 0, 3, 4, 36);
 
         IModPlugin.super.registerRecipeTransferHandlers(registration);
     }

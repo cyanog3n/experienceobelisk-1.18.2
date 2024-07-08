@@ -36,10 +36,10 @@ public class MolecularMetamorpherRecipe implements Recipe<SimpleContainer> {
     }
 
     @Override
-    public boolean matches(SimpleContainer container, Level level) {
+    public boolean matches(SimpleContainer container, @Nullable Level level) {
 
         ArrayList<ItemStack> contents = new ArrayList<>();
-        for(int i = 0; i < 3; i++){
+        for(int i = 0; i < container.getContainerSize(); i++){
             contents.add(i, container.getItem(i));
         }
 
@@ -75,7 +75,6 @@ public class MolecularMetamorpherRecipe implements Recipe<SimpleContainer> {
         return list;
     }
 
-
     public ImmutableMap<Ingredient, Tuple<Integer, Integer>> getIngredientMap(){
         return this.ingredients;
     }
@@ -84,7 +83,7 @@ public class MolecularMetamorpherRecipe implements Recipe<SimpleContainer> {
         Map<Ingredient, Tuple<Integer, Integer>> ingredients = new HashMap<>();
 
         for(Map.Entry<Ingredient, Tuple<Integer, Integer>> entry : getIngredientMap().entrySet()){
-            if(entry.getValue().getB() != -99){
+            if(entry.getValue().getB() > 0){
                 ingredients.put(entry.getKey(), entry.getValue());
             }
         }

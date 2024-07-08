@@ -81,6 +81,36 @@ public class MolecularMetamorpherMenu extends AbstractContainerMenu {
         addPlayerHotbar(inventoryPlayer);
     }
 
+    public int put(ItemStack stack, int amount){
+
+        int transferredCount = 0;
+
+        if(stack.getCount() < amount){
+            amount = stack.getCount();
+        }
+
+        for(int i = 0; i < 3; i++){
+
+            ItemStack copy = stack.copy();
+            copy.setCount(amount);
+            Slot slot = getSlot(i);
+
+            if(!slot.hasItem()){
+                getSlot(i).set(copy);
+                stack.shrink(amount);
+                return amount;
+            }
+            else if(ItemStack.isSameItemSameTags(slot.getItem(), copy)){
+                int grow = Math.min(amount, 64 - slot.getItem().getCount());
+                slot.getItem().grow(grow);
+                stack.shrink(grow);
+                return grow;
+            }
+        }
+
+        return transferredCount; //the amount of items that was successfully transferred
+    }
+
     private void addPlayerInventory(Inventory playerInventory) {
         for (int i = 0; i < 3; ++i) {
             for (int l = 0; l < 9; ++l) {

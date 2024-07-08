@@ -129,17 +129,15 @@ public class MolecularMetamorpherCategory implements IRecipeCategory<MolecularMe
         int[] x = {19,50,70};
         int[] y = {35,52,18};
 
-        for(Map.Entry<Ingredient, Tuple<Integer, Integer>> entry : recipe.getIngredientMap().entrySet()){
+        for(Map.Entry<Ingredient, Tuple<Integer, Integer>> entry : recipe.getIngredientMapNoFiller().entrySet()){
 
             int position = entry.getValue().getA() - 1;
             int count = entry.getValue().getB();
             Ingredient ingredient = entry.getKey();
 
-            if(count != -99){
-                builder.addSlot(RecipeIngredientRole.INPUT, x[position], y[position])
-                       .setSlotName("input" + position)
-                       .addItemStacks(getItemListWithCounts(ingredient, count));
-            }
+            builder.addSlot(RecipeIngredientRole.INPUT, x[position], y[position])
+                    .setSlotName("input" + position)
+                    .addItemStacks(getItemListWithCounts(ingredient, count));
         }
 
         builder.addSlot(RecipeIngredientRole.OUTPUT, 140,35).setSlotName("output").addItemStack(result);

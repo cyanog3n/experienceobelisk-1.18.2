@@ -16,13 +16,11 @@ import net.minecraft.util.Tuple;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.inventory.MenuType;
 import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.Items;
 import net.minecraft.world.item.crafting.Ingredient;
 import org.jetbrains.annotations.Nullable;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
-import java.util.Optional;
+import java.util.*;
 
 public class MolecularMetamorpherTransferHandler implements IRecipeTransferHandler<MolecularMetamorpherMenu, MolecularMetamorpherRecipe> {
 
@@ -51,26 +49,44 @@ public class MolecularMetamorpherTransferHandler implements IRecipeTransferHandl
     public @Nullable IRecipeTransferError transferRecipe(MolecularMetamorpherMenu menu, MolecularMetamorpherRecipe recipe,
                                                          IRecipeSlotsView recipeSlots, Player player, boolean maxTransfer, boolean doTransfer) {
 
-        if(doTransfer){
-            return checkAndTransfer(menu, recipe, player, recipeSlots, maxTransfer);
+        return checkAndTransfer(menu, recipe, recipeSlots, player, maxTransfer, doTransfer);
+    }
+
+    public IRecipeTransferError checkAndTransfer(MolecularMetamorpherMenu menu, MolecularMetamorpherRecipe recipe,
+                                                 IRecipeSlotsView recipeSlots, Player player, boolean maxTransfer, boolean doTransfer){
+
+        ItemStack[] playerItems = {ItemStack.EMPTY, ItemStack.EMPTY, ItemStack.EMPTY};
+        int[] playerItemCount = {0,0,0};
+        int[] requiredCount = {0,0,0};
+        int[] countToTransfer;
+
+        IRecipeTransferError checkOnly = checkOnly(playerItems, playerItemCount, requiredCount, recipe, player, recipeSlots);
+
+        if(maxTransfer){
+            countToTransfer = new int[]{Math.min(playerItemCount[0], playerItems[0].getMaxStackSize()),
+                                        Math.min(playerItemCount[1], playerItems[1].getMaxStackSize()),
+                                        Math.min(playerItemCount[2], playerItems[2].getMaxStackSize())};
         }
         else{
-            ItemStack[] playerItems = {ItemStack.EMPTY, ItemStack.EMPTY, ItemStack.EMPTY};
-            int[] playerItemCount = {0,0,0};
-            int[] requiredCount = {0,0,0};
+            countToTransfer = requiredCount;
+        }
 
-            return checkOnly(playerItems, playerItemCount, requiredCount, recipe, player, recipeSlots);
+        if(checkOnly == null && doTransfer){
+            return transferOnly(playerItems, countToTransfer, menu, player);
+        }
+        else{
+            return checkOnly;
         }
     }
 
     public void check(ItemStack[] playerItems, int[] playerItemCount, int[] requiredCount, MolecularMetamorpherRecipe recipe, Player player){
 
         //fills each of the passed in arrays with information
-        //playerItems -- the items in the player's inventory (if any) which are valid ingredients for each recipe slot
-        //playerItemCount -- the count of each item
+        //playerItems -- the items in the player's inventory and the container (if any) which are valid ingredients for each recipe slot
+        //playerItemCount -- the total count of each item, across the inventory and container
         //requiredCount -- the count required by the recipe for each ingredient
 
-        for(Map.Entry<Ingredient, Tuple<Integer, Integer>> entry : recipe.getIngredientMap().entrySet()){
+        for(Map.Entry<Ingredient, Tuple<Integer, Integer>> entry : recipe.getIngredientMapNoFiller().entrySet()){
 
             Ingredient ingredient = entry.getKey();
             int position = entry.getValue().getA() - 1;
@@ -89,9 +105,15 @@ public class MolecularMetamorpherTransferHandler implements IRecipeTransferHandl
                         playerItems[position] = playerStack.copy();
                         playerItemCount[position] += playerStack.getCount();
                     }
+                }
 
-                    if(playerItemCount[position] >= count){
-                        break;
+                for(int i = 0; i < player.containerMenu.slots.size(); i++){
+                    ItemStack playerStack = player.containerMenu.getSlot(i).getItem();
+
+                    if(ItemStack.isSameItemSameTags(playerStack, ingredientStack)){
+
+                        playerItems[position] = playerStack.copy();
+                        playerItemCount[position] += playerStack.getCount();
                     }
                 }
 
@@ -122,70 +144,47 @@ public class MolecularMetamorpherTransferHandler implements IRecipeTransferHandl
                 }
             }
 
-            Component component = Component.literal("Missing Items").withStyle(ChatFormatting.RED);
+            Component component = Component.translatable("jei.experienceobelisk.error.missing_items");
             return helper.createUserErrorForMissingSlots(component, slotsList);
         }
 
     }
 
-    public IRecipeTransferError checkAndTransfer(MolecularMetamorpherMenu menu, MolecularMetamorpherRecipe recipe,
-                                                     Player player, IRecipeSlotsView recipeSlots, boolean maxTransfer){
+    public IRecipeTransferError transferOnly(ItemStack[] playerItems, int[] countToTransfer, MolecularMetamorpherMenu menu, Player player){
 
-        ItemStack[] playerItems = {ItemStack.EMPTY, ItemStack.EMPTY, ItemStack.EMPTY};
-        int[] playerItemCount = {0,0,0};
-        int[] requiredCount = {0,0,0};
-        int[] countToTransfer;
+        //clear out menu
+        boolean uncleared = false;
+        for(int i = 0; i < 3; i++){
 
-        IRecipeTransferError checkOnly = checkOnly(playerItems, playerItemCount, requiredCount, recipe, player, recipeSlots);
-
-        if(maxTransfer){
-            countToTransfer = playerItemCount;
-        }
-        else{
-            countToTransfer = requiredCount;
+            ItemStack stack = menu.getSlot(i).getItem();
+            if(!stack.isEmpty() && !(playerItems[i].isEmpty() || playerItems[i].is(Items.AIR) || countToTransfer[i] <= 0)){
+                if(!player.getInventory().add(stack)){
+                    uncleared = true;
+                    break;
+                }
+            }
         }
 
-        if(checkOnly == null){
+        if(uncleared){
+            player.displayClientMessage(Component.translatable("jei.experienceobelisk.error.inventory_full"), false);
+            return null;
+        }
 
-            System.out.println("--------- [1] check returned all items present in sufficient quantities");
+        //transfer items into the menu
+        for(int i = 0; i < 3; i++){
 
-            for(int i = 0; i < 3; i++){
+            ItemStack ingredientStack = playerItems[i];
 
-                ItemStack ingredientStack = playerItems[i];
+            if(!(ingredientStack.isEmpty() || ingredientStack.is(Items.AIR) || countToTransfer[i] <= 0)){
 
                 for(int k = 0; k < player.getInventory().getContainerSize(); k++){
 
                     ItemStack playerStack = player.getInventory().getItem(k);
-                    ItemStack containerStack = menu.getSlot(i).getItem();
 
                     if(ItemStack.isSameItemSameTags(playerStack, ingredientStack)){
 
-                        int transfer = Math.min(playerStack.getCount(), countToTransfer[i]);
-
-                        System.out.println("--------- [2] found item for ingredient " + i + ": " + playerStack.getItem());
-
-                        if(ItemStack.isSameItemSameTags(containerStack, ingredientStack)){
-
-                            transfer = Math.min(transfer, countToTransfer[i] - containerStack.getCount());
-                            containerStack.grow(transfer);
-
-                            System.out.println("--------- [3a] transferred " + transfer + " items to the container");
-                        }
-                        else{
-                            if(!containerStack.isEmpty() && !player.addItem(containerStack)){
-                                Component component = Component.literal("Inventory Full").withStyle(ChatFormatting.RED);
-                                return helper.createUserErrorWithTooltip(component);
-                            }
-
-                            ItemStack s = playerStack.copyWithCount(transfer);
-                            menu.getSlot(i).set(s);
-
-                            System.out.println("--------- [3b] transferred " + transfer + " items to slot " + i);
-                        }
-
-                        playerStack.shrink(transfer);
-
-                        countToTransfer[i] -= transfer;
+                        countToTransfer[i] -= menu.put(playerStack, countToTransfer[i]);
+                        System.out.println("Remaining count: " + countToTransfer[i]);
                     }
 
                     if(countToTransfer[i] <= 0){
@@ -193,15 +192,10 @@ public class MolecularMetamorpherTransferHandler implements IRecipeTransferHandl
                     }
                 }
             }
-
-            UpdateInventory.updateInventoryFromClient(player);
-        }
-        else{
-            return checkOnly;
         }
 
-        System.out.println("--------- [4] transfer concluded");
-
+        //update player inventory and container
+        UpdateInventory.updateInventoryFromClient(player);
         return null;
     }
 
