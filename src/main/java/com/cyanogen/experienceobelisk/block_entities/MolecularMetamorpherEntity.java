@@ -220,6 +220,7 @@ public class MolecularMetamorpherEntity extends ExperienceReceivingEntity implem
         this.setRemainderItems(deplete(recipe));
         this.setProcessProgress(0);
         this.setProcessTime(recipe.getProcessTime());
+        this.setRecipeCost(recipe.getCost());
         this.getBoundObelisk().drain(recipe.getCost() * 20);
     }
 
@@ -235,7 +236,7 @@ public class MolecularMetamorpherEntity extends ExperienceReceivingEntity implem
         }
         else{
             if(getBoundObelisk() != null){
-                getBoundObelisk().fill(20 * recipeCost * (1 - processProgress / processTime));
+                getBoundObelisk().fill(20 * recipeCost); //refund XP cost
             }
             setProcessing(false);
             resetAll();
