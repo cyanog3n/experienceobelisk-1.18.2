@@ -184,7 +184,6 @@ public class MolecularMetamorpherTransferHandler implements IRecipeTransferHandl
                     if(ItemStack.isSameItemSameTags(playerStack, ingredientStack)){
 
                         countToTransfer[i] -= menu.put(playerStack, countToTransfer[i]);
-                        System.out.println("Remaining count: " + countToTransfer[i]);
                     }
 
                     if(countToTransfer[i] <= 0){
