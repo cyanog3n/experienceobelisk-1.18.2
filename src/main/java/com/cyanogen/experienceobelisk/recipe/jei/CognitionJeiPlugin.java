@@ -47,10 +47,12 @@ public class CognitionJeiPlugin implements IModPlugin {
 
         //INFO
         ItemStack FORGOTTEN_DUST = new ItemStack(RegisterItems.FORGOTTEN_DUST.get());
-        ItemStack EXPERIENCE_BOTTLE = new ItemStack(Items.EXPERIENCE_BOTTLE);
+        List<ItemStack> EXPERIENCE_VESSELS = new ArrayList<>();
+        EXPERIENCE_VESSELS.add(new ItemStack(Items.EXPERIENCE_BOTTLE));
+        EXPERIENCE_VESSELS.add(new ItemStack(RegisterItems.COGNITIUM_BUCKET.get()));
 
         registration.addIngredientInfo(FORGOTTEN_DUST, VanillaTypes.ITEM_STACK, Component.translatable("jei.experienceobelisk.description.forgotten_dust"));
-        registration.addIngredientInfo(EXPERIENCE_BOTTLE, VanillaTypes.ITEM_STACK, Component.translatable("jei.experienceobelisk.description.experience_bottle"));
+        registration.addIngredientInfo(EXPERIENCE_VESSELS, VanillaTypes.ITEM_STACK, Component.translatable("jei.experienceobelisk.description.experience_vessels"));
 
         IModPlugin.super.registerRecipes(registration);
     }
@@ -66,16 +68,17 @@ public class CognitionJeiPlugin implements IModPlugin {
 
     @Override
     public void registerRecipeTransferHandlers(IRecipeTransferRegistration registration) {
-        registration.addRecipeTransferHandler(new MolecularMetamorpherTransferHandler(registration), metamorpherType);
 
-        //registration.addRecipeTransferHandler(MolecularMetamorpherMenu.class, null, metamorpherType, 0, 3, 4, 36);
+        registration.addRecipeTransferHandler(new MolecularMetamorpherTransferHandler(registration), metamorpherType);
 
         IModPlugin.super.registerRecipeTransferHandlers(registration);
     }
 
     @Override
     public void registerGuiHandlers(IGuiHandlerRegistration registration) {
+
         registration.addRecipeClickArea(MolecularMetamorpherScreen.class,107,45,32,10, metamorpherType);
+
         IModPlugin.super.registerGuiHandlers(registration);
     }
 
