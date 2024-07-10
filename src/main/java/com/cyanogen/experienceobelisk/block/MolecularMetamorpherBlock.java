@@ -81,6 +81,17 @@ public class MolecularMetamorpherBlock extends ExperienceReceivingBlock implemen
         return whole;
     }
 
+    @Override
+    public int getLightEmission(BlockState state, BlockGetter level, BlockPos pos) {
+
+        if(level.getBlockEntity(pos) instanceof MolecularMetamorpherEntity metamorpher && metamorpher.isProcessing()){
+            return 7;
+        }
+        else{
+            return super.getLightEmission(state, level, pos);
+        }
+    }
+
     @Nullable
     @Override
     public MenuProvider getMenuProvider(BlockState state, Level level, BlockPos pos) {

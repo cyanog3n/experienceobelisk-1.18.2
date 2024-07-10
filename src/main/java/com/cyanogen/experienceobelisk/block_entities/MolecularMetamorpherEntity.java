@@ -203,7 +203,7 @@ public class MolecularMetamorpherEntity extends ExperienceReceivingEntity implem
 
     public boolean canPerformRecipe(ItemStack output, int cost){
 
-        //here we check for criteria that are independent of recipe parameters
+        //here we check for criteria that are independent of recipe ingredients
 
         return getBoundObelisk() != null //has been bound to a valid obelisk
                 && getBoundObelisk().getFluidAmount() >= cost * 20 //obelisk has enough Cognitium
@@ -366,6 +366,10 @@ public class MolecularMetamorpherEntity extends ExperienceReceivingEntity implem
         container.setItem(2, itemHandler.getStackInSlot(2).copy());
 
         return container;
+    }
+
+    public boolean isProcessing(){
+        return isProcessing;
     }
 
     public void setProcessing(boolean isProcessing){
