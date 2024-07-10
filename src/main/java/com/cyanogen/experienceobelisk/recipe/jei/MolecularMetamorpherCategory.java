@@ -1,6 +1,7 @@
-package com.cyanogen.experienceobelisk.recipe;
+package com.cyanogen.experienceobelisk.recipe.jei;
 
 import com.cyanogen.experienceobelisk.ExperienceObelisk;
+import com.cyanogen.experienceobelisk.recipe.MolecularMetamorpherRecipe;
 import com.cyanogen.experienceobelisk.registries.RegisterItems;
 import com.cyanogen.experienceobelisk.utils.ExperienceUtils;
 import mezz.jei.api.gui.builder.IRecipeLayoutBuilder;
