@@ -12,7 +12,7 @@ public class InfectedEnchantedBookshelfEntity extends AbstractInfectedBookshelfE
         super.spawnDelayMin = 120;
         super.spawnDelayMax = 200;
         super.orbValue = 48;
-        super.durability = 600;
+        super.spawns = 100;
     }
 
 }

@@ -30,12 +30,12 @@ public abstract class AbstractInfectedBookshelfEntity extends BlockEntity {
         super(type, pos, state);
     }
 
-    int decayValue = 0; //the current decay value of the bookshelf
     int spawnDelay = -99; //the current time in ticks until the bookshelf is due to spawn an orb
     int spawnDelayMin; //the minimum spawn delay for the bookshelf
     int spawnDelayMax; //the maximum spawn delay for the bookshelf
     int orbValue; //the value of orbs to spawn
-    int durability; //the durability of the bookshelf
+    int spawns; //the number of times a bookshelf can spawn an orb before decaying
+    int decayValue = 0; //the number of times a bookshelf has spawned an orb
     boolean isDisplay = false; //whether or not the bookshelf is a display block. with display=true, bookshelves will not infect adjacents, produce XP, or decay
 
     //-----------BEHAVIOR-----------//
@@ -44,7 +44,7 @@ public abstract class AbstractInfectedBookshelfEntity extends BlockEntity {
 
         if(blockEntity instanceof AbstractInfectedBookshelfEntity bookshelf && !bookshelf.isDisplay){
 
-            if(bookshelf.decayValue >= bookshelf.durability){
+            if(bookshelf.decayValue >= bookshelf.spawns){
                 bookshelf.decay(level, pos);
             }
             else{
@@ -54,18 +54,15 @@ public abstract class AbstractInfectedBookshelfEntity extends BlockEntity {
                 }
                 else if(bookshelf.spawnDelay <= 0){
                     bookshelf.handleExperience(level, pos);
+                    bookshelf.incrementDecayValue();
                     bookshelf.resetSpawnDelay();
                 }
                 else{
                     bookshelf.decrementSpawnDelay();
                 }
 
-                if(level.getGameTime() % 20 == 0){
-                    bookshelf.incrementDecayValue(level, pos);
-
-                    if(Math.random() <= 0.022){
-                        bookshelf.infectAdjacent(level, pos);
-                    }
+                if(level.getGameTime() % 20 == 0 && Math.random() <= 0.022){
+                    bookshelf.infectAdjacent(level, pos);
                 }
 
             }
@@ -98,22 +95,6 @@ public abstract class AbstractInfectedBookshelfEntity extends BlockEntity {
         }
     }
 
-    public void incrementDecayValue(Level level, BlockPos pos){
-
-        double threshold = 0.75;
-//        int multiplier = enumerateAdjacentsOfType(level, pos, RegisterBlocks.COGNITIVE_ALLOY_BLOCK.get().defaultBlockState());
-//
-//        if(multiplier > 0){
-//            threshold = threshold / Math.pow(1.5, multiplier);
-//        }
-
-        if(Math.random() <= threshold){
-            this.decayValue += 1;
-            setChanged();
-        }
-
-    }
-
     public void resetSpawnDelay(){
         this.spawnDelay = (int) (spawnDelayMin + Math.floor((spawnDelayMax - spawnDelayMin) * Math.random()));
         this.setChanged();
@@ -127,11 +108,6 @@ public abstract class AbstractInfectedBookshelfEntity extends BlockEntity {
     public void handleExperience(Level level, BlockPos pos){
 
         int value = orbValue;
-//        int multiplier = enumerateAdjacentsOfType(level, pos, RegisterBlocks.COGNITIVE_CRYSTAL_BLOCK.get().defaultBlockState());
-//
-//        if(multiplier > 0){
-//            value = (int) (value * Math.pow(1.5, multiplier));
-//        }
 
         if(!level.isClientSide){
             ServerLevel server = (ServerLevel) level;
@@ -140,6 +116,11 @@ public abstract class AbstractInfectedBookshelfEntity extends BlockEntity {
 
             server.addFreshEntity(orb);
         }
+    }
+
+    public void incrementDecayValue(){
+        this.decayValue += 1;
+        this.setChanged();
     }
 
     public void decay(Level level, BlockPos pos){
@@ -203,12 +184,8 @@ public abstract class AbstractInfectedBookshelfEntity extends BlockEntity {
         return this.orbValue;
     }
 
-    public int getDurability(){
-        return this.durability;
-    }
-
-    public int getAverageSpawnDelay(){
-        return (this.spawnDelayMax + this.spawnDelayMin) / 2;
+    public int getSpawns(){
+        return this.spawns;
     }
 
     //-----------NBT-----------//

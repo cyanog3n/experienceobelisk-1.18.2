@@ -46,11 +46,11 @@ public class InfectedBookshelfBlock extends Block implements EntityBlock {
     public boolean onDestroyedByPlayer(BlockState state, Level level, BlockPos pos, Player player, boolean willHarvest, FluidState fluid) {
 
         if(level.getBlockEntity(pos) instanceof AbstractInfectedBookshelfEntity bookshelf){
-            int remaining = bookshelf.getDurability() - bookshelf.getDecayValue();
-            int remainingProduction = remaining * bookshelf.getOrbValue() / (bookshelf.getAverageSpawnDelay() / 20);
+            int remaining = bookshelf.getSpawns() - bookshelf.getDecayValue();
+            int remainingProduction = remaining * bookshelf.getOrbValue();
 
-            int totalValue = (int) (remainingProduction * 0.377 * Math.random());
-            int orbCount = (int) (1 + Math.random() * 4);
+            int totalValue = (int) (remainingProduction * 0.377 * Math.random()); //between 0 - 0.377 of the remaining XP
+            int orbCount = (int) (2 + Math.random() * 3); //between 2 and 5 orbs
             int orbValue = totalValue / orbCount;
 
             if(!level.isClientSide && totalValue > 10 && !player.isCreative()){

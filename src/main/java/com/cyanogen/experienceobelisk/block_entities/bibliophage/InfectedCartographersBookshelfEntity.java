@@ -9,10 +9,12 @@ public class InfectedCartographersBookshelfEntity extends AbstractInfectedBooksh
     public InfectedCartographersBookshelfEntity(BlockPos pos, BlockState state) {
         super(RegisterBlockEntities.INFECTED_CARTOGRAPHERS_BOOKSHELF_BE.get(), pos, state);
 
-        super.spawnDelayMin = 70;
-        super.spawnDelayMax = 90;
-        super.orbValue = 60;
-        super.durability = 60;
+        super.spawnDelayMin = 20;
+        super.spawnDelayMax = 40;
+        super.orbValue = 10;
+        super.spawns = 10;
+
+        //produces very little XP and decays very quickly. Meant as a quick source of Forgotten Dust
 
     }
 

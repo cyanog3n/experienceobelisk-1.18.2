@@ -12,7 +12,7 @@ public class InfectedBookshelfEntity extends AbstractInfectedBookshelfEntity {
         super.spawnDelayMin = 120;
         super.spawnDelayMax = 200;
         super.orbValue = 12;
-        super.durability = 600;
+        super.spawns = 100;
 
     }
 
