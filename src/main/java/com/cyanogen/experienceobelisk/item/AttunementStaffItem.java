@@ -19,7 +19,6 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.context.UseOnContext;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.entity.BlockEntity;
-import net.minecraft.world.level.block.state.BlockState;
 
 public class AttunementStaffItem extends Item {
 
@@ -33,6 +32,8 @@ public class AttunementStaffItem extends Item {
     public int getMaxStackSize(ItemStack stack) {
         return 1;
     }
+
+
 
     @Override
     public InteractionResultHolder<ItemStack> use(Level level, Player player, InteractionHand hand) {
@@ -49,13 +50,11 @@ public class AttunementStaffItem extends Item {
         return super.use(level, player, hand);
     }
 
-
     @Override
     public InteractionResult useOn(UseOnContext context) {
 
         Level level = context.getLevel();
         BlockPos pos = context.getClickedPos();
-        BlockState state = level.getBlockState(pos);
         BlockEntity entity = level.getBlockEntity(pos);
         ItemStack stack = context.getItemInHand();
         Player player = context.getPlayer();
@@ -150,7 +149,7 @@ public class AttunementStaffItem extends Item {
     }
 
     public void handleBookshelf(AbstractInfectedBookshelfEntity bookshelf, Player player){
-        boolean status = bookshelf.toggleDisplay();
+        boolean status = bookshelf.toggleActivity();
         if(status){
             player.displayClientMessage(Component.translatable("message.experienceobelisk.binding_wand.disable_bookshelf"), true);
         }

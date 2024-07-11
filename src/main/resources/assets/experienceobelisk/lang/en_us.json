@@ -82,8 +82,8 @@
 
   "message.experienceobelisk.binding_wand.bind_obelisk": "§a[✔]§r Obelisk position saved",
   "message.experienceobelisk.binding_wand.unbind_obelisk": "§a[✔]§r Obelisk position forgotten",
-  "message.experienceobelisk.binding_wand.bind_target": "§a[✔]§r Target bound to obelisk at %s",
-  "message.experienceobelisk.binding_wand.unbind_target": "§a[✔]§r Target unbound",
+  "message.experienceobelisk.binding_wand.bind_target": "§a[✔]§r Block bound to obelisk at %s",
+  "message.experienceobelisk.binding_wand.unbind_target": "§a[✔]§r Block unbound",
   "message.experienceobelisk.binding_wand.obelisk_too_far": "§c[✖]§r The obelisk is too far away",
   "message.experienceobelisk.binding_wand.obelisk_doesnt_exist": "§c[✖]§f The obelisk at %s §fno longer exists",
   "message.experienceobelisk.binding_wand.reveal_bound_pos": "§b[ⓘ]§r This block is bound to the obelisk at %s",
@@ -92,6 +92,8 @@
   "message.experienceobelisk.binding_wand.disable_redstone": "Redstone sensitivity set to §cDisabled",
   "message.experienceobelisk.binding_wand.enable_bookshelf": "Bookshelf has been §aEnabled",
   "message.experienceobelisk.binding_wand.disable_bookshelf": "Bookshelf has been §cDisabled",
+  "message.experienceobelisk.binding_wand.query_bookshelf": "Bookshelf is at %s durability",
+  "message.experienceobelisk.binding_wand.query_bookshelf_disabled": "§c[Disabled]§r Bookshelf is at %s durability",
 
   "message.experienceobelisk.experience_fountain.slow": "Experience Fountain set to: §cSlow§r",
   "message.experienceobelisk.experience_fountain.moderate": "Experience Fountain set to: §eModerate§r",

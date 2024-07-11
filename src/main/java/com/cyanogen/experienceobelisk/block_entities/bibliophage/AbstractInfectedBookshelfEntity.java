@@ -36,13 +36,13 @@ public abstract class AbstractInfectedBookshelfEntity extends BlockEntity {
     int orbValue; //the value of orbs to spawn
     int spawns; //the number of times a bookshelf can spawn an orb before decaying
     int decayValue = 0; //the number of times a bookshelf has spawned an orb
-    boolean isDisplay = false; //whether or not the bookshelf is a display block. with display=true, bookshelves will not infect adjacents, produce XP, or decay
+    boolean isDisabled = false; //whether or not the bookshelf is disabled. When disabled, bookshelves will not infect adjacents, produce XP, or decay
 
     //-----------BEHAVIOR-----------//
 
     public static <T> void tick(Level level, BlockPos pos, BlockState state, T blockEntity) {
 
-        if(blockEntity instanceof AbstractInfectedBookshelfEntity bookshelf && !bookshelf.isDisplay){
+        if(blockEntity instanceof AbstractInfectedBookshelfEntity bookshelf && !bookshelf.isDisabled){
 
             if(bookshelf.decayValue >= bookshelf.spawns){
                 bookshelf.decay(level, pos);
@@ -169,12 +169,14 @@ public abstract class AbstractInfectedBookshelfEntity extends BlockEntity {
         return count;
     }
 
-    public boolean toggleDisplay(){
-        this.isDisplay = !this.isDisplay;
+    public boolean toggleActivity(){
+        this.isDisabled = !this.isDisabled;
         this.setChanged();
 
-        return this.isDisplay;
+        return this.isDisabled;
     }
+
+    public boolean getDisabled(){return this.isDisabled;}
 
     public int getDecayValue(){
         return this.decayValue;
@@ -197,7 +199,7 @@ public abstract class AbstractInfectedBookshelfEntity extends BlockEntity {
 
         this.decayValue = tag.getInt("DecayValue");
         this.spawnDelay = tag.getInt("SpawnDelay");
-        this.isDisplay = tag.getBoolean("IsDisplay");
+        this.isDisabled = tag.getBoolean("IsDisabled");
     }
 
     @Override
@@ -207,7 +209,7 @@ public abstract class AbstractInfectedBookshelfEntity extends BlockEntity {
 
         tag.putInt("DecayValue", decayValue);
         tag.putInt("SpawnDelay", spawnDelay);
-        tag.putBoolean("IsDisplay", isDisplay);
+        tag.putBoolean("IsDisabled", isDisabled);
     }
 
     @Override
@@ -217,7 +219,7 @@ public abstract class AbstractInfectedBookshelfEntity extends BlockEntity {
 
         tag.putInt("DecayValue", decayValue);
         tag.putInt("SpawnDelay", spawnDelay);
-        tag.putBoolean("IsDisplay", isDisplay);
+        tag.putBoolean("IsDisabled", isDisabled);
         return tag;
     }
 

@@ -2,6 +2,7 @@ package com.cyanogen.experienceobelisk.block;
 
 import com.cyanogen.experienceobelisk.block_entities.ExperienceObeliskEntity;
 import com.cyanogen.experienceobelisk.block_entities.ExperienceReceivingEntity;
+import com.cyanogen.experienceobelisk.block_entities.bibliophage.AbstractInfectedBookshelfEntity;
 import com.cyanogen.experienceobelisk.registries.RegisterItems;
 import net.minecraft.ChatFormatting;
 import net.minecraft.core.BlockPos;
@@ -30,15 +31,13 @@ public abstract class ExperienceReceivingBlock extends Block {
     @Override
     public InteractionResult use(BlockState state, Level level, BlockPos pos, Player player, InteractionHand hand, BlockHitResult result) {
 
-        BlockEntity e = level.getBlockEntity(pos);
-        ItemStack heldItem = player.getItemInHand(hand);
+        ItemStack stack = player.getItemInHand(hand);
 
-        if(e instanceof ExperienceReceivingEntity entity && heldItem.is(RegisterItems.ATTUNEMENT_STAFF.get())){
+        if(stack.is(RegisterItems.ATTUNEMENT_STAFF.get()) && !player.isShiftKeyDown()
+                && level.getBlockEntity(pos) instanceof ExperienceReceivingEntity receiver){
 
-            if(!player.isShiftKeyDown()){
-                handleInfoRequest(entity, player, level);
-                return InteractionResult.sidedSuccess(true);
-            }
+            handleInfoRequest(receiver, player, level);
+            return InteractionResult.sidedSuccess(true);
         }
         return InteractionResult.PASS;
     }
