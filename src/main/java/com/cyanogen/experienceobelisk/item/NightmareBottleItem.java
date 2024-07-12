@@ -27,7 +27,6 @@ public class NightmareBottleItem extends BottleItem {
     public ItemStack finishUsingItem(ItemStack stack, Level level, LivingEntity entity) {
 
         if(entity instanceof Player player){
-            player.resetStat(Stats.CUSTOM.get(Stats.TIME_SINCE_REST));
             player.awardStat(Stats.TIME_SINCE_REST, 20000000);
             player.addEffect(new MobEffectInstance(MobEffects.DARKNESS, 60));
 
