@@ -24,6 +24,7 @@ import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
 import net.minecraft.world.item.crafting.Ingredient;
+import net.minecraft.world.item.crafting.Recipe;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraftforge.common.capabilities.Capability;
@@ -54,11 +55,10 @@ public class MolecularMetamorpherEntity extends ExperienceReceivingEntity implem
     }
 
     boolean isProcessing = false;
+    boolean busy = false;
     int processTime = 0;
     int processProgress = 0;
     int recipeCost = 0;
-
-    NonNullList<ItemStack> remainderItems = NonNullList.withSize(4, ItemStack.EMPTY);
     ResourceLocation recipeId;
 
     //-----------ANIMATIONS-----------//
@@ -75,7 +75,7 @@ public class MolecularMetamorpherEntity extends ExperienceReceivingEntity implem
 
     protected <E extends MolecularMetamorpherEntity> PlayState controller(final AnimationState<E> state){
 
-        MolecularMetamorpherEntity entity = state.getAnimatable();
+        MolecularMetamorpherEntity metamorpher = state.getAnimatable();
         AnimationController<E> controller = state.getController();
         RawAnimation animation = controller.getCurrentRawAnimation();
 
@@ -83,10 +83,10 @@ public class MolecularMetamorpherEntity extends ExperienceReceivingEntity implem
             controller.setAnimation(IDLE);
         }
         else{
-            if(entity.isProcessing && animation.equals(IDLE)){
+            if(metamorpher.busy && animation.equals(IDLE)){
                 controller.setAnimation(ACTIVE);
             }
-            else if(!entity.isProcessing && animation.equals(ACTIVE)){
+            else if(!metamorpher.busy && animation.equals(ACTIVE)){
                 controller.setAnimation(IDLE);
             }
         }
@@ -126,6 +126,9 @@ public class MolecularMetamorpherEntity extends ExperienceReceivingEntity implem
                 if(!metamorpher.handleJsonRecipes()){
                     metamorpher.handleNameFormattingRecipes();
                 }
+            }
+            else{
+                metamorpher.busy = false;
             }
 
         }
@@ -193,6 +196,7 @@ public class MolecularMetamorpherEntity extends ExperienceReceivingEntity implem
 
             if(canPerformRecipe(output, cost)){
                 initiateRecipe(recipe);
+                this.busy = true;
                 return true;
             }
 
@@ -216,8 +220,6 @@ public class MolecularMetamorpherEntity extends ExperienceReceivingEntity implem
 
         this.setProcessing(true);
         this.setRecipeId(recipe);
-        this.setOutputItem(recipe.getResultItem(null));
-        this.setRemainderItems(deplete(recipe));
         this.setProcessProgress(0);
         this.setProcessTime(recipe.getProcessTime());
         this.setRecipeCost(recipe.getCost());
@@ -226,13 +228,10 @@ public class MolecularMetamorpherEntity extends ExperienceReceivingEntity implem
 
     public boolean validateRecipe(){
 
-        boolean hasValidRecipe = getRecipe().isPresent() && getRecipe().get().getId().equals(recipeId);
+        boolean hasValidJsonRecipe = getRecipe().isPresent() && getRecipe().get().getId().equals(recipeId);
 
-        if(hasValidRecipe){
-            setRemainderItems(deplete(getRecipe().get()));
-        }
-        else if(hasNameFormattingRecipe()){
-            setRemainderItems(deplete(getNameFormattingRecipe()));
+        if(hasValidJsonRecipe || hasNameFormattingRecipe()){
+            return true;
         }
         else{
             if(getBoundObelisk() != null){
@@ -242,8 +241,6 @@ public class MolecularMetamorpherEntity extends ExperienceReceivingEntity implem
             resetAll();
             return false;
         }
-
-        return true;
     }
 
     public SimpleContainer deplete(MolecularMetamorpherRecipe recipe){
@@ -274,19 +271,32 @@ public class MolecularMetamorpherEntity extends ExperienceReceivingEntity implem
 
         setProcessing(false);
 
-        ItemStack result = remainderItems.get(3);
-        ItemStack existingStack = itemHandler.getStackInSlot(3).copy();
+        Optional<? extends Recipe<?>> optional = level.getRecipeManager().byKey(recipeId);
+        MolecularMetamorpherRecipe recipe = null;
 
-        if(existingStack.getItem().equals(result.getItem())){
-            existingStack.grow(1);
-            itemHandler.setStackInSlot(3, existingStack);
+        if(optional.isPresent() && optional.get() instanceof MolecularMetamorpherRecipe){
+            recipe = (MolecularMetamorpherRecipe) optional.get();
         }
-        else{
-            itemHandler.setStackInSlot(3, result);
+        else if(hasNameFormattingRecipe()){
+            recipe = getNameFormattingRecipe();
         }
 
-        for(int i = 0; i < 3; i++){
-            itemHandler.setStackInSlot(i, remainderItems.get(i));
+        if(recipe != null){
+            ItemStack result = recipe.getResultItem(null);
+            ItemStack stackInResultSlot = itemHandler.getStackInSlot(3).copy();
+            SimpleContainer remainders = deplete(recipe);
+
+            if(stackInResultSlot.getItem().equals(result.getItem())){
+                stackInResultSlot.grow(1);
+                itemHandler.setStackInSlot(3, stackInResultSlot);
+            }
+            else{
+                itemHandler.setStackInSlot(3, result);
+            }
+
+            for(int i = 0; i < 3; i++){
+                itemHandler.setStackInSlot(i, remainders.getItem(i));
+            }
         }
 
         resetAll();
@@ -303,6 +313,7 @@ public class MolecularMetamorpherEntity extends ExperienceReceivingEntity implem
             int cost = recipe.getCost();
 
             if(canPerformRecipe(output, cost)){
+                this.busy = true;
                 initiateRecipe(recipe);
             }
         }
@@ -377,6 +388,12 @@ public class MolecularMetamorpherEntity extends ExperienceReceivingEntity implem
         setChanged();
     }
 
+    public boolean isBusy(){
+        //separate check from isProcessing that does not get interrupted between ending & initiating recipes
+        //this is to prevent the animation from becoming choppy
+        return this.busy;
+    }
+
     public int getProcessTime(){
         return processTime;
     }
@@ -400,18 +417,6 @@ public class MolecularMetamorpherEntity extends ExperienceReceivingEntity implem
         setChanged();
     }
 
-    public void setRemainderItems(SimpleContainer container){
-        for(int i = 0; i < 3; i++){
-            remainderItems.set(i, container.getItem(i));
-        }
-        setChanged();
-    }
-
-    public void setOutputItem(ItemStack stack){
-        remainderItems.set(3, stack);
-        setChanged();
-    }
-
     public void setRecipeId(MolecularMetamorpherRecipe recipe){
         this.recipeId = recipe.getId();
         setChanged();
@@ -426,7 +431,6 @@ public class MolecularMetamorpherEntity extends ExperienceReceivingEntity implem
 
         processProgress = 0;
         processTime = 0;
-        this.remainderItems = NonNullList.withSize(4, ItemStack.EMPTY);
         recipeId = null;
         recipeCost = 0;
         setChanged();
@@ -449,8 +453,6 @@ public class MolecularMetamorpherEntity extends ExperienceReceivingEntity implem
         super.load(tag);
 
         itemHandler.deserializeNBT(tag.getCompound("Inventory"));
-        this.remainderItems = NonNullList.withSize(4, ItemStack.EMPTY);
-        ContainerHelper.loadAllItems(tag, remainderItems);
 
         this.isProcessing = tag.getBoolean("IsProcessing");
         this.processTime = tag.getInt("ProcessTime");
@@ -465,7 +467,6 @@ public class MolecularMetamorpherEntity extends ExperienceReceivingEntity implem
         super.saveAdditional(tag);
 
         tag.put("Inventory", itemHandler.serializeNBT());
-        ContainerHelper.saveAllItems(tag, remainderItems);
 
         tag.putBoolean("IsProcessing", isProcessing);
         tag.putInt("ProcessTime", processTime);
@@ -483,7 +484,6 @@ public class MolecularMetamorpherEntity extends ExperienceReceivingEntity implem
         CompoundTag tag = super.getUpdateTag();
 
         tag.put("Inventory", itemHandler.serializeNBT());
-        ContainerHelper.saveAllItems(tag, remainderItems);
 
         tag.putBoolean("IsProcessing", isProcessing);
         tag.putInt("ProcessTime", processTime);

@@ -2,6 +2,7 @@ package com.cyanogen.experienceobelisk.block;
 
 import com.cyanogen.experienceobelisk.block_entities.ExperienceFountainEntity;
 import com.cyanogen.experienceobelisk.block_entities.ExperienceObeliskEntity;
+import com.cyanogen.experienceobelisk.block_entities.MolecularMetamorpherEntity;
 import com.cyanogen.experienceobelisk.registries.RegisterBlockEntities;
 import com.cyanogen.experienceobelisk.registries.RegisterFluids;
 import net.minecraft.core.BlockPos;
@@ -44,7 +45,6 @@ public class ExperienceFountainBlock extends ExperienceReceivingBlock implements
                 .destroyTime(1.2f)
                 .explosionResistance(9f)
                 .noOcclusion()
-                .lightLevel(pLightEmission -> 7)
                 .sound(SoundType.METAL)
         );
     }
@@ -196,6 +196,21 @@ public class ExperienceFountainBlock extends ExperienceReceivingBlock implements
         return RenderShape.ENTITYBLOCK_ANIMATED;
     }
 
+    @Override
+    public int getLightEmission(BlockState state, BlockGetter getter, BlockPos pos) {
+
+        BlockEntity entity = getter.getBlockEntity(pos);
+
+        if(entity instanceof ExperienceFountainEntity fountain && fountain.isBound){
+            Level level = fountain.getLevel();
+
+            if(level != null && level.hasNeighborSignal(pos) || fountain.hasPlayerAbove){
+                return 7;
+            }
+        }
+
+        return 0;
+    }
 
     //-----BLOCK ENTITY-----//
 

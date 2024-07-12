@@ -39,7 +39,6 @@ public class MolecularMetamorpherBlock extends ExperienceReceivingBlock implemen
                 .destroyTime(1.2f)
                 .explosionResistance(9f)
                 .noOcclusion()
-                .lightLevel(value -> 7)
                 .sound(SoundType.METAL)
                 .requiresCorrectToolForDrops()
         );
@@ -82,13 +81,13 @@ public class MolecularMetamorpherBlock extends ExperienceReceivingBlock implemen
     }
 
     @Override
-    public int getLightEmission(BlockState state, BlockGetter level, BlockPos pos) {
+    public int getLightEmission(BlockState state, BlockGetter getter, BlockPos pos) {
 
-        if(level.getBlockEntity(pos) instanceof MolecularMetamorpherEntity metamorpher && metamorpher.isProcessing()){
+        if(getter.getBlockEntity(pos) instanceof MolecularMetamorpherEntity metamorpher && metamorpher.isBusy()){
             return 7;
         }
         else{
-            return super.getLightEmission(state, level, pos);
+            return 0;
         }
     }
 
