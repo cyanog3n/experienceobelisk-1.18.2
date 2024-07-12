@@ -6,6 +6,7 @@ import com.cyanogen.experienceobelisk.block_entities.ExperienceReceivingEntity;
 import com.cyanogen.experienceobelisk.block_entities.bibliophage.AbstractInfectedBookshelfEntity;
 import com.cyanogen.experienceobelisk.registries.RegisterItems;
 import com.cyanogen.experienceobelisk.utils.MiscUtils;
+import com.cyanogen.experienceobelisk.utils.RecipeUtils;
 import net.minecraft.ChatFormatting;
 import net.minecraft.core.BlockPos;
 import net.minecraft.nbt.CompoundTag;

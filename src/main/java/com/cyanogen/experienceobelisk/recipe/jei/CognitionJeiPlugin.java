@@ -4,7 +4,7 @@ import com.cyanogen.experienceobelisk.ExperienceObelisk;
 import com.cyanogen.experienceobelisk.gui.MolecularMetamorpherScreen;
 import com.cyanogen.experienceobelisk.recipe.MolecularMetamorpherRecipe;
 import com.cyanogen.experienceobelisk.registries.RegisterItems;
-import com.cyanogen.experienceobelisk.utils.MiscUtils;
+import com.cyanogen.experienceobelisk.utils.RecipeUtils;
 import mezz.jei.api.IModPlugin;
 import mezz.jei.api.constants.VanillaTypes;
 import mezz.jei.api.recipe.RecipeType;
@@ -43,7 +43,7 @@ public class CognitionJeiPlugin implements IModPlugin {
                 metamorpherRecipes.add(metamorpherRecipe);
             }
         }
-        metamorpherRecipes.addAll(MiscUtils.getNameFormattingRecipesForJEI());
+        metamorpherRecipes.addAll(RecipeUtils.getNameFormattingRecipesForJEI());
 
         registration.addRecipes(metamorpherType, metamorpherRecipes);
 

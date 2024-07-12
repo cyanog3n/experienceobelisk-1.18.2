@@ -29,7 +29,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
-import static com.cyanogen.experienceobelisk.utils.MiscUtils.getItemListWithCounts;
+import static com.cyanogen.experienceobelisk.utils.RecipeUtils.getItemListWithCounts;
 
 public class MolecularMetamorpherCategory implements IRecipeCategory<MolecularMetamorpherRecipe>{
 

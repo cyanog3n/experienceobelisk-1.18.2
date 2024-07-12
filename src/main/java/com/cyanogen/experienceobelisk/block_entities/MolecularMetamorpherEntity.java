@@ -4,12 +4,11 @@ import com.cyanogen.experienceobelisk.ExperienceObelisk;
 import com.cyanogen.experienceobelisk.config.Config;
 import com.cyanogen.experienceobelisk.recipe.MolecularMetamorpherRecipe;
 import com.cyanogen.experienceobelisk.registries.RegisterBlockEntities;
-import com.cyanogen.experienceobelisk.utils.MiscUtils;
+import com.cyanogen.experienceobelisk.utils.RecipeUtils;
 import com.google.common.collect.ImmutableMap;
 import net.minecraft.ChatFormatting;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
-import net.minecraft.core.NonNullList;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.chat.MutableComponent;
 import net.minecraft.network.protocol.Packet;
@@ -17,7 +16,6 @@ import net.minecraft.network.protocol.game.ClientGamePacketListener;
 import net.minecraft.network.protocol.game.ClientboundBlockEntityDataPacket;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.util.Tuple;
-import net.minecraft.world.ContainerHelper;
 import net.minecraft.world.SimpleContainer;
 import net.minecraft.world.item.DyeItem;
 import net.minecraft.world.item.Item;
@@ -336,7 +334,7 @@ public class MolecularMetamorpherEntity extends ExperienceReceivingEntity implem
 
         return !itemHandler.getStackInSlot(0).isEmpty() //any item
                 && itemHandler.getStackInSlot(1).is(Items.NAME_TAG) //a name tag
-                && (formatItem instanceof DyeItem || MiscUtils.getValidFormattingItems().contains(formatItem)); //a valid formatting item
+                && (formatItem instanceof DyeItem || RecipeUtils.getValidFormattingItems().contains(formatItem)); //a valid formatting item
     }
 
     public MolecularMetamorpherRecipe getNameFormattingRecipe(){
@@ -347,15 +345,15 @@ public class MolecularMetamorpherEntity extends ExperienceReceivingEntity implem
 
         if(formatItem instanceof DyeItem dye){
             int dyeColor = dye.getDyeColor().getId();
-            ChatFormatting format = ChatFormatting.getById(MiscUtils.dyeColorToTextColor(dyeColor));
+            ChatFormatting format = ChatFormatting.getById(RecipeUtils.dyeColorToTextColor(dyeColor));
 
             if (format != null) {
                 name = name.withStyle(format);
             }
         }
-        else if(MiscUtils.getValidFormattingItems().contains(formatItem)){
-            int index = MiscUtils.getValidFormattingItems().indexOf(formatItem);
-            char code = MiscUtils.itemToFormat(index);
+        else if(RecipeUtils.getValidFormattingItems().contains(formatItem)){
+            int index = RecipeUtils.getValidFormattingItems().indexOf(formatItem);
+            char code = RecipeUtils.itemToFormat(index);
             ChatFormatting format = ChatFormatting.getByCode(code);
 
             if (format != null) {
