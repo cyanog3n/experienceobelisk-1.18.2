@@ -1,11 +1,24 @@
 package com.cyanogen.experienceobelisk.utils;
 
+import com.cyanogen.experienceobelisk.ExperienceObelisk;
+import com.cyanogen.experienceobelisk.recipe.MolecularMetamorpherRecipe;
+import com.cyanogen.experienceobelisk.registries.RegisterItems;
+import com.google.common.collect.ImmutableMap;
 import net.minecraft.core.BlockPos;
+import net.minecraft.network.chat.Component;
+import net.minecraft.resources.ResourceLocation;
+import net.minecraft.util.Tuple;
 import net.minecraft.world.item.Item;
+import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
+import net.minecraft.world.item.crafting.Ingredient;
+import net.minecraft.world.level.ItemLike;
+import net.minecraftforge.common.Tags;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 public class MiscUtils {
 
@@ -54,6 +67,31 @@ public class MiscUtils {
             default -> 'f';
         };
 
+    }
+
+    public static MolecularMetamorpherRecipe getExampleRecipeForJEI(){
+
+        Component name = Component.translatable("jei.experienceobelisk.name.any_item");
+        Component nameFormatted = Component.translatable("jei.experienceobelisk.name.any_item_formatted");
+
+        ItemStack exampleItem = new ItemStack(Items.DEAD_BUSH, 1).setHoverName(name);
+        ItemStack outputItem = new ItemStack(Items.DEAD_BUSH, 1).setHoverName(nameFormatted);
+
+        List<ItemStack> formattingItems = new ArrayList<>(List.of(Ingredient.of(Tags.Items.DYES).getItems()));
+        for(Item i : getValidFormattingItems()){
+            formattingItems.add(i.getDefaultInstance());
+        }
+
+        Map<Ingredient, Tuple<Integer, Integer>> ingredientMap = new HashMap<>();
+        ingredientMap.put(Ingredient.of(exampleItem), new Tuple<>(1, 1));
+        ingredientMap.put(Ingredient.of(formattingItems.stream()), new Tuple<>(2, 1));
+        ingredientMap.put(Ingredient.of(Items.NAME_TAG), new Tuple<>(3, 1));
+
+        int cost = 315;
+        int processTime = 60;
+
+        return new MolecularMetamorpherRecipe(ImmutableMap.copyOf(ingredientMap), outputItem, cost, processTime,
+                new ResourceLocation(ExperienceObelisk.MOD_ID, "item_name_formatting"));
     }
 
     public static double straightLineDistance(BlockPos a, BlockPos b){

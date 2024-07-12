@@ -142,7 +142,11 @@ public class MolecularMetamorpherCategory implements IRecipeCategory<MolecularMe
         }
 
         builder.addSlot(RecipeIngredientRole.OUTPUT, 140,35).setSlotName("output").addItemStack(result);
-        builder.setShapeless();
+
+        if(!recipe.getId().equals(new ResourceLocation(ExperienceObelisk.MOD_ID, "item_name_formatting"))){
+            builder.setShapeless();
+        }
+
     }
 
     public static List<ItemStack> getItemListWithCounts(Ingredient ingredient, int count){
