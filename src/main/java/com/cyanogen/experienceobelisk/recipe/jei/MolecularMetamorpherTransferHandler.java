@@ -170,7 +170,7 @@ public class MolecularMetamorpherTransferHandler implements IRecipeTransferHandl
 
         if(uncleared){
             player.displayClientMessage(Component.translatable("jei.experienceobelisk.error.inventory_full"), false);
-            return null;
+            return helper.createUserErrorWithTooltip(Component.literal(""));
         }
 
         //transfer items into the menu
