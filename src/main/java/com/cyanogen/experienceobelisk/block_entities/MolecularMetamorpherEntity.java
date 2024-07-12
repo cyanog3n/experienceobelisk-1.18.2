@@ -199,6 +199,9 @@ public class MolecularMetamorpherEntity extends ExperienceReceivingEntity implem
                 this.busy = true;
                 return true;
             }
+            else{
+                this.busy = false;
+            }
 
         }
         return false;
@@ -228,6 +231,12 @@ public class MolecularMetamorpherEntity extends ExperienceReceivingEntity implem
 
     public boolean validateRecipe(){
 
+        //returns true if the recipe has not been changed
+        //or if the recipe has been changed to an equivalent one, such as: swapping out an ingredient for another valid ingredient
+
+        //returns false if the recipe has been changed to a different one or if the recipe is now invalid
+        //in which case, the XP is refunded and the metamorpher is reset
+
         boolean hasValidJsonRecipe = getRecipe().isPresent() && getRecipe().get().getId().equals(recipeId);
 
         if(hasValidJsonRecipe || hasNameFormattingRecipe()){
@@ -235,7 +244,7 @@ public class MolecularMetamorpherEntity extends ExperienceReceivingEntity implem
         }
         else{
             if(getBoundObelisk() != null){
-                getBoundObelisk().fill(20 * recipeCost); //refund XP cost
+                getBoundObelisk().fill(20 * recipeCost);
             }
             setProcessing(false);
             resetAll();
@@ -315,6 +324,9 @@ public class MolecularMetamorpherEntity extends ExperienceReceivingEntity implem
             if(canPerformRecipe(output, cost)){
                 this.busy = true;
                 initiateRecipe(recipe);
+            }
+            else{
+                this.busy = false;
             }
         }
     }
