@@ -14,7 +14,6 @@ import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
-import net.minecraft.world.item.crafting.Ingredient;
 import net.minecraft.world.item.crafting.Recipe;
 
 import java.util.ArrayList;
@@ -44,7 +43,7 @@ public class CognitionJeiPlugin implements IModPlugin {
                 metamorpherRecipes.add(metamorpherRecipe);
             }
         }
-        metamorpherRecipes.add(MiscUtils.getExampleRecipeForJEI());
+        metamorpherRecipes.addAll(MiscUtils.getNameFormattingRecipesForJEI());
 
         registration.addRecipes(metamorpherType, metamorpherRecipes);
 

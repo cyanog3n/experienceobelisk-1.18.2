@@ -4,15 +4,17 @@ import com.cyanogen.experienceobelisk.ExperienceObelisk;
 import com.cyanogen.experienceobelisk.recipe.MolecularMetamorpherRecipe;
 import com.cyanogen.experienceobelisk.registries.RegisterItems;
 import com.google.common.collect.ImmutableMap;
+import net.minecraft.ChatFormatting;
 import net.minecraft.core.BlockPos;
 import net.minecraft.network.chat.Component;
+import net.minecraft.network.chat.MutableComponent;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.util.Tuple;
+import net.minecraft.world.item.DyeItem;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
 import net.minecraft.world.item.crafting.Ingredient;
-import net.minecraft.world.level.ItemLike;
 import net.minecraftforge.common.Tags;
 
 import java.util.ArrayList;
@@ -69,29 +71,64 @@ public class MiscUtils {
 
     }
 
-    public static MolecularMetamorpherRecipe getExampleRecipeForJEI(){
+    public static List<MolecularMetamorpherRecipe> getNameFormattingRecipesForJEI(){
 
-        Component name = Component.translatable("jei.experienceobelisk.name.any_item");
-        Component nameFormatted = Component.translatable("jei.experienceobelisk.name.any_item_formatted");
+        List<MolecularMetamorpherRecipe> recipes = new ArrayList<>();
 
-        ItemStack exampleItem = new ItemStack(Items.DEAD_BUSH, 1).setHoverName(name);
-        ItemStack outputItem = new ItemStack(Items.DEAD_BUSH, 1).setHoverName(nameFormatted);
-
-        List<ItemStack> formattingItems = new ArrayList<>(List.of(Ingredient.of(Tags.Items.DYES).getItems()));
-        for(Item i : getValidFormattingItems()){
-            formattingItems.add(i.getDefaultInstance());
-        }
-
-        Map<Ingredient, Tuple<Integer, Integer>> ingredientMap = new HashMap<>();
-        ingredientMap.put(Ingredient.of(exampleItem), new Tuple<>(1, 1));
-        ingredientMap.put(Ingredient.of(formattingItems.stream()), new Tuple<>(2, 1));
-        ingredientMap.put(Ingredient.of(Items.NAME_TAG), new Tuple<>(3, 1));
-
+        ItemStack exampleItem = new ItemStack(Items.BEDROCK, 1);
+        ItemStack inputItem = exampleItem.copy().setHoverName(Component.translatable("jei.experienceobelisk.name.any_item"));
         int cost = 315;
         int processTime = 60;
+        ResourceLocation id = new ResourceLocation(ExperienceObelisk.MOD_ID, "item_name_formatting");
 
-        return new MolecularMetamorpherRecipe(ImmutableMap.copyOf(ingredientMap), outputItem, cost, processTime,
-                new ResourceLocation(ExperienceObelisk.MOD_ID, "item_name_formatting"));
+        HashMap<Ingredient, Tuple<Integer, Integer>> ingredientMap = new HashMap<>();
+        ingredientMap.put(Ingredient.of(inputItem), new Tuple<>(1, 1));
+        ingredientMap.put(Ingredient.of(Items.NAME_TAG), new Tuple<>(3, 1));
+
+        for(ItemStack stack : Ingredient.of(Tags.Items.DYES).getItems()){
+
+            HashMap<Ingredient, Tuple<Integer, Integer>> ingredientMap2 = new HashMap<>(Map.copyOf(ingredientMap));
+            ingredientMap2.put(Ingredient.of(stack), new Tuple<>(2, 1));
+
+            int dyeColor = ((DyeItem) stack.getItem()).getDyeColor().getId();
+            ChatFormatting format = ChatFormatting.getById(MiscUtils.dyeColorToTextColor(dyeColor));
+
+            assert format != null;
+            ItemStack outputItem = exampleItem.copy()
+                    .setHoverName(Component.translatable("jei.experienceobelisk.name.any_item").withStyle(format));
+
+            recipes.add(new MolecularMetamorpherRecipe(ImmutableMap.copyOf(ingredientMap2), outputItem, cost, processTime, id));
+        }
+        for(Item item : getValidFormattingItems()){
+
+            HashMap<Ingredient, Tuple<Integer, Integer>> ingredientMap2 = new HashMap<>(Map.copyOf(ingredientMap));
+            ingredientMap2.put(Ingredient.of(item.getDefaultInstance()), new Tuple<>(2, 1));
+
+            int index = MiscUtils.getValidFormattingItems().indexOf(item);
+            char code = MiscUtils.itemToFormat(index);
+            ChatFormatting format = ChatFormatting.getByCode(code);
+
+            assert format != null;
+            ItemStack outputItem = exampleItem.copy()
+                    .setHoverName(Component.translatable("jei.experienceobelisk.name.any_item").withStyle(format));
+
+            recipes.add(new MolecularMetamorpherRecipe(ImmutableMap.copyOf(ingredientMap2), outputItem, cost, processTime, id));
+        }
+
+        return recipes;
+
+    }
+
+    public static List<ItemStack> getItemListWithCounts(Ingredient ingredient, int count){
+        List<ItemStack> list = new ArrayList<>();
+
+        for(ItemStack stack : ingredient.getItems()){
+            ItemStack stack2 = stack.copy();
+            stack2.setCount(count);
+            list.add(stack2);
+        }
+
+        return list;
     }
 
     public static double straightLineDistance(BlockPos a, BlockPos b){

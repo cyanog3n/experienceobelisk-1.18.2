@@ -29,6 +29,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
+import static com.cyanogen.experienceobelisk.utils.MiscUtils.getItemListWithCounts;
+
 public class MolecularMetamorpherCategory implements IRecipeCategory<MolecularMetamorpherRecipe>{
 
     IRecipeCategoryRegistration registration;
@@ -147,18 +149,6 @@ public class MolecularMetamorpherCategory implements IRecipeCategory<MolecularMe
             builder.setShapeless();
         }
 
-    }
-
-    public static List<ItemStack> getItemListWithCounts(Ingredient ingredient, int count){
-        List<ItemStack> list = new ArrayList<>();
-
-        for(ItemStack stack : ingredient.getItems()){
-            ItemStack stack2 = stack.copy();
-            stack2.setCount(count);
-            list.add(stack2);
-        }
-
-        return list;
     }
 
 
