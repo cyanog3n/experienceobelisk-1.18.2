@@ -79,11 +79,12 @@ public class MolecularMetamorpherTransferHandler implements IRecipeTransferHandl
         }
     }
 
-    public void check(ItemStack[] playerItems, int[] playerItemCount, int[] requiredCount, MolecularMetamorpherRecipe recipe, Player player){
+    public void getItemInfo(ItemStack[] playerItems, int[] playerItemCount, int[] requiredCount, MolecularMetamorpherMenu menu,
+                            MolecularMetamorpherRecipe recipe, Player player){
 
         //fills each of the passed in arrays with information
-        //playerItems -- the items in the player's inventory and the container (if any) which are valid ingredients for each recipe slot
-        //playerItemCount -- the total count of each item, across the inventory and container
+        //playerItems -- the items in the player's inventory and the menu (if any) which are valid ingredients for each recipe slot
+        //playerItemCount -- the total count of each item, across the inventory and menu
         //requiredCount -- the count required by the recipe for each ingredient
         //this is done rather than using recipe.match() as extra information is useful for later
 
@@ -98,23 +99,23 @@ public class MolecularMetamorpherTransferHandler implements IRecipeTransferHandl
 
                 playerItemCount[position] = 0;
 
-                for(int i = 0; i < player.getInventory().getContainerSize(); i++){
+                for(int i = 0; i < player.getInventory().items.size(); i++){
                     ItemStack playerStack = player.getInventory().getItem(i);
 
                     if(ItemStack.isSameItemSameTags(playerStack, ingredientStack)){
 
-                        playerItems[position] = playerStack.copy();
+                        playerItems[position] = ingredientStack.copy();
                         playerItemCount[position] += playerStack.getCount();
                     }
                 }
 
-                for(int i = 0; i < player.containerMenu.slots.size(); i++){
-                    ItemStack playerStack = player.containerMenu.getSlot(i).getItem();
+                for(int i = 0; i < 3; i++){
+                    ItemStack menuStack = menu.getSlot(i).getItem();
 
-                    if(ItemStack.isSameItemSameTags(playerStack, ingredientStack)){
+                    if(ItemStack.isSameItemSameTags(menuStack, ingredientStack)){
 
-                        playerItems[position] = playerStack.copy();
-                        playerItemCount[position] += playerStack.getCount();
+                        playerItems[position] = ingredientStack.copy();
+                        playerItemCount[position] += menuStack.getCount();
                     }
                 }
 
@@ -134,10 +135,12 @@ public class MolecularMetamorpherTransferHandler implements IRecipeTransferHandl
         for(int i = 0; i < 3; i++){
 
             ItemStack menuStack = menu.getSlot(i).getItem();
+            System.out.println(menuStack);
 
-            for(int k = 0; k < player.getInventory().getContainerSize(); k++){
+            for(int k = 0; k < player.getInventory().items.size(); k++){
 
                 ItemStack playerStack = player.getInventory().getItem(k);
+                System.out.println(playerStack);
 
                 if(menuStack.isEmpty()){
                     spaces[i] = 1;
@@ -154,12 +157,14 @@ public class MolecularMetamorpherTransferHandler implements IRecipeTransferHandl
             }
         }
 
+        System.out.println(Arrays.toString(spaces));
+
         if(spaces[0] == -1 || spaces[1] == -1 || spaces[2] == -1){
             return helper.createUserErrorWithTooltip(Component.translatable("jei.experienceobelisk.error.inventory_full"));
         }
 
         //now check if player has enough items
-        check(playerItems, playerItemCount, requiredCount, recipe, player);
+        getItemInfo(playerItems, playerItemCount, requiredCount, menu, recipe, player);
 
         if(playerItemCount[0] >= requiredCount[0] && playerItemCount[1] >= requiredCount[1] && playerItemCount[2] >= requiredCount[2]){
             return null;
@@ -208,7 +213,7 @@ public class MolecularMetamorpherTransferHandler implements IRecipeTransferHandl
 
             if(!(ingredientStack.isEmpty() || ingredientStack.is(Items.AIR) || countToTransfer[i] <= 0)){
 
-                for(int k = 0; k < player.getInventory().getContainerSize(); k++){
+                for(int k = 0; k < player.getInventory().items.size(); k++){
 
                     ItemStack playerStack = player.getInventory().getItem(k);
 
