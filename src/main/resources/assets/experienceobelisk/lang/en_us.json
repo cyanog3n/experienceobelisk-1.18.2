@@ -92,8 +92,8 @@
   "message.experienceobelisk.binding_wand.disable_redstone": "Redstone sensitivity set to §cDisabled",
   "message.experienceobelisk.binding_wand.enable_bookshelf": "Bookshelf has been §aEnabled",
   "message.experienceobelisk.binding_wand.disable_bookshelf": "Bookshelf has been §cDisabled",
-  "message.experienceobelisk.binding_wand.query_bookshelf": "Bookshelf is at %s durability",
-  "message.experienceobelisk.binding_wand.query_bookshelf_disabled": "§c[Disabled]§r Bookshelf is at %s durability",
+  "message.experienceobelisk.binding_wand.query_bookshelf": "§b[ⓘ]§r Bookshelf is at %s durability",
+  "message.experienceobelisk.binding_wand.query_bookshelf_disabled": "§b[ⓘ]§r §c[Disabled]§f Bookshelf is at %s durability",
 
   "message.experienceobelisk.experience_fountain.slow": "Experience Fountain set to: §cSlow§r",
   "message.experienceobelisk.experience_fountain.moderate": "Experience Fountain set to: §eModerate§r",
@@ -104,9 +104,9 @@
   "sounds.experienceobelisk.enlightened_amulet_deactivate": "Amulet deactivates",
 
   "jei.experienceobelisk.category.base_level_cost": "%s base levels",
-  "jei.experienceobelisk.description.forgotten_dust": "Obtained from breaking Infected Bookshelves, or by waiting for Infected Bookshelves to decay into Forgotten Dust Blocks",
-  "jei.experienceobelisk.description.experience_vessels": "Can be obtained by right- clicking an Experience Fountain with the empty container. The bound Obelisk must have enough Cognitium",
+  "jei.experienceobelisk.description.forgotten_dust": "Obtained from breaking Infected Bookshelves (any kind), or by waiting for Infected Bookshelves (any kind) to decay",
+  "jei.experienceobelisk.description.experience_vessels": "Obtained by right- clicking an Experience Fountain with the empty container. The bound Obelisk must have enough Cognitium",
   "jei.experienceobelisk.error.missing_items": "§cMissing Items",
-  "jei.experienceobelisk.error.inventory_full": "§a[Cognition JEI plugin]§r Unable to complete transfer as player inventory is full",
+  "jei.experienceobelisk.error.inventory_full": "§a[Cognition JEI plugin]§r Player inventory full",
   "jei.experienceobelisk.name.any_item": "Any Item..."
 }
