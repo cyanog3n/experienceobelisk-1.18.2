@@ -20,10 +20,7 @@ import net.minecraft.world.item.Items;
 import net.minecraft.world.item.crafting.Ingredient;
 import org.jetbrains.annotations.Nullable;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
-import java.util.Optional;
+import java.util.*;
 
 public class MolecularMetamorpherTransferHandler implements IRecipeTransferHandler<MolecularMetamorpherMenu, MolecularMetamorpherRecipe> {
 
@@ -63,7 +60,7 @@ public class MolecularMetamorpherTransferHandler implements IRecipeTransferHandl
         int[] requiredCount = {0,0,0};
         int[] countToTransfer;
 
-        IRecipeTransferError checkOnly = checkOnly(playerItems, playerItemCount, requiredCount, recipe, player, recipeSlots);
+        IRecipeTransferError error = checkOnly(playerItems, playerItemCount, requiredCount, menu, recipe, player, recipeSlots);
 
         if(maxTransfer){
             countToTransfer = new int[]{Math.min(playerItemCount[0], playerItems[0].getMaxStackSize()),
@@ -74,11 +71,11 @@ public class MolecularMetamorpherTransferHandler implements IRecipeTransferHandl
             countToTransfer = requiredCount;
         }
 
-        if(checkOnly == null && doTransfer){
+        if(error == null && doTransfer){
             return transferOnly(playerItems, countToTransfer, menu, player);
         }
         else{
-            return checkOnly;
+            return error;
         }
     }
 
@@ -88,6 +85,7 @@ public class MolecularMetamorpherTransferHandler implements IRecipeTransferHandl
         //playerItems -- the items in the player's inventory and the container (if any) which are valid ingredients for each recipe slot
         //playerItemCount -- the total count of each item, across the inventory and container
         //requiredCount -- the count required by the recipe for each ingredient
+        //this is done rather than using recipe.match() as extra information is useful for later
 
         for(Map.Entry<Ingredient, Tuple<Integer, Integer>> entry : recipe.getIngredientMapNoFiller().entrySet()){
 
@@ -128,10 +126,40 @@ public class MolecularMetamorpherTransferHandler implements IRecipeTransferHandl
 
     }
 
-    public IRecipeTransferError checkOnly(ItemStack[] playerItems, int[] playerItemCount, int[] requiredCount,
-                                          MolecularMetamorpherRecipe menu, Player player, IRecipeSlotsView recipeSlots){
+    public IRecipeTransferError checkOnly(ItemStack[] playerItems, int[] playerItemCount, int[] requiredCount, MolecularMetamorpherMenu menu,
+                                          MolecularMetamorpherRecipe recipe, Player player, IRecipeSlotsView recipeSlots){
 
-        check(playerItems, playerItemCount, requiredCount, menu, player);
+        //check if player inventory is full
+        int[] spaces = {-1,-1,-1};
+        for(int i = 0; i < 3; i++){
+
+            ItemStack menuStack = menu.getSlot(i).getItem();
+
+            for(int k = 0; k < player.getInventory().getContainerSize(); k++){
+
+                ItemStack playerStack = player.getInventory().getItem(k);
+
+                if(menuStack.isEmpty()){
+                    spaces[i] = 1;
+                    break;
+                }
+                else if(!(k == spaces[0] || k == spaces[1] || k == spaces[2])){
+                    if(playerStack.isEmpty()){
+                        spaces[i] = k;
+                    }
+                    else if(ItemStack.isSameItemSameTags(menuStack, playerStack) && menuStack.getCount() + playerStack.getCount() <= menuStack.getMaxStackSize()){
+                        spaces[i] = k;
+                    }
+                }
+            }
+        }
+
+        if(spaces[0] == -1 || spaces[1] == -1 || spaces[2] == -1){
+            return helper.createUserErrorWithTooltip(Component.translatable("jei.experienceobelisk.error.inventory_full"));
+        }
+
+        //now check if player has enough items
+        check(playerItems, playerItemCount, requiredCount, recipe, player);
 
         if(playerItemCount[0] >= requiredCount[0] && playerItemCount[1] >= requiredCount[1] && playerItemCount[2] >= requiredCount[2]){
             return null;
@@ -160,7 +188,7 @@ public class MolecularMetamorpherTransferHandler implements IRecipeTransferHandl
         for(int i = 0; i < 3; i++){
 
             ItemStack stack = menu.getSlot(i).getItem();
-            if(!stack.isEmpty() && !(playerItems[i].isEmpty() || playerItems[i].is(Items.AIR) || countToTransfer[i] <= 0)){
+            if(!stack.isEmpty() && !(playerItems[i].isEmpty() || countToTransfer[i] <= 0)){
                 if(!player.getInventory().add(stack)){
                     uncleared = true;
                     break;
@@ -169,8 +197,8 @@ public class MolecularMetamorpherTransferHandler implements IRecipeTransferHandl
         }
 
         if(uncleared){
-            player.displayClientMessage(Component.translatable("jei.experienceobelisk.error.inventory_full"), false);
-            return helper.createUserErrorWithTooltip(Component.literal(""));
+            System.out.println("[Cognition JEI Plugin] Player inventory unexpectedly full");
+            return helper.createInternalError();
         }
 
         //transfer items into the menu

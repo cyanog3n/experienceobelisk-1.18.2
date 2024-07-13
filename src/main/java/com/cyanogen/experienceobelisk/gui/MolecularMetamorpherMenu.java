@@ -16,6 +16,9 @@ import net.minecraft.world.phys.Vec3;
 import net.minecraftforge.items.IItemHandler;
 import net.minecraftforge.items.SlotItemHandler;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class MolecularMetamorpherMenu extends AbstractContainerMenu {
 
     SimpleContainer container = new SimpleContainer(5);
