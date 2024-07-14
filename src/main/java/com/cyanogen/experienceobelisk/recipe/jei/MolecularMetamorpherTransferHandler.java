@@ -97,10 +97,10 @@ public class MolecularMetamorpherTransferHandler implements IRecipeTransferHandl
                     ItemStack playerStack = player.getInventory().getItem(k);
 
                     if(!(k == spaces[0] || k == spaces[1] || k == spaces[2])){
-                        if(playerStack.isEmpty()){
+                        if(ItemStack.isSameItemSameTags(menuStack, playerStack) && menuStack.getCount() + playerStack.getCount() <= menuStack.getMaxStackSize()){
                             spaces[i] = k;
                         }
-                        else if(ItemStack.isSameItemSameTags(menuStack, playerStack) && menuStack.getCount() + playerStack.getCount() <= menuStack.getMaxStackSize()){
+                        else if(playerStack.isEmpty()){
                             spaces[i] = k;
                         }
                     }
