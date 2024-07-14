@@ -79,85 +79,34 @@ public class MolecularMetamorpherTransferHandler implements IRecipeTransferHandl
         }
     }
 
-    public void getItemInfo(ItemStack[] playerItems, int[] playerItemCount, int[] requiredCount, MolecularMetamorpherMenu menu,
-                            MolecularMetamorpherRecipe recipe, Player player){
-
-        //fills each of the passed in arrays with information
-        //playerItems -- the items in the player's inventory and the menu (if any) which are valid ingredients for each recipe slot
-        //playerItemCount -- the total count of each item, across the inventory and menu
-        //requiredCount -- the count required by the recipe for each ingredient
-        //this is done rather than using recipe.match() as extra information is useful for later
-
-        for(Map.Entry<Ingredient, Tuple<Integer, Integer>> entry : recipe.getIngredientMapNoFiller().entrySet()){
-
-            Ingredient ingredient = entry.getKey();
-            int position = entry.getValue().getA() - 1;
-            int count = entry.getValue().getB();
-            requiredCount[position] = count;
-
-            for(ItemStack ingredientStack : ingredient.getItems()){
-
-                playerItemCount[position] = 0;
-
-                for(int i = 0; i < player.getInventory().items.size(); i++){
-                    ItemStack playerStack = player.getInventory().getItem(i);
-
-                    if(ItemStack.isSameItemSameTags(playerStack, ingredientStack)){
-
-                        playerItems[position] = ingredientStack.copy();
-                        playerItemCount[position] += playerStack.getCount();
-                    }
-                }
-
-                for(int i = 0; i < 3; i++){
-                    ItemStack menuStack = menu.getSlot(i).getItem();
-
-                    if(ItemStack.isSameItemSameTags(menuStack, ingredientStack)){
-
-                        playerItems[position] = ingredientStack.copy();
-                        playerItemCount[position] += menuStack.getCount();
-                    }
-                }
-
-                if(playerItemCount[position] >= count){
-                    break;
-                }
-            }
-        }
-
-    }
-
     public IRecipeTransferError checkOnly(ItemStack[] playerItems, int[] playerItemCount, int[] requiredCount, MolecularMetamorpherMenu menu,
                                           MolecularMetamorpherRecipe recipe, Player player, IRecipeSlotsView recipeSlots){
 
-        //check if player inventory is full
+        //check if player inventory has space to move menu items into
         int[] spaces = {-1,-1,-1};
         for(int i = 0; i < 3; i++){
 
             ItemStack menuStack = menu.getSlot(i).getItem();
-            System.out.println(menuStack);
 
-            for(int k = 0; k < player.getInventory().items.size(); k++){
+            if(menuStack.isEmpty()){
+                spaces[i] = 999;
+            }
+            else{
+                for(int k = 0; k < player.getInventory().items.size(); k++){
 
-                ItemStack playerStack = player.getInventory().getItem(k);
-                System.out.println(playerStack);
+                    ItemStack playerStack = player.getInventory().getItem(k);
 
-                if(menuStack.isEmpty()){
-                    spaces[i] = 1;
-                    break;
-                }
-                else if(!(k == spaces[0] || k == spaces[1] || k == spaces[2])){
-                    if(playerStack.isEmpty()){
-                        spaces[i] = k;
-                    }
-                    else if(ItemStack.isSameItemSameTags(menuStack, playerStack) && menuStack.getCount() + playerStack.getCount() <= menuStack.getMaxStackSize()){
-                        spaces[i] = k;
+                    if(!(k == spaces[0] || k == spaces[1] || k == spaces[2])){
+                        if(playerStack.isEmpty()){
+                            spaces[i] = k;
+                        }
+                        else if(ItemStack.isSameItemSameTags(menuStack, playerStack) && menuStack.getCount() + playerStack.getCount() <= menuStack.getMaxStackSize()){
+                            spaces[i] = k;
+                        }
                     }
                 }
             }
         }
-
-        System.out.println(Arrays.toString(spaces));
 
         if(spaces[0] == -1 || spaces[1] == -1 || spaces[2] == -1){
             return helper.createUserErrorWithTooltip(Component.translatable("jei.experienceobelisk.error.inventory_full"));
@@ -232,6 +181,54 @@ public class MolecularMetamorpherTransferHandler implements IRecipeTransferHandl
         //update player inventory and container
         UpdateInventory.updateInventoryFromClient(player);
         return null;
+    }
+
+    public void getItemInfo(ItemStack[] playerItems, int[] playerItemCount, int[] requiredCount, MolecularMetamorpherMenu menu,
+                            MolecularMetamorpherRecipe recipe, Player player){
+
+        //fills each of the passed in arrays with information
+        //playerItems -- the items in the player's inventory and the menu (if any) which are valid ingredients for each recipe slot
+        //playerItemCount -- the total count of each item, across the inventory and menu
+        //requiredCount -- the count required by the recipe for each ingredient
+        //this is done rather than using recipe.match() as the extra information is useful for later
+
+        for(Map.Entry<Ingredient, Tuple<Integer, Integer>> entry : recipe.getIngredientMapNoFiller().entrySet()){
+
+            Ingredient ingredient = entry.getKey();
+            int position = entry.getValue().getA() - 1;
+            int count = entry.getValue().getB();
+            requiredCount[position] = count;
+
+            for(ItemStack ingredientStack : ingredient.getItems()){
+
+                playerItemCount[position] = 0;
+
+                for(int i = 0; i < player.getInventory().items.size(); i++){
+                    ItemStack playerStack = player.getInventory().getItem(i);
+
+                    if(ItemStack.isSameItemSameTags(playerStack, ingredientStack)){
+
+                        playerItems[position] = ingredientStack.copy();
+                        playerItemCount[position] += playerStack.getCount();
+                    }
+                }
+
+                for(int i = 0; i < 3; i++){
+                    ItemStack menuStack = menu.getSlot(i).getItem();
+
+                    if(ItemStack.isSameItemSameTags(menuStack, ingredientStack)){
+
+                        playerItems[position] = ingredientStack.copy();
+                        playerItemCount[position] += menuStack.getCount();
+                    }
+                }
+
+                if(playerItemCount[position] >= count){
+                    break;
+                }
+            }
+        }
+
     }
 
 }
