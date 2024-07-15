@@ -17,7 +17,6 @@ import org.jetbrains.annotations.Nullable;
 
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 public class MolecularMetamorpherRecipe implements Recipe<SimpleContainer> {
@@ -166,11 +165,14 @@ public class MolecularMetamorpherRecipe implements Recipe<SimpleContainer> {
         @Override
         public @Nullable MolecularMetamorpherRecipe fromNetwork(ResourceLocation id, FriendlyByteBuf buffer) {
 
+            System.out.println("Received recipe from network: " + id);
+            System.out.println("Contents: " + buffer);
+
             Ingredient ingredient1 = Ingredient.fromNetwork(buffer);
-            Ingredient ingredient2 = Ingredient.fromNetwork(buffer);
-            Ingredient ingredient3 = Ingredient.fromNetwork(buffer);
             int count1 = buffer.readInt();
+            Ingredient ingredient2 = Ingredient.fromNetwork(buffer);
             int count2 = buffer.readInt();
+            Ingredient ingredient3 = Ingredient.fromNetwork(buffer);
             int count3 = buffer.readInt();
 
             Map<Ingredient, Tuple<Integer, Integer>> ingredients = new HashMap<>();
@@ -208,6 +210,9 @@ public class MolecularMetamorpherRecipe implements Recipe<SimpleContainer> {
             buffer.writeItemStack(recipe.getResultItem(null), false);
             buffer.writeInt(recipe.cost);
             buffer.writeInt(recipe.processTime);
+
+            System.out.println("Sending recipe to network: " + recipe.getId());
+            System.out.println("Contents: " + buffer);
         }
     }
 
