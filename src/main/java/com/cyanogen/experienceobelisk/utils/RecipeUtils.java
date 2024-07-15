@@ -87,14 +87,15 @@ public class RecipeUtils {
             HashMap<Ingredient, Tuple<Integer, Integer>> ingredientMap2 = new HashMap<>(Map.copyOf(ingredientMap));
             ingredientMap2.put(Ingredient.of(stack), new Tuple<>(2, 1));
 
-            int dyeColor = ((DyeItem) stack.getItem()).getDyeColor().getId();
-            ChatFormatting format = ChatFormatting.getById(RecipeUtils.dyeColorToTextColor(dyeColor));
+            if(stack.getItem() instanceof DyeItem dye){
+                int dyeColor = dye.getDyeColor().getId();
+                ChatFormatting format = ChatFormatting.getById(RecipeUtils.dyeColorToTextColor(dyeColor));
+                assert format != null;
+                ItemStack outputItem = exampleItem.copy()
+                        .setHoverName(Component.translatable("jei.experienceobelisk.name.any_item").withStyle(format));
 
-            assert format != null;
-            ItemStack outputItem = exampleItem.copy()
-                    .setHoverName(Component.translatable("jei.experienceobelisk.name.any_item").withStyle(format));
-
-            recipes.add(new MolecularMetamorpherRecipe(ImmutableMap.copyOf(ingredientMap2), outputItem, cost, processTime, id));
+                recipes.add(new MolecularMetamorpherRecipe(ImmutableMap.copyOf(ingredientMap2), outputItem, cost, processTime, id));
+            }
         }
         for(Item item : getValidFormattingItems()){
 
