@@ -4,7 +4,6 @@ import com.cyanogen.experienceobelisk.ExperienceObelisk;
 import com.cyanogen.experienceobelisk.block_entities.*;
 import com.cyanogen.experienceobelisk.block_entities.bibliophage.InfectedArchiversBookshelfEntity;
 import com.cyanogen.experienceobelisk.block_entities.bibliophage.InfectedBookshelfEntity;
-import com.cyanogen.experienceobelisk.block_entities.bibliophage.InfectedCartographersBookshelfEntity;
 import com.cyanogen.experienceobelisk.block_entities.bibliophage.InfectedEnchantedBookshelfEntity;
 import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraftforge.eventbus.api.IEventBus;
@@ -41,9 +40,6 @@ public class RegisterBlockEntities {
 
     public static final RegistryObject<BlockEntityType<InfectedArchiversBookshelfEntity>> INFECTED_ARCHIVERS_BOOKSHELF_BE = BLOCK_ENTITIES.register("infectedarchiversbookshelf_be",
             ()-> BlockEntityType.Builder.of(InfectedArchiversBookshelfEntity::new, RegisterBlocks.INFECTED_ARCHIVERS_BOOKSHELF.get()).build(Type));
-
-    public static final RegistryObject<BlockEntityType<InfectedCartographersBookshelfEntity>> INFECTED_CARTOGRAPHERS_BOOKSHELF_BE = BLOCK_ENTITIES.register("infectedcartographersbookshelf_be",
-            ()-> BlockEntityType.Builder.of(InfectedCartographersBookshelfEntity::new, RegisterBlocks.INFECTED_CARTOGRAPHERS_BOOKSHELF.get()).build(Type));
 
     public static final RegistryObject<BlockEntityType<MolecularMetamorpherEntity>> MOLECULAR_METAMORPHER_BE = BLOCK_ENTITIES.register("molecularmetamorpher_be",
             ()-> BlockEntityType.Builder.of(MolecularMetamorpherEntity::new, RegisterBlocks.MOLECULAR_METAMORPHER.get()).build(Type));

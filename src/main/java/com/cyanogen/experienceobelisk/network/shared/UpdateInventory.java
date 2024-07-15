@@ -8,6 +8,8 @@ import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.inventory.Slot;
 import net.minecraft.world.item.ItemStack;
+import net.minecraftforge.api.distmarker.Dist;
+import net.minecraftforge.api.distmarker.OnlyIn;
 import net.minecraftforge.network.NetworkEvent;
 
 import java.util.concurrent.atomic.AtomicBoolean;
@@ -56,6 +58,7 @@ public class UpdateInventory {
         return success.get();
     }
 
+    @OnlyIn(Dist.CLIENT)
     public static void updateInventoryFromClient(Player player){
         ListTag inventoryList = new ListTag();
         player.getInventory().save(inventoryList);

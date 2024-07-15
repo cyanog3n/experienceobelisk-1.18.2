@@ -50,7 +50,6 @@ public class BibliophageItem extends Item {
         list.add(Blocks.BOOKSHELF);
         list.add(RegisterBlocks.ENCHANTED_BOOKSHELF.get());
         list.add(RegisterBlocks.ARCHIVERS_BOOKSHELF.get());
-        list.add(RegisterBlocks.CARTOGRAPHERS_BOOKSHELF.get());
 
         return list;
     }
@@ -67,9 +66,6 @@ public class BibliophageItem extends Item {
         }
         else if(block.equals(RegisterBlocks.ARCHIVERS_BOOKSHELF.get())){
             state = RegisterBlocks.INFECTED_ARCHIVERS_BOOKSHELF.get().defaultBlockState();
-        }
-        else if(block.equals(RegisterBlocks.CARTOGRAPHERS_BOOKSHELF.get())){
-            state = RegisterBlocks.INFECTED_CARTOGRAPHERS_BOOKSHELF.get().defaultBlockState();
         }
 
         if(state != null){

@@ -4,7 +4,6 @@ import com.cyanogen.experienceobelisk.ExperienceObelisk;
 import com.cyanogen.experienceobelisk.block.*;
 import com.cyanogen.experienceobelisk.block.bibliophage.InfectedArchiversBookshelfBlock;
 import com.cyanogen.experienceobelisk.block.bibliophage.InfectedBookshelfBlock;
-import com.cyanogen.experienceobelisk.block.bibliophage.InfectedCartographersBookshelfBlock;
 import com.cyanogen.experienceobelisk.block.bibliophage.InfectedEnchantedBookshelfBlock;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.Blocks;
@@ -30,7 +29,6 @@ public class RegisterBlocks {
     public static final RegistryObject<Block> INFECTED_BOOKSHELF = BLOCKS.register("infected_bookshelf", InfectedBookshelfBlock::new);
     public static final RegistryObject<Block> INFECTED_ENCHANTED_BOOKSHELF = BLOCKS.register("infected_enchanted_bookshelf", InfectedEnchantedBookshelfBlock::new);
     public static final RegistryObject<Block> INFECTED_ARCHIVERS_BOOKSHELF = BLOCKS.register("infected_archivers_bookshelf", InfectedArchiversBookshelfBlock::new);
-    public static final RegistryObject<Block> INFECTED_CARTOGRAPHERS_BOOKSHELF = BLOCKS.register("infected_cartographers_bookshelf", InfectedCartographersBookshelfBlock::new);
     public static final RegistryObject<Block> MOLECULAR_METAMORPHER = BLOCKS.register("molecular_metamorpher", MolecularMetamorpherBlock::new);
 
     //-----DECORATIVE / CRAFTING-----//
@@ -41,8 +39,6 @@ public class RegisterBlocks {
     public static final RegistryObject<Block> FORGOTTEN_DUST_BLOCK = BLOCKS.register("forgotten_dust_block", ForgottenDustBlock::new);
     public static final RegistryObject<Block> ENCHANTED_BOOKSHELF = BLOCKS.register("enchanted_bookshelf", () -> new Block(BlockBehaviour.Properties.copy(Blocks.BOOKSHELF)));
     public static final RegistryObject<Block> ARCHIVERS_BOOKSHELF = BLOCKS.register("archivers_bookshelf", () -> new Block(BlockBehaviour.Properties.copy(Blocks.BOOKSHELF)));
-    public static final RegistryObject<Block> CARTOGRAPHERS_BOOKSHELF = BLOCKS.register("cartographers_bookshelf", () -> new Block(BlockBehaviour.Properties.copy(Blocks.BOOKSHELF)));
-
 
     //-----FLUID BLOCKS-----//
 

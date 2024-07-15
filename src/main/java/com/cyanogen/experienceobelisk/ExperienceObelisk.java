@@ -1,7 +1,6 @@
 package com.cyanogen.experienceobelisk;
 
 import com.cyanogen.experienceobelisk.config.Config;
-import com.cyanogen.experienceobelisk.event.EventHandler;
 import com.cyanogen.experienceobelisk.gui.ExperienceObeliskScreen;
 import com.cyanogen.experienceobelisk.gui.MolecularMetamorpherScreen;
 import com.cyanogen.experienceobelisk.gui.PrecisionDispellerScreen;
