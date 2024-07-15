@@ -2,8 +2,8 @@
   "type": "minecraft:crafting_shaped",
   "pattern": [
     "ABA",
-    "CDC",
-    "ABA"
+    "CAC",
+    "DED"
   ],
   "key": {
     "A": {
@@ -13,10 +13,13 @@
       "item": "experienceobelisk:accelerator"
     },
     "C": {
-      "item": "experienceobelisk:linear_accelerator"
+      "item": "experienceobelisk:cognitive_amalgam"
     },
     "D": {
-      "item": "experienceobelisk:whisperglass"
+      "item": "experienceobelisk:linear_accelerator"
+    },
+    "E": {
+      "item": "experienceobelisk:cognitive_alloy_block"
     }
   },
   "result": {
