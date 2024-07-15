@@ -17,5 +17,6 @@
     "count": 1
   },
   "cost": 55,
-  "processTime": 40
+  "processTime": 40,
+  "show_notification": true
 }
