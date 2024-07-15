@@ -6,7 +6,6 @@ import com.cyanogen.experienceobelisk.registries.RegisterBlockEntities;
 import com.cyanogen.experienceobelisk.registries.RegisterItems;
 import net.minecraft.ChatFormatting;
 import net.minecraft.core.BlockPos;
-import net.minecraft.core.Direction;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.MutableComponent;
 import net.minecraft.server.level.ServerLevel;

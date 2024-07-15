@@ -2,7 +2,6 @@ package com.cyanogen.experienceobelisk.block;
 
 import com.cyanogen.experienceobelisk.block_entities.ExperienceFountainEntity;
 import com.cyanogen.experienceobelisk.block_entities.ExperienceObeliskEntity;
-import com.cyanogen.experienceobelisk.block_entities.MolecularMetamorpherEntity;
 import com.cyanogen.experienceobelisk.registries.RegisterBlockEntities;
 import com.cyanogen.experienceobelisk.registries.RegisterFluids;
 import net.minecraft.core.BlockPos;

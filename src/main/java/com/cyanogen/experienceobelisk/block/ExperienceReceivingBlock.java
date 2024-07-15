@@ -2,7 +2,6 @@ package com.cyanogen.experienceobelisk.block;
 
 import com.cyanogen.experienceobelisk.block_entities.ExperienceObeliskEntity;
 import com.cyanogen.experienceobelisk.block_entities.ExperienceReceivingEntity;
-import com.cyanogen.experienceobelisk.block_entities.bibliophage.AbstractInfectedBookshelfEntity;
 import com.cyanogen.experienceobelisk.registries.RegisterItems;
 import net.minecraft.ChatFormatting;
 import net.minecraft.core.BlockPos;
