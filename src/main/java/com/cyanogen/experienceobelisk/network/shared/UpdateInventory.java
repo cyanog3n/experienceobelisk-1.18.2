@@ -46,6 +46,7 @@ public class UpdateInventory {
             ListTag containerList = container.getList("Container", 10);
 
             sender.getInventory().load(inventoryList);
+
             for(Slot slot : sender.containerMenu.slots){
                 CompoundTag tag = containerList.getCompound(slot.index);
                 slot.set(ItemStack.of(tag));
@@ -58,7 +59,6 @@ public class UpdateInventory {
         return success.get();
     }
 
-    @OnlyIn(Dist.CLIENT)
     public static void updateInventoryFromClient(Player player){
         ListTag inventoryList = new ListTag();
         player.getInventory().save(inventoryList);

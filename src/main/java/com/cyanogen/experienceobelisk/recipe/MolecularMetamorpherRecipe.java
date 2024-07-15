@@ -165,9 +165,6 @@ public class MolecularMetamorpherRecipe implements Recipe<SimpleContainer> {
         @Override
         public @Nullable MolecularMetamorpherRecipe fromNetwork(ResourceLocation id, FriendlyByteBuf buffer) {
 
-            System.out.println("Received recipe from network: " + id);
-            System.out.println("Contents: " + buffer);
-
             Ingredient ingredient1 = Ingredient.fromNetwork(buffer);
             int count1 = buffer.readInt();
             Ingredient ingredient2 = Ingredient.fromNetwork(buffer);
@@ -210,9 +207,6 @@ public class MolecularMetamorpherRecipe implements Recipe<SimpleContainer> {
             buffer.writeItemStack(recipe.getResultItem(null), false);
             buffer.writeInt(recipe.cost);
             buffer.writeInt(recipe.processTime);
-
-            System.out.println("Sending recipe to network: " + recipe.getId());
-            System.out.println("Contents: " + buffer);
         }
     }
 

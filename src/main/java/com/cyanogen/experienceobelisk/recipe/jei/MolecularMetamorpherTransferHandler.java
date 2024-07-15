@@ -1,6 +1,7 @@
 package com.cyanogen.experienceobelisk.recipe.jei;
 
 import com.cyanogen.experienceobelisk.gui.MolecularMetamorpherMenu;
+import com.cyanogen.experienceobelisk.network.shared.UpdateInventory;
 import com.cyanogen.experienceobelisk.recipe.MolecularMetamorpherRecipe;
 import com.cyanogen.experienceobelisk.registries.RegisterMenus;
 import mezz.jei.api.gui.ingredient.IRecipeSlotView;
@@ -181,7 +182,7 @@ public class MolecularMetamorpherTransferHandler implements IRecipeTransferHandl
         }
 
         //update player inventory and container
-        //UpdateInventory.updateInventoryFromClient(player);
+        UpdateInventory.updateInventoryFromClient(player);
         return null;
     }
 
