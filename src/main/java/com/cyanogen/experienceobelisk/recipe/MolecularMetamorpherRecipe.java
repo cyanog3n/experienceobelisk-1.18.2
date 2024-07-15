@@ -17,6 +17,7 @@ import org.jetbrains.annotations.Nullable;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 public class MolecularMetamorpherRecipe implements Recipe<SimpleContainer> {
@@ -54,7 +55,7 @@ public class MolecularMetamorpherRecipe implements Recipe<SimpleContainer> {
 
                 for(ItemStack stack : contents){
                     if(ingredient.test(stack) && stack.getCount() >= count){
-                        ingredientSet.remove(entry.getKey());
+                        ingredientSet.remove(ingredient);
                         break;
                     }
                 }
@@ -83,7 +84,7 @@ public class MolecularMetamorpherRecipe implements Recipe<SimpleContainer> {
         Map<Ingredient, Tuple<Integer, Integer>> ingredients = new HashMap<>();
 
         for(Map.Entry<Ingredient, Tuple<Integer, Integer>> entry : getIngredientMap().entrySet()){
-            if(entry.getValue().getB() > 0){
+            if(!entry.getKey().isEmpty() && entry.getValue().getB() > 0){
                 ingredients.put(entry.getKey(), entry.getValue());
             }
         }
@@ -187,9 +188,21 @@ public class MolecularMetamorpherRecipe implements Recipe<SimpleContainer> {
         @Override
         public void toNetwork(FriendlyByteBuf buffer, MolecularMetamorpherRecipe recipe) {
 
+            Ingredient[] ingredients = {Ingredient.EMPTY, Ingredient.EMPTY, Ingredient.EMPTY};
+            int[] counts = {0, 0, 0};
+
             for(Map.Entry<Ingredient, Tuple<Integer, Integer>> entry : recipe.getIngredientMap().entrySet()){
-                entry.getKey().toNetwork(buffer);
-                buffer.writeInt(entry.getValue().getB());
+                Ingredient ingredient = entry.getKey();
+                int index = entry.getValue().getA() - 1;
+                int count = entry.getValue().getB();
+
+                ingredients[index] = ingredient;
+                counts[index] = count;
+            }
+
+            for(int i = 0; i < 3; i++){
+                ingredients[i].toNetwork(buffer);
+                buffer.writeInt(counts[i]);
             }
 
             buffer.writeItemStack(recipe.getResultItem(null), false);
