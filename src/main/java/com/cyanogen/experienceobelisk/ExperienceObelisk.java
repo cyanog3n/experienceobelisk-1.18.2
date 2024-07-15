@@ -48,7 +48,7 @@ public class ExperienceObelisk
     }
 
     private void setup(final FMLCommonSetupEvent event) {
-        MinecraftForge.EVENT_BUS.register(new EventHandler());
+        //MinecraftForge.EVENT_BUS.register(new EventHandler());
     }
 
     private void clientSetup(final FMLClientSetupEvent event){
