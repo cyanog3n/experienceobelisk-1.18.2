@@ -8,10 +8,8 @@
     "item": "minecraft:copper_ingot"
   },
   "count2": 1,
-  "ingredient3": {
-    "item": "minecraft:barrier"
-  },
-  "count3": -99,
+  "ingredient3": [],
+  "count3": 0,
   "result": {
     "item": "experienceobelisk:cognitive_alloy",
     "count": 1

@@ -8,15 +8,12 @@
     "item": "minecraft:iron_ingot"
   },
   "count2": 1,
-  "ingredient3": {
-    "item": "minecraft:barrier"
-  },
-  "count3": -99,
+  "ingredient3": [],
+  "count3": 0,
   "result": {
     "item": "minecraft:anvil",
     "count": 1
   },
   "cost": 55,
-  "processTime": 40,
-  "show_notification": true
+  "processTime": 40
 }

@@ -8,10 +8,8 @@
     "item": "minecraft:iron_ingot"
   },
   "count2": 1,
-  "ingredient3": {
-    "item": "minecraft:barrier"
-  },
-  "count3": -99,
+  "ingredient3": [],
+  "count3": 0,
   "result": {
     "item": "minecraft:chipped_anvil",
     "count": 1
