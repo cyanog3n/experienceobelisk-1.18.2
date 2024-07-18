@@ -32,10 +32,10 @@ import net.minecraft.world.phys.shapes.Shapes;
 import net.minecraft.world.phys.shapes.VoxelShape;
 import org.jetbrains.annotations.Nullable;
 
-public class InfectedBookshelfBlock extends Block implements EntityBlock {
+public class InfectedBookshelfBlock extends BookshelfBlock implements EntityBlock {
 
-    public InfectedBookshelfBlock() {
-        super(Properties.copy(Blocks.BOOKSHELF));
+    public InfectedBookshelfBlock(float enchantPowerBonus) {
+        super(enchantPowerBonus);
     }
 
     @Override

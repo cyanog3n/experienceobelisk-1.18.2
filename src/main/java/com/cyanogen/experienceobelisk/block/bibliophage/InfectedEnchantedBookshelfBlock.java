@@ -14,7 +14,7 @@ import org.jetbrains.annotations.Nullable;
 public class InfectedEnchantedBookshelfBlock extends InfectedBookshelfBlock implements EntityBlock {
 
     public InfectedEnchantedBookshelfBlock() {
-        super();
+        super(2.0f);
     }
 
     //-----BLOCK ENTITY-----//
