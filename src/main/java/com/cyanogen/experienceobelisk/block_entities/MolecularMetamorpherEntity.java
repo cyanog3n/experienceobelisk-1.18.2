@@ -111,6 +111,8 @@ public class MolecularMetamorpherEntity extends ExperienceReceivingEntity implem
 
             if(metamorpher.isProcessing){
 
+                metamorpher.busy = true;
+
                 if(metamorpher.processProgress >= metamorpher.processTime){
                     metamorpher.dispenseResult();
                 }
@@ -121,9 +123,12 @@ public class MolecularMetamorpherEntity extends ExperienceReceivingEntity implem
                 }
             }
             else if(active && metamorpher.hasContents()){
-                if(!metamorpher.handleJsonRecipes()){
-                    metamorpher.handleNameFormattingRecipes();
+
+                if(metamorpher.handleJsonRecipes()){
+                    metamorpher.busy = true;
                 }
+                else metamorpher.busy = metamorpher.handleNameFormattingRecipes();
+
             }
             else{
                 metamorpher.busy = false;
@@ -194,16 +199,10 @@ public class MolecularMetamorpherEntity extends ExperienceReceivingEntity implem
 
             if(canPerformRecipe(output, cost)){
                 initiateRecipe(recipe);
-                this.busy = true;
                 return true;
             }
-            else{
-                this.busy = false;
-            }
-
         }
         return false;
-
     }
 
     public boolean canPerformRecipe(ItemStack output, int cost){
@@ -317,7 +316,7 @@ public class MolecularMetamorpherEntity extends ExperienceReceivingEntity implem
 
     //-----------NON-JSON RECIPES-----------//
 
-    public void handleNameFormattingRecipes(){
+    public boolean handleNameFormattingRecipes(){
 
         if(Config.COMMON.formatting.get() && hasNameFormattingRecipe()){
 
@@ -326,13 +325,11 @@ public class MolecularMetamorpherEntity extends ExperienceReceivingEntity implem
             int cost = recipe.getCost();
 
             if(canPerformRecipe(output, cost)){
-                this.busy = true;
                 initiateRecipe(recipe);
-            }
-            else{
-                this.busy = false;
+                return true;
             }
         }
+        return false;
     }
 
     public boolean hasNameFormattingRecipe(){
