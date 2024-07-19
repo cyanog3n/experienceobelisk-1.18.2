@@ -148,6 +148,9 @@ public class RegisterItems {
     public static final RegistryObject<Item> BIBLIOPHAGE = ITEMS.register("bibliophage",
             () -> new BibliophageItem(new Item.Properties()));
 
+    public static final RegistryObject<Item> EXPERIENCE_JELLY = ITEMS.register("experience_jelly",
+            () -> new ExperienceJellyItem(new Item.Properties()));
+
     //-----FUNCTIONAL BLOCK ITEMS-----//
 
     public static final RegistryObject<Item> EXPERIENCE_OBELISK_ITEM = ITEMS.register("experience_obelisk",
