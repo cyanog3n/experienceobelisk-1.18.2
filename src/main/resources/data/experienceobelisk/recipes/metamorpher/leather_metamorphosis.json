@@ -1,9 +1,9 @@
 {
   "type": "experienceobelisk:molecular_metamorphosis",
   "ingredient1": {
-      "item": "minecraft:rotten_flesh"
+      "item": "minecraft:dried_kelp"
   },
-  "count1": 2,
+  "count1": 4,
   "ingredient2": [],
   "count2": 0,
   "ingredient3": [],
