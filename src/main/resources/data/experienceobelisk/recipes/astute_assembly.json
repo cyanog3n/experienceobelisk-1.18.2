@@ -10,7 +10,7 @@
       "item": "experienceobelisk:cognitive_alloy"
     },
     "B": {
-      "item": "minecraft:repeater"
+      "item": "minecraft:redstone"
     },
     "C": {
       "item": "experienceobelisk:cognitive_amalgam"
@@ -21,6 +21,6 @@
   },
   "result": {
     "item": "experienceobelisk:astute_assembly",
-    "count": 2
+    "count": 1
   }
 }
