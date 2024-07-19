@@ -4,6 +4,7 @@ import net.minecraft.network.chat.Component;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResultHolder;
+import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.food.FoodData;
 import net.minecraft.world.food.FoodProperties;
@@ -17,8 +18,16 @@ import java.util.List;
 
 public class ExperienceJellyItem extends Item {
 
+    private final int nutrition = 5;
+    private final float saturation = 0.8f;
+
     public ExperienceJellyItem(Properties properties) {
-        super(properties.food(new FoodProperties.Builder().nutrition(5).saturationMod(0.6F).build()));
+        super(properties);
+    }
+
+    @Override
+    public @Nullable FoodProperties getFoodProperties(ItemStack stack, @Nullable LivingEntity entity) {
+        return new FoodProperties.Builder().nutrition(nutrition).saturationMod(saturation).build();
     }
 
     @Override
@@ -30,8 +39,10 @@ public class ExperienceJellyItem extends Item {
 
         if(data.needsFood() || player.isCreative()){
 
-            data.setFoodLevel(Math.min(20, foodLevel + 5));
-            data.setSaturation(Math.min(data.getFoodLevel(), data.getSaturationLevel() + 0.6f));
+            int foodLevelNew = Math.min(20, foodLevel + nutrition);
+
+            data.setFoodLevel(foodLevelNew);
+            data.setSaturation(Math.min(foodLevelNew, data.getSaturationLevel() + saturation));
             player.playSound(SoundEvents.GENERIC_EAT);
 
             if(!player.isCreative()){
