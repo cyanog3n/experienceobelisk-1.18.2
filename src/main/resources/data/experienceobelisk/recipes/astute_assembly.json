@@ -2,7 +2,7 @@
   "type": "minecraft:crafting_shaped",
   "pattern": [
     "ABA",
-    "CDC",
+    "ACA",
     "ABA"
   ],
   "key": {
@@ -13,14 +13,11 @@
       "item": "minecraft:redstone"
     },
     "C": {
-      "item": "experienceobelisk:cognitive_amalgam"
-    },
-    "D": {
       "item": "experienceobelisk:cognitive_crystal"
     }
   },
   "result": {
     "item": "experienceobelisk:astute_assembly",
-    "count": 1
+    "count": 2
   }
 }
