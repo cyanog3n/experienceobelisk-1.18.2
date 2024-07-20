@@ -35,14 +35,10 @@ public class ExperienceJellyItem extends Item {
 
         ItemStack stack = player.getItemInHand(hand);
         FoodData data = player.getFoodData();
-        int foodLevel = data.getFoodLevel();
 
         if(data.needsFood() || player.isCreative()){
 
-            int foodLevelNew = Math.min(20, foodLevel + nutrition);
-
-            data.setFoodLevel(foodLevelNew);
-            data.setSaturation(Math.min(foodLevelNew, data.getSaturationLevel() + saturation));
+            data.eat(nutrition, saturation);
             player.playSound(SoundEvents.GENERIC_EAT);
 
             if(!player.isCreative()){
