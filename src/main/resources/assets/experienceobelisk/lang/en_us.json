@@ -76,7 +76,7 @@
   "tooltip.experienceobelisk.molecular_metamorpher.xp": "%s §7XP",
   "tooltip.experienceobelisk.molecular_metamorpher.item_contents": "§7Contents stored within",
 
-  "tooltip.experienceobelisk.experience_jelly.notes": "§7Easily digested!",
+  "tooltip.experienceobelisk.experience_jelly.comment": "§7Instantly digested!",
 
   "button.experienceobelisk.experience_obelisk.settings": "§l▶§r",
   "button.experienceobelisk.experience_obelisk.back": "§l◀§r",
