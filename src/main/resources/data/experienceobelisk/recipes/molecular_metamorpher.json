@@ -7,7 +7,7 @@
   ],
   "key": {
     "A": {
-      "item": "experienceobelisk:astute_assembly"
+      "item": "experienceobelisk:cognitive_crystal"
     },
     "B": {
       "item": "experienceobelisk:accelerator"
@@ -16,10 +16,10 @@
       "item": "experienceobelisk:cognitive_amalgam"
     },
     "D": {
-      "item": "experienceobelisk:whisperglass"
+      "item": "experienceobelisk:astute_assembly"
     },
     "E": {
-      "item": "minecraft:deepslate_tiles"
+      "item": "minecraft:smithing_table"
     }
   },
   "result": {
