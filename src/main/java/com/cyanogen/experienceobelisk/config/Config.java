@@ -14,13 +14,11 @@ public class Config {
         public final ForgeConfigSpec.ConfigValue<Integer> capacity;
         public final ForgeConfigSpec.ConfigValue<Double> range;
         public final ForgeConfigSpec.ConfigValue<Boolean> formatting;
-        public final ForgeConfigSpec.ConfigValue<Boolean> anvilRepair;
 
         public List<String> defaultValues = new ArrayList<>();
         public int defaultCapacity = 100000000;
         public double defaultRange = 8.0;
         public boolean defaultFormatting = true;
-        public boolean defaultAnvilRepair = true;
 
         public Common(ForgeConfigSpec.Builder builder){
 
@@ -36,8 +34,9 @@ public class Config {
             builder.pop();
 
             builder.push("Experience Obelisk Capacity");
-            this.capacity = builder.comment("The fluid capacity of the obelisk in mB. Default = 100000000. This is ~1072 levels' worth.")
-                    .defineInRange("Capacity", defaultCapacity, 20, 2147483640);
+            this.capacity = builder.comment("The fluid capacity of the obelisk in mB. Default = 100000000, which is ~1072 levels' worth. Ensure that the new value is divisible by 20.")
+                    .comment("Warning: setting this value above the default may lead to unintended loss or gain of XP.")
+                    .defineInRange("Capacity", defaultCapacity, 1000, 2147483640);
             builder.pop();
 
             builder.push("Enlightened Amulet Range");
@@ -50,11 +49,6 @@ public class Config {
                     .define("Formatting", defaultFormatting);
             builder.pop();
 
-            builder.push("Enable Anvil Repair Recipes");
-            this.anvilRepair = builder.comment("Whether custom recipes that allow for the repairing of anvils with iron ingots are allowed")
-                    .define("AnvilRepair", defaultAnvilRepair);
-            builder.pop();
-
         }
 
     }
@@ -62,7 +56,7 @@ public class Config {
     public static final Common COMMON;
     public static final ForgeConfigSpec COMMON_SPEC;
 
-    static //constructor
+    static
     {
         Pair<Common, ForgeConfigSpec> commonSpecPair = new ForgeConfigSpec.Builder().configure(Common::new);
         COMMON = commonSpecPair.getLeft();

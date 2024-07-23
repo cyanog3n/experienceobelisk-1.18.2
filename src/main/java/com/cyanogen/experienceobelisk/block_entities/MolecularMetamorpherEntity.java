@@ -24,6 +24,7 @@ import net.minecraft.world.item.Items;
 import net.minecraft.world.item.crafting.Ingredient;
 import net.minecraft.world.item.crafting.Recipe;
 import net.minecraft.world.level.Level;
+import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraftforge.common.capabilities.Capability;
 import net.minecraftforge.common.capabilities.ForgeCapabilities;
@@ -31,14 +32,15 @@ import net.minecraftforge.common.util.LazyOptional;
 import net.minecraftforge.items.IItemHandler;
 import net.minecraftforge.items.ItemStackHandler;
 import org.jetbrains.annotations.NotNull;
-import software.bernie.geckolib.animatable.GeoBlockEntity;
-import software.bernie.geckolib.core.animatable.instance.AnimatableInstanceCache;
-import software.bernie.geckolib.core.animation.AnimatableManager;
-import software.bernie.geckolib.core.animation.AnimationController;
-import software.bernie.geckolib.core.animation.AnimationState;
-import software.bernie.geckolib.core.animation.RawAnimation;
-import software.bernie.geckolib.core.object.PlayState;
-import software.bernie.geckolib.util.GeckoLibUtil;
+import software.bernie.geckolib3.core.IAnimatable;
+import software.bernie.geckolib3.core.PlayState;
+import software.bernie.geckolib3.core.builder.Animation;
+import software.bernie.geckolib3.core.builder.AnimationBuilder;
+import software.bernie.geckolib3.core.controller.AnimationController;
+import software.bernie.geckolib3.core.event.predicate.AnimationEvent;
+import software.bernie.geckolib3.core.manager.AnimationData;
+import software.bernie.geckolib3.core.manager.AnimationFactory;
+import software.bernie.geckolib3.util.GeckoLibUtil;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
@@ -46,7 +48,9 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Optional;
 
-public class MolecularMetamorpherEntity extends ExperienceReceivingEntity implements GeoBlockEntity {
+import static com.cyanogen.experienceobelisk.utils.MiscUtils.isSameAnimation;
+
+public class MolecularMetamorpherEntity extends ExperienceReceivingEntity implements IAnimatable{
 
     public MolecularMetamorpherEntity(BlockPos pos, BlockState state) {
         super(RegisterBlockEntities.MOLECULAR_METAMORPHER_BE.get(), pos, state);
@@ -61,31 +65,28 @@ public class MolecularMetamorpherEntity extends ExperienceReceivingEntity implem
 
     //-----------ANIMATIONS-----------//
 
-    private final AnimatableInstanceCache cache = GeckoLibUtil.createInstanceCache(this);
+    protected static final AnimationBuilder IDLE = new AnimationBuilder().addAnimation("use");
+    protected static final AnimationBuilder ACTIVE = new AnimationBuilder().addAnimation("active");
 
-    protected static final RawAnimation IDLE = RawAnimation.begin().thenPlay("idle");
-    protected static final RawAnimation ACTIVE = RawAnimation.begin().thenPlay("active");
+    private <E extends BlockEntity & IAnimatable> PlayState predicate(AnimationEvent<E> event) {
 
-    @Override
-    public void registerControllers(AnimatableManager.ControllerRegistrar controllerRegistrar) {
-        controllerRegistrar.add(new AnimationController<>(this, this::controller));
-    }
+        AnimationController controller = event.getController();
+        BlockEntity entity = event.getAnimatable();
+        controller.transitionLengthTicks = 0;
 
-    protected <E extends MolecularMetamorpherEntity> PlayState controller(final AnimationState<E> state){
+        Animation animation = controller.getCurrentAnimation();
 
-        MolecularMetamorpherEntity metamorpher = state.getAnimatable();
-        AnimationController<E> controller = state.getController();
-        RawAnimation animation = controller.getCurrentRawAnimation();
-
-        if(animation == null){
-            controller.setAnimation(IDLE);
-        }
-        else{
-            if(metamorpher.busy && animation.equals(IDLE)){
-                controller.setAnimation(ACTIVE);
-            }
-            else if(!metamorpher.busy && animation.equals(ACTIVE)){
+        if(entity instanceof MolecularMetamorpherEntity metamorpher){
+            if(animation == null){
                 controller.setAnimation(IDLE);
+            }
+            else{
+                if(metamorpher.busy && isSameAnimation(animation, IDLE)){
+                    controller.setAnimation(ACTIVE);
+                }
+                else if(!metamorpher.busy && isSameAnimation(animation, ACTIVE)){
+                    controller.setAnimation(IDLE);
+                }
             }
         }
 
@@ -93,8 +94,14 @@ public class MolecularMetamorpherEntity extends ExperienceReceivingEntity implem
     }
 
     @Override
-    public AnimatableInstanceCache getAnimatableInstanceCache() {
-        return cache;
+    public void registerControllers(AnimationData data) {
+        data.addAnimationController(new AnimationController(this, "controller", 0, this::predicate));
+    }
+
+    private final AnimationFactory manager = GeckoLibUtil.createFactory(this);
+    @Override
+    public AnimationFactory getFactory() {
+        return manager;
     }
 
     //-----------BEHAVIOR-----------//
@@ -515,5 +522,4 @@ public class MolecularMetamorpherEntity extends ExperienceReceivingEntity implem
     {
         return ClientboundBlockEntityDataPacket.create(this);
     }
-
 }

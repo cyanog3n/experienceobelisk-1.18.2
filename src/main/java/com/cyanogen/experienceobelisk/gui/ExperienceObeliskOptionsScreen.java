@@ -3,7 +3,7 @@ package com.cyanogen.experienceobelisk.gui;
 import com.cyanogen.experienceobelisk.block_entities.ExperienceObeliskEntity;
 import com.cyanogen.experienceobelisk.network.PacketHandler;
 import com.cyanogen.experienceobelisk.network.experience_obelisk.UpdateRadius;
-import com.cyanogen.experienceobelisk.network.experience_obelisk.UpdateRedstone;
+import com.cyanogen.experienceobelisk.network.shared.UpdateRedstone;
 import com.mojang.blaze3d.platform.InputConstants;
 import com.mojang.blaze3d.systems.RenderSystem;
 import com.mojang.blaze3d.vertex.PoseStack;
@@ -30,18 +30,6 @@ public class ExperienceObeliskOptionsScreen extends AbstractContainerScreen<Expe
         this.pos = pos;
         this.xpobelisk = menu.entity;
         this.menu = menu;
-    }
-
-    @Override
-    public boolean keyPressed(int keyCode, int scanCode, int modifiers) {
-        InputConstants.Key mouseKey = InputConstants.getKey(keyCode, scanCode);
-        if (this.minecraft.options.keyInventory.isActiveAndMatches(mouseKey)) {
-            this.onClose();
-            return true;
-        }
-        else{
-            return super.keyPressed(keyCode, scanCode, modifiers);
-        }
     }
 
     @Override

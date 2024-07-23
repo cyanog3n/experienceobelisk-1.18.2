@@ -244,5 +244,4 @@ public class ExperienceFountainEntity extends ExperienceReceivingEntity implemen
         super.onDataPacket(net, pkt);
     }
 
-
 }

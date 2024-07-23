@@ -43,6 +43,7 @@ import java.util.List;
 
 import static com.cyanogen.experienceobelisk.utils.ExperienceUtils.levelsToXP;
 import static com.cyanogen.experienceobelisk.utils.ExperienceUtils.xpToLevels;
+import static com.cyanogen.experienceobelisk.utils.MiscUtils.isSameAnimation;
 
 
 public class ExperienceObeliskEntity extends BlockEntity implements IAnimatable{
@@ -72,7 +73,7 @@ public class ExperienceObeliskEntity extends BlockEntity implements IAnimatable{
             animationToPlay = new AnimationBuilder().addAnimation("idle");
         }
 
-        if(controller.getCurrentAnimation() == null || !animation.animationName.equals(animationToPlay.getRawAnimationList().get(0).animationName)){
+        if(controller.getCurrentAnimation() == null || !isSameAnimation(animation, animationToPlay)){
             controller.setAnimation(animationToPlay);
         }
 
