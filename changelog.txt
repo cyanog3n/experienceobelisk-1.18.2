@@ -1,4 +1,82 @@
-## v2.0.3
+v2.2.1
+
+[Content]
+- Added Fluorescent Jelly
+
+[Changes]
+- Enchanted and Archiver's bookshelves, along with their infected counterparts, now contribute to enchanting power
+- Rebalanced Astute Assembly recipe
+- Rebalanced Molecular Metamorpher recipe
+- Removed feather recipe -- will be implemented some other way in the future
+
+[Bugfixes]
+- Fixed Metamorpher not returning craft remainder items after recipes have concluded
+- Fixed Metamorpher active animation continuing to play even when slots contain an invalid recipe
+
+v2.2.0
+
+[Content]
+- added Molecular Metamorpher
+- added Bottle o' Daydream
+- added Bottle o' Nightmare
+- added Primordial Assembly
+- added Bibliophages
+- added Enchanted Bookshelves
+- added Archiver's Bookshelves
+- added Infected Bookshelves
+- added Infected Enchanted Bookshelves
+- added Infected Archiver's Bookshelves
+- added Forgotten Dust
+- added Forgotten Dust Blocks
+
+[Changes]
+- changed Accelerator recipe to be less expensive
+- Obelisk now displays stored experience in points as a tooltip when hovered over
+- merged cognitive flux recipes 
+
+v2.1.0.1 (for 1.19.2)
+
+[Bugfixes]
+- Fixed smithing recipes for Cognitive toolset and Precision Dispeller
+- Fixed previous changes which were not ported over
+ - Set bottle o' enchanting to contain 250mB of cognitium
+ - Obelisk item no longer displays fluid information if it does not contain block entity data
+
+v2.1.0
+
+[Content]
+- Added Accelerator
+- Added Linear Accelerator
+- Added Whisperglass
+
+[Changes]
+- Set bottle o' enchanting to contain 250mB of cognitium
+- Shift-right-clicking in air with the Staff of Attunement will forget the saved obelisk
+
+[Bugfixes]
+- Fixed the positions of the widgets in the obelisk GUI not updating when changing the resolution of the minecraft window
+- Obelisk item no longer displays fluid information if it does not contain block entity data
+
+v2.0.4
+
+[Content]
+- Added custom anvil recipe -- combining an item with dye in an anvil lets you change its name color
+- Added custom anvil recipe -- combining an item with certain crafting ingredients in an anvil lets you change its name formatting i.e. bold, underline etc.
+- Added custom anvil recipe -- combining a chipped / damaged anvil with an iron ingot lets you repair it
+
+[Changes]
+- Fixed the Cognitive Alloy Block & Cognitive Crystal Block not having crafting recipes back into their constituents. Oops!
+- Fixed Staff of Attunement binding distance calculation
+- Increased Staff of Attunement effective range to 48 blocks
+- Changed crafting recipe for Cognitive Alloy -- now uses Copper instead of Iron
+- Changed crafting recipe for Astute Assembly
+- Changed crafting recipe for Experience Fountain
+- The Precision Dispeller is now crafted via smithing
+- The Cognitive Toolset is now crafted via smithing
+- Buffed stats for the Cognitive Toolset to compensate for increased material cost
+- Smelting / blasting Cognitive Flux now drops experience, similarly to smelting / blasting vanilla ores
+
+v2.0.3
 
 !! Important Update !!
 
@@ -6,22 +84,19 @@
 - Fixed a major bug arising from the Experience Obelisk and Enlightened Amulet not accounting for merged orbs
 - Fixed the Experience Obelisk animation sometimes freezing randomly
 
-
-## v2.0.2.1
+v2.0.2.1
 
 [Changes]
 - Fixed blocks not being able to be placed within Cognitium fluid (for 1.20.1)
 - Fixed the itemgroup having an incorrect localization tag (for 1.19.2 and 1.18.2)
 
-
-## v2.0.2
+v2.0.2
 
 [Changes]
 - Changed the textures for the Cognitive Alloy and Cognitive Crystal blocks
 - Cognitive Crystal blocks now emit light with a light level of 12
 
-
-## v2.0.1
+v2.0.1
 
 [Changes]
 - Fixed dispeller animation not refreshing for 1.20.1
@@ -29,8 +104,7 @@
 - Fixed Cognitive tools not rendering properly when held
 - Updated Staff of Attunement messages
 
-
-## v2.0.0
+v2.0.0
 
 - Experience Obelisk is now Cognition!
 
