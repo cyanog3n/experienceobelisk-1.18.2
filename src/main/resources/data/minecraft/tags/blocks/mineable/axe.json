@@ -1,0 +1,10 @@
+{
+  "replace": false,
+  "values": [
+    "experienceobelisk:enchanted_bookshelf",
+    "experienceobelisk:archivers_bookshelf",
+    "experienceobelisk:infected_bookshelf",
+    "experienceobelisk:infected_enchanted_bookshelf",
+    "experienceobelisk:infected_archivers_bookshelf"
+  ]
+}

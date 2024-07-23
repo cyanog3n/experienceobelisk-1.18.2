@@ -6,16 +6,4 @@ import net.minecraftforge.eventbus.api.SubscribeEvent;
 
 public class EventHandler {
 
-    @SubscribeEvent
-    public void onAnvilUpdate(AnvilUpdateEvent event){
-
-        if(Config.COMMON.formatting.get()){
-            CustomAnvilRecipes.nameFormattingRecipes(event);
-        }
-
-        if(Config.COMMON.anvilRepair.get()){
-            CustomAnvilRecipes.repairRecipes(event);
-        }
-    }
-
 }

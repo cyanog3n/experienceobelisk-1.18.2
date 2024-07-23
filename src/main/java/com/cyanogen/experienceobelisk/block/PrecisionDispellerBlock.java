@@ -95,8 +95,8 @@ public class PrecisionDispellerBlock extends ExperienceReceivingBlock implements
             }
 
             @Override
-            public AbstractContainerMenu createMenu(int pContainerId, Inventory pPlayerInventory, Player pPlayer) {
-                return new PrecisionDispellerMenu(pContainerId, pPlayerInventory, pPlayer, pos);
+            public AbstractContainerMenu createMenu(int containerId, Inventory inventory, Player player) {
+                return new PrecisionDispellerMenu(containerId, inventory, player, pos);
             }
         };
 
@@ -150,6 +150,6 @@ public class PrecisionDispellerBlock extends ExperienceReceivingBlock implements
     @Nullable
     @Override
     public BlockEntity newBlockEntity(BlockPos pos, BlockState state) {
-        return RegisterBlockEntities.PRECISIONDISPELLER_BE.get().create(pos, state);
+        return RegisterBlockEntities.PRECISION_DISPELLER_BE.get().create(pos, state);
     }
 }

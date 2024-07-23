@@ -29,6 +29,7 @@ import net.minecraftforge.registries.ForgeRegistries;
 import org.jetbrains.annotations.NotNull;
 import software.bernie.geckolib3.core.IAnimatable;
 import software.bernie.geckolib3.core.PlayState;
+import software.bernie.geckolib3.core.builder.Animation;
 import software.bernie.geckolib3.core.builder.AnimationBuilder;
 import software.bernie.geckolib3.core.controller.AnimationController;
 import software.bernie.geckolib3.core.event.predicate.AnimationEvent;
@@ -46,7 +47,7 @@ import static com.cyanogen.experienceobelisk.utils.ExperienceUtils.levelsToXP;
 public class ExperienceObeliskEntity extends BlockEntity implements IAnimatable{
 
     public ExperienceObeliskEntity(BlockPos pos, BlockState state) {
-        super(RegisterBlockEntities.EXPERIENCEOBELISK_BE.get(), pos, state);
+        super(RegisterBlockEntities.EXPERIENCE_OBELISK_BE.get(), pos, state);
     }
 
     //-----------ANIMATIONS-----------//
@@ -57,15 +58,21 @@ public class ExperienceObeliskEntity extends BlockEntity implements IAnimatable{
         controller.transitionLengthTicks = 0;
 
         BlockEntity entity = event.getAnimatable();
+        Animation animation = event.getController().getCurrentAnimation();
+        AnimationBuilder animationToPlay;
 
         if(level != null
                 && entity instanceof ExperienceObeliskEntity obelisk
                 && obelisk.redstoneEnabled
                 && !level.hasNeighborSignal(obelisk.getBlockPos())){
-            controller.setAnimation(new AnimationBuilder().addAnimation("idle.inactive"));
+            animationToPlay = new AnimationBuilder().addAnimation("idle.inactive");
         }
         else{
-            controller.setAnimation(new AnimationBuilder().addAnimation("idle"));
+            animationToPlay = new AnimationBuilder().addAnimation("idle");
+        }
+
+        if(controller.getCurrentAnimation() == null || !animation.animationName.equals(animationToPlay.getRawAnimationList().get(0).animationName)){
+            controller.setAnimation(animationToPlay);
         }
 
         return PlayState.CONTINUE;
@@ -91,11 +98,11 @@ public class ExperienceObeliskEntity extends BlockEntity implements IAnimatable{
 
         boolean isRedstonePowered = level.hasNeighborSignal(pos);
 
-        if(blockEntity instanceof ExperienceObeliskEntity xpobelisk){
+        if(blockEntity instanceof ExperienceObeliskEntity obelisk){
 
-            boolean absorb = !xpobelisk.isRedstoneEnabled() || isRedstonePowered;
-            double radius = xpobelisk.getRadius();
-            int space = xpobelisk.getSpace();
+            boolean absorb = !obelisk.isRedstoneEnabled() || isRedstonePowered;
+            double radius = obelisk.getRadius();
+            int space = obelisk.getSpace();
 
             if(absorb && level.getGameTime() % 10 == 0){
                 AABB area = new AABB(
@@ -119,7 +126,7 @@ public class ExperienceObeliskEntity extends BlockEntity implements IAnimatable{
 
                     int amount = value * 20 * count;
                     if(space >= amount){
-                        xpobelisk.fill(amount);
+                        obelisk.fill(amount);
                         space = space - amount;
                         orb.discard();
                     }
@@ -156,15 +163,15 @@ public class ExperienceObeliskEntity extends BlockEntity implements IAnimatable{
 
     //-----------FLUID HANDLER-----------//
 
-    protected FluidTank tank = xpObeliskTank();
+    protected FluidTank tank = experienceObeliskTank();
 
     private final LazyOptional<IFluidHandler> handler = LazyOptional.of(() -> tank);
 
     private static final Fluid cognitium = RegisterFluids.COGNITIUM.get().getSource();
 
-    public static final int capacity = Config.COMMON.capacity.get();
+    public static final int capacity = Config.COMMON.capacity.get() % 20 == 0 ? Config.COMMON.capacity.get() : Config.COMMON.defaultCapacity;
 
-    private FluidTank xpObeliskTank() {
+    private FluidTank experienceObeliskTank() {
         return new FluidTank(capacity){
 
             @Override
@@ -250,6 +257,15 @@ public class ExperienceObeliskEntity extends BlockEntity implements IAnimatable{
 
     public int getSpace(){ return tank.getSpace(); }
 
+    @Override
+    @Nonnull
+    public <T> LazyOptional<T> getCapability(@Nonnull Capability<T> capability, @Nullable Direction facing)
+    {
+        if (capability == ForgeCapabilities.FLUID_HANDLER)
+            return handler.cast();
+        return super.getCapability(capability, facing);
+        //controls which sides can give or receive fluids
+    }
 
     //-----------NBT-----------//
 
@@ -273,7 +289,6 @@ public class ExperienceObeliskEntity extends BlockEntity implements IAnimatable{
         tag.putBoolean("isRedstoneControllable", redstoneEnabled);
     }
 
-    //sends CompoundTag out with nbt data
     @Override
     public CompoundTag getUpdateTag()
     {
@@ -286,7 +301,6 @@ public class ExperienceObeliskEntity extends BlockEntity implements IAnimatable{
         return tag;
     }
 
-    //gets packet to send to client
     @Override
     public Packet<ClientGamePacketListener> getUpdatePacket()
     {
@@ -294,19 +308,7 @@ public class ExperienceObeliskEntity extends BlockEntity implements IAnimatable{
     }
 
 
-    @Override
-    @Nonnull
-    public <T> LazyOptional<T> getCapability(@Nonnull Capability<T> capability, @Nullable Direction facing)
-    {
-        if (capability == ForgeCapabilities.FLUID_HANDLER)
-            return handler.cast();
-        return super.getCapability(capability, facing);
-        //controls which sides can give or receive fluids
-    }
-
-
     //-----------LOGIC-----------//
-
 
     public static long getTotalXP(Player player){
         return levelsToXP(player.experienceLevel) + Math.round(player.experienceProgress * player.getXpNeededForNextLevel());
@@ -388,7 +390,6 @@ public class ExperienceObeliskEntity extends BlockEntity implements IAnimatable{
                 this.setFluid(capacity);
             }
 
-
         }
         else if(request == UpdateContents.Request.DRAIN_ALL){
 
@@ -396,6 +397,7 @@ public class ExperienceObeliskEntity extends BlockEntity implements IAnimatable{
             this.setFluid(0);
         }
     }
+
 
 }
 

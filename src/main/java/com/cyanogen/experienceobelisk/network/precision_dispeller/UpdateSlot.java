@@ -8,31 +8,25 @@ import net.minecraftforge.network.NetworkEvent;
 import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.function.Supplier;
 
-public class UpdateSlots {
+public class UpdateSlot {
 
-    public static int id;
     public static int slot;
     public static ItemStack stack;
 
-    public UpdateSlots(int id, int slot, ItemStack stack) {
-        UpdateSlots.id = id;
-        UpdateSlots.slot = slot;
-        UpdateSlots.stack = stack;
+    public UpdateSlot(int slot, ItemStack stack) {
+        UpdateSlot.slot = slot;
+        UpdateSlot.stack = stack;
     }
 
-    public UpdateSlots(FriendlyByteBuf buffer) {
-        id = buffer.readInt();
+    public UpdateSlot(FriendlyByteBuf buffer) {
         slot = buffer.readInt();
         stack = buffer.readItem();
 
     }
 
     public void encode(FriendlyByteBuf buffer){
-
-        buffer.writeInt(id);
         buffer.writeInt(slot);
         buffer.writeItem(stack);
-
     }
 
     public boolean handle(Supplier<NetworkEvent.Context> ctx) {
@@ -41,7 +35,7 @@ public class UpdateSlots {
             ServerPlayer sender = ctx.get().getSender();
             assert sender != null;
 
-            sender.containerMenu.setItem(1, id, stack);
+            sender.containerMenu.getSlot(slot).set(stack);
 
             success.set(true);
 

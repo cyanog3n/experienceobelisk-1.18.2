@@ -1,45 +1,74 @@
 package com.cyanogen.experienceobelisk.registries;
 
-import net.minecraft.core.NonNullList;
+import com.cyanogen.experienceobelisk.ExperienceObelisk;
+import net.minecraft.core.registries.Registries;
+import net.minecraft.network.chat.Component;
 import net.minecraft.world.item.CreativeModeTab;
-import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.CreativeModeTabs;
+import net.minecraftforge.eventbus.api.IEventBus;
+import net.minecraftforge.registries.DeferredRegister;
+import net.minecraftforge.registries.RegistryObject;
 
 public class RegisterCreativeTab {
-    public static final CreativeModeTab MOD_TAB = new CreativeModeTab("experienceobelisk") {
-        @Override
-        public ItemStack makeIcon() {
-            return new ItemStack(RegisterBlocks.EXPERIENCE_OBELISK.get());
-        }
 
-        @Override
-        public void fillItemList(NonNullList<ItemStack> itemList) {
+    public static final DeferredRegister<CreativeModeTab> TABS = DeferredRegister.create(Registries.CREATIVE_MODE_TAB, ExperienceObelisk.MOD_ID);
 
-            itemList.add(RegisterItems.COGNITIVE_FLUX.get().getDefaultInstance());
-            itemList.add(RegisterItems.COGNITIVE_AMALGAM.get().getDefaultInstance());
-            itemList.add(RegisterItems.COGNITIVE_ALLOY.get().getDefaultInstance());
-            itemList.add(RegisterItems.COGNITIVE_CRYSTAL.get().getDefaultInstance());
-            itemList.add(RegisterItems.ASTUTE_ASSEMBLY.get().getDefaultInstance());
+    public static final RegistryObject<CreativeModeTab> EXPERIENCE_OBELISK_TAB = TABS.register("experienceobelisk_tab",
+            () -> CreativeModeTab.builder()
+                    .title(Component.translatable("itemGroup.experienceobelisk"))
+                    .icon(RegisterItems.EXPERIENCE_OBELISK_ITEM.get()::getDefaultInstance)
+                    .withTabsBefore(CreativeModeTabs.SPAWN_EGGS)
+                    .displayItems((p_270258_, output) -> {
 
-            itemList.add(RegisterItems.COGNITIVE_SWORD.get().getDefaultInstance());
-            itemList.add(RegisterItems.COGNITIVE_SHOVEL.get().getDefaultInstance());
-            itemList.add(RegisterItems.COGNITIVE_PICKAXE.get().getDefaultInstance());
-            itemList.add(RegisterItems.COGNITIVE_AXE.get().getDefaultInstance());
-            itemList.add(RegisterItems.COGNITIVE_HOE.get().getDefaultInstance());
+                        //BASIC INGREDIENTS
+                        output.accept(RegisterItems.COGNITIVE_FLUX.get());
+                        output.accept(RegisterItems.COGNITIVE_AMALGAM.get());
+                        output.accept(RegisterItems.COGNITIVE_ALLOY.get());
+                        output.accept(RegisterItems.COGNITIVE_CRYSTAL.get());
+                        output.accept(RegisterItems.ASTUTE_ASSEMBLY.get());
+                        output.accept(RegisterItems.PRIMORDIAL_ASSEMBLY.get());
 
-            itemList.add(RegisterItems.ATTUNEMENT_STAFF.get().getDefaultInstance());
-            itemList.add(RegisterItems.ENLIGHTENED_AMULET.get().getDefaultInstance());
+                        //TOOLSETS
+                        output.accept(RegisterItems.COGNITIVE_SWORD.get());
+                        output.accept(RegisterItems.COGNITIVE_SHOVEL.get());
+                        output.accept(RegisterItems.COGNITIVE_PICKAXE.get());
+                        output.accept(RegisterItems.COGNITIVE_AXE.get());
+                        output.accept(RegisterItems.COGNITIVE_HOE.get());
 
-            itemList.add(RegisterItems.EXPERIENCE_OBELISK_ITEM.get().getDefaultInstance());
-            itemList.add(RegisterItems.EXPERIENCE_FOUNTAIN_ITEM.get().getDefaultInstance());
-            itemList.add(RegisterItems.PRECISION_DISPELLER_ITEM.get().getDefaultInstance());
-            itemList.add(RegisterItems.ACCELERATOR_ITEM.get().getDefaultInstance());
-            itemList.add(RegisterItems.LINEAR_ACCELERATOR_ITEM.get().getDefaultInstance());
+                        //FUNCTIONAL ITEMS
+                        output.accept(RegisterItems.ATTUNEMENT_STAFF.get());
+                        output.accept(RegisterItems.ENLIGHTENED_AMULET.get());
+                        output.accept(RegisterItems.BIBLIOPHAGE.get());
 
-            itemList.add(RegisterItems.COGNITIVE_ALLOY_BLOCK_ITEM.get().getDefaultInstance());
-            itemList.add(RegisterItems.COGNITIVE_CRYSTAL_BLOCK_ITEM.get().getDefaultInstance());
-            itemList.add(RegisterItems.WHISPERGLASS_ITEM.get().getDefaultInstance());
+                        //FUNCTIONAL BLOCKS
+                        output.accept(RegisterItems.EXPERIENCE_OBELISK_ITEM.get());
+                        output.accept(RegisterItems.EXPERIENCE_FOUNTAIN_ITEM.get());
+                        output.accept(RegisterItems.PRECISION_DISPELLER_ITEM.get());
+                        output.accept(RegisterItems.MOLECULAR_METAMORPHER_ITEM.get());
+                        output.accept(RegisterItems.ACCELERATOR_ITEM.get());
+                        output.accept(RegisterItems.LINEAR_ACCELERATOR_ITEM.get());
+                        output.accept(RegisterItems.ENCHANTED_BOOKSHELF_ITEM.get());
+                        output.accept(RegisterItems.ARCHIVERS_BOOKSHELF_ITEM.get());
+                        output.accept(RegisterItems.INFECTED_BOOKSHELF_ITEM.get());
+                        output.accept(RegisterItems.INFECTED_ENCHANTED_BOOKSHELF_ITEM.get());
+                        output.accept(RegisterItems.INFECTED_ARCHIVERS_BOOKSHELF_ITEM.get());
 
-            itemList.add(RegisterItems.COGNITIUM_BUCKET.get().getDefaultInstance());
-        }
-    };
+                        //DECORATIVE / OTHER BLOCKS
+                        output.accept(RegisterItems.COGNITIVE_ALLOY_BLOCK_ITEM.get());
+                        output.accept(RegisterItems.COGNITIVE_CRYSTAL_BLOCK_ITEM.get());
+                        output.accept(RegisterItems.WHISPERGLASS_ITEM.get());
+
+                        //MISC
+                        output.accept(RegisterItems.FORGOTTEN_DUST.get());
+                        output.accept(RegisterItems.FORGOTTEN_DUST_BLOCK_ITEM.get());
+                        output.accept(RegisterItems.NIGHTMARE_BOTTLE.get());
+                        output.accept(RegisterItems.DAYDREAM_BOTTLE.get());
+                        output.accept(RegisterItems.EXPERIENCE_JELLY.get());
+                        output.accept(RegisterItems.COGNITIUM_BUCKET.get());
+                    })
+                    .build());
+
+    public static void register(IEventBus eventBus){
+        TABS.register(eventBus);
+    }
 }

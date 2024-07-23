@@ -23,8 +23,8 @@ import java.util.List;
 
 public class ExperienceReceivingBlock extends Block {
 
-    public ExperienceReceivingBlock(Properties properties) {
-        super(properties);
+    public ExperienceReceivingBlock(Properties p) {
+        super(p);
     }
 
     @Override
@@ -35,27 +35,33 @@ public class ExperienceReceivingBlock extends Block {
 
         if(e instanceof ExperienceReceivingEntity entity && heldItem.is(RegisterItems.ATTUNEMENT_STAFF.get())){
 
-            if(entity.isBound){
+            if(!player.isShiftKeyDown()){
+                handleInfoRequest(entity, player, level);
+                return InteractionResult.sidedSuccess(true);
+            }
+        }
+        return InteractionResult.PASS;
+    }
 
-                BlockPos boundPos = entity.getBoundPos();
+    public void handleInfoRequest(ExperienceReceivingEntity entity, Player player, Level level){
 
-                if(level.getBlockEntity(boundPos) instanceof ExperienceObeliskEntity){
-                    player.displayClientMessage(Component.translatable("message.experienceobelisk.binding_wand.reveal_bound_pos",
-                            Component.literal(boundPos.toShortString()).withStyle(ChatFormatting.GREEN)), true);
-                }
-                else{
-                    player.displayClientMessage(Component.translatable("message.experienceobelisk.binding_wand.obelisk_doesnt_exist",
-                            Component.literal(boundPos.toShortString())).withStyle(ChatFormatting.RED), true);
-                }
+        if(entity.isBound){
 
+            BlockPos boundPos = entity.getBoundPos();
+
+            if(level.getBlockEntity(boundPos) instanceof ExperienceObeliskEntity){
+                player.displayClientMessage(Component.translatable("message.experienceobelisk.binding_wand.reveal_bound_pos",
+                        Component.literal(boundPos.toShortString()).withStyle(ChatFormatting.GREEN)), true);
             }
             else{
-                player.displayClientMessage(Component.translatable("message.experienceobelisk.binding_wand.not_yet_bound"), true);
+                player.displayClientMessage(Component.translatable("message.experienceobelisk.binding_wand.obelisk_doesnt_exist",
+                        Component.literal(boundPos.toShortString())).withStyle(ChatFormatting.RED), true);
             }
-            return InteractionResult.sidedSuccess(true);
-        }
 
-        return InteractionResult.PASS;
+        }
+        else{
+            player.displayClientMessage(Component.translatable("message.experienceobelisk.binding_wand.not_yet_bound"), true);
+        }
     }
 
     //-----DROPS-----//
@@ -89,12 +95,17 @@ public class ExperienceReceivingBlock extends Block {
     }
 
     @Override
-    public List<ItemStack> getDrops(BlockState state, LootContext.Builder builder) {
+    public List<ItemStack> getDrops(BlockState state, LootContext.Builder context) {
         List<ItemStack> drops = new ArrayList<>();
         if(stack != null){
             drops.add(stack);
+            return drops;
         }
-        return drops;
+        else{
+            return super.getDrops(state, context);
+        }
     }
+
+
 
 }

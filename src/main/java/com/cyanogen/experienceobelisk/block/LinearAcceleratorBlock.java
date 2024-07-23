@@ -30,6 +30,9 @@ import org.jetbrains.annotations.Nullable;
 
 public class LinearAcceleratorBlock extends ExperienceReceivingBlock implements EntityBlock {
 
+    public static final DirectionProperty FACING = BlockStateProperties.HORIZONTAL_FACING;
+    public static final BooleanProperty ACTIVE = BooleanProperty.create("active");
+
     public LinearAcceleratorBlock() {
         super(Properties.of(Material.METAL)
                 .strength(9f)
@@ -43,9 +46,6 @@ public class LinearAcceleratorBlock extends ExperienceReceivingBlock implements 
         this.registerDefaultState(this.stateDefinition.any().setValue(FACING, Direction.NORTH));
         this.registerDefaultState(this.stateDefinition.any().setValue(ACTIVE, true));
     }
-
-    public static final DirectionProperty FACING = BlockStateProperties.HORIZONTAL_FACING;
-    public static final BooleanProperty ACTIVE = BooleanProperty.create("active");
 
     @Override
     public float getFriction(BlockState state, LevelReader level, BlockPos pos, @Nullable Entity entity) {
@@ -93,12 +93,12 @@ public class LinearAcceleratorBlock extends ExperienceReceivingBlock implements 
     @Nullable
     @Override
     public <T extends BlockEntity> BlockEntityTicker<T> getTicker(Level level, BlockState state, BlockEntityType<T> blockEntityType) {
-        return blockEntityType == RegisterBlockEntities.LINEARACCELERATOR_BE.get() ? LinearAcceleratorEntity::tick : null;
+        return blockEntityType == RegisterBlockEntities.LINEAR_ACCELERATOR_BE.get() ? LinearAcceleratorEntity::tick : null;
     }
 
     @Nullable
     @Override
     public BlockEntity newBlockEntity(BlockPos pos, BlockState state) {
-        return RegisterBlockEntities.LINEARACCELERATOR_BE.get().create(pos, state);
+        return RegisterBlockEntities.LINEAR_ACCELERATOR_BE.get().create(pos, state);
     }
 }

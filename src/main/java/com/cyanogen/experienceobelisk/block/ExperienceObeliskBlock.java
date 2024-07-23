@@ -59,19 +59,21 @@ public class ExperienceObeliskBlock extends Block implements EntityBlock {
     VoxelShape shape3 = Shapes.create(new AABB(5 / 16D,4 / 16D,5 / 16D,11 / 16D,5 / 16D,11 / 16D));
 
     VoxelShape shape = Shapes.join(Shapes.join(shape1, shape2, BooleanOp.OR), shape3, BooleanOp.OR).optimize();
+
     @Override
     public VoxelShape getShape(BlockState state, BlockGetter getter, BlockPos pos, CollisionContext context) {
         return shape;
     }
 
     public ItemStack stack;
+
     @Override
     public void playerWillDestroy(Level level, BlockPos pos, BlockState state, Player player) {
         if (!level.isClientSide) {
-            BlockEntity blockentity = level.getBlockEntity(pos);
-            if (blockentity instanceof ExperienceObeliskEntity entity && player.hasCorrectToolForDrops(state)) {
+            BlockEntity entity = level.getBlockEntity(pos);
+            if (player.hasCorrectToolForDrops(state) && entity != null) {
 
-                stack = new ItemStack(RegisterItems.EXPERIENCE_OBELISK_ITEM.get(), 1);
+                stack = new ItemStack(state.getBlock(), 1);
                 entity.saveToItem(stack);
             }
         }
@@ -82,26 +84,28 @@ public class ExperienceObeliskBlock extends Block implements EntityBlock {
     @Override
     public void onBlockExploded(BlockState state, Level level, BlockPos pos, Explosion explosion) {
         if (!level.isClientSide) {
-            BlockEntity blockentity = level.getBlockEntity(pos);
-            if (blockentity instanceof ExperienceObeliskEntity entity) {
-
-                stack = new ItemStack(RegisterItems.EXPERIENCE_OBELISK_ITEM.get(), 1);
+            BlockEntity entity = level.getBlockEntity(pos);
+            if(entity != null){
+                stack = new ItemStack(state.getBlock(), 1);
                 entity.saveToItem(stack);
             }
         }
 
-
         super.onBlockExploded(state, level, pos, explosion);
     }
+
 
     @Override
     public List<ItemStack> getDrops(BlockState state, LootContext.Builder builder) {
         List<ItemStack> drops = new ArrayList<>();
-
         if(stack != null){
             drops.add(stack);
+            return drops;
         }
-        return drops;
+        else{
+            return super.getDrops(state, builder);
+        }
+
     }
 
     @Override
@@ -134,7 +138,7 @@ public class ExperienceObeliskBlock extends Block implements EntityBlock {
     @Nullable
     @Override
     public <T extends BlockEntity> BlockEntityTicker<T> getTicker(Level level, BlockState state, BlockEntityType<T> blockEntityType) {
-        return blockEntityType == RegisterBlockEntities.EXPERIENCEOBELISK_BE.get() ? ExperienceObeliskEntity::tick : null;
+        return blockEntityType == RegisterBlockEntities.EXPERIENCE_OBELISK_BE.get() ? ExperienceObeliskEntity::tick : null;
     }
 
     @Override
@@ -145,7 +149,7 @@ public class ExperienceObeliskBlock extends Block implements EntityBlock {
     @Nullable
     @Override
     public BlockEntity newBlockEntity(BlockPos pos, BlockState state) {
-        return RegisterBlockEntities.EXPERIENCEOBELISK_BE.get().create(pos, state);
+        return RegisterBlockEntities.EXPERIENCE_OBELISK_BE.get().create(pos, state);
     }
 
 }

@@ -42,7 +42,6 @@ public class ExperienceFountainBlock extends ExperienceReceivingBlock implements
         super(BlockBehaviour.Properties.of(Material.METAL)
                 .strength(9f)
                 .destroyTime(1.2f)
-                .requiresCorrectToolForDrops()
                 .explosionResistance(9f)
                 .noOcclusion()
                 .lightLevel(pLightEmission -> 7)
@@ -64,7 +63,7 @@ public class ExperienceFountainBlock extends ExperienceReceivingBlock implements
 
             if(fountain.isBound && level.getBlockEntity(fountain.getBoundPos()) instanceof ExperienceObeliskEntity obelisk){
 
-                if(heldItem.getItem() == Items.EXPERIENCE_BOTTLE || heldItem.getItem() == Items.GLASS_BOTTLE){
+              if(heldItem.getItem() == Items.EXPERIENCE_BOTTLE || heldItem.getItem() == Items.GLASS_BOTTLE){
                     handleExperienceBottle(heldItem, player, hand, obelisk);
                     return InteractionResult.sidedSuccess(true);
                 }
@@ -191,7 +190,6 @@ public class ExperienceFountainBlock extends ExperienceReceivingBlock implements
         return Shapes.join(Shapes.join(center, shape1, BooleanOp.OR), shape2, BooleanOp.OR).optimize();
     }
 
-
     @Override
     public RenderShape getRenderShape(BlockState state) {
         return RenderShape.ENTITYBLOCK_ANIMATED;
@@ -203,13 +201,13 @@ public class ExperienceFountainBlock extends ExperienceReceivingBlock implements
     @Nullable
     @Override
     public <T extends BlockEntity> BlockEntityTicker<T> getTicker(Level level, BlockState state, BlockEntityType<T> blockEntityType) {
-        return blockEntityType == RegisterBlockEntities.EXPERIENCEFOUNTAIN_BE.get() ? ExperienceFountainEntity::tick : null;
+        return blockEntityType == RegisterBlockEntities.EXPERIENCE_FOUNTAIN_BE.get() ? ExperienceFountainEntity::tick : null;
     }
 
     @Nullable
     @Override
     public BlockEntity newBlockEntity(BlockPos pos, BlockState state) {
-        return RegisterBlockEntities.EXPERIENCEFOUNTAIN_BE.get().create(pos, state);
+        return RegisterBlockEntities.EXPERIENCE_FOUNTAIN_BE.get().create(pos, state);
     }
 
 }
