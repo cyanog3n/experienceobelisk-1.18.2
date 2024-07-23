@@ -17,6 +17,7 @@ import net.minecraft.world.level.BlockGetter;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.EntityBlock;
 import net.minecraft.world.level.block.RenderShape;
+import net.minecraft.world.level.block.SoundType;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.entity.BlockEntityTicker;
 import net.minecraft.world.level.block.entity.BlockEntityType;
@@ -44,7 +45,6 @@ public class ExperienceFountainBlock extends ExperienceReceivingBlock implements
                 .destroyTime(1.2f)
                 .explosionResistance(9f)
                 .noOcclusion()
-                .lightLevel(pLightEmission -> 7)
         );
     }
 
@@ -195,6 +195,21 @@ public class ExperienceFountainBlock extends ExperienceReceivingBlock implements
         return RenderShape.ENTITYBLOCK_ANIMATED;
     }
 
+    @Override
+    public int getLightEmission(BlockState state, BlockGetter getter, BlockPos pos) {
+
+        BlockEntity entity = getter.getBlockEntity(pos);
+
+        if(entity instanceof ExperienceFountainEntity fountain && fountain.isBound){
+            Level level = fountain.getLevel();
+
+            if(level != null && level.hasNeighborSignal(pos) || fountain.hasPlayerAbove){
+                return 7;
+            }
+        }
+
+        return 0;
+    }
 
     //-----BLOCK ENTITY-----//
 

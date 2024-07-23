@@ -28,6 +28,9 @@ import org.jetbrains.annotations.Nullable;
 
 public class AcceleratorBlock extends ExperienceReceivingBlock implements EntityBlock {
 
+    public static final DirectionProperty FACING = BlockStateProperties.FACING;
+    public static final BooleanProperty ACTIVE = BooleanProperty.create("active");
+
     public AcceleratorBlock() {
         super(Properties.of(Material.METAL)
                 .strength(9f)
@@ -40,9 +43,6 @@ public class AcceleratorBlock extends ExperienceReceivingBlock implements Entity
         this.registerDefaultState(this.stateDefinition.any().setValue(FACING, Direction.UP));
         this.registerDefaultState(this.stateDefinition.any().setValue(ACTIVE, true));
     }
-
-    public static final DirectionProperty FACING = BlockStateProperties.FACING;
-    public static final BooleanProperty ACTIVE = BooleanProperty.create("active");
 
     @Override
     protected void createBlockStateDefinition(StateDefinition.Builder<Block, BlockState> builder) {

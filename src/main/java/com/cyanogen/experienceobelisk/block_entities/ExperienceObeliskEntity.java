@@ -42,6 +42,7 @@ import javax.annotation.Nullable;
 import java.util.List;
 
 import static com.cyanogen.experienceobelisk.utils.ExperienceUtils.levelsToXP;
+import static com.cyanogen.experienceobelisk.utils.ExperienceUtils.xpToLevels;
 
 
 public class ExperienceObeliskEntity extends BlockEntity implements IAnimatable{
@@ -257,6 +258,22 @@ public class ExperienceObeliskEntity extends BlockEntity implements IAnimatable{
 
     public int getSpace(){ return tank.getSpace(); }
 
+    public int getExperiencePoints(){
+        return getFluidAmount() / 20;
+    }
+
+    public int getLevels(){
+        return xpToLevels(getExperiencePoints());
+    }
+
+    public double getProgressToNextLevel(){
+
+        int n = getExperiencePoints() - levelsToXP(getLevels()); //remaining xp after levels are removed
+        int m = levelsToXP(getLevels() + 1) - levelsToXP(getLevels()); //total xp to get to next level
+
+        return (double) n/m;
+    }
+
     @Override
     @Nonnull
     public <T> LazyOptional<T> getCapability(@Nonnull Capability<T> capability, @Nullable Direction facing)
@@ -264,7 +281,12 @@ public class ExperienceObeliskEntity extends BlockEntity implements IAnimatable{
         if (capability == ForgeCapabilities.FLUID_HANDLER)
             return handler.cast();
         return super.getCapability(capability, facing);
-        //controls which sides can give or receive fluids
+    }
+
+    @Override
+    public void invalidateCaps() {
+        handler.invalidate();
+        super.invalidateCaps();
     }
 
     //-----------NBT-----------//

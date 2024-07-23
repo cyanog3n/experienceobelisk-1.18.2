@@ -7,6 +7,7 @@ import net.minecraft.network.Connection;
 import net.minecraft.network.protocol.Packet;
 import net.minecraft.network.protocol.game.ClientGamePacketListener;
 import net.minecraft.network.protocol.game.ClientboundBlockEntityDataPacket;
+import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.state.BlockState;
 import software.bernie.geckolib3.core.AnimationState;
@@ -56,7 +57,6 @@ public class PrecisionDispellerEntity extends ExperienceReceivingEntity implemen
 
     //-----------NBT-----------//
 
-    //sends CompoundTag out with nbt data
     @Override
     public CompoundTag getUpdateTag()
     {
@@ -72,12 +72,16 @@ public class PrecisionDispellerEntity extends ExperienceReceivingEntity implemen
         return ClientboundBlockEntityDataPacket.create(this, BlockEntity::getUpdateTag);
     }
 
-    @Override
-    public void onDataPacket(Connection net, ClientboundBlockEntityDataPacket pkt) {
-        CompoundTag tag = pkt.getTag();
-        if(tag != null){
-            this.pendingAnimation = tag.getBoolean("PendingAnimation");
+    //-----------BEHAVIOR-----------//
+
+    public static <T> void tick(Level level, BlockPos pos, BlockState state, T blockEntity) {
+
+        if(blockEntity instanceof PrecisionDispellerEntity dispeller){
+
+            if(dispeller.getBoundObelisk() != null) {
+                dispeller.sendObeliskInfoToScreen(dispeller.getBoundObelisk());
+            }
         }
-        super.onDataPacket(net, pkt);
     }
+
 }
