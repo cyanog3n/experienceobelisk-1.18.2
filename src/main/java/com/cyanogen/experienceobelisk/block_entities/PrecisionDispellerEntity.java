@@ -17,6 +17,7 @@ import software.bernie.geckolib3.core.controller.AnimationController;
 import software.bernie.geckolib3.core.event.predicate.AnimationEvent;
 import software.bernie.geckolib3.core.manager.AnimationData;
 import software.bernie.geckolib3.core.manager.AnimationFactory;
+import software.bernie.geckolib3.util.GeckoLibUtil;
 
 public class PrecisionDispellerEntity extends ExperienceReceivingEntity implements IAnimatable{
 
@@ -33,9 +34,7 @@ public class PrecisionDispellerEntity extends ExperienceReceivingEntity implemen
         controller.transitionLengthTicks = 0;
 
         if(controller.getAnimationState() == AnimationState.Stopped && pendingAnimation){
-            controller.setAnimation(new AnimationBuilder()
-                    .addAnimation("use", false)
-                    .addAnimation("static", false));
+            controller.setAnimation(new AnimationBuilder().addAnimation("use").addAnimation("static"));
 
             pendingAnimation = false;
             controller.markNeedsReload();
@@ -49,10 +48,10 @@ public class PrecisionDispellerEntity extends ExperienceReceivingEntity implemen
         data.addAnimationController(new AnimationController(this, "controller", 0, this::predicate));
     }
 
-    private final AnimationFactory factory = new AnimationFactory(this);
+    private final AnimationFactory manager = GeckoLibUtil.createFactory(this);
     @Override
     public AnimationFactory getFactory() {
-        return factory;
+        return manager;
     }
 
     //-----------NBT-----------//

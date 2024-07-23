@@ -34,6 +34,7 @@ import software.bernie.geckolib3.core.controller.AnimationController;
 import software.bernie.geckolib3.core.event.predicate.AnimationEvent;
 import software.bernie.geckolib3.core.manager.AnimationData;
 import software.bernie.geckolib3.core.manager.AnimationFactory;
+import software.bernie.geckolib3.util.GeckoLibUtil;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
@@ -61,10 +62,10 @@ public class ExperienceObeliskEntity extends BlockEntity implements IAnimatable{
                 && entity instanceof ExperienceObeliskEntity obelisk
                 && obelisk.redstoneEnabled
                 && !level.hasNeighborSignal(obelisk.getBlockPos())){
-            controller.setAnimation(new AnimationBuilder().addAnimation("idle.inactive", true));
+            controller.setAnimation(new AnimationBuilder().addAnimation("idle.inactive"));
         }
         else{
-            controller.setAnimation(new AnimationBuilder().addAnimation("idle", true));
+            controller.setAnimation(new AnimationBuilder().addAnimation("idle"));
         }
 
         return PlayState.CONTINUE;
@@ -75,7 +76,7 @@ public class ExperienceObeliskEntity extends BlockEntity implements IAnimatable{
         data.addAnimationController(new AnimationController(this, "experience_obelisk_block_controller", 0, this::predicate));
     }
 
-    private final AnimationFactory manager = new AnimationFactory(this);
+    private final AnimationFactory manager = GeckoLibUtil.createFactory(this);
     @Override
     public AnimationFactory getFactory() {
         return manager;
