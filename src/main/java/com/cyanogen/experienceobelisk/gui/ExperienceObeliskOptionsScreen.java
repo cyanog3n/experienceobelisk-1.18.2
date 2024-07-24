@@ -16,6 +16,9 @@ import net.minecraft.network.chat.MutableComponent;
 import net.minecraft.network.chat.Style;
 import net.minecraft.resources.ResourceLocation;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class ExperienceObeliskOptionsScreen extends Screen {
 
     public BlockPos pos;
@@ -37,6 +40,12 @@ public class ExperienceObeliskOptionsScreen extends Screen {
     }
 
     @Override
+    protected void init() {
+        setupWidgetElements();
+        super.init();
+    }
+
+    @Override
     public void render(PoseStack poseStack, int mouseX, int mouseY, float partialTick) {
 
         renderBackground(poseStack);
@@ -54,7 +63,8 @@ public class ExperienceObeliskOptionsScreen extends Screen {
         blit(poseStack, x, y, 0, 0, 176, 166, textureWidth, textureHeight);
 
         //widgets
-        setupWidgetElements();
+        clearWidgets();
+        loadWidgetElements();
 
         //descriptors & info
         drawCenteredString(new PoseStack(), this.font, Component.translatable("title.experienceobelisk.experience_obelisk.settings"),
@@ -72,15 +82,23 @@ public class ExperienceObeliskOptionsScreen extends Screen {
 
     }
 
+    private void loadWidgetElements(){
+        if(!this.buttons.isEmpty()){
+            for(Button b : this.buttons){
+                addRenderableWidget(b);
+            }
+        }
+    }
+
+    private final List<Button> buttons = new ArrayList<>();
     private void setupWidgetElements(){
 
-        clearWidgets();
+        buttons.clear();
+
         int w = 50; //width (divisible by 2)
         int h = 20; //height
-        int s = 2; //spacing
         int y1 = 43;
         int y2 = -3;
-        int y3 = -49;
 
         Style green = Style.EMPTY.withColor(0x45FF5B);
         Style red = Style.EMPTY.withColor(0xFF454B);
@@ -96,52 +114,53 @@ public class ExperienceObeliskOptionsScreen extends Screen {
         }
 
         //decrease radius
-        addRenderableWidget(new Button(this.width / 2 - 56, this.height / 2 - y1, 26, h,
+        Button decreaseRadius = new Button(this.width / 2 - 56, this.height / 2 - y1, 26, h,
                 Component.literal("-").setStyle(red),
 
                 (onPress) ->
-                        PacketHandler.INSTANCE.sendToServer(new UpdateRadius(pos, -0.5))));
+                        PacketHandler.INSTANCE.sendToServer(new UpdateRadius(pos, -0.5)));
 
         //reset radius
-        addRenderableWidget(new Button(this.width / 2 - 25, this.height / 2 - y1, 50, h,
+        Button resetRadius = new Button(this.width / 2 - 25, this.height / 2 - y1, 50, h,
                 Component.literal(String.valueOf(radius)),
 
                 (onPress) ->
                         PacketHandler.INSTANCE.sendToServer(new UpdateRadius(pos, 0)),
 
                 (pButton, pPoseStack, pMouseX, pMouseY) ->
-                        renderTooltip(pPoseStack, Component.translatable("tooltip.experienceobelisk.experience_obelisk.radius"), pMouseX, pMouseY)
-        ));
+                        renderTooltip(pPoseStack, Component.translatable("tooltip.experienceobelisk.experience_obelisk.radius"), pMouseX, pMouseY));
 
         //increase radius
-        addRenderableWidget(new Button(this.width / 2 + 30, this.height / 2 - y1, 26, h,
+        Button increaseRadius = new Button(this.width / 2 + 30, this.height / 2 - y1, 26, h,
                 Component.literal("+").setStyle(green),
 
                 (onPress) ->
-                        PacketHandler.INSTANCE.sendToServer(new UpdateRadius(pos, 0.5))));
+                        PacketHandler.INSTANCE.sendToServer(new UpdateRadius(pos, 0.5)));
 
         //toggle redstone
-        addRenderableWidget(new Button(this.width / 2 - 25, this.height / 2 - y2, w, h, status, onPress -> {
+        Button toggleRedstone = new Button(this.width / 2 - 25, this.height / 2 - y2, w, h, status, onPress -> {
 
             if (!redstoneEnabled) {
                 PacketHandler.INSTANCE.sendToServer(new UpdateRedstone(pos, true));
             } else {
                 PacketHandler.INSTANCE.sendToServer(new UpdateRedstone(pos, false));
-            }
-
-        }));
+            }});
 
         //go back
-        addRenderableWidget(new Button(this.width / 2 + 91, this.height / 2 - 78, 20, 20,
+        Button back = new Button(this.width / 2 + 91, this.height / 2 - 78, 20, 20,
                 Component.translatable("button.experienceobelisk.experience_obelisk.back"),
 
                 (onPress) ->
                         Minecraft.getInstance().setScreen(new ExperienceObeliskScreen(this.menu)),
 
                 (pButton, pPoseStack, pMouseX, pMouseY) ->
-                        renderTooltip(pPoseStack, Component.translatable("tooltip.experienceobelisk.experience_obelisk.back"), pMouseX, pMouseY)));
+                        renderTooltip(pPoseStack, Component.translatable("tooltip.experienceobelisk.experience_obelisk.back"), pMouseX, pMouseY));
 
-
+        buttons.add(decreaseRadius);
+        buttons.add(resetRadius);
+        buttons.add(increaseRadius);
+        buttons.add(toggleRedstone);
+        buttons.add(back);
 
     }
 

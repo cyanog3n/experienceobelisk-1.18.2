@@ -13,6 +13,7 @@ import software.bernie.geckolib3.core.controller.AnimationController;
 import software.bernie.geckolib3.core.event.predicate.AnimationEvent;
 import software.bernie.geckolib3.core.manager.AnimationData;
 import software.bernie.geckolib3.core.manager.AnimationFactory;
+import software.bernie.geckolib3.util.GeckoLibUtil;
 
 import java.util.function.Consumer;
 
@@ -51,7 +52,7 @@ public class ExperienceFountainItem extends BlockItem implements IAnimatable {
         data.addAnimationController(new AnimationController(this, "controller", 0, this::predicate));
     }
 
-    private final AnimationFactory manager = new AnimationFactory(this);
+    private final AnimationFactory manager = GeckoLibUtil.createFactory(this);
     @Override
     public AnimationFactory getFactory() {
         return manager;

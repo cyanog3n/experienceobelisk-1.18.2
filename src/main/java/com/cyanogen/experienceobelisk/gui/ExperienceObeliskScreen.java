@@ -46,6 +46,12 @@ public class ExperienceObeliskScreen extends AbstractContainerScreen<ExperienceO
     }
 
     @Override
+    protected void init() {
+        setupWidgetElements();
+        super.init();
+    }
+
+    @Override
     public void render(PoseStack poseStack, int mouseX, int mouseY, float partialTick) {
 
         renderBackground(poseStack);
@@ -85,7 +91,8 @@ public class ExperienceObeliskScreen extends AbstractContainerScreen<ExperienceO
                 this.width / 2,this.height / 2 + 60, 0x4DFF12);
 
         //widgets
-        setupWidgetElements();
+        clearWidgets();
+        loadWidgetElements();
 
         //render widgets
         for(Widget widget : this.renderables) {
@@ -116,10 +123,18 @@ public class ExperienceObeliskScreen extends AbstractContainerScreen<ExperienceO
 
     }
 
-    //buttons and whatnot go here
+    private void loadWidgetElements(){
+        if(!this.buttons.isEmpty()){
+            for(Button b : this.buttons){
+                addRenderableWidget(b);
+            }
+        }
+    }
+
+    private final List<Button> buttons = new ArrayList<>();
     private void setupWidgetElements() {
 
-        clearWidgets();
+        buttons.clear();
 
         Style style = Style.EMPTY;
         Style green = style.withColor(0x45FF5B);
@@ -130,19 +145,19 @@ public class ExperienceObeliskScreen extends AbstractContainerScreen<ExperienceO
         int y1 = 43;
         int y2 = -3;
 
-        addRenderableWidget(new Button(this.width / 2 + 91, this.height / 2 - 78, 20, 20,
+        Button settings = new Button(this.width / 2 + 91, this.height / 2 - 78, 20, 20,
                 Component.translatable("button.experienceobelisk.experience_obelisk.settings"),
 
                 (onPress) ->
                         Minecraft.getInstance().setScreen(new ExperienceObeliskOptionsScreen(pos, menu)),
 
                 (pButton, pPoseStack, pMouseX, pMouseY) ->
-                        renderTooltip(pPoseStack, Component.translatable("tooltip.experienceobelisk.experience_obelisk.settings"), pMouseX, pMouseY)));
-
+                        renderTooltip(pPoseStack, Component.translatable("tooltip.experienceobelisk.experience_obelisk.settings"), pMouseX, pMouseY)
+        );
 
         //deposit
 
-        addRenderableWidget(new Button((int) (this.width / 2 - 1.5 * w - s), this.height / 2 - y1, w, h,
+        Button deposit1 = new Button((int) (this.width / 2 - 1.5 * w - s), this.height / 2 - y1, w, h,
                 Component.literal("+1").setStyle(green),
 
                 (onPress) ->
@@ -150,9 +165,9 @@ public class ExperienceObeliskScreen extends AbstractContainerScreen<ExperienceO
 
                 (pButton, pPoseStack, pMouseX, pMouseY) ->
                         renderTooltip(pPoseStack, Component.translatable("tooltip.experienceobelisk.experience_obelisk.add1"), pMouseX, pMouseY)
-        ));
+        );
 
-        addRenderableWidget(new Button(this.width / 2 - w / 2, this.height / 2 - y1, w, h,
+        Button deposit10 = new Button(this.width / 2 - w / 2, this.height / 2 - y1, w, h,
                 Component.literal("+10").setStyle(green),
 
                 (onPress) ->
@@ -160,9 +175,9 @@ public class ExperienceObeliskScreen extends AbstractContainerScreen<ExperienceO
 
                 (pButton, pPoseStack, pMouseX, pMouseY) ->
                         renderTooltip(pPoseStack, Component.translatable("tooltip.experienceobelisk.experience_obelisk.add10"), pMouseX, pMouseY)
-        ));
+        );
 
-        addRenderableWidget(new Button((int) (this.width / 2 + 0.5 * w + s), this.height / 2 - y1, w, h,
+        Button depositAll = new Button((int) (this.width / 2 + 0.5 * w + s), this.height / 2 - y1, w, h,
                 Component.literal("+All").setStyle(green),
 
                 (onPress) ->
@@ -170,12 +185,11 @@ public class ExperienceObeliskScreen extends AbstractContainerScreen<ExperienceO
 
                 (pButton, pPoseStack, pMouseX, pMouseY) ->
                         renderTooltip(pPoseStack, Component.translatable("tooltip.experienceobelisk.experience_obelisk.addAll"), pMouseX, pMouseY)
-        ));
-
+        );
 
         //withdraw
 
-        addRenderableWidget(new Button((int) (this.width / 2 - 1.5 * w - s), this.height / 2 - y2, w, h,
+        Button withdraw1 = new Button((int) (this.width / 2 - 1.5 * w - s), this.height / 2 - y2, w, h,
                 Component.literal("-1").setStyle(red),
 
                 (onPress) ->
@@ -183,9 +197,9 @@ public class ExperienceObeliskScreen extends AbstractContainerScreen<ExperienceO
 
                 (pButton, pPoseStack, pMouseX, pMouseY) ->
                         renderTooltip(pPoseStack, Component.translatable("tooltip.experienceobelisk.experience_obelisk.drain1"), pMouseX, pMouseY)
-        ));
+        );
 
-        addRenderableWidget(new Button(this.width / 2 - w / 2, this.height / 2 - y2, w, h,
+        Button withdraw10 = new Button(this.width / 2 - w / 2, this.height / 2 - y2, w, h,
                 Component.literal("-10").setStyle(red),
 
                 (onPress) ->
@@ -193,9 +207,9 @@ public class ExperienceObeliskScreen extends AbstractContainerScreen<ExperienceO
 
                 (pButton, pPoseStack, pMouseX, pMouseY) ->
                         renderTooltip(pPoseStack, Component.translatable("tooltip.experienceobelisk.experience_obelisk.drain10"), pMouseX, pMouseY)
-        ));
+        );
 
-        addRenderableWidget(new Button((int) (this.width / 2 + 0.5 * w + s), this.height / 2 - y2, w, h,
+        Button withdrawAll = new Button((int) (this.width / 2 + 0.5 * w + s), this.height / 2 - y2, w, h,
                 Component.literal("-All").setStyle(red),
 
                 (onPress) ->
@@ -203,8 +217,15 @@ public class ExperienceObeliskScreen extends AbstractContainerScreen<ExperienceO
 
                 (pButton, pPoseStack, pMouseX, pMouseY) ->
                         renderTooltip(pPoseStack, Component.translatable("tooltip.experienceobelisk.experience_obelisk.drainAll"), pMouseX, pMouseY)
-        ));
+        );
 
+        buttons.add(settings);
+        buttons.add(deposit1);
+        buttons.add(deposit10);
+        buttons.add(depositAll);
+        buttons.add(withdraw1);
+        buttons.add(withdraw10);
+        buttons.add(withdrawAll);
 
     }
 

@@ -41,7 +41,7 @@ public class UpdateRedstone {
             ServerPlayer sender = ctx.get().getSender();
             assert sender != null;
 
-            BlockEntity serverEntity = sender.level().getBlockEntity(pos);
+            BlockEntity serverEntity = sender.level.getBlockEntity(pos);
 
             if(serverEntity instanceof ExperienceObeliskEntity xpobelisk){
                 xpobelisk.setRedstoneEnabled(isControllable);
