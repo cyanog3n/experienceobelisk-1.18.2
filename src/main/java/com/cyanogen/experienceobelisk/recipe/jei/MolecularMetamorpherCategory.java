@@ -4,6 +4,7 @@ import com.cyanogen.experienceobelisk.ExperienceObelisk;
 import com.cyanogen.experienceobelisk.recipe.MolecularMetamorpherRecipe;
 import com.cyanogen.experienceobelisk.registries.RegisterItems;
 import com.cyanogen.experienceobelisk.utils.ExperienceUtils;
+import com.mojang.blaze3d.vertex.PoseStack;
 import mezz.jei.api.gui.builder.IRecipeLayoutBuilder;
 import mezz.jei.api.gui.drawable.IDrawable;
 import mezz.jei.api.gui.drawable.IDrawableAnimated;
@@ -17,7 +18,7 @@ import mezz.jei.api.registration.IRecipeCategoryRegistration;
 import net.minecraft.ChatFormatting;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.Font;
-import net.minecraft.client.gui.GuiGraphics;
+import net.minecraft.client.gui.GuiComponent;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.util.Tuple;
@@ -74,9 +75,9 @@ public class MolecularMetamorpherCategory implements IRecipeCategory<MolecularMe
     }
 
     @Override
-    public void draw(MolecularMetamorpherRecipe recipe, IRecipeSlotsView recipeSlotsView, GuiGraphics guiGraphics, double mouseX, double mouseY) {
+    public void draw(MolecularMetamorpherRecipe recipe, IRecipeSlotsView recipeSlotsView, PoseStack poseStack, double mouseX, double mouseY) {
 
-        arrow.draw(guiGraphics, 108, 47);
+        arrow.draw(poseStack, 108, 47);
 
         Font font = Minecraft.getInstance().font;
         int cost = recipe.getCost();
@@ -89,13 +90,10 @@ public class MolecularMetamorpherCategory implements IRecipeCategory<MolecularMe
         int timeLabelWidth = font.width(timeLabel);
         int grey = 0x7E7E7E;
 
-        guiGraphics.drawString(font, costLabel.getVisualOrderText(),
-                getWidth() - 4 - costLabelWidth,getHeight() - 9, grey, false);
-        guiGraphics.drawString(font, timeLabel.getVisualOrderText(),
-                getWidth() - 4 - timeLabelWidth,getHeight() - 20, grey, false);
+        GuiComponent.drawString(poseStack, font, costLabel.getVisualOrderText(), getWidth() - 4 - costLabelWidth,getHeight() - 9, grey);
+        GuiComponent.drawString(poseStack, font, timeLabel.getVisualOrderText(), getWidth() - 4 - costLabelWidth,getHeight() - 20, grey);
 
-
-        IRecipeCategory.super.draw(recipe, recipeSlotsView, guiGraphics, mouseX, mouseY);
+        IRecipeCategory.super.draw(recipe, recipeSlotsView, poseStack, mouseX, mouseY);
     }
 
     @Override
@@ -128,7 +126,7 @@ public class MolecularMetamorpherCategory implements IRecipeCategory<MolecularMe
     @Override
     public void setRecipe(IRecipeLayoutBuilder builder, MolecularMetamorpherRecipe recipe, IFocusGroup focuses) {
 
-        ItemStack result = recipe.getResultItem(null);
+        ItemStack result = recipe.getResultItem();
         int[] x = {19,50,70};
         int[] y = {35,52,18};
 

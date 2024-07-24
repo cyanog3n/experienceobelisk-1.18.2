@@ -4,7 +4,6 @@ import com.cyanogen.experienceobelisk.ExperienceObelisk;
 import com.google.common.collect.ImmutableMap;
 import com.google.gson.JsonObject;
 import net.minecraft.core.NonNullList;
-import net.minecraft.core.RegistryAccess;
 import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.util.GsonHelper;
@@ -91,7 +90,7 @@ public class MolecularMetamorpherRecipe implements Recipe<SimpleContainer> {
     }
 
     @Override
-    public ItemStack assemble(SimpleContainer container, RegistryAccess access) {
+    public ItemStack assemble(SimpleContainer container) {
         return output.copy();
     }
 
@@ -101,7 +100,7 @@ public class MolecularMetamorpherRecipe implements Recipe<SimpleContainer> {
     }
 
     @Override
-    public ItemStack getResultItem(@Nullable RegistryAccess p_267052_) {
+    public ItemStack getResultItem() {
         return output.copy();
     }
 
@@ -143,9 +142,9 @@ public class MolecularMetamorpherRecipe implements Recipe<SimpleContainer> {
         @Override
         public MolecularMetamorpherRecipe fromJson(ResourceLocation id, JsonObject recipe) {
 
-            Ingredient ingredient1 = Ingredient.fromJson(GsonHelper.getNonNull(recipe, "ingredient1"));
-            Ingredient ingredient2 = Ingredient.fromJson(GsonHelper.getNonNull(recipe, "ingredient2"));
-            Ingredient ingredient3 = Ingredient.fromJson(GsonHelper.getNonNull(recipe, "ingredient3"));
+            Ingredient ingredient1 = Ingredient.fromJson(GsonHelper.getAsJsonObject(recipe, "ingredient1"));
+            Ingredient ingredient2 = Ingredient.fromJson(GsonHelper.getAsJsonObject(recipe, "ingredient2"));
+            Ingredient ingredient3 = Ingredient.fromJson(GsonHelper.getAsJsonObject(recipe, "ingredient3"));
             int count1 = GsonHelper.getAsInt(recipe, "count1");
             int count2 = GsonHelper.getAsInt(recipe, "count2");
             int count3 = GsonHelper.getAsInt(recipe, "count3");
@@ -204,7 +203,7 @@ public class MolecularMetamorpherRecipe implements Recipe<SimpleContainer> {
                 buffer.writeInt(counts[i]);
             }
 
-            buffer.writeItemStack(recipe.getResultItem(null), false);
+            buffer.writeItemStack(recipe.getResultItem(), false);
             buffer.writeInt(recipe.cost);
             buffer.writeInt(recipe.processTime);
         }
