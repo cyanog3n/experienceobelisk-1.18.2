@@ -65,7 +65,7 @@ public class MolecularMetamorpherEntity extends ExperienceReceivingEntity implem
 
     //-----------ANIMATIONS-----------//
 
-    protected static final AnimationBuilder IDLE = new AnimationBuilder().addAnimation("use");
+    protected static final AnimationBuilder IDLE = new AnimationBuilder().addAnimation("idle");
     protected static final AnimationBuilder ACTIVE = new AnimationBuilder().addAnimation("active");
 
     private <E extends BlockEntity & IAnimatable> PlayState predicate(AnimationEvent<E> event) {
@@ -201,7 +201,7 @@ public class MolecularMetamorpherEntity extends ExperienceReceivingEntity implem
 
         if(getRecipe().isPresent()){
             MolecularMetamorpherRecipe recipe = getRecipe().get();
-            ItemStack output = recipe.getResultItem(null);
+            ItemStack output = recipe.getResultItem();
             int cost = recipe.getCost();
 
             if(canPerformRecipe(output, cost)){
@@ -301,7 +301,7 @@ public class MolecularMetamorpherEntity extends ExperienceReceivingEntity implem
         }
 
         if(recipe != null){
-            ItemStack result = recipe.getResultItem(null);
+            ItemStack result = recipe.getResultItem();
             ItemStack stackInResultSlot = itemHandler.getStackInSlot(3).copy();
             SimpleContainer remainders = deplete(recipe);
 
@@ -328,7 +328,7 @@ public class MolecularMetamorpherEntity extends ExperienceReceivingEntity implem
         if(Config.COMMON.formatting.get() && hasNameFormattingRecipe()){
 
             MolecularMetamorpherRecipe recipe = getNameFormattingRecipe();
-            ItemStack output = recipe.getResultItem(null);
+            ItemStack output = recipe.getResultItem();
             int cost = recipe.getCost();
 
             if(canPerformRecipe(output, cost)){

@@ -2,16 +2,20 @@ package com.cyanogen.experienceobelisk.renderer;
 
 import com.cyanogen.experienceobelisk.ExperienceObelisk;
 import com.cyanogen.experienceobelisk.block_entities.MolecularMetamorpherEntity;
+import com.mojang.blaze3d.vertex.PoseStack;
+import com.mojang.blaze3d.vertex.VertexConsumer;
+import net.minecraft.client.renderer.MultiBufferSource;
 import net.minecraft.client.renderer.RenderType;
 import net.minecraft.client.renderer.blockentity.BlockEntityRendererProvider;
 import net.minecraft.resources.ResourceLocation;
-import software.bernie.geckolib.model.GeoModel;
-import software.bernie.geckolib.renderer.GeoBlockRenderer;
+import org.jetbrains.annotations.Nullable;
+import software.bernie.geckolib3.model.AnimatedGeoModel;
+import software.bernie.geckolib3.renderers.geo.GeoBlockRenderer;
 
 public class MolecularMetamorpherBlockRenderer extends GeoBlockRenderer<MolecularMetamorpherEntity> {
 
     public MolecularMetamorpherBlockRenderer(BlockEntityRendererProvider.Context context) {
-        super(new GeoModel<>() {
+        super(context, new AnimatedGeoModel<>() {
 
             @Override
             public ResourceLocation getModelResource(MolecularMetamorpherEntity animatable) {
@@ -27,15 +31,14 @@ public class MolecularMetamorpherBlockRenderer extends GeoBlockRenderer<Molecula
             public ResourceLocation getAnimationResource(MolecularMetamorpherEntity animatable) {
                 return new ResourceLocation(ExperienceObelisk.MOD_ID, "animations/molecular_metamorpher.json");
             }
-
-            @Override
-            public RenderType getRenderType(MolecularMetamorpherEntity animatable, ResourceLocation texture) {
-                return RenderType.entityTranslucent(getTextureResource(animatable));
-            }
         });
     }
 
-
+    @Override
+    public RenderType getRenderType(MolecularMetamorpherEntity animatable, float partialTick, PoseStack poseStack,
+                                    @Nullable MultiBufferSource bufferSource, @Nullable VertexConsumer buffer, int packedLight, ResourceLocation texture) {
+        return RenderType.entityTranslucent(getTextureLocation(animatable));
+    }
 
 }
 

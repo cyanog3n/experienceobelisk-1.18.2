@@ -8,21 +8,22 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.TooltipFlag;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Block;
+import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraftforge.client.extensions.common.IClientItemExtensions;
 import org.jetbrains.annotations.Nullable;
-import software.bernie.geckolib.animatable.GeoItem;
-import software.bernie.geckolib.core.animatable.instance.AnimatableInstanceCache;
-import software.bernie.geckolib.core.animation.AnimatableManager;
-import software.bernie.geckolib.core.animation.AnimationController;
-import software.bernie.geckolib.core.animation.AnimationState;
-import software.bernie.geckolib.core.animation.RawAnimation;
-import software.bernie.geckolib.core.object.PlayState;
-import software.bernie.geckolib.util.GeckoLibUtil;
+import software.bernie.geckolib3.core.IAnimatable;
+import software.bernie.geckolib3.core.PlayState;
+import software.bernie.geckolib3.core.builder.AnimationBuilder;
+import software.bernie.geckolib3.core.controller.AnimationController;
+import software.bernie.geckolib3.core.event.predicate.AnimationEvent;
+import software.bernie.geckolib3.core.manager.AnimationData;
+import software.bernie.geckolib3.core.manager.AnimationFactory;
+import software.bernie.geckolib3.util.GeckoLibUtil;
 
 import java.util.List;
 import java.util.function.Consumer;
 
-public class MolecularMetamorpherItem extends BlockItem implements GeoItem {
+public class MolecularMetamorpherItem extends BlockItem implements IAnimatable {
 
     public MolecularMetamorpherItem(Block p_40565_, Properties p_40566_) {
         super(p_40565_, p_40566_);
@@ -30,31 +31,14 @@ public class MolecularMetamorpherItem extends BlockItem implements GeoItem {
 
     //-----ANIMATIONS-----//
 
-    private final AnimatableInstanceCache cache = GeckoLibUtil.createInstanceCache(this);
+    private static final AnimationBuilder IDLE = new AnimationBuilder().addAnimation("idle");
 
-    protected static final RawAnimation IDLE = RawAnimation.begin().thenPlay("idle");
-
-    @Override
-    public void registerControllers(AnimatableManager.ControllerRegistrar controllerRegistrar) {
-        controllerRegistrar.add(new AnimationController<>(this, this::controller));
-
-    }
-
-    protected <E extends MolecularMetamorpherItem> PlayState controller(final AnimationState<E> state) {
-
-        AnimationController<E> controller = state.getController();
-        RawAnimation animation = controller.getCurrentRawAnimation();
-
-        if(animation == null){
-            controller.setAnimation(IDLE);
-        }
+    private <E extends BlockEntity & IAnimatable> PlayState predicate(AnimationEvent<E> event) {
+        AnimationController controller = event.getController();
+        controller.transitionLengthTicks = 0;
+        controller.setAnimation(IDLE);
 
         return PlayState.CONTINUE;
-    }
-
-    @Override
-    public AnimatableInstanceCache getAnimatableInstanceCache() {
-        return cache;
     }
 
     @Override
@@ -68,6 +52,17 @@ public class MolecularMetamorpherItem extends BlockItem implements GeoItem {
                 return renderer;
             }
         });
+    }
+
+    @Override
+    public void registerControllers(AnimationData data) {
+        data.addAnimationController(new AnimationController(this, "molecular_metamorpher_item_controller", 0, this::predicate));
+    }
+
+    private final AnimationFactory manager = GeckoLibUtil.createFactory(this);
+    @Override
+    public AnimationFactory getFactory() {
+        return manager;
     }
 
     //-----CUSTOM HOVER TEXT-----//

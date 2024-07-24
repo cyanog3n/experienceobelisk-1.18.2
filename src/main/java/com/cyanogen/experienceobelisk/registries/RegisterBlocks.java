@@ -45,7 +45,6 @@ public class RegisterBlocks {
 
     public static final RegistryObject<LiquidBlock> COGNITIUM = BLOCKS.register("cognitium",
             () -> new LiquidBlock(RegisterFluids.COGNITIUM_FLOWING, BlockBehaviour.Properties.copy(Blocks.WATER)
-                    .liquid()
                     .lightLevel(value -> 10)
                     .emissiveRendering((p_61036_, p_61037_, p_61038_) -> true)
             ));
