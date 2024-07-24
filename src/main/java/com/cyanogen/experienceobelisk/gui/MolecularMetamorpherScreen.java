@@ -2,12 +2,11 @@ package com.cyanogen.experienceobelisk.gui;
 
 import com.cyanogen.experienceobelisk.block_entities.MolecularMetamorpherEntity;
 import com.mojang.blaze3d.systems.RenderSystem;
+import com.mojang.blaze3d.vertex.PoseStack;
 import net.minecraft.ChatFormatting;
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.gui.components.Button;
-import net.minecraft.client.gui.components.Renderable;
-import net.minecraft.client.gui.components.Tooltip;
+import net.minecraft.client.gui.components.Widget;
 import net.minecraft.client.gui.screens.inventory.AbstractContainerScreen;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
@@ -32,11 +31,6 @@ public class MolecularMetamorpherScreen extends AbstractContainerScreen<Molecula
     }
 
     @Override
-    protected void renderBg(GuiGraphics gui, float f, int a, int b) {
-
-    }
-
-    @Override
     public boolean isPauseScreen() {
         return false;
     }
@@ -48,15 +42,20 @@ public class MolecularMetamorpherScreen extends AbstractContainerScreen<Molecula
     }
 
     @Override
-    protected void renderLabels(GuiGraphics gui, int mouseX, int mouseY) {
-        gui.drawString(this.font, this.title, this.titleLabelX, this.titleLabelY, 0xFFFFFF);
-        gui.drawString(this.font, this.inventoryTitle, this.inventoryLabelX, this.inventoryLabelY, 0xFFFFFF);
+    protected void renderBg(PoseStack poseStack, float f, int x, int y) {
+
     }
 
     @Override
-    public void render(GuiGraphics gui, int mouseX, int mouseY, float partialTick) {
+    protected void renderLabels(PoseStack poseStack, int p_97809_, int p_97810_) {
+        drawString(poseStack, this.font, this.title, this.titleLabelX, this.titleLabelY, 0xFFFFFF);
+        drawString(poseStack, this.font, this.inventoryTitle, this.inventoryLabelX, this.inventoryLabelY, 0xFFFFFF);
+    }
 
-        renderBackground(gui);
+    @Override
+    public void render(PoseStack poseStack, int mouseX, int mouseY, float partialTick) {
+
+        renderBackground(poseStack);
 
         RenderSystem.setShaderColor(1.0F, 1.0F, 1.0F, 1.0F);
         RenderSystem.setShaderTexture(0, texture);
@@ -71,10 +70,10 @@ public class MolecularMetamorpherScreen extends AbstractContainerScreen<Molecula
         }
 
         //render background texture
-        gui.blit(texture, x, y, 0, 0, 176, 166);
+        blit(poseStack, x, y, 0, 0, 176, 166);
 
         //render recipe progress
-        gui.blit(texture, this.width / 2 + 109 - 88, this.height / 2 + 48 - 83, 0, 175, (int) (arrowWidth * completion), 4);
+        blit(poseStack, this.width / 2 + 109 - 88, this.height / 2 + 48 - 83, 0, 175, (int) (arrowWidth * completion), 4);
 
         //render xp bar
         int xpBarWidth = 61;
@@ -87,11 +86,11 @@ public class MolecularMetamorpherScreen extends AbstractContainerScreen<Molecula
             points = metamorpher.obeliskPoints;
             progress = metamorpher.obeliskProgress;
 
-            gui.blit(texture, this.width / 2 + 105 - 88, this.height / 2 + 70 - 83, 0, 179, 64, 11);
-            gui.blit(texture, this.width / 2 + 107 - 88, this.height / 2 + 71 - 83, 0, 166, (int) (xpBarWidth * progress), 9);
+            blit(poseStack, this.width / 2 + 105 - 88, this.height / 2 + 70 - 83, 0, 179, 64, 11);
+            blit(poseStack, this.width / 2 + 107 - 88, this.height / 2 + 71 - 83, 0, 166, (int) (xpBarWidth * progress), 9);
 
             //render level counter
-            gui.drawCenteredString(this.font, Component.literal(String.valueOf(levels)).withStyle(ChatFormatting.GREEN),
+            drawCenteredString(new PoseStack(), this.font, Component.literal(String.valueOf(levels)).withStyle(ChatFormatting.GREEN),
                     this.width / 2 + 52,this.height / 2 - 11, 0xFFFFFF);
 
             //render XP tooltip
@@ -108,7 +107,7 @@ public class MolecularMetamorpherScreen extends AbstractContainerScreen<Molecula
                     Component.literal(String.valueOf(points)).withStyle(ChatFormatting.GREEN)));
 
             if(mouseX >= x1 && mouseX <= x2 && mouseY >= y1 && mouseY <= y2){
-                gui.renderTooltip(this.font, tooltipList, Optional.empty(), mouseX, mouseY);
+                renderTooltip(new PoseStack(), tooltipList, Optional.empty(), mouseX, mouseY);
             }
         }
 
@@ -116,18 +115,17 @@ public class MolecularMetamorpherScreen extends AbstractContainerScreen<Molecula
         loadWidgetElements();
 
         //render settings button
-        for(Renderable widget : this.renderables){
-            widget.render(gui, mouseX, mouseY, partialTick);
+        for(Widget widget : this.renderables){
+            widget.render(poseStack, mouseX, mouseY, partialTick);
         }
 
-        super.render(gui, mouseX, mouseY, partialTick);
-        this.renderTooltip(gui, mouseX, mouseY);
+        super.render(poseStack, mouseX, mouseY, partialTick);
+        this.renderTooltip(poseStack, mouseX, mouseY);
     }
 
     private void loadWidgetElements(){
         if(!this.buttons.isEmpty()){
             for(Button b : this.buttons){
-                b.setFocused(false);
                 addRenderableWidget(b);
             }
         }
@@ -138,12 +136,14 @@ public class MolecularMetamorpherScreen extends AbstractContainerScreen<Molecula
 
         buttons.clear();
 
-        Button settings = Button.builder(Component.translatable("button.experienceobelisk.experience_obelisk.settings"),
-                        (onPress) -> Minecraft.getInstance().setScreen(new MolecularMetamorpherOptionsScreen(menu)))
-                .size(20,20)
-                .pos(this.width / 2 + 91, this.height / 2 - 78)
-                .tooltip(Tooltip.create(Component.translatable("tooltip.experienceobelisk.experience_obelisk.settings")))
-                .build();
+        Button settings = new Button(this.width / 2 + 91, this.height / 2 - 78, 20, 20,
+                Component.translatable("button.experienceobelisk.experience_obelisk.settings"),
+                (onPress) ->
+                        Minecraft.getInstance().setScreen(new MolecularMetamorpherOptionsScreen(menu)),
+                (button, poseStack, mouseX, mouseY) ->
+                        renderTooltip(poseStack, Component.translatable("tooltip.experienceobelisk.experience_obelisk.settings"), mouseX, mouseY)
+
+        );
 
         buttons.add(settings);
 

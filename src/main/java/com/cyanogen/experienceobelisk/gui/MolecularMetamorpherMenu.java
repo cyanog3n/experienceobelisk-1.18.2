@@ -28,7 +28,7 @@ public class MolecularMetamorpherMenu extends AbstractContainerMenu {
     public MolecularMetamorpherMenu(int id, Inventory inventory, FriendlyByteBuf data){
         this(id, inventory, null, inventory.player, new BlockPos(0,0,0));
 
-        Level level = inventory.player.level();
+        Level level = inventory.player.level;
         this.pos = data.readBlockPos();
         this.metamorpherClient = (MolecularMetamorpherEntity) level.getBlockEntity(pos);
         this.inventory = inventory;

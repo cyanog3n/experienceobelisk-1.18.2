@@ -3,9 +3,9 @@ package com.cyanogen.experienceobelisk.gui;
 import com.cyanogen.experienceobelisk.block_entities.ExperienceObeliskEntity;
 import com.cyanogen.experienceobelisk.network.PacketHandler;
 import com.cyanogen.experienceobelisk.network.experience_obelisk.UpdateContents;
-import com.mojang.blaze3d.platform.InputConstants;
 import com.mojang.blaze3d.systems.RenderSystem;
 import com.mojang.blaze3d.vertex.PoseStack;
+import net.minecraft.ChatFormatting;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.components.Button;
 import net.minecraft.client.gui.components.Widget;
@@ -16,10 +16,13 @@ import net.minecraft.network.chat.Style;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.player.Inventory;
 
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Optional;
+
 import static com.cyanogen.experienceobelisk.network.experience_obelisk.UpdateContents.Request.*;
 import static com.cyanogen.experienceobelisk.utils.ExperienceUtils.levelsToXP;
 import static com.cyanogen.experienceobelisk.utils.ExperienceUtils.xpToLevels;
-
 
 public class ExperienceObeliskScreen extends AbstractContainerScreen<ExperienceObeliskMenu> {
 
@@ -35,18 +38,6 @@ public class ExperienceObeliskScreen extends AbstractContainerScreen<ExperienceO
 
     protected ExperienceObeliskScreen(ExperienceObeliskMenu menu) {
         this(menu, menu.inventory, Component.literal("Experience Obelisk"));
-    }
-
-    @Override
-    public boolean keyPressed(int keyCode, int scanCode, int modifiers) {
-        InputConstants.Key mouseKey = InputConstants.getKey(keyCode, scanCode);
-        if (this.minecraft.options.keyInventory.isActiveAndMatches(mouseKey)) {
-            this.onClose();
-            return true;
-        }
-        else{
-            return super.keyPressed(keyCode, scanCode, modifiers);
-        }
     }
 
     @Override
@@ -100,6 +91,24 @@ public class ExperienceObeliskScreen extends AbstractContainerScreen<ExperienceO
         for(Widget widget : this.renderables) {
             widget.render(poseStack, mouseX, mouseY, partialTick);
         }
+
+        //render XP tooltip
+        int infoX = this.width / 2;
+        int infoY = this.height / 2 + 55;
+
+        int hoverAreaX = 80;
+        int hoverAreaY = 14;
+
+        List<Component> tooltipList = new ArrayList<>();
+        Component content = Component.translatable("tooltip.experienceobelisk.experience_obelisk.xp",
+                Component.literal(String.valueOf(experiencePoints)).withStyle(ChatFormatting.GREEN));
+        tooltipList.add(content);
+
+        if(mouseX >= infoX - hoverAreaX/2 && mouseX <= infoX + hoverAreaX/2 && mouseY >= infoY - hoverAreaY/2 && mouseY <= infoY + hoverAreaY/2){
+            renderTooltip(new PoseStack(), tooltipList, Optional.empty(), mouseX, mouseY);
+        }
+
+
     }
 
     @Override

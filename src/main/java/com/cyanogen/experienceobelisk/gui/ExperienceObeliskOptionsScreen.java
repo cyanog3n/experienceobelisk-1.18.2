@@ -4,20 +4,19 @@ import com.cyanogen.experienceobelisk.block_entities.ExperienceObeliskEntity;
 import com.cyanogen.experienceobelisk.network.PacketHandler;
 import com.cyanogen.experienceobelisk.network.experience_obelisk.UpdateRadius;
 import com.cyanogen.experienceobelisk.network.shared.UpdateRedstone;
-import com.mojang.blaze3d.platform.InputConstants;
 import com.mojang.blaze3d.systems.RenderSystem;
 import com.mojang.blaze3d.vertex.PoseStack;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.components.Button;
 import net.minecraft.client.gui.components.Widget;
-import net.minecraft.client.gui.screens.inventory.AbstractContainerScreen;
+import net.minecraft.client.gui.screens.Screen;
 import net.minecraft.core.BlockPos;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.MutableComponent;
 import net.minecraft.network.chat.Style;
 import net.minecraft.resources.ResourceLocation;
 
-public class ExperienceObeliskOptionsScreen extends AbstractContainerScreen<ExperienceObeliskMenu> {
+public class ExperienceObeliskOptionsScreen extends Screen {
 
     public BlockPos pos;
     public ExperienceObeliskEntity xpobelisk;
@@ -26,7 +25,7 @@ public class ExperienceObeliskOptionsScreen extends AbstractContainerScreen<Expe
     private final ResourceLocation texture = new ResourceLocation("experienceobelisk:textures/gui/screens/experience_obelisk.png");
 
     protected ExperienceObeliskOptionsScreen(BlockPos pos, ExperienceObeliskMenu menu) {
-        super(menu, menu.inventory, Component.literal("Experience Obelisk"));
+        super(Component.literal("Experience Obelisk"));
         this.pos = pos;
         this.xpobelisk = menu.entity;
         this.menu = menu;
@@ -70,11 +69,6 @@ public class ExperienceObeliskOptionsScreen extends AbstractContainerScreen<Expe
         for(Widget widget : this.renderables) {
             widget.render(poseStack, mouseX, mouseY, partialTick);
         }
-
-    }
-
-    @Override
-    protected void renderBg(PoseStack poseStack, float partialTick, int mouseX, int mouseY) {
 
     }
 

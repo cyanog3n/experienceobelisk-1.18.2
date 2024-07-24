@@ -8,6 +8,7 @@ v2.2.1
 - Rebalanced Astute Assembly recipe
 - Rebalanced Molecular Metamorpher recipe
 - Removed feather recipe -- will be implemented some other way in the future
+- Fountain now only emits light when active animation is playing
 
 [Bugfixes]
 - Fixed Metamorpher not returning craft remainder items after recipes have concluded
@@ -32,6 +33,7 @@ v2.2.0
 [Changes]
 - changed Accelerator recipe to be less expensive
 - Obelisk now displays stored experience in points as a tooltip when hovered over
+- Fountain no longer emits orbs with a random y velocity component
 - merged cognitive flux recipes 
 
 v2.1.0.1 (for 1.19.2)
