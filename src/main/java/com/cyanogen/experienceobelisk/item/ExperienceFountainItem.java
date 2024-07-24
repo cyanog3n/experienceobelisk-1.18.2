@@ -29,7 +29,7 @@ public class ExperienceFountainItem extends BlockItem implements IAnimatable {
         AnimationController controller = event.getController();
         controller.transitionLengthTicks = 0;
 
-        controller.setAnimation(new AnimationBuilder().addAnimation("cycle", true));
+        controller.setAnimation(new AnimationBuilder().addAnimation("cycle"));
 
         return PlayState.CONTINUE;
     }
