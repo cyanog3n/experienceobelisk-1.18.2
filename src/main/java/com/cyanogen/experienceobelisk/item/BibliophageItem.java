@@ -68,7 +68,7 @@ public class BibliophageItem extends Item {
             state = RegisterBlocks.INFECTED_ARCHIVERS_BOOKSHELF.get().defaultBlockState();
         }
 
-        if(state != null){
+        if(state != null && !level.isClientSide){
             level.setBlockAndUpdate(pos, state);
         }
 
