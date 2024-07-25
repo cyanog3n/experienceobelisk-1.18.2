@@ -61,12 +61,16 @@ public abstract class ExperienceReceivingEntity extends BlockEntity {
     public int obeliskPoints = 0;
     public double obeliskProgress = 0;
 
-    public void sendObeliskInfoToScreen(ExperienceObeliskEntity obelisk){
-        this.obeliskStillExists = true;
-        this.obeliskLevels = obelisk.getLevels();
-        this.obeliskPoints = obelisk.getExperiencePoints();
-        this.obeliskProgress = obelisk.getProgressToNextLevel();
+    public void sendObeliskInfoToScreen(){
 
+        ExperienceObeliskEntity obelisk = getBoundObelisk();
+
+        if(obelisk != null){
+            this.obeliskStillExists = true;
+            this.obeliskLevels = obelisk.getLevels();
+            this.obeliskPoints = obelisk.getExperiencePoints();
+            this.obeliskProgress = obelisk.getProgressToNextLevel();
+        }
         //used to send data from the bound obelisk to the GUI
         //remember to fill in the tick behavior and pass it into getTicker
     }

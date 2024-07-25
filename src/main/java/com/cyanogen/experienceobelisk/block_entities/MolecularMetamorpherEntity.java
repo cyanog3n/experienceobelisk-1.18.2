@@ -104,10 +104,7 @@ public class MolecularMetamorpherEntity extends ExperienceReceivingEntity implem
         if(blockEntity instanceof MolecularMetamorpherEntity metamorpher){
 
             boolean active = !metamorpher.redstoneEnabled || level.hasNeighborSignal(pos);
-
-            if(metamorpher.getBoundObelisk() != null){
-                metamorpher.sendObeliskInfoToScreen(metamorpher.getBoundObelisk());
-            }
+            metamorpher.sendObeliskInfoToScreen();
 
             if(metamorpher.isProcessing){
 
