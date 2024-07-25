@@ -4,9 +4,13 @@
       "item": "minecraft:dried_kelp"
   },
   "count1": 4,
-  "ingredient2": [],
+  "ingredient2": {
+    "item": "minecraft:barrier"
+  },
   "count2": 0,
-  "ingredient3": [],
+  "ingredient3": {
+    "item": "minecraft:barrier"
+  },
   "count3": 0,
   "result": {
     "item": "minecraft:leather",

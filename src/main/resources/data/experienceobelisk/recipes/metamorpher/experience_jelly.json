@@ -8,7 +8,9 @@
     "tag": "forge:fruits"
   },
   "count2": 1,
-  "ingredient3": [],
+  "ingredient3": {
+    "item": "minecraft:barrier"
+  },
   "count3": 0,
   "result": {
     "item": "experienceobelisk:experience_jelly",

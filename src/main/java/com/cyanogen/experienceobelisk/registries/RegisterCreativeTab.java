@@ -17,50 +17,50 @@ public class RegisterCreativeTab {
         public void fillItemList(NonNullList<ItemStack> itemList) {
 
             //BASIC INGREDIENTS
-            itemList.add(RegisterItems.COGNITIVE_FLUX.get().getDefaultInstance());
-            itemList.add(RegisterItems.COGNITIVE_AMALGAM.get().getDefaultInstance());
-            itemList.add(RegisterItems.COGNITIVE_ALLOY.get().getDefaultInstance());
-            itemList.add(RegisterItems.COGNITIVE_CRYSTAL.get().getDefaultInstance());
-            itemList.add(RegisterItems.ASTUTE_ASSEMBLY.get().getDefaultInstance());
-            itemList.add(RegisterItems.PRIMORDIAL_ASSEMBLY.get().getDefaultInstance());
+            RegisterItems.COGNITIVE_FLUX.get().fillItemCategory(this, itemList);
+            RegisterItems.COGNITIVE_AMALGAM.get().fillItemCategory(this, itemList);
+            RegisterItems.COGNITIVE_ALLOY.get().fillItemCategory(this, itemList);
+            RegisterItems.COGNITIVE_CRYSTAL.get().fillItemCategory(this, itemList);
+            RegisterItems.ASTUTE_ASSEMBLY.get().fillItemCategory(this, itemList);
+            RegisterItems.PRIMORDIAL_ASSEMBLY.get().fillItemCategory(this, itemList);
 
             //TOOLSETS
-            itemList.add(RegisterItems.COGNITIVE_SWORD.get().getDefaultInstance());
-            itemList.add(RegisterItems.COGNITIVE_SHOVEL.get().getDefaultInstance());
-            itemList.add(RegisterItems.COGNITIVE_PICKAXE.get().getDefaultInstance());
-            itemList.add(RegisterItems.COGNITIVE_AXE.get().getDefaultInstance());
-            itemList.add(RegisterItems.COGNITIVE_HOE.get().getDefaultInstance());
+            RegisterItems.COGNITIVE_SWORD.get().fillItemCategory(this, itemList);
+            RegisterItems.COGNITIVE_SHOVEL.get().fillItemCategory(this, itemList);
+            RegisterItems.COGNITIVE_PICKAXE.get().fillItemCategory(this, itemList);
+            RegisterItems.COGNITIVE_AXE.get().fillItemCategory(this, itemList);
+            RegisterItems.COGNITIVE_HOE.get().fillItemCategory(this, itemList);
 
             //FUNCTIONAL ITEMS
-            itemList.add(RegisterItems.ATTUNEMENT_STAFF.get().getDefaultInstance());
-            itemList.add(RegisterItems.ENLIGHTENED_AMULET.get().getDefaultInstance());
-            itemList.add(RegisterItems.BIBLIOPHAGE.get().getDefaultInstance());
+            RegisterItems.ATTUNEMENT_STAFF.get().fillItemCategory(this, itemList);
+            RegisterItems.ENLIGHTENED_AMULET.get().fillItemCategory(this, itemList);
+            RegisterItems.BIBLIOPHAGE.get().fillItemCategory(this, itemList);
 
             //FUNCTIONAL BLOCKS
-            itemList.add(RegisterItems.EXPERIENCE_OBELISK_ITEM.get().getDefaultInstance());
-            itemList.add(RegisterItems.EXPERIENCE_FOUNTAIN_ITEM.get().getDefaultInstance());
-            itemList.add(RegisterItems.PRECISION_DISPELLER_ITEM.get().getDefaultInstance());
-            itemList.add(RegisterItems.MOLECULAR_METAMORPHER_ITEM.get().getDefaultInstance());
-            itemList.add(RegisterItems.ACCELERATOR_ITEM.get().getDefaultInstance());
-            itemList.add(RegisterItems.LINEAR_ACCELERATOR_ITEM.get().getDefaultInstance());
-            itemList.add(RegisterItems.ENCHANTED_BOOKSHELF_ITEM.get().getDefaultInstance());
-            itemList.add(RegisterItems.ARCHIVERS_BOOKSHELF_ITEM.get().getDefaultInstance());
-            itemList.add(RegisterItems.INFECTED_BOOKSHELF_ITEM.get().getDefaultInstance());
-            itemList.add(RegisterItems.INFECTED_ENCHANTED_BOOKSHELF_ITEM.get().getDefaultInstance());
-            itemList.add(RegisterItems.INFECTED_ARCHIVERS_BOOKSHELF_ITEM.get().getDefaultInstance());
+            RegisterItems.EXPERIENCE_OBELISK_ITEM.get().fillItemCategory(this, itemList);
+            RegisterItems.EXPERIENCE_FOUNTAIN_ITEM.get().fillItemCategory(this, itemList);
+            RegisterItems.PRECISION_DISPELLER_ITEM.get().fillItemCategory(this, itemList);
+            RegisterItems.MOLECULAR_METAMORPHER_ITEM.get().fillItemCategory(this, itemList);
+            RegisterItems.ACCELERATOR_ITEM.get().fillItemCategory(this, itemList);
+            RegisterItems.LINEAR_ACCELERATOR_ITEM.get().fillItemCategory(this, itemList);
+            RegisterItems.ENCHANTED_BOOKSHELF_ITEM.get().fillItemCategory(this, itemList);
+            RegisterItems.ARCHIVERS_BOOKSHELF_ITEM.get().fillItemCategory(this, itemList);
+            RegisterItems.INFECTED_BOOKSHELF_ITEM.get().fillItemCategory(this, itemList);
+            RegisterItems.INFECTED_ENCHANTED_BOOKSHELF_ITEM.get().fillItemCategory(this, itemList);
+            RegisterItems.INFECTED_ARCHIVERS_BOOKSHELF_ITEM.get().fillItemCategory(this, itemList);
 
             //DECORATIVE / OTHER BLOCKS
-            itemList.add(RegisterItems.COGNITIVE_ALLOY_BLOCK_ITEM.get().getDefaultInstance());
-            itemList.add(RegisterItems.COGNITIVE_CRYSTAL_BLOCK_ITEM.get().getDefaultInstance());
-            itemList.add(RegisterItems.WHISPERGLASS_ITEM.get().getDefaultInstance());
+            RegisterItems.COGNITIVE_ALLOY_BLOCK_ITEM.get().fillItemCategory(this, itemList);
+            RegisterItems.COGNITIVE_CRYSTAL_BLOCK_ITEM.get().fillItemCategory(this, itemList);
+            RegisterItems.WHISPERGLASS_ITEM.get().fillItemCategory(this, itemList);
 
             //MISC
-            itemList.add(RegisterItems.FORGOTTEN_DUST.get().getDefaultInstance());
-            itemList.add(RegisterItems.FORGOTTEN_DUST_BLOCK_ITEM.get().getDefaultInstance());
-            itemList.add(RegisterItems.NIGHTMARE_BOTTLE.get().getDefaultInstance());
-            itemList.add(RegisterItems.DAYDREAM_BOTTLE.get().getDefaultInstance());
-            itemList.add(RegisterItems.EXPERIENCE_JELLY.get().getDefaultInstance());
-            itemList.add(RegisterItems.COGNITIUM_BUCKET.get().getDefaultInstance());
+            RegisterItems.FORGOTTEN_DUST.get().fillItemCategory(this, itemList);
+            RegisterItems.FORGOTTEN_DUST_BLOCK_ITEM.get().fillItemCategory(this, itemList);
+            RegisterItems.NIGHTMARE_BOTTLE.get().fillItemCategory(this, itemList);
+            RegisterItems.DAYDREAM_BOTTLE.get().fillItemCategory(this, itemList);
+            RegisterItems.EXPERIENCE_JELLY.get().fillItemCategory(this, itemList);
+            RegisterItems.COGNITIUM_BUCKET.get().fillItemCategory(this, itemList);
             
           
         }
