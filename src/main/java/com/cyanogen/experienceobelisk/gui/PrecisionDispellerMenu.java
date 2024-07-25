@@ -7,6 +7,7 @@ import net.minecraft.core.BlockPos;
 import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.sounds.SoundEvents;
+import net.minecraft.world.Container;
 import net.minecraft.world.SimpleContainer;
 import net.minecraft.world.entity.ExperienceOrb;
 import net.minecraft.world.entity.player.Inventory;
@@ -26,22 +27,18 @@ import java.util.Map;
 public class PrecisionDispellerMenu extends AbstractContainerMenu {
 
     SimpleContainer container = new SimpleContainer(2);
-    Player player;
+    BlockPos pos;
     BlockPos posServer;
-    ExperienceObeliskEntity obeliskClient;
+    Player player;
+    PrecisionDispellerEntity dispellerClient;
     PrecisionDispellerEntity dispellerServer;
 
     public PrecisionDispellerMenu(int id, Inventory inventory, FriendlyByteBuf data) {
         this(id, inventory, inventory.player, new BlockPos(0,0,0));
 
         Level level = inventory.player.level;
-        BlockEntity entity = level.getBlockEntity(data.readBlockPos());
-        if(entity instanceof PrecisionDispellerEntity dispeller && dispeller.isBound){
-            BlockPos obeliskPos = dispeller.getBoundPos();
-            if(level.getBlockEntity(obeliskPos) instanceof ExperienceObeliskEntity obelisk){
-                this.obeliskClient = obelisk;
-            }
-        }
+        this.pos = data.readBlockPos();
+        this.dispellerClient = (PrecisionDispellerEntity) level.getBlockEntity(pos);
     }
 
     //-----SLOTS-----//
@@ -189,7 +186,6 @@ public class PrecisionDispellerMenu extends AbstractContainerMenu {
             level.sendBlockUpdated(pos, level.getBlockState(pos), level.getBlockState(pos), 2);
         }
     }
-
 
     @Override
     public void removed(Player player) {

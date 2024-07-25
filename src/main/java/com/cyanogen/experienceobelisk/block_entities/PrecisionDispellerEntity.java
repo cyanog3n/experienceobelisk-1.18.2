@@ -13,6 +13,7 @@ import net.minecraft.world.level.block.state.BlockState;
 import software.bernie.geckolib3.core.AnimationState;
 import software.bernie.geckolib3.core.IAnimatable;
 import software.bernie.geckolib3.core.PlayState;
+import software.bernie.geckolib3.core.builder.Animation;
 import software.bernie.geckolib3.core.builder.AnimationBuilder;
 import software.bernie.geckolib3.core.controller.AnimationController;
 import software.bernie.geckolib3.core.event.predicate.AnimationEvent;
@@ -29,6 +30,8 @@ public class PrecisionDispellerEntity extends ExperienceReceivingEntity implemen
     }
 
     //-----------ANIMATIONS-----------//
+
+    protected static final AnimationBuilder USE = new AnimationBuilder().addAnimation("use").addAnimation("static");
 
     private <E extends BlockEntity & IAnimatable> PlayState predicate(AnimationEvent<E> event) {
         AnimationController controller = event.getController();
@@ -65,22 +68,29 @@ public class PrecisionDispellerEntity extends ExperienceReceivingEntity implemen
         return tag;
     }
 
-    //gets packet to send to client
     @Override
     public Packet<ClientGamePacketListener> getUpdatePacket()
     {
         return ClientboundBlockEntityDataPacket.create(this, BlockEntity::getUpdateTag);
     }
 
+    @Override
+    public void onDataPacket(Connection net, ClientboundBlockEntityDataPacket pkt) {
+        CompoundTag tag = pkt.getTag();
+        if(tag != null){
+            this.pendingAnimation = tag.getBoolean("PendingAnimation");
+        }
+        super.onDataPacket(net, pkt);
+    }
+
+    //serves to update the client from the server without changing any of the properties of the block entity serverside
+
     //-----------BEHAVIOR-----------//
 
     public static <T> void tick(Level level, BlockPos pos, BlockState state, T blockEntity) {
 
         if(blockEntity instanceof PrecisionDispellerEntity dispeller){
-
-            if(dispeller.getBoundObelisk() != null) {
-                dispeller.sendObeliskInfoToScreen(dispeller.getBoundObelisk());
-            }
+            dispeller.sendObeliskInfoToScreen(dispeller.getBoundObelisk());
         }
     }
 

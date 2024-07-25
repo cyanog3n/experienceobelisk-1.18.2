@@ -1,6 +1,7 @@
 package com.cyanogen.experienceobelisk.gui;
 
 import com.cyanogen.experienceobelisk.block_entities.ExperienceObeliskEntity;
+import com.cyanogen.experienceobelisk.block_entities.PrecisionDispellerEntity;
 import com.cyanogen.experienceobelisk.network.PacketHandler;
 import com.cyanogen.experienceobelisk.network.precision_dispeller.UpdateSlot;
 import com.mojang.blaze3d.systems.RenderSystem;
@@ -36,11 +37,11 @@ public class PrecisionDispellerScreen extends AbstractContainerScreen<PrecisionD
     private final Component title = Component.translatable("title.experienceobelisk.precision_dispeller");
     private final Component inventoryTitle = Component.translatable("title.experienceobelisk.precision_dispeller.inventory");
 
-    public ExperienceObeliskEntity xpobelisk;
+    public PrecisionDispellerEntity dispeller;
 
     public PrecisionDispellerScreen(PrecisionDispellerMenu menu, Inventory inventory, Component component) {
         super(menu, inventory, component);
-        this.xpobelisk = menu.obeliskClient;
+        this.dispeller = menu.dispellerClient;
     }
 
     //-----SELECTABLE PANEL-----//
@@ -219,10 +220,10 @@ public class PrecisionDispellerScreen extends AbstractContainerScreen<PrecisionD
 
                     tooltipList.add(Component.translatable("tooltip.experienceobelisk.precision_dispeller.curse"));
 
-                    if(xpobelisk == null && playerXP < 1395){
+                    if(!dispeller.obeliskStillExists && playerXP < 1395){
                         tooltipList.add(Component.translatable("tooltip.experienceobelisk.precision_dispeller.insufficient_xp"));
                     }
-                    else if(xpobelisk != null && xpobelisk.getFluidAmount() / 20 + playerXP < 1395){
+                    else if(dispeller.obeliskStillExists && dispeller.obeliskPoints + playerXP < 1395){
                         tooltipList.add(Component.translatable("tooltip.experienceobelisk.precision_dispeller.insufficient_xp"));
                     }
                 }
@@ -334,11 +335,11 @@ public class PrecisionDispellerScreen extends AbstractContainerScreen<PrecisionD
             if(menu.player.isCreative() || !panel.enchantment.isCurse()){
                 invalid = false;
             }
-            else if(xpobelisk == null){
+            else if(!dispeller.obeliskStillExists){
                 invalid = playerXP < 1395;
             }
             else{
-                invalid = playerXP + xpobelisk.getFluidAmount() / 20 < 1395;
+                invalid = playerXP + dispeller.obeliskPoints < 1395;
             }
 
             if(panel.isHovered(mouseX, mouseY) && panel.isVisible && !invalid){
