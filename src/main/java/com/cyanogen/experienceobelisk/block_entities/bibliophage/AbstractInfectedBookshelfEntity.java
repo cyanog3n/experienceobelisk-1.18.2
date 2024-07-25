@@ -36,7 +36,7 @@ public abstract class AbstractInfectedBookshelfEntity extends BlockEntity {
     int orbValue; //the value of orbs to spawn
     int spawns; //the number of times a bookshelf can spawn an orb before decaying
     int decayValue = 0; //the number of times a bookshelf has spawned an orb
-    double infectivity = 0.022; //the chance for a bookshelf to infect another adjacent bookshelf every second
+    double infectivity = 0.02; //the chance for a bookshelf to infect another adjacent bookshelf every second
     boolean isDisabled = false; //whether or not the bookshelf is disabled. When disabled, bookshelves will not infect adjacents, produce XP, or decay
     boolean isPendingDecay = false; //whether or not the bookshelf has been marked for decay
 
