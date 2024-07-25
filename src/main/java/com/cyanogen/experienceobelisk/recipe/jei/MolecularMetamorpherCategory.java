@@ -90,8 +90,8 @@ public class MolecularMetamorpherCategory implements IRecipeCategory<MolecularMe
         int timeLabelWidth = font.width(timeLabel);
         int grey = 0x7E7E7E;
 
-        GuiComponent.drawString(poseStack, font, costLabel.getVisualOrderText(), getWidth() - 4 - costLabelWidth,getHeight() - 9, grey);
-        GuiComponent.drawString(poseStack, font, timeLabel.getVisualOrderText(), getWidth() - 4 - costLabelWidth,getHeight() - 20, grey);
+        font.draw(poseStack, costLabel.getVisualOrderText(), getWidth() - 4 - costLabelWidth, getHeight() - 9, grey);
+        font.draw(poseStack, timeLabel.getVisualOrderText(), getWidth() - 4 - timeLabelWidth, getHeight() - 20, grey);
 
         IRecipeCategory.super.draw(recipe, recipeSlotsView, poseStack, mouseX, mouseY);
     }
