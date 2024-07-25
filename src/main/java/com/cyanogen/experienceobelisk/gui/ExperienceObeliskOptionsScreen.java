@@ -64,6 +64,7 @@ public class ExperienceObeliskOptionsScreen extends Screen {
 
         //widgets
         clearWidgets();
+        setupWidgetElements();
         loadWidgetElements();
 
         //descriptors & info
