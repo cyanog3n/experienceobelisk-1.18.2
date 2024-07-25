@@ -37,6 +37,7 @@ public abstract class AbstractInfectedBookshelfEntity extends BlockEntity {
     int spawns; //the number of times a bookshelf can spawn an orb before decaying
     int decayValue = 0; //the number of times a bookshelf has spawned an orb
     boolean isDisabled = false; //whether or not the bookshelf is disabled. When disabled, bookshelves will not infect adjacents, produce XP, or decay
+    boolean isPendingDecay = false;
 
     //-----------BEHAVIOR-----------//
 
@@ -44,7 +45,7 @@ public abstract class AbstractInfectedBookshelfEntity extends BlockEntity {
 
         if(blockEntity instanceof AbstractInfectedBookshelfEntity bookshelf && !bookshelf.isDisabled){
 
-            if(bookshelf.decayValue >= bookshelf.spawns){
+            if(bookshelf.decayValue >= bookshelf.spawns && !bookshelf.isPendingDecay){
                 bookshelf.decay(level, pos);
             }
             else{
@@ -125,15 +126,12 @@ public abstract class AbstractInfectedBookshelfEntity extends BlockEntity {
 
     public void decay(Level level, BlockPos pos){
 
+        isPendingDecay = true;
         BlockState dustBlock = RegisterBlocks.FORGOTTEN_DUST_BLOCK.get().defaultBlockState();
 
         level.playSound(null, pos, SoundEvents.WART_BLOCK_BREAK, SoundSource.BLOCKS, 1f,1f);
         level.levelEvent(null, 2001, pos, Block.getId(dustBlock)); //spawn destroy particles
-
-        if(!level.isClientSide){
-            ServerLevel server = (ServerLevel) level;
-            server.setBlockAndUpdate(pos, dustBlock);
-        }
+        level.setBlockAndUpdate(pos, dustBlock);
     }
 
     public List<BlockPos> getAdjacents(BlockPos pos){
