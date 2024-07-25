@@ -19,10 +19,11 @@ import java.util.Optional;
 public class MolecularMetamorpherScreen extends AbstractContainerScreen<MolecularMetamorpherMenu>{
 
     private final ResourceLocation texture = new ResourceLocation("experienceobelisk:textures/gui/screens/molecular_metamorpher.png");
-    public MolecularMetamorpherEntity metamorpher;
     private final Component title = Component.translatable("title.experienceobelisk.molecular_metamorpher");
     private final Component inventoryTitle = Component.translatable("title.experienceobelisk.precision_dispeller.inventory");
     private final MolecularMetamorpherMenu menu;
+
+    public MolecularMetamorpherEntity metamorpher;
 
     public MolecularMetamorpherScreen(MolecularMetamorpherMenu menu, Inventory inventory, Component component) {
         super(menu, menu.inventory, menu.component);
