@@ -1,8 +1,0 @@
-{
-  "type": "minecraft:smelting",
-  "cookingtime": 200,
-  "ingredient": {
-    "item": "experienceobelisk:bioleather"
-  },
-  "result": "minecraft:leather"
-}
