@@ -27,8 +27,6 @@ public class AttunementStaffItem extends Item {
         super(p);
     }
 
-    final double range = Config.COMMON.bindingRange.get();
-
     @Override
     public int getMaxStackSize(ItemStack stack) {
         return 1;
@@ -94,6 +92,8 @@ public class AttunementStaffItem extends Item {
     }
 
     public void handleExperienceReceivingBlock(ExperienceReceivingEntity receiver, ItemStack stack, Player player, Level level){
+
+        final double range = Config.COMMON.bindingRange.get();
 
         BlockPos thisPos = receiver.getBlockPos();
         CompoundTag tag = stack.getOrCreateTag();
