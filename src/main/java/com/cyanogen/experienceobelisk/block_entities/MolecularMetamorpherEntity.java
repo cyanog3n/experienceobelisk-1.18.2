@@ -121,11 +121,6 @@ public class MolecularMetamorpherEntity extends ExperienceReceivingEntity implem
                         metamorpher.incrementProcessProgress();
                     }
                 }
-
-                if(metamorpher.processProgress % 20 == 0){
-                    level.playSound(null, pos, RegisterSounds.METAMORPHER_BUSY.get(), SoundSource.BLOCKS, 0.8f,1.0f);
-                }
-
             }
             else if(active && metamorpher.hasContents()){
 
@@ -137,6 +132,10 @@ public class MolecularMetamorpherEntity extends ExperienceReceivingEntity implem
             }
             else{
                 metamorpher.busy = false;
+            }
+
+            if(metamorpher.busy){
+                metamorpher.handleAudio(level, pos);
             }
 
         }
@@ -155,6 +154,19 @@ public class MolecularMetamorpherEntity extends ExperienceReceivingEntity implem
             }
         }
         return hasContents;
+    }
+
+    public void handleAudio(Level level, BlockPos pos){
+
+        int period = 15;
+
+        long time = level.getGameTime();
+        if(time % period == 0){
+            level.playSound(null, pos, RegisterSounds.METAMORPHER_BUSY1.get(), SoundSource.BLOCKS, 1f,1f);
+        }
+        else if(time % period == period / 2){
+            level.playSound(null, pos, RegisterSounds.METAMORPHER_BUSY2.get(), SoundSource.BLOCKS, 1f,1f);
+        }
     }
 
     //-----------ITEM HANDLER-----------//
