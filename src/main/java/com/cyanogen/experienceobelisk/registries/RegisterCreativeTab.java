@@ -63,6 +63,7 @@ public class RegisterCreativeTab {
                         output.accept(RegisterItems.FORGOTTEN_DUST_BLOCK_ITEM.get());
                         output.accept(RegisterItems.NIGHTMARE_BOTTLE.get());
                         output.accept(RegisterItems.DAYDREAM_BOTTLE.get());
+                        output.accept(RegisterItems.BIOLEATHER.get());
                         output.accept(RegisterItems.EXPERIENCE_JELLY.get());
                         output.accept(RegisterItems.COGNITIUM_BUCKET.get());
                     })

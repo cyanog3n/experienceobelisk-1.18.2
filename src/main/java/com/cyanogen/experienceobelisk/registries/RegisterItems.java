@@ -74,6 +74,7 @@ public class RegisterItems {
             return 100;
         }
     });
+    public static final RegistryObject<Item> BIOLEATHER = ITEMS.register("bioleather", RegisterItems::baseItem);
 
     //-----COGNITIVE TOOLSET-----//
 

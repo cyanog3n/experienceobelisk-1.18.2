@@ -16,6 +16,7 @@
   "item.experienceobelisk.nightmare_bottle": "Bottle o' Nightmare",
   "item.experienceobelisk.daydream_bottle": "Bottle o' Daydream",
   "item.experienceobelisk.forgotten_dust": "Forgotten Dust",
+  "item.experienceobelisk.bioleather": "Bioleather",
   "item.experienceobelisk.bibliophage": "Bibliophage",
   "item.experienceobelisk.experience_jelly": "Fluorescent Jelly",
 
@@ -105,6 +106,7 @@
 
   "sounds.experienceobelisk.enlightened_amulet_activate": "Amulet activates",
   "sounds.experienceobelisk.enlightened_amulet_deactivate": "Amulet deactivates",
+  "sounds.experienceobelisk.metamorpher_busy": "Metamorpher hums",
 
   "jei.experienceobelisk.category.base_level_cost": "%s base levels",
   "jei.experienceobelisk.description.forgotten_dust": "Obtained from breaking Infected Bookshelves (any kind), or by waiting for Infected Bookshelves (any kind) to decay",
