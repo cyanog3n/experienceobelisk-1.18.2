@@ -13,12 +13,12 @@ public class RegisterSounds {
     public static final DeferredRegister<SoundEvent> SOUNDS =
             DeferredRegister.create(ForgeRegistries.SOUND_EVENTS, ExperienceObelisk.MOD_ID);
 
-    public static final RegistryObject<SoundEvent> ENLIGHTENED_AMULET_ACTIVATE = registerSound("enlightened_amulet_activate");
+    public static final RegistryObject<SoundEvent> ENLIGHTENED_AMULET_ACTIVATE = registerSound("enlightened_amulet_activate", 4);
+    public static final RegistryObject<SoundEvent> ENLIGHTENED_AMULET_DEACTIVATE = registerSound("enlightened_amulet_deactivate", 4);
+    public static final RegistryObject<SoundEvent> METAMORPHER_BUSY = registerSound("metamorpher_busy", 3);
 
-    public static final RegistryObject<SoundEvent> ENLIGHTENED_AMULET_DEACTIVATE = registerSound("enlightened_amulet_deactivate");
-
-    public static RegistryObject<SoundEvent> registerSound(String soundName){
-        return SOUNDS.register(soundName, () -> SoundEvent.createFixedRangeEvent(new ResourceLocation(ExperienceObelisk.MOD_ID, soundName), 4));
+    public static RegistryObject<SoundEvent> registerSound(String soundName, float range){
+        return SOUNDS.register(soundName, () -> SoundEvent.createFixedRangeEvent(new ResourceLocation(ExperienceObelisk.MOD_ID, soundName), range));
     }
 
     public static void register(IEventBus eventBus){

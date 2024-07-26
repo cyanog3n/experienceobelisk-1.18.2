@@ -4,6 +4,7 @@ import com.cyanogen.experienceobelisk.ExperienceObelisk;
 import com.cyanogen.experienceobelisk.config.Config;
 import com.cyanogen.experienceobelisk.recipe.MolecularMetamorpherRecipe;
 import com.cyanogen.experienceobelisk.registries.RegisterBlockEntities;
+import com.cyanogen.experienceobelisk.registries.RegisterSounds;
 import com.cyanogen.experienceobelisk.utils.RecipeUtils;
 import com.google.common.collect.ImmutableMap;
 import net.minecraft.ChatFormatting;
@@ -15,6 +16,8 @@ import net.minecraft.network.protocol.Packet;
 import net.minecraft.network.protocol.game.ClientGamePacketListener;
 import net.minecraft.network.protocol.game.ClientboundBlockEntityDataPacket;
 import net.minecraft.resources.ResourceLocation;
+import net.minecraft.sounds.SoundEvents;
+import net.minecraft.sounds.SoundSource;
 import net.minecraft.util.Tuple;
 import net.minecraft.world.SimpleContainer;
 import net.minecraft.world.item.DyeItem;
@@ -118,6 +121,11 @@ public class MolecularMetamorpherEntity extends ExperienceReceivingEntity implem
                         metamorpher.incrementProcessProgress();
                     }
                 }
+
+                if(metamorpher.processProgress % 20 == 0){
+                    level.playSound(null, pos, RegisterSounds.METAMORPHER_BUSY.get(), SoundSource.BLOCKS, 0.8f,1.0f);
+                }
+
             }
             else if(active && metamorpher.hasContents()){
 
