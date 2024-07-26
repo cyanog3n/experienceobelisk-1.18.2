@@ -12,25 +12,27 @@ public class Config {
 
         public final ForgeConfigSpec.ConfigValue<List<? extends String>> allowedFluids;
         public final ForgeConfigSpec.ConfigValue<Integer> capacity;
-        public final ForgeConfigSpec.ConfigValue<Double> range;
+        public final ForgeConfigSpec.ConfigValue<Double> amuletRange;
+        public final ForgeConfigSpec.ConfigValue<Double> bindingRange;
         public final ForgeConfigSpec.ConfigValue<Boolean> formatting;
 
-        public List<String> defaultValues = new ArrayList<>();
+        public List<String> defaultAllowedFluids = new ArrayList<>();
         public int defaultCapacity = 100000000;
-        public double defaultRange = 8.0;
+        public double defaultAmuletRange = 8.0;
+        public double defaultBindingRange = 48.0;
         public boolean defaultFormatting = true;
 
         public Common(ForgeConfigSpec.Builder builder){
 
-            defaultValues.add("mob_grinding_utils:fluid_xp");
-            defaultValues.add("cofh_core:experience");
-            defaultValues.add("industrialforegoing:essence");
-            defaultValues.add("sophisticatedcore:xp_still");
-            defaultValues.add("enderio:xp_juice");
+            defaultAllowedFluids.add("mob_grinding_utils:fluid_xp");
+            defaultAllowedFluids.add("cofh_core:experience");
+            defaultAllowedFluids.add("industrialforegoing:essence");
+            defaultAllowedFluids.add("sophisticatedcore:xp_still");
+            defaultAllowedFluids.add("enderio:xp_juice");
 
             builder.push("Allowed Experience Fluids");
             this.allowedFluids = builder.comment("Add IDs of fluids you want the obelisk to support here in the form mod_id:fluid_name. Fluids have to be tagged forge:experience.")
-                    .define("AllowedFluids", defaultValues);
+                    .define("AllowedFluids", defaultAllowedFluids);
             builder.pop();
 
             builder.push("Experience Obelisk Capacity");
@@ -40,8 +42,14 @@ public class Config {
             builder.pop();
 
             builder.push("Enlightened Amulet Range");
-            this.range = builder.comment("The range of the enlightened amulet. Accepts decimals. Default = 8.0.")
-                    .defineInRange("Range", defaultRange, 1, 32.0);
+            this.amuletRange = builder.comment("The range of the enlightened amulet in blocks. Accepts decimals. Default = 8.0.")
+                    .defineInRange("Range", defaultAmuletRange, 1, 16.0);
+            builder.pop();
+
+            builder.push("Staff of Attunement Range");
+            this.bindingRange = builder.comment("The binding range of the Staff of Attunement in blocks. Accepts decimals. Default = 48.0.")
+                    .comment("Lower this if you experience issues with bound blocks not working correctly.")
+                    .defineInRange("Range", defaultBindingRange, 4, 100.0);
             builder.pop();
 
             builder.push("Enable Name Formatting Anvil Recipes");

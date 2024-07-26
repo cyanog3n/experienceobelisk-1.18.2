@@ -4,6 +4,7 @@ import com.cyanogen.experienceobelisk.block_entities.AbstractAcceleratorEntity;
 import com.cyanogen.experienceobelisk.block_entities.ExperienceObeliskEntity;
 import com.cyanogen.experienceobelisk.block_entities.ExperienceReceivingEntity;
 import com.cyanogen.experienceobelisk.block_entities.bibliophage.AbstractInfectedBookshelfEntity;
+import com.cyanogen.experienceobelisk.config.Config;
 import com.cyanogen.experienceobelisk.registries.RegisterItems;
 import com.cyanogen.experienceobelisk.utils.MiscUtils;
 import net.minecraft.ChatFormatting;
@@ -26,14 +27,12 @@ public class AttunementStaffItem extends Item {
         super(p);
     }
 
-    public static final int range = 48;
+    final double range = Config.COMMON.bindingRange.get();
 
     @Override
     public int getMaxStackSize(ItemStack stack) {
         return 1;
     }
-
-
 
     @Override
     public InteractionResultHolder<ItemStack> use(Level level, Player player, InteractionHand hand) {

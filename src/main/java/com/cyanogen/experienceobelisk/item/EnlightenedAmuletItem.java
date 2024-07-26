@@ -72,7 +72,7 @@ public class EnlightenedAmuletItem extends Item{
 
         if(entity instanceof Player player && isActive && !level.isClientSide && level.getGameTime() % 10 == 0){
 
-            final double radius = Config.COMMON.range.get();
+            final double radius = Config.COMMON.amuletRange.get();
 
             Vec3 pos = player.position();
             AABB area = new AABB(
