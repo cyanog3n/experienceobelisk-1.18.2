@@ -246,7 +246,7 @@ public class MolecularMetamorpherEntity extends ExperienceReceivingEntity implem
     public boolean validateRecipe(){
 
         //returns true if the recipe has not been changed
-        //or if the recipe has been changed to an equivalent one, such as: swapping out an ingredient for another valid ingredient
+        //or if the inputs have been changed to equivalent ones, such as: swapping out an ingredient for another valid ingredient
 
         //returns false if the recipe has been changed to a different one or if the recipe is now invalid
         //in which case, the XP is refunded and the metamorpher is reset

@@ -12,6 +12,7 @@ import mezz.jei.api.registration.*;
 import net.minecraft.client.Minecraft;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
+import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
 import net.minecraft.world.item.crafting.Recipe;
@@ -55,6 +56,11 @@ public class CognitionJeiPlugin implements IModPlugin {
 
         registration.addIngredientInfo(FORGOTTEN_DUST, VanillaTypes.ITEM_STACK, Component.translatable("jei.experienceobelisk.description.forgotten_dust"));
         registration.addIngredientInfo(EXPERIENCE_VESSELS, VanillaTypes.ITEM_STACK, Component.translatable("jei.experienceobelisk.description.experience_vessels"));
+
+        //HIDE FROM VIEWER
+        List<ItemStack> hidden = new ArrayList<>();
+        hidden.add(new ItemStack(RegisterItems.DUMMY_SWORD.get(), 1));
+        registration.getIngredientManager().removeIngredientsAtRuntime(VanillaTypes.ITEM_STACK, hidden);
 
         IModPlugin.super.registerRecipes(registration);
     }

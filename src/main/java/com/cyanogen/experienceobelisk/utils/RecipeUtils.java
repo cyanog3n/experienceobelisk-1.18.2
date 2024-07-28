@@ -2,6 +2,7 @@ package com.cyanogen.experienceobelisk.utils;
 
 import com.cyanogen.experienceobelisk.ExperienceObelisk;
 import com.cyanogen.experienceobelisk.recipe.MolecularMetamorpherRecipe;
+import com.cyanogen.experienceobelisk.registries.RegisterItems;
 import com.google.common.collect.ImmutableMap;
 import net.minecraft.ChatFormatting;
 import net.minecraft.network.chat.Component;
@@ -72,7 +73,7 @@ public class RecipeUtils {
 
         List<MolecularMetamorpherRecipe> recipes = new ArrayList<>();
 
-        ItemStack exampleItem = new ItemStack(Items.BEDROCK, 1);
+        ItemStack exampleItem = new ItemStack(RegisterItems.DUMMY_SWORD.get(), 1);
         ItemStack inputItem = exampleItem.copy().setHoverName(Component.translatable("jei.experienceobelisk.name.any_item"));
         int cost = 315;
         int processTime = 60;

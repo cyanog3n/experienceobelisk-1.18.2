@@ -186,7 +186,6 @@ public class RegisterItems {
     public static final RegistryObject<Item> INFECTED_ARCHIVERS_BOOKSHELF_ITEM = ITEMS.register("infected_archivers_bookshelf",
             () -> new BlockItem(RegisterBlocks.INFECTED_ARCHIVERS_BOOKSHELF.get(), new Item.Properties()));
 
-
     //-----BLOCK ITEMS-----//
 
     public static final RegistryObject<Item> COGNITIVE_ALLOY_BLOCK_ITEM = ITEMS.register("cognitive_alloy_block",
@@ -205,6 +204,10 @@ public class RegisterItems {
                     return 400;
                 }
             });
+
+
+    //-----DUMMY ITEM-----//
+    public static final RegistryObject<Item> DUMMY_SWORD = ITEMS.register("dummy_sword", RegisterItems::baseItem);
 
 
     public static void register(IEventBus eventBus){
