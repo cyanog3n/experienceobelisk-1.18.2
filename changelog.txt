@@ -1,3 +1,20 @@
+v2.2.2
+
+[Content]
+- Added crafting recipe to convert any block tagged forge:bookshelves into a vanilla bookshelf. For use with mods like quark, which add unique bookshelves for each wood type
+- Added configuration option for Staff of Attunement range
+- Added sound to play while metamorpher is processing
+- Added description tooltips to functional blocks & items
+
+[Changes]
+- Modified Fluorescent Jelly recipe
+- Reduced bookshelf infection chance to 0.02 from 0.022
+- Reduced bookshelf XP generation amount after feedback that it was too unbalanced
+
+[Bugfixes]
+- Fixed bug which caused bookshelves to generate extra XP & occasionally play the block breaking animation multiple times upon decaying
+- Fixed bug which caused yet-infected bookshelves to sometimes appear infected clientside
+
 v2.2.1
 
 [Content]
