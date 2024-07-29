@@ -80,7 +80,7 @@ public class MolecularMetamorpherItem extends BlockItem implements GeoItem {
         //Each itemstack should be a compound, which has an ID of 10. See net.minecraft.nbt.Tag
 
         if(!isEmpty){
-            tooltip.add(Component.translatable("tooltip.experienceobelisk.molecular_metamorpher.item_contents"));
+            tooltip.add(Component.translatable("tooltip.experienceobelisk.molecular_metamorpher.has_contents"));
         }
 
         super.appendHoverText(stack, level, tooltip, flag);
