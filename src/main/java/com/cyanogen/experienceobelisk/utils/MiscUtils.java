@@ -1,6 +1,5 @@
 package com.cyanogen.experienceobelisk.utils;
 
-import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.Font;
 import net.minecraft.core.BlockPos;
 import net.minecraft.network.chat.FormattedText;
