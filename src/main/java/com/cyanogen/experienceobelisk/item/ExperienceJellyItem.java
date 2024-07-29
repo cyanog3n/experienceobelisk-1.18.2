@@ -57,11 +57,4 @@ public class ExperienceJellyItem extends Item {
         return false;
     }
 
-    @Override
-    public void appendHoverText(ItemStack stack, @Nullable Level level, List<Component> tooltip, TooltipFlag flag) {
-
-        tooltip.add(Component.translatable("tooltip.experienceobelisk.experience_jelly.comment"));
-        super.appendHoverText(stack, level, tooltip, flag);
-    }
-
 }
