@@ -48,7 +48,7 @@
   "item.experienceobelisk.daydream_bottle.description": "Resets your insomnia, preventing phantoms from spawning",
   "item.experienceobelisk.bibliophage.description": "Infects and consumes bookshelves, generating XP in the process.",
   "item.experienceobelisk.experience_jelly.description": "Can be eaten instantly!",
-  "block.experienceobelisk.experience_obelisk.description": "Provides convenient storage and retrieval of experience. Passively absorbs surrounding experience orbs.",
+  "block.experienceobelisk.experience_obelisk.description": "Provides convenient storage and retrieval of experience. Passively absorbs nearby experience orbs.",
   "block.experienceobelisk.experience_fountain.description": "Dispenses experience orbs at an adjustable rate. Requires binding to an Obelisk.",
   "block.experienceobelisk.precision_dispeller.description": "Selectively removes enchantments and curses.",
   "block.experienceobelisk.molecular_metamorpher.description": "Transforms ingredients into more advanced items. Requires binding to an Obelisk.",

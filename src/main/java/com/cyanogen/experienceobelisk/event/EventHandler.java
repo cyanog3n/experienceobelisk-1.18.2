@@ -4,15 +4,10 @@ import com.cyanogen.experienceobelisk.utils.MiscUtils;
 import com.mojang.blaze3d.platform.InputConstants;
 import net.minecraft.ChatFormatting;
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.gui.Font;
 import net.minecraft.network.chat.Component;
-import net.minecraft.network.chat.FormattedText;
-import net.minecraft.network.chat.Style;
 import net.minecraft.world.item.ItemStack;
 import net.minecraftforge.event.entity.player.ItemTooltipEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
-
-import java.util.List;
 
 public class EventHandler {
 
@@ -35,10 +30,11 @@ public class EventHandler {
                 int index = 1;
 
                 for(String line : MiscUtils.getLinesFromString(description.getString(), 180, Minecraft.getInstance().font)){
-                    Component descriptionLine = Component.literal(line).withStyle(ChatFormatting.GRAY);
+                    Component descriptionLine = Component.literal(line).withStyle(ChatFormatting.DARK_GRAY);
                     event.getToolTip().add(index, descriptionLine);
                     index++;
                 }
+                event.getToolTip().add(Component.empty());
             }
             else{
                 event.getToolTip().add(1, Component.translatable("tooltip.experienceobelisk.shift_for_info"));
