@@ -34,7 +34,10 @@ public class EventHandler {
                     event.getToolTip().add(index, descriptionLine);
                     index++;
                 }
-                event.getToolTip().add(Component.empty());
+
+                if(event.getToolTip().size() > index){
+                    event.getToolTip().add(index, Component.empty());
+                }
             }
             else{
                 event.getToolTip().add(1, Component.translatable("tooltip.experienceobelisk.shift_for_info"));

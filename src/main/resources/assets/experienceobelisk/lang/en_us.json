@@ -41,17 +41,18 @@
 
   "itemGroup.experienceobelisk": "Cognition",
 
-  "tooltip.experienceobelisk.shift_for_info": "§8§oHold §7SHIFT §8§ofor more info",
+  "tooltip.experienceobelisk.shift_for_info": "§8§oHold §7§oSHIFT §8§ofor more info",
   "item.experienceobelisk.attunement_staff.description": "Binds, queries, and configures blocks from this mod.",
-  "item.experienceobelisk.enlightened_amulet.description": "Teleports experience orbs in a large radius to your position.",
+  "item.experienceobelisk.enlightened_amulet.description": "Teleports experience orbs in a large radius to your position, and merges them together for faster absorption.",
   "item.experienceobelisk.nightmare_bottle.description": "Increases your insomnia drastically, allowing phantoms to spawn.",
   "item.experienceobelisk.daydream_bottle.description": "Resets your insomnia, preventing phantoms from spawning",
-  "item.experienceobelisk.bibliophage.description": "Infects and consumes bookshelves, generating XP in the process.",
+  "item.experienceobelisk.bibliophage.description": "Infects and consumes bookshelves, generating XP in the process. Use on a valid bookshelf to infect it.",
   "item.experienceobelisk.experience_jelly.description": "Can be eaten instantly!",
   "block.experienceobelisk.experience_obelisk.description": "Provides convenient storage and retrieval of experience. Passively absorbs nearby experience orbs.",
   "block.experienceobelisk.experience_fountain.description": "Dispenses experience orbs at an adjustable rate. Requires binding to an Obelisk.",
   "block.experienceobelisk.precision_dispeller.description": "Selectively removes enchantments and curses.",
   "block.experienceobelisk.molecular_metamorpher.description": "Transforms ingredients into more advanced items. Requires binding to an Obelisk.",
+  "block.experienceobelisk.whisperglass.description": "Extremely slippery!",
 
   "title.experienceobelisk.experience_obelisk": "Experience Obelisk",
   "title.experienceobelisk.experience_obelisk.store": "Store",
@@ -72,8 +73,8 @@
   "tooltip.experienceobelisk.experience_obelisk.radius": "§6Reset§f radius to default",
   "tooltip.experienceobelisk.experience_obelisk.settings": "Settings...",
   "tooltip.experienceobelisk.experience_obelisk.back": "Back...",
-  "tooltip.experienceobelisk.experience_obelisk.item_fluid_amount": "§7Fluid Amount:§r %s",
-  "tooltip.experienceobelisk.experience_obelisk.item_levels": "%s §7Levels§r",
+  "tooltip.experienceobelisk.experience_obelisk.item_fluid_amount": "§7Cognitium: %s §7mB",
+  "tooltip.experienceobelisk.experience_obelisk.item_levels": "%s §7Levels",
   "tooltip.experienceobelisk.experience_obelisk.xp": "%s §7XP",
 
   "tooltip.experienceobelisk.enlightened_amulet.active": "§7Currently §aactive",
