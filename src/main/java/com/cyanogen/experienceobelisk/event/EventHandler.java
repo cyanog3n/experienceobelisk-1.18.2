@@ -6,12 +6,15 @@ import net.minecraft.ChatFormatting;
 import net.minecraft.client.Minecraft;
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.item.ItemStack;
+import net.minecraftforge.api.distmarker.Dist;
+import net.minecraftforge.api.distmarker.OnlyIn;
 import net.minecraftforge.event.entity.player.ItemTooltipEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 
 public class EventHandler {
 
     @SubscribeEvent
+    @OnlyIn(Dist.CLIENT)
     public void onTooltip(ItemTooltipEvent event){
 
         ItemStack item = event.getItemStack();
