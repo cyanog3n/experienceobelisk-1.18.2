@@ -36,7 +36,9 @@ public abstract class AbstractInfectedBookshelfEntity extends BlockEntity {
     int orbValue; //the value of orbs to spawn
     int spawns; //the number of times a bookshelf can spawn an orb before decaying
     int decayValue = 0; //the number of times a bookshelf has spawned an orb
+    double infectivity = 0.02; //the chance for a bookshelf to infect another adjacent bookshelf every second
     boolean isDisabled = false; //whether or not the bookshelf is disabled. When disabled, bookshelves will not infect adjacents, produce XP, or decay
+    boolean isPendingDecay = false; //whether or not the bookshelf has been marked for decay
 
     //-----------BEHAVIOR-----------//
 
@@ -44,7 +46,7 @@ public abstract class AbstractInfectedBookshelfEntity extends BlockEntity {
 
         if(blockEntity instanceof AbstractInfectedBookshelfEntity bookshelf && !bookshelf.isDisabled){
 
-            if(bookshelf.decayValue >= bookshelf.spawns){
+            if(bookshelf.decayValue >= bookshelf.spawns && !bookshelf.isPendingDecay){
                 bookshelf.decay(level, pos);
             }
             else{
@@ -61,7 +63,7 @@ public abstract class AbstractInfectedBookshelfEntity extends BlockEntity {
                     bookshelf.decrementSpawnDelay();
                 }
 
-                if(level.getGameTime() % 20 == 0 && Math.random() <= 0.022){
+                if(level.getGameTime() % 20 == 0 && Math.random() <= bookshelf.infectivity){
                     bookshelf.infectAdjacent(level, pos);
                 }
 
@@ -76,12 +78,14 @@ public abstract class AbstractInfectedBookshelfEntity extends BlockEntity {
         Map<BlockPos, Block> adjacentMap = new HashMap<>();
         List<BlockPos> posList = new ArrayList<>();
 
-        for(BlockPos adjacentPos : getAdjacents(pos)){
-            if(getValidBlocksForInfection().contains(level.getBlockState(adjacentPos).getBlock())){
+        if(!level.isClientSide){
+            for(BlockPos adjacentPos : getAdjacents(pos)){
+                if(getValidBlocksForInfection().contains(level.getBlockState(adjacentPos).getBlock())){
 
-                Block adjacentBlock = level.getBlockState(adjacentPos).getBlock();
-                adjacentMap.put(adjacentPos, adjacentBlock);
-                posList.add(adjacentPos);
+                    Block adjacentBlock = level.getBlockState(adjacentPos).getBlock();
+                    adjacentMap.put(adjacentPos, adjacentBlock);
+                    posList.add(adjacentPos);
+                }
             }
         }
 
@@ -125,15 +129,12 @@ public abstract class AbstractInfectedBookshelfEntity extends BlockEntity {
 
     public void decay(Level level, BlockPos pos){
 
+        isPendingDecay = true;
         BlockState dustBlock = RegisterBlocks.FORGOTTEN_DUST_BLOCK.get().defaultBlockState();
 
         level.playSound(null, pos, SoundEvents.WART_BLOCK_BREAK, SoundSource.BLOCKS, 1f,1f);
         level.levelEvent(null, 2001, pos, Block.getId(dustBlock)); //spawn destroy particles
-
-        if(!level.isClientSide){
-            ServerLevel server = (ServerLevel) level;
-            server.setBlockAndUpdate(pos, dustBlock);
-        }
+        level.setBlockAndUpdate(pos, dustBlock);
     }
 
     public List<BlockPos> getAdjacents(BlockPos pos){

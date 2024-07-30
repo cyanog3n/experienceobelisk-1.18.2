@@ -22,7 +22,6 @@
   "block.experienceobelisk.experience_obelisk": "Experience Obelisk",
   "block.experienceobelisk.experience_fountain": "Experience Fountain",
   "block.experienceobelisk.precision_dispeller": "Precision Dispeller",
-  "block.experienceobelisk.cognitive_anvil": "Cognitive Anvil",
   "block.experienceobelisk.cognitive_alloy_block": "Block of Cognitive Alloy",
   "block.experienceobelisk.cognitive_crystal_block": "Block of Cognitive Crystal",
   "block.experienceobelisk.accelerator": "Accelerator",
@@ -41,6 +40,21 @@
   "fluid_type.experienceobelisk.cognitium": "Cognitium",
 
   "itemGroup.experienceobelisk": "Cognition",
+
+  "tooltip.experienceobelisk.shift_for_info": "§8§oHold §7§oSHIFT §8§ofor more info",
+  "item.experienceobelisk.attunement_staff.description": "Binds, queries, and configures blocks from this mod.",
+  "item.experienceobelisk.enlightened_amulet.description": "Teleports nearby experience orbs to you, and merges them together for faster absorption.",
+  "item.experienceobelisk.nightmare_bottle.description": "Increases your insomnia drastically, making phantoms almost guaranteed to spawn.",
+  "item.experienceobelisk.daydream_bottle.description": "Resets your insomnia, preventing phantoms from spawning",
+  "item.experienceobelisk.bibliophage.description": "Infects bookshelves, generating XP in the process. Use on a valid bookshelf to infect it.",
+  "item.experienceobelisk.experience_jelly.description": "Consumed instantly! Good for digestion.",
+  "block.experienceobelisk.experience_obelisk.description": "Experience storage and retrieval. Passively absorbs nearby experience orbs.",
+  "block.experienceobelisk.experience_fountain.description": "Dispenses experience orbs at an adjustable rate. Requires binding to an Obelisk.",
+  "block.experienceobelisk.precision_dispeller.description": "Selectively removes enchantments and curses.",
+  "block.experienceobelisk.molecular_metamorpher.description": "Transforms ingredients into more advanced items. Requires binding to an Obelisk.",
+  "block.experienceobelisk.accelerator.description": "Launches entities in the direction it is facing.",
+  "block.experienceobelisk.linear_accelerator.description": "Launches entities in the direction it is pointing.",
+  "block.experienceobelisk.whisperglass.description": "An extremely slippery block, similar to blue ice.",
 
   "title.experienceobelisk.experience_obelisk": "Experience Obelisk",
   "title.experienceobelisk.experience_obelisk.store": "Store",
@@ -61,8 +75,8 @@
   "tooltip.experienceobelisk.experience_obelisk.radius": "§6Reset§f radius to default",
   "tooltip.experienceobelisk.experience_obelisk.settings": "Settings...",
   "tooltip.experienceobelisk.experience_obelisk.back": "Back...",
-  "tooltip.experienceobelisk.experience_obelisk.item_fluid_amount": "§7Fluid Amount:§r %s",
-  "tooltip.experienceobelisk.experience_obelisk.item_levels": "%s §7Levels§r",
+  "tooltip.experienceobelisk.experience_obelisk.item_fluid_amount": "§7Cognitium: %s §7mB",
+  "tooltip.experienceobelisk.experience_obelisk.item_levels": "%s §7Levels",
   "tooltip.experienceobelisk.experience_obelisk.xp": "%s §7XP",
 
   "tooltip.experienceobelisk.enlightened_amulet.active": "§7Currently §aactive",
@@ -74,7 +88,7 @@
 
   "tooltip.experienceobelisk.molecular_metamorpher.bound": "Bound Obelisk",
   "tooltip.experienceobelisk.molecular_metamorpher.xp": "%s §7XP",
-  "tooltip.experienceobelisk.molecular_metamorpher.item_contents": "§7Contents stored within",
+  "tooltip.experienceobelisk.molecular_metamorpher.has_contents": "§6Contents stored within!",
 
   "tooltip.experienceobelisk.experience_jelly.comment": "§7Instantly digested!",
 
@@ -105,10 +119,11 @@
 
   "sounds.experienceobelisk.enlightened_amulet_activate": "Amulet activates",
   "sounds.experienceobelisk.enlightened_amulet_deactivate": "Amulet deactivates",
+  "sounds.experienceobelisk.metamorpher_busy": "Metamorpher hums",
 
   "jei.experienceobelisk.category.base_level_cost": "%s base levels",
   "jei.experienceobelisk.description.forgotten_dust": "Obtained from breaking Infected Bookshelves (any kind), or by waiting for Infected Bookshelves (any kind) to decay",
-  "jei.experienceobelisk.description.experience_vessels": "Obtained by right clicking a bound Experience Fountain with an empty bottle / bucket. The bound Obelisk must have enough Cognitium",
+  "jei.experienceobelisk.description.experience_vessels": "Right click a bound Experience Fountain with an empty bottle / bucket. The bound Obelisk must have enough Cognitium",
   "jei.experienceobelisk.error.missing_items": "§cMissing Items",
   "jei.experienceobelisk.error.inventory_full": "§cInventory Full",
   "jei.experienceobelisk.name.any_item": "Any Item..."

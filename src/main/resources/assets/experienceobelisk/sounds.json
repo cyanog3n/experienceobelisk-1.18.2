@@ -10,5 +10,17 @@
     "sounds": [
       "experienceobelisk:enlightened_amulet"
     ]
+  },
+  "metamorpher_busy1": {
+    "subtitle": "sounds.experienceobelisk.metamorpher_busy",
+    "sounds": [
+      "experienceobelisk:metamorpher_busy1"
+    ]
+  },
+  "metamorpher_busy_short2": {
+    "subtitle": "sounds.experienceobelisk.metamorpher_busy",
+    "sounds": [
+      "experienceobelisk:metamorpher_busy2"
+    ]
   }
 }

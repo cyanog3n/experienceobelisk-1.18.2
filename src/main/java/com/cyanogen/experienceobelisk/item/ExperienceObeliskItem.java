@@ -77,7 +77,7 @@ public class ExperienceObeliskItem extends BlockItem implements IAnimatable{
 
         if(stack.hasTag()){
             tooltip.add(Component.translatable("tooltip.experienceobelisk.experience_obelisk.item_fluid_amount",
-                    Component.literal(amount + " mB").withStyle(ChatFormatting.GOLD)));
+                    Component.literal(String.valueOf(amount)).withStyle(ChatFormatting.GREEN)));
 
             tooltip.add(Component.translatable("tooltip.experienceobelisk.experience_obelisk.item_levels",
                     Component.literal(String.valueOf(levels)).withStyle(ChatFormatting.GREEN)));

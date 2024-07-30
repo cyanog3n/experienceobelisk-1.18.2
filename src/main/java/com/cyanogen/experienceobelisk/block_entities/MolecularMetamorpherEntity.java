@@ -4,6 +4,7 @@ import com.cyanogen.experienceobelisk.ExperienceObelisk;
 import com.cyanogen.experienceobelisk.config.Config;
 import com.cyanogen.experienceobelisk.recipe.MolecularMetamorpherRecipe;
 import com.cyanogen.experienceobelisk.registries.RegisterBlockEntities;
+import com.cyanogen.experienceobelisk.registries.RegisterSounds;
 import com.cyanogen.experienceobelisk.utils.RecipeUtils;
 import com.google.common.collect.ImmutableMap;
 import net.minecraft.ChatFormatting;
@@ -15,6 +16,7 @@ import net.minecraft.network.protocol.Packet;
 import net.minecraft.network.protocol.game.ClientGamePacketListener;
 import net.minecraft.network.protocol.game.ClientboundBlockEntityDataPacket;
 import net.minecraft.resources.ResourceLocation;
+import net.minecraft.sounds.SoundSource;
 import net.minecraft.util.Tuple;
 import net.minecraft.world.SimpleContainer;
 import net.minecraft.world.item.DyeItem;
@@ -138,6 +140,10 @@ public class MolecularMetamorpherEntity extends ExperienceReceivingEntity implem
                 metamorpher.busy = false;
             }
 
+            if(metamorpher.busy){
+                metamorpher.handleAudio(level, pos);
+            }
+
         }
 
     }
@@ -154,6 +160,19 @@ public class MolecularMetamorpherEntity extends ExperienceReceivingEntity implem
             }
         }
         return hasContents;
+    }
+
+    public void handleAudio(Level level, BlockPos pos){
+
+        int period = 15;
+
+        long time = level.getGameTime();
+        if(time % period == 0){
+            level.playSound(null, pos, RegisterSounds.METAMORPHER_BUSY1.get(), SoundSource.BLOCKS, 1f,1f);
+        }
+        else if(time % period == period / 2){
+            level.playSound(null, pos, RegisterSounds.METAMORPHER_BUSY2.get(), SoundSource.BLOCKS, 1f,1f);
+        }
     }
 
     //-----------ITEM HANDLER-----------//
