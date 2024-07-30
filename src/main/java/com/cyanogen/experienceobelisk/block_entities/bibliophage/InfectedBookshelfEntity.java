@@ -9,8 +9,8 @@ public class InfectedBookshelfEntity extends AbstractInfectedBookshelfEntity {
     public InfectedBookshelfEntity(BlockPos pos, BlockState state) {
         super(RegisterBlockEntities.INFECTED_BOOKSHELF_BE.get(), pos, state);
 
-        super.spawnDelayMin = 80;
-        super.spawnDelayMax = 160;
+        super.spawnDelayMin = 150;
+        super.spawnDelayMax = 250;
         super.orbValue = 6;
         super.spawns = 100;
     }
