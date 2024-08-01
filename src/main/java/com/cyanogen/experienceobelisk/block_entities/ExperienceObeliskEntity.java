@@ -78,7 +78,8 @@ public class ExperienceObeliskEntity extends BlockEntity implements GeoBlockEnti
             animationToPlay = IDLE;
         }
 
-        if(animation == null || !animation.equals(animationToPlay)){
+        if(animation == null || !animation.equals(animationToPlay) || controller.hasAnimationFinished()){
+            state.resetCurrentAnimation();
             controller.setAnimation(animationToPlay);
         }
 
