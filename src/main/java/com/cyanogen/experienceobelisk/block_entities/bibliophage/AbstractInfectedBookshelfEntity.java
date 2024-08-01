@@ -15,6 +15,7 @@ import net.minecraft.world.entity.item.ItemEntity;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Block;
+import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraft.world.level.block.state.BlockState;
@@ -41,7 +42,6 @@ public abstract class AbstractInfectedBookshelfEntity extends BlockEntity {
     int decayValue = 0; //the number of times a bookshelf has spawned an orb
     double infectivity = 0.02; //the chance for a bookshelf to infect another adjacent bookshelf every second
     boolean isDisabled = false; //whether or not the bookshelf is disabled. When disabled, bookshelves will not infect adjacents, produce XP, or decay
-    boolean isPendingDecay = false; //whether or not the bookshelf has been marked for decay
 
     //-----------BEHAVIOR-----------//
 
@@ -49,30 +49,27 @@ public abstract class AbstractInfectedBookshelfEntity extends BlockEntity {
 
         if(blockEntity instanceof AbstractInfectedBookshelfEntity bookshelf && !bookshelf.isDisabled){
 
-            if(!bookshelf.isPendingDecay){
+            if(bookshelf.decayValue >= bookshelf.spawns){
+                bookshelf.decay(level, pos);
+            }
+            else{
 
-                if(bookshelf.decayValue >= bookshelf.spawns){
-                    bookshelf.decay(level, pos);
+                if(bookshelf.timeTillSpawn == -99){
+                    bookshelf.resetSpawnDelay();
+                }
+                else if(bookshelf.timeTillSpawn <= 0){
+                    bookshelf.handleExperience(level, pos);
+                    bookshelf.incrementDecayValue();
+                    bookshelf.resetSpawnDelay();
                 }
                 else{
-
-                    if(bookshelf.timeTillSpawn == -99){
-                        bookshelf.resetSpawnDelay();
-                    }
-                    else if(bookshelf.timeTillSpawn <= 0){
-                        bookshelf.handleExperience(level, pos);
-                        bookshelf.incrementDecayValue();
-                        bookshelf.resetSpawnDelay();
-                    }
-                    else{
-                        bookshelf.decrementSpawnDelay();
-                    }
-
-                    if(level.getGameTime() % 20 == 0 && Math.random() <= bookshelf.infectivity){
-                        bookshelf.infectAdjacent(level, pos);
-                    }
-
+                    bookshelf.decrementSpawnDelay();
                 }
+
+                if(level.getGameTime() % 20 == 0 && Math.random() <= bookshelf.infectivity){
+                    bookshelf.infectAdjacent(level, pos);
+                }
+
             }
 
         }
@@ -135,18 +132,18 @@ public abstract class AbstractInfectedBookshelfEntity extends BlockEntity {
 
     public void decay(Level level, BlockPos pos){
 
-        isPendingDecay = true;
-        BlockState dustBlock = RegisterBlocks.FORGOTTEN_DUST_BLOCK.get().defaultBlockState();
+        setDisabled(true);
 
         if(!level.isClientSide){
             ServerLevel server = (ServerLevel) level;
             ItemStack forgottenDust = new ItemStack(RegisterItems.FORGOTTEN_DUST.get(), 4);
             Block.popResource(server, pos, forgottenDust);
         }
-        level.playSound(null, pos, SoundEvents.WART_BLOCK_BREAK, SoundSource.BLOCKS, 1f,1f);
-        level.levelEvent(null, 2001, pos, Block.getId(dustBlock)); //spawn destroy particles
+        level.playSound(null, pos, SoundEvents.WART_BLOCK_BREAK, SoundSource.BLOCKS, 1f,1f); //play break sound
+        level.levelEvent(null, 2001, pos, Block.getId(RegisterBlocks.FORGOTTEN_DUST_BLOCK.get().defaultBlockState())); //spawn destroy particles
 
-        level.removeBlock(pos, false);
+        this.setRemoved();
+        level.setBlockAndUpdate(pos, Blocks.AIR.defaultBlockState());
     }
 
     public List<BlockPos> getAdjacents(BlockPos pos){
@@ -187,6 +184,11 @@ public abstract class AbstractInfectedBookshelfEntity extends BlockEntity {
         this.setChanged();
 
         return this.isDisabled;
+    }
+
+    public void setDisabled(boolean disabled){
+        this.isDisabled = disabled;
+        this.setChanged();
     }
 
     public boolean getDisabled(){return this.isDisabled;}
