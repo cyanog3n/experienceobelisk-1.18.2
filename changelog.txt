@@ -7,7 +7,6 @@ v2.2.2
 - Added description tooltips to functional blocks & items
 
 [Changes]
-- Modified Fluorescent Jelly recipe
 - Reduced bookshelf infection chance to 0.02 from 0.022
 - Reduced bookshelf XP generation amount after feedback that it was too unbalanced
 
