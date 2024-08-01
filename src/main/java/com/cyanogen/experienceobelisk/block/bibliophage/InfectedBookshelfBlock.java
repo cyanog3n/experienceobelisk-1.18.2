@@ -52,7 +52,7 @@ public class InfectedBookshelfBlock extends BookshelfBlock implements EntityBloc
     public InteractionResult use(BlockState state, Level level, BlockPos pos, Player player, InteractionHand hand, BlockHitResult result) {
         ItemStack stack = player.getItemInHand(hand);
 
-        if(stack.is(RegisterItems.ATTUNEMENT_STAFF.get()) && !player.isShiftKeyDown()
+        if(stack.is(RegisterItems.ATTUNEMENT_STAFF.get()) && !player.isShiftKeyDown() && !level.isClientSide
                 && level.getBlockEntity(pos) instanceof AbstractInfectedBookshelfEntity bookshelf){
 
             Component message;
