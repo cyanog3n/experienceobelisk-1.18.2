@@ -52,7 +52,7 @@ public class InfectedBookshelfBlock extends BookshelfBlock implements EntityBloc
     public InteractionResult use(BlockState state, Level level, BlockPos pos, Player player, InteractionHand hand, BlockHitResult result) {
         ItemStack stack = player.getItemInHand(hand);
 
-        if(stack.is(RegisterItems.ATTUNEMENT_STAFF.get()) && !player.isShiftKeyDown() && !level.isClientSide
+        if(stack.is(RegisterItems.ATTUNEMENT_STAFF.get()) && !player.isShiftKeyDown()
                 && level.getBlockEntity(pos) instanceof AbstractInfectedBookshelfEntity bookshelf){
 
             Component message;
@@ -79,7 +79,10 @@ public class InfectedBookshelfBlock extends BookshelfBlock implements EntityBloc
                 message = Component.translatable("message.experienceobelisk.binding_wand.query_bookshelf", durabilityStatus);
             }
 
-            player.displayClientMessage(message, true);
+            if(!level.isClientSide){
+                player.displayClientMessage(message, true);
+            }
+
             return InteractionResult.sidedSuccess(level.isClientSide);
         }
 
