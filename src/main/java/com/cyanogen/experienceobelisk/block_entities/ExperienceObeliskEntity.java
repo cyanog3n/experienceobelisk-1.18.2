@@ -27,6 +27,7 @@ import net.minecraftforge.fluids.capability.IFluidHandler;
 import net.minecraftforge.fluids.capability.templates.FluidTank;
 import net.minecraftforge.registries.ForgeRegistries;
 import org.jetbrains.annotations.NotNull;
+import software.bernie.geckolib3.core.AnimationState;
 import software.bernie.geckolib3.core.IAnimatable;
 import software.bernie.geckolib3.core.PlayState;
 import software.bernie.geckolib3.core.builder.Animation;
@@ -73,7 +74,10 @@ public class ExperienceObeliskEntity extends BlockEntity implements IAnimatable{
             animationToPlay = new AnimationBuilder().addAnimation("idle");
         }
 
-        if(controller.getCurrentAnimation() == null || !isSameAnimation(animation, animationToPlay)){
+        if(controller.getCurrentAnimation() == null
+                || !isSameAnimation(animation, animationToPlay)
+                || controller.getAnimationState().equals(AnimationState.Stopped)){
+
             controller.setAnimation(animationToPlay);
         }
 

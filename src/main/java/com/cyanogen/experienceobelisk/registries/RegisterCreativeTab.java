@@ -43,11 +43,11 @@ public class RegisterCreativeTab {
             RegisterItems.MOLECULAR_METAMORPHER_ITEM.get().fillItemCategory(this, itemList);
             RegisterItems.ACCELERATOR_ITEM.get().fillItemCategory(this, itemList);
             RegisterItems.LINEAR_ACCELERATOR_ITEM.get().fillItemCategory(this, itemList);
-            RegisterItems.ENCHANTED_BOOKSHELF_ITEM.get().fillItemCategory(this, itemList);
             RegisterItems.ARCHIVERS_BOOKSHELF_ITEM.get().fillItemCategory(this, itemList);
+            RegisterItems.ENCHANTED_BOOKSHELF_ITEM.get().fillItemCategory(this, itemList);
             RegisterItems.INFECTED_BOOKSHELF_ITEM.get().fillItemCategory(this, itemList);
-            RegisterItems.INFECTED_ENCHANTED_BOOKSHELF_ITEM.get().fillItemCategory(this, itemList);
             RegisterItems.INFECTED_ARCHIVERS_BOOKSHELF_ITEM.get().fillItemCategory(this, itemList);
+            RegisterItems.INFECTED_ENCHANTED_BOOKSHELF_ITEM.get().fillItemCategory(this, itemList);
 
             //DECORATIVE / OTHER BLOCKS
             RegisterItems.COGNITIVE_ALLOY_BLOCK_ITEM.get().fillItemCategory(this, itemList);

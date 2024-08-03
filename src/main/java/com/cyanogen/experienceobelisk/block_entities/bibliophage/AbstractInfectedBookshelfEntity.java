@@ -1,6 +1,7 @@
 package com.cyanogen.experienceobelisk.block_entities.bibliophage;
 
 import com.cyanogen.experienceobelisk.registries.RegisterBlocks;
+import com.cyanogen.experienceobelisk.registries.RegisterItems;
 import net.minecraft.core.BlockPos;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.protocol.Packet;
@@ -10,8 +11,10 @@ import net.minecraft.server.level.ServerLevel;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.sounds.SoundSource;
 import net.minecraft.world.entity.ExperienceOrb;
+import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Block;
+import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraft.world.level.block.state.BlockState;
@@ -30,7 +33,7 @@ public abstract class AbstractInfectedBookshelfEntity extends BlockEntity {
         super(type, pos, state);
     }
 
-    int spawnDelay = -99; //the current time in ticks until the bookshelf is due to spawn an orb
+    int timeTillSpawn = -99; //the current time in ticks until the bookshelf is due to spawn an orb
     int spawnDelayMin; //the minimum spawn delay for the bookshelf
     int spawnDelayMax; //the maximum spawn delay for the bookshelf
     int orbValue; //the value of orbs to spawn
@@ -38,7 +41,6 @@ public abstract class AbstractInfectedBookshelfEntity extends BlockEntity {
     int decayValue = 0; //the number of times a bookshelf has spawned an orb
     double infectivity = 0.02; //the chance for a bookshelf to infect another adjacent bookshelf every second
     boolean isDisabled = false; //whether or not the bookshelf is disabled. When disabled, bookshelves will not infect adjacents, produce XP, or decay
-    boolean isPendingDecay = false; //whether or not the bookshelf has been marked for decay
 
     //-----------BEHAVIOR-----------//
 
@@ -46,15 +48,15 @@ public abstract class AbstractInfectedBookshelfEntity extends BlockEntity {
 
         if(blockEntity instanceof AbstractInfectedBookshelfEntity bookshelf && !bookshelf.isDisabled){
 
-            if(bookshelf.decayValue >= bookshelf.spawns && !bookshelf.isPendingDecay){
+            if(bookshelf.decayValue >= bookshelf.spawns){
                 bookshelf.decay(level, pos);
             }
             else{
 
-                if(bookshelf.spawnDelay == -99){
+                if(bookshelf.timeTillSpawn == -99){
                     bookshelf.resetSpawnDelay();
                 }
-                else if(bookshelf.spawnDelay <= 0){
+                else if(bookshelf.timeTillSpawn <= 0){
                     bookshelf.handleExperience(level, pos);
                     bookshelf.incrementDecayValue();
                     bookshelf.resetSpawnDelay();
@@ -100,12 +102,12 @@ public abstract class AbstractInfectedBookshelfEntity extends BlockEntity {
     }
 
     public void resetSpawnDelay(){
-        this.spawnDelay = (int) (spawnDelayMin + Math.floor((spawnDelayMax - spawnDelayMin) * Math.random()));
+        this.timeTillSpawn = (int) (spawnDelayMin + Math.floor((spawnDelayMax - spawnDelayMin) * Math.random()));
         this.setChanged();
     }
 
     public void decrementSpawnDelay(){
-        this.spawnDelay -= 1;
+        this.timeTillSpawn -= 1;
         this.setChanged();
     }
 
@@ -129,12 +131,18 @@ public abstract class AbstractInfectedBookshelfEntity extends BlockEntity {
 
     public void decay(Level level, BlockPos pos){
 
-        isPendingDecay = true;
-        BlockState dustBlock = RegisterBlocks.FORGOTTEN_DUST_BLOCK.get().defaultBlockState();
+        setDisabled(true);
 
-        level.playSound(null, pos, SoundEvents.WART_BLOCK_BREAK, SoundSource.BLOCKS, 1f,1f);
-        level.levelEvent(null, 2001, pos, Block.getId(dustBlock)); //spawn destroy particles
-        level.setBlockAndUpdate(pos, dustBlock);
+        if(!level.isClientSide){
+            ServerLevel server = (ServerLevel) level;
+            ItemStack forgottenDust = new ItemStack(RegisterItems.FORGOTTEN_DUST.get(), 4);
+            Block.popResource(server, pos, forgottenDust);
+        }
+        level.playSound(null, pos, SoundEvents.WART_BLOCK_BREAK, SoundSource.BLOCKS, 1f,1f); //play break sound
+        level.levelEvent(null, 2001, pos, Block.getId(RegisterBlocks.FORGOTTEN_DUST_BLOCK.get().defaultBlockState())); //spawn destroy particles
+
+        this.setRemoved();
+        level.setBlockAndUpdate(pos, Blocks.AIR.defaultBlockState());
     }
 
     public List<BlockPos> getAdjacents(BlockPos pos){
@@ -177,6 +185,11 @@ public abstract class AbstractInfectedBookshelfEntity extends BlockEntity {
         return this.isDisabled;
     }
 
+    public void setDisabled(boolean disabled){
+        this.isDisabled = disabled;
+        this.setChanged();
+    }
+
     public boolean getDisabled(){return this.isDisabled;}
 
     public int getDecayValue(){
@@ -199,7 +212,7 @@ public abstract class AbstractInfectedBookshelfEntity extends BlockEntity {
         super.load(tag);
 
         this.decayValue = tag.getInt("DecayValue");
-        this.spawnDelay = tag.getInt("SpawnDelay");
+        this.timeTillSpawn = tag.getInt("SpawnDelay");
         this.isDisabled = tag.getBoolean("IsDisabled");
     }
 
@@ -209,7 +222,7 @@ public abstract class AbstractInfectedBookshelfEntity extends BlockEntity {
         super.saveAdditional(tag);
 
         tag.putInt("DecayValue", decayValue);
-        tag.putInt("SpawnDelay", spawnDelay);
+        tag.putInt("SpawnDelay", timeTillSpawn);
         tag.putBoolean("IsDisabled", isDisabled);
     }
 
@@ -219,7 +232,7 @@ public abstract class AbstractInfectedBookshelfEntity extends BlockEntity {
         CompoundTag tag = super.getUpdateTag();
 
         tag.putInt("DecayValue", decayValue);
-        tag.putInt("SpawnDelay", spawnDelay);
+        tag.putInt("SpawnDelay", timeTillSpawn);
         tag.putBoolean("IsDisabled", isDisabled);
         return tag;
     }
