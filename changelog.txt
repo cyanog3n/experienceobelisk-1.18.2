@@ -6,7 +6,7 @@ v2.2.3
 - Swapped Archiver's and Enchanted bookshelves around in the creative tab
 
 [Bugfixes]
-- fixed infected bookshelves not invalidating the block entity immediately upon decaying, which occasionally led to block placement conflicts
+- fixed infected bookshelves not invalidating the block entity immediately upon decaying, leading to block placement conflicts
 - (hopefully) fixed random stalls in the obelisk active animation
 
 v2.2.2
