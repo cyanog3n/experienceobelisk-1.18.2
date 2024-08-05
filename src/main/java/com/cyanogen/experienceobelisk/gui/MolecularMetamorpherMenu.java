@@ -26,7 +26,7 @@ public class MolecularMetamorpherMenu extends AbstractContainerMenu {
     Component component = Component.literal("Molecular Metamorpher");
 
     public MolecularMetamorpherMenu(int id, Inventory inventory, FriendlyByteBuf data){
-        this(id, inventory, null, inventory.player, new BlockPos(0,0,0));
+        this(id, inventory, null, null, inventory.player, new BlockPos(0,0,0));
 
         Level level = inventory.player.level();
         this.pos = data.readBlockPos();
@@ -36,20 +36,20 @@ public class MolecularMetamorpherMenu extends AbstractContainerMenu {
 
     //-----SLOTS-----//
 
-    public MolecularMetamorpherMenu(int id, Inventory inventoryPlayer, IItemHandler inventoryBlock, Player player, BlockPos pos){
+    public MolecularMetamorpherMenu(int id, Inventory inventoryPlayer, IItemHandler inputs, IItemHandler output, Player player, BlockPos pos){
 
         super(RegisterMenus.MOLECULAR_METAMORPHER_MENU.get(), id);
         this.posServer = pos;
 
-        if(inventoryBlock != null){
+        if(inputs != null && output != null){
             // INPUT 1
-            this.addSlot(new SlotItemHandler(inventoryBlock, 0, 19, 35));
+            this.addSlot(new SlotItemHandler(inputs, 0, 19, 35));
             // INPUT 2
-            this.addSlot(new SlotItemHandler(inventoryBlock, 1, 50, 52));
+            this.addSlot(new SlotItemHandler(inputs, 1, 50, 52));
             // INPUT 3
-            this.addSlot(new SlotItemHandler(inventoryBlock, 2, 70, 18));
+            this.addSlot(new SlotItemHandler(inputs, 2, 70, 18));
             // OUTPUT 1
-            this.addSlot(new SlotItemHandler(inventoryBlock, 3, 140, 35){
+            this.addSlot(new SlotItemHandler(output, 0, 140, 35){
                 @Override
                 public boolean mayPlace(ItemStack p_40231_) {
                     return false;

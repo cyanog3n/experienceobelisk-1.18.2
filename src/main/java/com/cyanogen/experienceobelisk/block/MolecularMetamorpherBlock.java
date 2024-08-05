@@ -95,11 +95,14 @@ public class MolecularMetamorpherBlock extends ExperienceReceivingBlock implemen
     @Override
     public MenuProvider getMenuProvider(BlockState state, Level level, BlockPos pos) {
 
-        IItemHandler itemHandler = null;
+        IItemHandler inputHandler = null;
+        IItemHandler outputHandler = null;
         if(level.getBlockEntity(pos) instanceof MolecularMetamorpherEntity entity){
-            itemHandler = entity.getItemHandler();
+            inputHandler = entity.getInputHandler();
+            outputHandler = entity.getOutputHandler();
         }
-        final IItemHandler handler = itemHandler;
+        final IItemHandler inputs = inputHandler;
+        final IItemHandler output = outputHandler;
 
         return new MenuProvider() {
             @Override
@@ -109,7 +112,7 @@ public class MolecularMetamorpherBlock extends ExperienceReceivingBlock implemen
 
             @Override
             public AbstractContainerMenu createMenu(int containerId, Inventory inventory, Player player) {
-                return new MolecularMetamorpherMenu(containerId, inventory, handler, player, pos);
+                return new MolecularMetamorpherMenu(containerId, inventory, inputs, output, player, pos);
             }
         };
 
