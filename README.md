@@ -4,8 +4,6 @@ Overhaul your minecraft experience with strange and arcane technologies
 
 This branch corresponds to the latest development build for Minecraft 1.18.2
 
-The **legacy** branch corresponds to release v1.4.10 for Minecraft 1.18.2
-
 ### **If you're here to provide a bug report...**
 Please provide:
 - Your crash log, if applicable
