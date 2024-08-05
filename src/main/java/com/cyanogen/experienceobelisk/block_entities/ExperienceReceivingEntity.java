@@ -1,5 +1,6 @@
 package com.cyanogen.experienceobelisk.block_entities;
 
+import com.cyanogen.experienceobelisk.utils.ExperienceUtils;
 import net.minecraft.core.BlockPos;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.protocol.Packet;
@@ -61,15 +62,16 @@ public abstract class ExperienceReceivingEntity extends BlockEntity {
     public int obeliskPoints = 0;
     public double obeliskProgress = 0;
 
-    public void sendObeliskInfoToScreen(ExperienceObeliskEntity obelisk){
+    public void sendObeliskInfoToScreen(){
+
+        ExperienceObeliskEntity obelisk = getBoundObelisk();
 
         if(obelisk != null){
             this.obeliskStillExists = true;
             this.obeliskLevels = obelisk.getLevels();
             this.obeliskPoints = obelisk.getExperiencePoints();
-            this.obeliskProgress = obelisk.getProgressToNextLevel();
+            this.obeliskProgress = ExperienceUtils.getProgressToNextLevel(obeliskPoints, obeliskLevels);
         }
-
         //used to send data from the bound obelisk to the GUI
         //remember to fill in the tick behavior and pass it into getTicker
     }

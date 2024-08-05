@@ -21,4 +21,11 @@ public class ExperienceUtils {
             return (int) ((Math.sqrt(72 * xp - 54215) + 325) / 18); //when xp >~2980k, breaks int value limit
         }
     }
+
+    public static double getProgressToNextLevel(int experiencePoints, int experienceLevels){
+        int n = experiencePoints - levelsToXP(experienceLevels); //remaining xp after levels are removed
+        int m = levelsToXP(experienceLevels + 1) - levelsToXP(experienceLevels); //total xp to get to next level
+
+        return (double) n/m;
+    }
 }

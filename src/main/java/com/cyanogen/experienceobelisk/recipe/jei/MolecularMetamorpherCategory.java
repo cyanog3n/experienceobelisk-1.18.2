@@ -38,6 +38,7 @@ public class MolecularMetamorpherCategory implements IRecipeCategory<MolecularMe
     IGuiHelper guiHelper;
     private final ResourceLocation texture = new ResourceLocation("experienceobelisk:textures/gui/recipes/molecular_metamorpher_jei.png");
     private final IDrawableAnimated arrow;
+    private final IDrawable xpBar;
 
     public MolecularMetamorpherCategory(IRecipeCategoryRegistration registration){
         this.registration = registration;
@@ -45,6 +46,7 @@ public class MolecularMetamorpherCategory implements IRecipeCategory<MolecularMe
 
         this.arrow = guiHelper.drawableBuilder(texture,0,87,29,5)
                 .buildAnimated(100, IDrawableAnimated.StartDirection.LEFT, false);
+        this.xpBar = guiHelper.drawableBuilder(texture, 0, 92, 63, 10).build();
     }
 
     @Override
@@ -78,20 +80,17 @@ public class MolecularMetamorpherCategory implements IRecipeCategory<MolecularMe
     public void draw(MolecularMetamorpherRecipe recipe, IRecipeSlotsView recipeSlotsView, PoseStack poseStack, double mouseX, double mouseY) {
 
         arrow.draw(poseStack, 108, 47);
+        xpBar.draw(poseStack, getWidth() - 66, getHeight() - 12);
 
         Font font = Minecraft.getInstance().font;
         int cost = recipe.getCost();
-        int processTime = recipe.getProcessTime();
         int levelCost = ExperienceUtils.xpToLevels(cost);
 
-        Component costLabel = Component.translatable("jei.experienceobelisk.category.base_level_cost", levelCost);
-        Component timeLabel = Component.literal(processTime / 20 + "s");
-        int costLabelWidth = font.width(costLabel);
-        int timeLabelWidth = font.width(timeLabel);
-        int grey = 0x7E7E7E;
+        int offset = font.width(String.valueOf(levelCost)) / 2;
 
-        font.draw(poseStack, costLabel.getVisualOrderText(), getWidth() - 4 - costLabelWidth, getHeight() - 9, grey);
-        font.draw(poseStack, timeLabel.getVisualOrderText(), getWidth() - 4 - timeLabelWidth, getHeight() - 20, grey);
+        //render level counter
+        font.draw(poseStack, Component.literal(String.valueOf(levelCost)).withStyle(ChatFormatting.GREEN),
+                getWidth() - 31 - offset, getHeight() - 11, 0xFFFFF);
 
         IRecipeCategory.super.draw(recipe, recipeSlotsView, poseStack, mouseX, mouseY);
     }
@@ -99,23 +98,25 @@ public class MolecularMetamorpherCategory implements IRecipeCategory<MolecularMe
     @Override
     public List<Component> getTooltipStrings(MolecularMetamorpherRecipe recipe, IRecipeSlotsView recipeSlotsView, double mouseX, double mouseY) {
 
-        Font font = Minecraft.getInstance().font;
         int cost = recipe.getCost();
-        int levelCost = ExperienceUtils.xpToLevels(cost);
+        int time = recipe.getProcessTime() / 20;
 
-        Component costLabel = Component.translatable("jei.experienceobelisk.category.base_level_cost", levelCost);
-        int costLabelWidth = font.width(costLabel);
+        Component c2 = Component.literal(String.valueOf(cost)).withStyle(ChatFormatting.GREEN);
+        Component c3 = Component.literal(time +"s").withStyle(ChatFormatting.GOLD);
+
+        Component costXP = Component.translatable("jei.experienceobelisk.metamorpher.cost_xp", c2);
+        Component processTime = Component.translatable("jei.experienceobelisk.metamorpher.process_time", c3);
 
         List<Component> tooltip = new ArrayList<>();
 
-        int x1 = getWidth() - 4 - costLabelWidth;
+        int x1 = getWidth() - 67;
         int x2 = getWidth();
-        int y1 = getHeight() - 9;
+        int y1 = getHeight() - 14;
         int y2 = getHeight();
 
         if(mouseX >= x1 && mouseX <= x2 && mouseY >= y1 && mouseY <= y2){
-            tooltip.add(Component.translatable("tooltip.experienceobelisk.experience_obelisk.xp",
-                    Component.literal(String.valueOf(cost)).withStyle(ChatFormatting.GREEN)));
+            tooltip.add(costXP);
+            tooltip.add(processTime);
 
             return tooltip;
         }
