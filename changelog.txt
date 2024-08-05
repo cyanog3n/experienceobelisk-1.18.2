@@ -8,9 +8,10 @@ v2.2.3
 [Changes]
 - Infected bookshelves now drop 4x Forgotten Dust upon decaying rather than remaining as blocks
 - Forgotten Dust blocks are now crafted with 9x Forgotten Dust instead of 4x
+- Swapped Archiver's and Enchanted bookshelves around in the creative tab
 
 [Bugfixes]
-- fixed infected bookshelves not updating the client quickly enough upon decaying
+- fixed infected bookshelves not invalidating the block entity immediately upon decaying, leading to block placement conflicts
 - (hopefully) fixed random stalls in the obelisk active animation
 
 v2.2.2
