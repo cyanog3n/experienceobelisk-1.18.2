@@ -89,7 +89,7 @@ public class MolecularMetamorpherCategory implements IRecipeCategory<MolecularMe
         guiGraphics.blit(texture, getWidth() - 66, getHeight() - 12, 0, 92, (int) (xpBarLength * progress) + 2, 10);
         //render level counter
         guiGraphics.drawCenteredString(font, Component.literal(String.valueOf(levelCost)).withStyle(ChatFormatting.GREEN),
-                getWidth() - 40, getHeight() - 11, 0xFFFFFF);
+                getWidth() - 31, getHeight() - 11, 0xFFFFFF);
 
         IRecipeCategory.super.draw(recipe, recipeSlotsView, guiGraphics, mouseX, mouseY);
     }
@@ -98,7 +98,7 @@ public class MolecularMetamorpherCategory implements IRecipeCategory<MolecularMe
     public List<Component> getTooltipStrings(MolecularMetamorpherRecipe recipe, IRecipeSlotsView recipeSlotsView, double mouseX, double mouseY) {
 
         int cost = recipe.getCost();
-        int time = recipe.getProcessTime();
+        int time = recipe.getProcessTime() / 20;
 
         Component c1 = Component.literal(String.valueOf(cost * 20)).withStyle(ChatFormatting.GREEN);
         Component c2 = Component.literal(String.valueOf(cost)).withStyle(ChatFormatting.GREEN);

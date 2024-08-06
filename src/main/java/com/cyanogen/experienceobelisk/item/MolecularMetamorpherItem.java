@@ -2,6 +2,7 @@ package com.cyanogen.experienceobelisk.item;
 
 import com.cyanogen.experienceobelisk.renderer.MolecularMetamorpherItemRenderer;
 import net.minecraft.client.renderer.BlockEntityWithoutLevelRenderer;
+import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.item.BlockItem;
 import net.minecraft.world.item.ItemStack;
@@ -76,8 +77,11 @@ public class MolecularMetamorpherItem extends BlockItem implements GeoItem {
     @Override
     public void appendHoverText(ItemStack stack, @Nullable Level level, List<Component> tooltip, TooltipFlag flag) {
 
-        boolean isEmpty = stack.getOrCreateTag().getCompound("BlockEntityTag").getCompound("Inventory").getList("Items", 10).isEmpty();
-        //Each itemstack should be a compound, which has an ID of 10. See net.minecraft.nbt.Tag
+        CompoundTag inputs = stack.getOrCreateTag().getCompound("BlockEntityTag").getCompound("Inputs");
+        CompoundTag outputs = stack.getOrCreateTag().getCompound("BlockEntityTag").getCompound("Outputs");
+
+        boolean isEmpty = inputs.getList("Items", 10).isEmpty() && outputs.getList("Items",10).isEmpty();
+        //Each itemstack is a compound, which has an ID of 10. See net.minecraft.nbt.Tag
 
         if(!isEmpty){
             tooltip.add(Component.translatable("tooltip.experienceobelisk.molecular_metamorpher.has_contents"));
