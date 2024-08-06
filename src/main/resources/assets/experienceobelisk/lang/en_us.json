@@ -75,16 +75,16 @@
   "tooltip.experienceobelisk.experience_obelisk.radius": "§6Reset§f radius to default",
   "tooltip.experienceobelisk.experience_obelisk.settings": "Settings...",
   "tooltip.experienceobelisk.experience_obelisk.back": "Back...",
-  "tooltip.experienceobelisk.experience_obelisk.item_levels": "§7Storing %s §7XP levels",
+  "tooltip.experienceobelisk.experience_obelisk.item_levels": "§7Storing %s §7levels",
   "tooltip.experienceobelisk.experience_obelisk.item_points": "%s §7points",
   "tooltip.experienceobelisk.experience_obelisk.xp": "%s §7XP",
 
   "tooltip.experienceobelisk.enlightened_amulet.active": "§7Currently §aactive",
   "tooltip.experienceobelisk.enlightened_amulet.inactive": "§7Currently §cinactive",
 
-  "tooltip.experienceobelisk.precision_dispeller.curse": "§7Costs §a30 §7base levels / §a1395 §7XP",
+  "tooltip.experienceobelisk.precision_dispeller.curse": "§7Costs §c30 §7base levels / §c1395 §7XP",
   "tooltip.experienceobelisk.precision_dispeller.enchantment": "§7Gives %s §7base levels / %s §7XP",
-  "tooltip.experienceobelisk.precision_dispeller.insufficient_xp": "§cInsufficient XP!",
+  "tooltip.experienceobelisk.precision_dispeller.insufficient_xp": "§6Insufficient XP!",
 
   "tooltip.experienceobelisk.molecular_metamorpher.bound": "Bound Obelisk",
   "tooltip.experienceobelisk.molecular_metamorpher.xp": "%s §7XP",
@@ -119,8 +119,8 @@
   "sounds.experienceobelisk.enlightened_amulet_deactivate": "Amulet deactivates",
   "sounds.experienceobelisk.metamorpher_busy": "Metamorpher hums",
 
-  "jei.experienceobelisk.category.cost_xp": "§7Costs %s §7XP",
-  "jei.experienceobelisk.category.process_time": "§7Process time: %s",
+  "jei.experienceobelisk.metamorpher.cost_xp": "§7Costs %s §7XP",
+  "jei.experienceobelisk.metamorpher.process_time": "§7Process time: %s",
   "jei.experienceobelisk.description.forgotten_dust": "Obtained from breaking Infected Bookshelves (any kind), or by waiting for Infected Bookshelves (any kind) to decay",
   "jei.experienceobelisk.description.experience_vessels": "Right click a bound Experience Fountain with an empty bottle / bucket. The bound Obelisk must have enough Cognitium",
   "jei.experienceobelisk.error.missing_items": "§cMissing Items",
