@@ -22,6 +22,10 @@ public class RegisterSounds {
         return SOUNDS.register(soundName, () -> SoundEvent.createFixedRangeEvent(new ResourceLocation(ExperienceObelisk.MOD_ID, soundName), range));
     }
 
+    public static RegistryObject<SoundEvent> registerVariableSound(String soundName){
+        return SOUNDS.register(soundName, () -> SoundEvent.createVariableRangeEvent(new ResourceLocation(ExperienceObelisk.MOD_ID, soundName)));
+    }
+
     public static void register(IEventBus eventBus){
         SOUNDS.register(eventBus);
     }
