@@ -100,12 +100,10 @@ public class MolecularMetamorpherCategory implements IRecipeCategory<MolecularMe
         int cost = recipe.getCost();
         int time = recipe.getProcessTime() / 20;
 
-        Component c1 = Component.literal(String.valueOf(cost * 20)).withStyle(ChatFormatting.GREEN);
         Component c2 = Component.literal(String.valueOf(cost)).withStyle(ChatFormatting.GREEN);
         Component c3 = Component.literal(time +"s").withStyle(ChatFormatting.GOLD);
 
-        Component costCognitium = Component.translatable("jei.experienceobelisk.category.cost_cognitium", c1);
-        Component costXP = Component.translatable("tooltip.experienceobelisk.experience_obelisk.xp", c2);
+        Component costXP = Component.translatable("tooltip.experienceobelisk.experience_obelisk.cost_xp", c2);
         Component processTime = Component.translatable("jei.experienceobelisk.category.process_time", c3);
 
         List<Component> tooltip = new ArrayList<>();
@@ -116,7 +114,6 @@ public class MolecularMetamorpherCategory implements IRecipeCategory<MolecularMe
         int y2 = getHeight();
 
         if(mouseX >= x1 && mouseX <= x2 && mouseY >= y1 && mouseY <= y2){
-            tooltip.add(costCognitium);
             tooltip.add(costXP);
             tooltip.add(processTime);
 
