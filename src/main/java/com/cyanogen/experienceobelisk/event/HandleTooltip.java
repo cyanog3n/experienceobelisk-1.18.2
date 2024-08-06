@@ -23,22 +23,22 @@ public class HandleTooltip {
 
         if(modId != null && modId.equals("experienceobelisk") && hasDescription){
 
-            if(event.getToolTip().size() > 1){
-                event.getToolTip().add(1, Component.empty());
-            }
+            int index = 1;
 
             if(isShiftDown){
-
-                int index = 1;
 
                 for(String line : MiscUtils.getLinesFromString(description.getString(), 180, Minecraft.getInstance().font)){
                     Component descriptionLine = Component.literal(line).withStyle(ChatFormatting.DARK_GRAY);
                     event.getToolTip().add(index, descriptionLine);
                     index++;
                 }
+
+                if(event.getToolTip().size() > index){
+                    event.getToolTip().add(index, Component.empty());
+                }
             }
             else{
-                event.getToolTip().add(1, Component.translatable("tooltip.experienceobelisk.shift_for_info"));
+                event.getToolTip().add(index, Component.translatable("tooltip.experienceobelisk.shift_for_info"));
             }
         }
     }
