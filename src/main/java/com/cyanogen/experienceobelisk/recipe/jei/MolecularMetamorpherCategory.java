@@ -89,7 +89,7 @@ public class MolecularMetamorpherCategory implements IRecipeCategory<MolecularMe
         guiGraphics.blit(texture, getWidth() - 66, getHeight() - 12, 0, 92, (int) (xpBarLength * progress) + 2, 10);
         //render level counter
         guiGraphics.drawCenteredString(font, Component.literal(String.valueOf(levelCost)).withStyle(ChatFormatting.GREEN),
-                getWidth() - xpBarLength / 2 - 3, getHeight() - 10, 0xFFFFFF);
+                getWidth() - 40, getHeight() - 11, 0xFFFFFF);
 
         IRecipeCategory.super.draw(recipe, recipeSlotsView, guiGraphics, mouseX, mouseY);
     }
@@ -100,9 +100,13 @@ public class MolecularMetamorpherCategory implements IRecipeCategory<MolecularMe
         int cost = recipe.getCost();
         int time = recipe.getProcessTime();
 
-        Component costCognitium = Component.translatable("jei.experienceobelisk.category.cost_cognitium", cost * 20);
-        Component costXP = Component.translatable("tooltip.experienceobelisk.experience_obelisk.xp", cost);
-        Component processTime = Component.translatable("jei.experienceobelisk.category.process_time", time);
+        Component c1 = Component.literal(String.valueOf(cost * 20)).withStyle(ChatFormatting.GREEN);
+        Component c2 = Component.literal(String.valueOf(cost)).withStyle(ChatFormatting.GREEN);
+        Component c3 = Component.literal(time +"s").withStyle(ChatFormatting.GOLD);
+
+        Component costCognitium = Component.translatable("jei.experienceobelisk.category.cost_cognitium", c1);
+        Component costXP = Component.translatable("tooltip.experienceobelisk.experience_obelisk.xp", c2);
+        Component processTime = Component.translatable("jei.experienceobelisk.category.process_time", c3);
 
         List<Component> tooltip = new ArrayList<>();
 
