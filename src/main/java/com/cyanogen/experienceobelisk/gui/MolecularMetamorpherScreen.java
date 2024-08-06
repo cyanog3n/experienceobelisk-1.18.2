@@ -77,7 +77,7 @@ public class MolecularMetamorpherScreen extends AbstractContainerScreen<Molecula
         gui.blit(texture, this.width / 2 + 109 - 88, this.height / 2 + 48 - 83, 0, 175, (int) (arrowWidth * completion), 4);
 
         //render xp bar
-        int xpBarWidth = 61;
+        int xpBarLength = 61;
         int levels;
         int points;
         double progress;
@@ -88,7 +88,7 @@ public class MolecularMetamorpherScreen extends AbstractContainerScreen<Molecula
             progress = metamorpher.obeliskProgress;
 
             gui.blit(texture, this.width / 2 + 105 - 88, this.height / 2 + 70 - 83, 0, 179, 64, 11);
-            gui.blit(texture, this.width / 2 + 107 - 88, this.height / 2 + 71 - 83, 0, 166, (int) (xpBarWidth * progress), 9);
+            gui.blit(texture, this.width / 2 + 107 - 88, this.height / 2 + 71 - 83, 0, 166, (int) (xpBarLength * progress), 9);
 
             //render level counter
             gui.drawCenteredString(this.font, Component.literal(String.valueOf(levels)).withStyle(ChatFormatting.GREEN),
@@ -97,7 +97,7 @@ public class MolecularMetamorpherScreen extends AbstractContainerScreen<Molecula
             //render XP tooltip
             int x1 = this.width / 2 + 19;
             int y1 = this.height / 2 - 12;
-            int x2 = x1 + xpBarWidth;
+            int x2 = x1 + xpBarLength;
             int y2 = y1 + 9;
 
             List<Component> tooltipList = new ArrayList<>();

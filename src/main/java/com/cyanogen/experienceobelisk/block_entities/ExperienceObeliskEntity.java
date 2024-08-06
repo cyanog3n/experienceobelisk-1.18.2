@@ -268,14 +268,6 @@ public class ExperienceObeliskEntity extends BlockEntity implements GeoBlockEnti
         return xpToLevels(getExperiencePoints());
     }
 
-    public double getProgressToNextLevel(){
-
-        int n = getExperiencePoints() - levelsToXP(getLevels()); //remaining xp after levels are removed
-        int m = levelsToXP(getLevels() + 1) - levelsToXP(getLevels()); //total xp to get to next level
-
-        return (double) n/m;
-    }
-
     @Override
     @Nonnull
     public <T> LazyOptional<T> getCapability(@Nonnull Capability<T> capability, @Nullable Direction facing)

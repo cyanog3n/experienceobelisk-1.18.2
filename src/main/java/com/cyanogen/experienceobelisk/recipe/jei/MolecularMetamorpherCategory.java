@@ -80,20 +80,16 @@ public class MolecularMetamorpherCategory implements IRecipeCategory<MolecularMe
 
         Font font = Minecraft.getInstance().font;
         int cost = recipe.getCost();
-        int processTime = recipe.getProcessTime();
         int levelCost = ExperienceUtils.xpToLevels(cost);
+        int xpBarLength = 61;
+        double progress = ExperienceUtils.getProgressToNextLevel(cost, levelCost);
+        if(progress == 0) progress = 1;
 
-        Component costLabel = Component.translatable("jei.experienceobelisk.category.base_level_cost", levelCost);
-        Component timeLabel = Component.literal(processTime / 20 + "s");
-        int costLabelWidth = font.width(costLabel);
-        int timeLabelWidth = font.width(timeLabel);
-        int grey = 0x7E7E7E;
-
-        guiGraphics.drawString(font, costLabel.getVisualOrderText(),
-                getWidth() - 4 - costLabelWidth,getHeight() - 9, grey, false);
-        guiGraphics.drawString(font, timeLabel.getVisualOrderText(),
-                getWidth() - 4 - timeLabelWidth,getHeight() - 20, grey, false);
-
+        //render xp bar
+        guiGraphics.blit(texture, getWidth() - 66, getHeight() - 12, 0, 92, (int) (xpBarLength * progress) + 2, 10);
+        //render level counter
+        guiGraphics.drawCenteredString(font, Component.literal(String.valueOf(levelCost)).withStyle(ChatFormatting.GREEN),
+                getWidth() - xpBarLength / 2 - 3, getHeight() - 10, 0xFFFFFF);
 
         IRecipeCategory.super.draw(recipe, recipeSlotsView, guiGraphics, mouseX, mouseY);
     }
@@ -101,23 +97,24 @@ public class MolecularMetamorpherCategory implements IRecipeCategory<MolecularMe
     @Override
     public List<Component> getTooltipStrings(MolecularMetamorpherRecipe recipe, IRecipeSlotsView recipeSlotsView, double mouseX, double mouseY) {
 
-        Font font = Minecraft.getInstance().font;
         int cost = recipe.getCost();
-        int levelCost = ExperienceUtils.xpToLevels(cost);
+        int time = recipe.getProcessTime();
 
-        Component costLabel = Component.translatable("jei.experienceobelisk.category.base_level_cost", levelCost);
-        int costLabelWidth = font.width(costLabel);
+        Component costCognitium = Component.translatable("jei.experienceobelisk.category.cost_cognitium", cost * 20);
+        Component costXP = Component.translatable("tooltip.experienceobelisk.experience_obelisk.xp", cost);
+        Component processTime = Component.translatable("jei.experienceobelisk.category.process_time", time);
 
         List<Component> tooltip = new ArrayList<>();
 
-        int x1 = getWidth() - 4 - costLabelWidth;
+        int x1 = getWidth() - 67;
         int x2 = getWidth();
-        int y1 = getHeight() - 9;
+        int y1 = getHeight() - 14;
         int y2 = getHeight();
 
         if(mouseX >= x1 && mouseX <= x2 && mouseY >= y1 && mouseY <= y2){
-            tooltip.add(Component.translatable("tooltip.experienceobelisk.experience_obelisk.xp",
-                    Component.literal(String.valueOf(cost)).withStyle(ChatFormatting.GREEN)));
+            tooltip.add(costCognitium);
+            tooltip.add(costXP);
+            tooltip.add(processTime);
 
             return tooltip;
         }

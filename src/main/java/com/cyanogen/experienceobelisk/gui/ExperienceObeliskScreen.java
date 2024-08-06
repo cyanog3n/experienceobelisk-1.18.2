@@ -3,6 +3,7 @@ package com.cyanogen.experienceobelisk.gui;
 import com.cyanogen.experienceobelisk.block_entities.ExperienceObeliskEntity;
 import com.cyanogen.experienceobelisk.network.PacketHandler;
 import com.cyanogen.experienceobelisk.network.experience_obelisk.UpdateContents;
+import com.cyanogen.experienceobelisk.utils.ExperienceUtils;
 import com.mojang.blaze3d.systems.RenderSystem;
 import net.minecraft.ChatFormatting;
 import net.minecraft.client.Minecraft;
@@ -64,7 +65,7 @@ public class ExperienceObeliskScreen extends AbstractContainerScreen<ExperienceO
 
         int experiencePoints = xpobelisk.getExperiencePoints();
         int levels = xpobelisk.getLevels();
-        int progress = (int) (xpobelisk.getProgressToNextLevel() * 138);
+        int progress = (int) (ExperienceUtils.getProgressToNextLevel(experiencePoints, levels) * 138);
 
         //render gui texture
         gui.blit(texture, x, y, 0, 0, 176, 166);
