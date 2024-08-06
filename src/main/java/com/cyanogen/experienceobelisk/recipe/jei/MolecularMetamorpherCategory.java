@@ -103,7 +103,7 @@ public class MolecularMetamorpherCategory implements IRecipeCategory<MolecularMe
         Component c2 = Component.literal(String.valueOf(cost)).withStyle(ChatFormatting.GREEN);
         Component c3 = Component.literal(time +"s").withStyle(ChatFormatting.GOLD);
 
-        Component costXP = Component.translatable("tooltip.experienceobelisk.metamorpher.cost_xp", c2);
+        Component costXP = Component.translatable("jei.experienceobelisk.metamorpher.cost_xp", c2);
         Component processTime = Component.translatable("jei.experienceobelisk.metamorpher.process_time", c3);
 
         List<Component> tooltip = new ArrayList<>();

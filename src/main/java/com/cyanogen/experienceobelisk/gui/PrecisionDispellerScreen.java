@@ -248,7 +248,7 @@ public class PrecisionDispellerScreen extends AbstractContainerScreen<PrecisionD
 
                     MutableComponent pts = Component.translatable(String.valueOf(points)).withStyle(ChatFormatting.GREEN);
                     MutableComponent lvls = Component.translatable(String.valueOf(levels)).withStyle(ChatFormatting.GREEN);
-                    tooltipList.add(Component.translatable("tooltip.experienceobelisk.precision_dispeller.enchantment", pts, lvls));
+                    tooltipList.add(Component.translatable("tooltip.experienceobelisk.precision_dispeller.enchantment", lvls, pts));
                 }
 
                 gui.renderTooltip(this.font, tooltipList, Optional.empty(), x, y);

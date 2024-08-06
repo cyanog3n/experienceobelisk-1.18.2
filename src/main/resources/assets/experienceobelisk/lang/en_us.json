@@ -41,7 +41,7 @@
 
   "itemGroup.experienceobelisk": "Cognition",
 
-  "tooltip.experienceobelisk.shift_for_info": "§8§oHold §7§oSHIFT §8§ofor more info",
+  "tooltip.experienceobelisk.shift_for_info": "§8§oHold SHIFT for more info",
   "item.experienceobelisk.attunement_staff.description": "Binds, queries, and configures blocks from this mod.",
   "item.experienceobelisk.enlightened_amulet.description": "Teleports nearby experience orbs to you, and merges them together for faster absorption.",
   "item.experienceobelisk.nightmare_bottle.description": "Increases your insomnia drastically, making phantoms almost guaranteed to spawn.",
@@ -75,15 +75,15 @@
   "tooltip.experienceobelisk.experience_obelisk.radius": "§6Reset§f radius to default",
   "tooltip.experienceobelisk.experience_obelisk.settings": "Settings...",
   "tooltip.experienceobelisk.experience_obelisk.back": "Back...",
-  "tooltip.experienceobelisk.experience_obelisk.item_levels": "§7Storing %s §7levels",
+  "tooltip.experienceobelisk.experience_obelisk.item_levels": "§7Storing %s §7XP levels",
   "tooltip.experienceobelisk.experience_obelisk.item_points": "%s §7points",
   "tooltip.experienceobelisk.experience_obelisk.xp": "%s §7XP",
 
   "tooltip.experienceobelisk.enlightened_amulet.active": "§7Currently §aactive",
   "tooltip.experienceobelisk.enlightened_amulet.inactive": "§7Currently §cinactive",
 
-  "tooltip.experienceobelisk.precision_dispeller.curse": "§7Costs §c30 §7base levels / §c1395 §7XP",
-  "tooltip.experienceobelisk.precision_dispeller.enchantment": "§7Gives %s §7base levels / %s §7XP",
+  "tooltip.experienceobelisk.precision_dispeller.curse": "§7Costs §c30 §7XP levels / §c1395 §7XP",
+  "tooltip.experienceobelisk.precision_dispeller.enchantment": "§7Gives %s §7XP levels / %s §7XP",
   "tooltip.experienceobelisk.precision_dispeller.insufficient_xp": "§6Insufficient XP!",
 
   "tooltip.experienceobelisk.molecular_metamorpher.bound": "Bound Obelisk",
