@@ -119,7 +119,7 @@
   "sounds.experienceobelisk.enlightened_amulet_deactivate": "Amulet deactivates",
   "sounds.experienceobelisk.metamorpher_busy": "Metamorpher hums",
 
-  "jei.experienceobelisk.metamorpher.cost_xp": "§7Costs %s §7XP",
+  "jei.experienceobelisk.metamorpher.cost_xp": "§7Consumes %s §7XP",
   "jei.experienceobelisk.metamorpher.process_time": "§7Process time: %s",
   "jei.experienceobelisk.description.forgotten_dust": "Obtained from breaking Infected Bookshelves (any kind), or by waiting for Infected Bookshelves (any kind) to decay",
   "jei.experienceobelisk.description.experience_vessels": "Right click a bound Experience Fountain with an empty bottle / bucket. The bound Obelisk must have enough Cognitium",
