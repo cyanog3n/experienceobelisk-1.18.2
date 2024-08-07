@@ -1,3 +1,11 @@
+v2.2.4
+
+[Changes]
+- Metamorpher output may now be removed using hoppers or otherwise via the bottom face. Items may be fed into the input slots through any other face except the top face
+- Modified the layout of the JEI recipe viewer
+- Standardized & cleaned up tooltips
+- Changed Precision Dispeller recipe -- such that only a single cognitive crystal is required rather than a whole block
+
 v2.2.3
 
 [Changes]
