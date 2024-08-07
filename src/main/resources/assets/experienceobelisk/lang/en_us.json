@@ -41,7 +41,7 @@
 
   "itemGroup.experienceobelisk": "Cognition",
 
-  "tooltip.experienceobelisk.shift_for_info": "§8§oHold §7§oSHIFT §8§ofor more info",
+  "tooltip.experienceobelisk.shift_for_info": "§8§oHold SHIFT for more info",
   "item.experienceobelisk.attunement_staff.description": "Binds, queries, and configures blocks from this mod.",
   "item.experienceobelisk.enlightened_amulet.description": "Teleports nearby experience orbs to you, and merges them together for faster absorption.",
   "item.experienceobelisk.nightmare_bottle.description": "Increases your insomnia drastically, making phantoms almost guaranteed to spawn.",
@@ -75,22 +75,20 @@
   "tooltip.experienceobelisk.experience_obelisk.radius": "§6Reset§f radius to default",
   "tooltip.experienceobelisk.experience_obelisk.settings": "Settings...",
   "tooltip.experienceobelisk.experience_obelisk.back": "Back...",
-  "tooltip.experienceobelisk.experience_obelisk.item_fluid_amount": "§7Cognitium: %s §7mB",
-  "tooltip.experienceobelisk.experience_obelisk.item_levels": "%s §7Levels",
+  "tooltip.experienceobelisk.experience_obelisk.item_levels": "§7Storing %s §7XP levels",
+  "tooltip.experienceobelisk.experience_obelisk.item_points": "%s §7points",
   "tooltip.experienceobelisk.experience_obelisk.xp": "%s §7XP",
 
   "tooltip.experienceobelisk.enlightened_amulet.active": "§7Currently §aactive",
   "tooltip.experienceobelisk.enlightened_amulet.inactive": "§7Currently §cinactive",
 
-  "tooltip.experienceobelisk.precision_dispeller.curse": "§7Costs §c30 §7base levels / §c1395 §7XP",
-  "tooltip.experienceobelisk.precision_dispeller.enchantment": "§7Gives %s §7base levels / %s §7XP",
+  "tooltip.experienceobelisk.precision_dispeller.curse": "§7Costs §c30 §7XP levels / §c1395 §7XP",
+  "tooltip.experienceobelisk.precision_dispeller.enchantment": "§7Gives %s §7XP levels / %s §7XP",
   "tooltip.experienceobelisk.precision_dispeller.insufficient_xp": "§6Insufficient XP!",
 
   "tooltip.experienceobelisk.molecular_metamorpher.bound": "Bound Obelisk",
   "tooltip.experienceobelisk.molecular_metamorpher.xp": "%s §7XP",
-  "tooltip.experienceobelisk.molecular_metamorpher.has_contents": "§6Contents stored within!",
-
-  "tooltip.experienceobelisk.experience_jelly.comment": "§7Instantly digested!",
+  "tooltip.experienceobelisk.molecular_metamorpher.has_contents": "§7Contents stored within!",
 
   "button.experienceobelisk.experience_obelisk.settings": "§l▶§r",
   "button.experienceobelisk.experience_obelisk.back": "§l◀§r",
@@ -113,7 +111,7 @@
   "message.experienceobelisk.binding_wand.query_bookshelf_disabled": "§b[ⓘ]§r §c[Disabled]§f Bookshelf is at %s durability",
 
   "message.experienceobelisk.experience_fountain.slow": "Experience Fountain set to: §cSlow§r",
-  "message.experienceobelisk.experience_fountain.moderate": "Experience Fountain set to: §eModerate§r",
+  "message.experienceobelisk.experience_fountain.moderate": "Experience Fountain set to: §6Moderate§r",
   "message.experienceobelisk.experience_fountain.fast": "Experience Fountain set to: §aFast§r",
   "message.experienceobelisk.experience_fountain.hyper": "Experience Fountain set to: §bHyper§r",
 
@@ -121,7 +119,8 @@
   "sounds.experienceobelisk.enlightened_amulet_deactivate": "Amulet deactivates",
   "sounds.experienceobelisk.metamorpher_busy": "Metamorpher hums",
 
-  "jei.experienceobelisk.category.base_level_cost": "%s base levels",
+  "jei.experienceobelisk.metamorpher.cost_xp": "§7Costs %s §7XP",
+  "jei.experienceobelisk.metamorpher.process_time": "§7Process time: %s",
   "jei.experienceobelisk.description.forgotten_dust": "Obtained from breaking Infected Bookshelves (any kind), or by waiting for Infected Bookshelves (any kind) to decay",
   "jei.experienceobelisk.description.experience_vessels": "Right click a bound Experience Fountain with an empty bottle / bucket. The bound Obelisk must have enough Cognitium",
   "jei.experienceobelisk.error.missing_items": "§cMissing Items",
