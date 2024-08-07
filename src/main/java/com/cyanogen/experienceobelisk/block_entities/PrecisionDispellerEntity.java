@@ -83,14 +83,14 @@ public class PrecisionDispellerEntity extends ExperienceReceivingEntity implemen
         super.onDataPacket(net, pkt);
     }
 
-    //serves to update the client from the server without changing any of the properties of the block entity serverside
+    //we want to update the client from the server without having to save any block entity data
 
     //-----------BEHAVIOR-----------//
 
     public static <T> void tick(Level level, BlockPos pos, BlockState state, T blockEntity) {
 
         if(blockEntity instanceof PrecisionDispellerEntity dispeller){
-            dispeller.sendObeliskInfoToScreen(dispeller.getBoundObelisk());
+            dispeller.sendObeliskInfoToScreen();
         }
     }
 

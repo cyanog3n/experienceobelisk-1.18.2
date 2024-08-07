@@ -168,10 +168,10 @@ public class MolecularMetamorpherEntity extends ExperienceReceivingEntity implem
 
         long time = level.getGameTime();
         if(time % period == 0){
-            level.playSound(null, pos, RegisterSounds.METAMORPHER_BUSY1.get(), SoundSource.BLOCKS, 1f,1f);
+            level.playSound(null, pos, RegisterSounds.METAMORPHER_BUSY1.get(), SoundSource.BLOCKS, 0.8f,1f);
         }
         else if(time % period == period / 2){
-            level.playSound(null, pos, RegisterSounds.METAMORPHER_BUSY2.get(), SoundSource.BLOCKS, 1f,1f);
+            level.playSound(null, pos, RegisterSounds.METAMORPHER_BUSY2.get(), SoundSource.BLOCKS, 0.7f,1f);
         }
     }
 
