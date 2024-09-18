@@ -387,7 +387,9 @@ public class MolecularMetamorpherEntity extends ExperienceReceivingEntity implem
         MutableComponent name = inputItem.getHoverName().copy();
         Item formatItem = inputHandler.getStackInSlot(2).getItem();
 
-        if(formatItem instanceof DyeItem dye){
+        if(RecipeUtils.getValidDyes().contains(formatItem)){
+
+            DyeItem dye = (DyeItem) formatItem;
             int dyeColor = dye.getDyeColor().getId();
             ChatFormatting format = ChatFormatting.getById(RecipeUtils.dyeColorToTextColor(dyeColor));
 

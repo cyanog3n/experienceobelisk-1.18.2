@@ -1,3 +1,8 @@
+v2.2.5
+
+[Bugfixes]
+- fixed name formatting recipes showing up incorrectly in JEI
+
 v2.2.4
 
 [Changes]

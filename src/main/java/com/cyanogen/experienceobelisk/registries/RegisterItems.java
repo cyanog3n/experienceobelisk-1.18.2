@@ -210,6 +210,10 @@ public class RegisterItems {
             });
 
 
+    //-----DUMMY ITEM-----//
+    public static final RegistryObject<Item> DUMMY_SWORD = ITEMS.register("dummy_sword", RegisterItems::baseItem);
+
+
     public static void register(IEventBus eventBus){
         ITEMS.register(eventBus);
     }
