@@ -22,6 +22,28 @@ import java.util.Map;
 
 public class RecipeUtils {
 
+    public static List<Item> getValidDyes(){
+        List<Item> validDyes = new ArrayList<>();
+        validDyes.add(Items.WHITE_DYE);
+        validDyes.add(Items.ORANGE_DYE);
+        validDyes.add(Items.MAGENTA_DYE);
+        validDyes.add(Items.LIGHT_BLUE_DYE);
+        validDyes.add(Items.YELLOW_DYE);
+        validDyes.add(Items.LIME_DYE);
+        validDyes.add(Items.PINK_DYE);
+        validDyes.add(Items.GRAY_DYE);
+        validDyes.add(Items.LIGHT_GRAY_DYE);
+        validDyes.add(Items.CYAN_DYE);
+        validDyes.add(Items.PURPLE_DYE);
+        validDyes.add(Items.BLUE_DYE);
+        validDyes.add(Items.BROWN_DYE);
+        validDyes.add(Items.GREEN_DYE);
+        validDyes.add(Items.RED_DYE);
+        validDyes.add(Items.BLACK_DYE);
+
+        return validDyes;
+    }
+
     public static int dyeColorToTextColor(int dyeColor){
 
         return switch (dyeColor) {
@@ -83,13 +105,13 @@ public class RecipeUtils {
         ingredientMap.put(Ingredient.of(inputItem), new Tuple<>(1, 1));
         ingredientMap.put(Ingredient.of(Items.NAME_TAG), new Tuple<>(2, 1));
 
-        for(ItemStack stack : Ingredient.of(Tags.Items.DYES).getItems()){
+        for(Item dye : getValidDyes()){
 
             HashMap<Ingredient, Tuple<Integer, Integer>> ingredientMap2 = new HashMap<>(Map.copyOf(ingredientMap));
-            ingredientMap2.put(Ingredient.of(stack), new Tuple<>(3, 1));
+            ingredientMap2.put(Ingredient.of(dye), new Tuple<>(3, 1));
 
-            if(stack.getItem() instanceof DyeItem dye){
-                int dyeColor = dye.getDyeColor().getId();
+            if(dye instanceof DyeItem dyeItem){
+                int dyeColor = dyeItem.getDyeColor().getId();
                 ChatFormatting format = ChatFormatting.getById(RecipeUtils.dyeColorToTextColor(dyeColor));
                 assert format != null;
                 ItemStack outputItem = exampleItem.copy()
