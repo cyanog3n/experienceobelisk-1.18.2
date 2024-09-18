@@ -81,12 +81,12 @@ public class RecipeUtils {
 
         HashMap<Ingredient, Tuple<Integer, Integer>> ingredientMap = new HashMap<>();
         ingredientMap.put(Ingredient.of(inputItem), new Tuple<>(1, 1));
-        ingredientMap.put(Ingredient.of(Items.NAME_TAG), new Tuple<>(3, 1));
+        ingredientMap.put(Ingredient.of(Items.NAME_TAG), new Tuple<>(2, 1));
 
         for(ItemStack stack : Ingredient.of(Tags.Items.DYES).getItems()){
 
             HashMap<Ingredient, Tuple<Integer, Integer>> ingredientMap2 = new HashMap<>(Map.copyOf(ingredientMap));
-            ingredientMap2.put(Ingredient.of(stack), new Tuple<>(2, 1));
+            ingredientMap2.put(Ingredient.of(stack), new Tuple<>(3, 1));
 
             if(stack.getItem() instanceof DyeItem dye){
                 int dyeColor = dye.getDyeColor().getId();
@@ -101,7 +101,7 @@ public class RecipeUtils {
         for(Item item : getValidFormattingItems()){
 
             HashMap<Ingredient, Tuple<Integer, Integer>> ingredientMap2 = new HashMap<>(Map.copyOf(ingredientMap));
-            ingredientMap2.put(Ingredient.of(item.getDefaultInstance()), new Tuple<>(2, 1));
+            ingredientMap2.put(Ingredient.of(item.getDefaultInstance()), new Tuple<>(3, 1));
 
             int index = RecipeUtils.getValidFormattingItems().indexOf(item);
             char code = RecipeUtils.itemToFormat(index);
