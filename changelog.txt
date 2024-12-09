@@ -1,3 +1,9 @@
+v2.2.6
+
+[Changes]
+- Added configuration options for bookshelf spawn rates, spawn value, and lifetimes
+- Shift-right-clicking bookshelves with the Staff of Attunement now toggles between redstone enabled / disabled
+
 v2.2.5
 
 [Bugfixes]
