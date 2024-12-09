@@ -60,7 +60,7 @@ public class InfectedBookshelfBlock extends BookshelfBlock implements EntityBloc
             int spawns = bookshelf.getSpawns();
             int durability = 100 - (decayValue * 100 / spawns);
             MutableComponent durabilityStatus = Component.literal(durability+"%");
-            boolean isDisabled = bookshelf.getDisabled();
+            boolean isDisabled = bookshelf.getRedstoneEnabled();
 
             if(durability > 50){ //green
                 durabilityStatus.withStyle(ChatFormatting.GREEN);

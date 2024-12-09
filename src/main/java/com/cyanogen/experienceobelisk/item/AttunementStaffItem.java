@@ -150,10 +150,10 @@ public class AttunementStaffItem extends Item {
     public void handleBookshelf(AbstractInfectedBookshelfEntity bookshelf, Player player){
         boolean status = bookshelf.toggleActivity();
         if(status){
-            player.displayClientMessage(Component.translatable("message.experienceobelisk.binding_wand.disable_bookshelf"), true);
+            player.displayClientMessage(Component.translatable("message.experienceobelisk.binding_wand.disable_redstone"), true);
         }
         else{
-            player.displayClientMessage(Component.translatable("message.experienceobelisk.binding_wand.enable_bookshelf"), true);
+            player.displayClientMessage(Component.translatable("message.experienceobelisk.binding_wand.enable_redstone"), true);
         }
 
     }
