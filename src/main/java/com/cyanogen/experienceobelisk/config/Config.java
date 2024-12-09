@@ -16,6 +16,21 @@ public class Config {
         public final ForgeConfigSpec.ConfigValue<Double> bindingRange;
         public final ForgeConfigSpec.ConfigValue<Boolean> formatting;
 
+        public final ForgeConfigSpec.ConfigValue<Integer> infectedSpawnDelayMin;
+        public final ForgeConfigSpec.ConfigValue<Integer> infectedSpawnDelayMax;
+        public final ForgeConfigSpec.ConfigValue<Integer> infectedOrbValue;
+        public final ForgeConfigSpec.ConfigValue<Integer> infectedSpawns;
+
+        public final ForgeConfigSpec.ConfigValue<Integer> enchantedSpawnDelayMin;
+        public final ForgeConfigSpec.ConfigValue<Integer> enchantedSpawnDelayMax;
+        public final ForgeConfigSpec.ConfigValue<Integer> enchantedOrbValue;
+        public final ForgeConfigSpec.ConfigValue<Integer> enchantedSpawns;
+
+        public final ForgeConfigSpec.ConfigValue<Integer> archiversSpawnDelayMin;
+        public final ForgeConfigSpec.ConfigValue<Integer> archiversSpawnDelayMax;
+        public final ForgeConfigSpec.ConfigValue<Integer> archiversOrbValue;
+        public final ForgeConfigSpec.ConfigValue<Integer> archiversSpawns;
+
         public List<String> defaultAllowedFluids = new ArrayList<>();
         public int defaultCapacity = 100000000;
         public double defaultAmuletRange = 8.0;
@@ -55,6 +70,39 @@ public class Config {
             builder.push("Enable Name Formatting Anvil Recipes");
             this.formatting = builder.comment("Whether custom recipes that allow for the changing of item name color & formatting are enabled")
                     .define("Formatting", defaultFormatting);
+            builder.pop();
+
+            builder.push("Infected Bookshelf Settings");
+            this.infectedSpawnDelayMin = builder.comment("The minimum spawn delay of Infected Bookshelves in ticks. Default = 150")
+                    .defineInRange("Range", 150, 1, 10000);
+            this.infectedSpawnDelayMax = builder.comment("The maximum spawn delay of Infected Bookshelves in ticks. Default = 250")
+                    .defineInRange("Range", 250, 1, 10000);
+            this.infectedOrbValue = builder.comment("The XP value of spawned orbs. Default = 6")
+                    .defineInRange("Range", 6, 1, 32767);
+            this.infectedSpawns = builder.comment("The number of spawns until the bookshelf decays. Default = 100")
+                    .defineInRange("Range", 100, 1, 10000);
+            builder.pop();
+
+            builder.push("Enchanted Bookshelf Settings");
+            this.enchantedSpawnDelayMin = builder.comment("The minimum spawn delay of Enchanted Bookshelves in ticks. Default = 100")
+                    .defineInRange("Range", 100, 1, 10000);
+            this.enchantedSpawnDelayMax = builder.comment("The maximum spawn delay of Enchanted Bookshelves in ticks. Default = 300")
+                    .defineInRange("Range", 300, 1, 10000);
+            this.enchantedOrbValue = builder.comment("The XP value of spawned orbs. Default = 12")
+                    .defineInRange("Range", 12, 1, 32767);
+            this.enchantedSpawns = builder.comment("The number of spawns until the bookshelf decays. Default = 200")
+                    .defineInRange("Range", 200, 1, 10000);
+            builder.pop();
+
+            builder.push("Archiver's Bookshelf Settings");
+            this.archiversSpawnDelayMin = builder.comment("The minimum spawn delay of Archiver's Bookshelves in ticks. Default = 180")
+                    .defineInRange("Range", 180, 1, 10000);
+            this.archiversSpawnDelayMax = builder.comment("The maximum spawn delay of Archiver's Bookshelves in ticks. Default = 220")
+                    .defineInRange("Range", 220, 1, 10000);
+            this.archiversOrbValue = builder.comment("The XP value of spawned orbs. Default = 6")
+                    .defineInRange("Range", 6, 1, 32767);
+            this.archiversSpawns = builder.comment("The number of spawns until the bookshelf decays. Default = 200")
+                    .defineInRange("Range", 200, 1, 10000);
             builder.pop();
 
         }
