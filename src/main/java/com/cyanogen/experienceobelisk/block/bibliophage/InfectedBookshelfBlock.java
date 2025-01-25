@@ -60,7 +60,6 @@ public class InfectedBookshelfBlock extends BookshelfBlock implements EntityBloc
             int spawns = bookshelf.getSpawns();
             int durability = 100 - (decayValue * 100 / spawns);
             MutableComponent durabilityStatus = Component.literal(durability+"%");
-            boolean isDisabled = bookshelf.getDisabled();
 
             if(durability > 50){ //green
                 durabilityStatus.withStyle(ChatFormatting.GREEN);
@@ -72,14 +71,12 @@ public class InfectedBookshelfBlock extends BookshelfBlock implements EntityBloc
                 durabilityStatus.withStyle(ChatFormatting.RED);
             }
 
-            if(isDisabled){
-                message = Component.translatable("message.experienceobelisk.binding_wand.query_bookshelf_disabled", durabilityStatus);
-            }
-            else{
-                message = Component.translatable("message.experienceobelisk.binding_wand.query_bookshelf", durabilityStatus);
+            message = Component.translatable("message.experienceobelisk.binding_wand.query_bookshelf", durabilityStatus);
+
+            if(!level.isClientSide){
+                player.displayClientMessage(message, true);
             }
 
-            player.displayClientMessage(message, true);
             return InteractionResult.sidedSuccess(level.isClientSide);
         }
 
