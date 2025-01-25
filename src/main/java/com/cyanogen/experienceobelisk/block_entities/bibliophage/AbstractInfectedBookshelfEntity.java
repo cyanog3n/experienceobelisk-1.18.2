@@ -40,13 +40,15 @@ public abstract class AbstractInfectedBookshelfEntity extends BlockEntity {
     int spawns; //the number of times a bookshelf can spawn an orb before decaying
     int decayValue = 0; //the number of times a bookshelf has spawned an orb
     double infectivity = 0.02; //the chance for a bookshelf to infect another adjacent bookshelf every second
-    boolean isDisabled = false; //whether or not the bookshelf is disabled. When disabled, bookshelves will not infect adjacents, produce XP, or decay
+    boolean redstoneEnabled = false; //whether or not the bookshelf is disabled. When disabled, bookshelves will not infect adjacents, produce XP, or decay
 
     //-----------BEHAVIOR-----------//
 
     public static <T> void tick(Level level, BlockPos pos, BlockState state, T blockEntity) {
 
-        if(blockEntity instanceof AbstractInfectedBookshelfEntity bookshelf && !bookshelf.isDisabled){
+        boolean hasSignal = level.hasNeighborSignal(pos);
+
+        if(blockEntity instanceof AbstractInfectedBookshelfEntity bookshelf && (!bookshelf.redstoneEnabled || hasSignal)){
 
             if(bookshelf.decayValue >= bookshelf.spawns){
                 bookshelf.decay(level, pos);
@@ -131,7 +133,7 @@ public abstract class AbstractInfectedBookshelfEntity extends BlockEntity {
 
     public void decay(Level level, BlockPos pos){
 
-        setDisabled(true);
+        setRedstoneEnabled(true);
 
         if(!level.isClientSide){
             ServerLevel server = (ServerLevel) level;
@@ -179,18 +181,18 @@ public abstract class AbstractInfectedBookshelfEntity extends BlockEntity {
     }
 
     public boolean toggleActivity(){
-        this.isDisabled = !this.isDisabled;
+        this.redstoneEnabled = !this.redstoneEnabled;
         this.setChanged();
 
-        return this.isDisabled;
+        return this.redstoneEnabled;
     }
 
-    public void setDisabled(boolean disabled){
-        this.isDisabled = disabled;
+    public void setRedstoneEnabled(boolean redstoneEnabled){
+        this.redstoneEnabled = redstoneEnabled;
         this.setChanged();
     }
 
-    public boolean getDisabled(){return this.isDisabled;}
+    public boolean getRedstoneEnabled(){return this.redstoneEnabled;}
 
     public int getDecayValue(){
         return this.decayValue;
@@ -213,7 +215,7 @@ public abstract class AbstractInfectedBookshelfEntity extends BlockEntity {
 
         this.decayValue = tag.getInt("DecayValue");
         this.timeTillSpawn = tag.getInt("SpawnDelay");
-        this.isDisabled = tag.getBoolean("IsDisabled");
+        this.redstoneEnabled = tag.getBoolean("isRedstoneControllable");
     }
 
     @Override
@@ -223,7 +225,7 @@ public abstract class AbstractInfectedBookshelfEntity extends BlockEntity {
 
         tag.putInt("DecayValue", decayValue);
         tag.putInt("SpawnDelay", timeTillSpawn);
-        tag.putBoolean("IsDisabled", isDisabled);
+        tag.putBoolean("isRedstoneControllable", redstoneEnabled);
     }
 
     @Override
@@ -233,7 +235,7 @@ public abstract class AbstractInfectedBookshelfEntity extends BlockEntity {
 
         tag.putInt("DecayValue", decayValue);
         tag.putInt("SpawnDelay", timeTillSpawn);
-        tag.putBoolean("IsDisabled", isDisabled);
+        tag.putBoolean("isRedstoneControllable", redstoneEnabled);
         return tag;
     }
 
